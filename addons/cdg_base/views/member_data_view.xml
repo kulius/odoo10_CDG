@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="member_data_view_action" model="ir.actions.act_window">
+            <field name="name">轉好的會員、顧問檔</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">member.data</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="member_data_view_form" model="ir.ui.view">
+            <field name="name">member data f</field>
+            <field name="model">member.data</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button string="開始轉會員檔" name="data_input_form_DB" type="object"/>
+                        <button string="開始轉顧問檔" name="data_input_form_DB2" type="object"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="member_id"/>
+                            <field name="adviser_id"/>
+                            <field name="user_id"/>
+                            <field name="birthday"/>
+                            <field name="cellphone"/>
+                            <field name="phone1"/>
+                            <field name="phone2"/>
+                            <field name="reg_zip_code"/>
+                            <field name="reg_address"/>
+                            <field name="conn_zip_code"/>
+                            <field name="conn_address"/>
+                            <field name="member_type" widget="many2many_tags" options="{'no_create':True}"/>
+                            <field name="advise_date"/>
+                            <field name="build_date"/>
+                            <field name="db_chang_date"/>
+                            <field name="description"/>
+                            <field name="clerk_id"/>
+                            <field name="rec_send"/>
+                            <field name="print_note"/>
+                            <field name="thanks_send"/>
+                            <field name="report_send"/>
+                            <field name="self_order"/>
+                            <field name="worker_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="member_data_view_tree" model="ir.ui.view">
+            <field name="name">member data t</field>
+            <field name="model">member.data</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="member_id"/>
+                    <field name="adviser_id"/>
+                    <field name="advise_date"/>
+                    <field name="name"/>
+                    <field name="reg_zip_code"/>
+                    <field name="reg_address"/>
+                    <field name="conn_zip_code"/>
+                    <field name="conn_address"/>
+                    <field name="build_date"/>
+                    <field name="db_chang_date"/>
+                    <field name="member_type" widget="many2many_tags" options="{'no_create':false}"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

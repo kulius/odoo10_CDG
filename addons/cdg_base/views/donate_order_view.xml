@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="donate_order_search" model="ir.ui.view">
+            <field name="name">donate order t</field>
+            <field name="model">donate.order</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="donate_id"/>
+                    <field name="donate_w_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="donate_order_tree" model="ir.ui.view">
+            <field name="name">donate order t</field>
+            <field name="model">donate.order</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="donate_id"/>
+                    <field name="paid_id"/>
+                    <field name="donate_w_id"/>
+                    <field name="donate_w_id_number"/>
+                    <field name="donate_member" />
+                    <field name="con_phone"/>
+                    <field name="donate"/>
+                    <field name="donate_type"/>
+                    <field name="donate_date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="donate_order_form" model="ir.ui.view">
+            <field name="name">donate order f</field>
+            <field name="model">donate.order</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button string="轉捐款檔" name="data_input_from_database" type="object"/>
+                    </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="donate_id"/>
+                            <field name="paid_id"/>
+                            <field name="donate_w_id"/>
+                            <field name="donate_w_id_number"/>
+                            <field name="donate_member" context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
+                            <field name="con_phone"/>
+                            <field name="p_type"/>
+                            <field name="donate"/>
+                            <field name="donate_total"/>
+                            <!--<field name="address"/>-->
+                                <!--<field name="city"/>-->
+                            <!--<field name="donate_type"/>-->
+                            <field name="self_id"/>
+                        </group>
+                        <span STYLE='FONT-SIZE:25PX'>捐款項目</span>
+                        <group col="4">
+                            <field name="bridge"/>
+                            <field name="road"/>
+                            <field name="bridge_money"/>
+                            <field name="road_money"/>
+                            <field name="coffin"/>
+                            <field name="poor_help"/>
+                            <field name="coffin_money"/>
+                            <field name="poor_help_money"/>
+                        </group>
+                        <span STYLE='FONT-SIZE:25PX'>捐款方式</span>
+                        <group col="8">
+                            <field name="cash"/>
+                            <field name="mail"/>
+                            <field name="credit_card"/>
+                            <field name="bank"/>
+                            <field name="receipt_send"/>
+                            <field name="report_send"/>
+                            <field name="year_receipt_send"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="donate_order_action" model="ir.actions.act_window">
+        <field name="name">捐款者的一般捐款</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">donate.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            <!-- Add Text Here -->
+          </p><p>
+            <!-- More details about what a user can do with this object will be OK -->
+          </p>
+        </field>
+    </record>
+    </data>
+</odoo>

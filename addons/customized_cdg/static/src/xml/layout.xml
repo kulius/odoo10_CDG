@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+     <t t-name="UserMenu">
+         <li class="o_user_menu">
+             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">
+                 <img class="img-circle oe_topbar_avatar" t-att-src="_s + '/web/static/src/img/user_menu_avatar.png'"/>
+                 <span class="oe_topbar_name"/> <span class="caret"></span>
+             </a>
+             <ul class="dropdown-menu" role="menu">
+                 <!--<li><a href="#" data-menu="documentation">Documentation</a></li>
+                 <li><a href="#" data-menu="support">Support</a></li>
+                 <li class="divider"/>-->
+                 <li><a href="#" data-menu="settings">Preferences</a></li>
+                 <!--<li><a href="#" data-menu="account">My Odoo.com account</a></li>-->
+                 <li><a href="#" data-menu="logout">Log out</a></li>
+             </ul>
+         </li>
+     </t>
+    <t t-name="DashboardPlanner">
+        <!--<div class="text-center o_web_settings_dashboard_planner">
+            <i class="fa fa-check-square-o fa-4x text-muted"></i>
+            <div class="o_web_settings_dashboard_header">
+                <span class="o_web_settings_dashboard_planner_overall_progress"><t t-esc="widget.overall_progress"></t></span>%
+                Implementation
+            </div>
+            <div>
+                <small class="text-muted text-center o_web_settings_dashboard_compact_subtitle">
+                    Follow these implementation guides to get the most out of Odoo.
+                </small>
+            </div>
+            <hr/>
+            <t t-set="planners" t-value="widget.planners"/>
+            <t t-call="DashboardPlanner.PlannersList"/>
+            <hr/>
+            Need more help? <a href="https://www.odoo.com/documentation/user">Browse the documentation.</a>
+        </div>-->
+    </t>
+    <t t-name="DashboardShare">
+        <div class="text-center o_web_settings_dashboard_share">
+            <!--<i class="fa fa-share-alt fa-4x text-muted"/>
+            <div class="o_web_settings_dashboard_header">Share the Love</div>
+            <div>
+                <small class="text-muted text-center o_web_settings_dashboard_compact_subtitle">
+                    Help us spread the word: Share Odoo's awesomeness with your friends!
+                </small>
+            </div>
+            <div class="row mt16">
+                <div class="col-xs-4"><a><i class="fa fa-twitter-square fa-4x tw_share"/></a></div>
+                <div class="col-xs-4"><a><i class="fa fa-facebook-square fa-4x fb_share"/></a></div>
+                <div class="col-xs-4"><a><i class="fa fa-linkedin-square fa-4x li_share"/></a></div>
+            </div>
+            <hr/>-->
+            <t t-set="server_version" t-value="widget.data.server_version"/>
+            <t t-set="debug" t-value="widget.data.debug"/>
+            <div class="row">
+                <div class="text-center">
+                    <div class="user-heading">
+                        <h3>
+                            Odoo <t t-esc="server_version"/>
+                            (Community Edition)
+                        </h3>
+                    </div>
+                    <div>
+                        <div class="tab-content">
+                            <div id="settings" class="tab-pane active text-muted text-center o_web_settings_dashboard_compact_subtitle">
+                                <small>Copyright © 2004-2016 <a target="_blank" href="https://www.odoo.com" style="text-decoration: underline;">Odoo S.A.</a> <a target="_blank" href="http://www.gnu.org/licenses/lgpl.html" style="text-decoration: underline;">GNU LGPL Licenced</a></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-md-12">
+                    <a t-if="debug != true" class="oe_activate_debug_mode pull-right" href="?debug" >Activate the developer mode</a>
+                    <br t-if="debug != true"/>
+                    <a t-if="debug != 'assets'" class="oe_activate_debug_mode pull-right" href="?debug=assets" >Activate the developer mode (with assets)</a>
+                    <br t-if="debug != 'assets'"/>
+                    <a t-if="debug != false" class="oe_activate_debug_mode pull-right" href="/web" >Deactivate the developer mode</a>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<odoo>
+    <record model="base.external.dbsource" id="demo_postgre">
+        <field name="name">MSSQL local</field>
+        <field name="conn_string">dbname='sa' password=%s</field>
+        <field name="password">785308</field>
+        <field name="connector">mssql</field>
+    </record>
+</odoo>

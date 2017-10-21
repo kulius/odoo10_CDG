@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="charity_view" model="ir.actions.act_window">
+            <field name="name">未完成</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">charity.cpp</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="charity_base_root" name="基本管理" sequence="1"/>
+        <menuitem id="charity_base_categ" name="基本管理" parent="charity_base_root" sequence="1"/>
+        <menuitem id="worker_base"
+                  name="員工基本資料"
+                  parent="charity_base_categ"
+                  action="c_worker_action"
+                  sequence="1"/>
+        <menuitem id="bridge_base"
+                  name="橋梁資料作業"
+                  parent="charity_base_categ"
+                  action="charity_view"
+                  sequence="2"/>
+        <menuitem id="charity_check"
+                  name="各項捐款統計查詢"
+                  parent="charity_base_categ"
+                  action="charity_view"
+                  sequence="3"/>
+        <menuitem id="first_root" name="捐款者管理" sequence="2"/>
+        <menuitem id="first_categ" name="捐款者管理" parent="first_root" sequence="1"/>
+        <menuitem id="member_grouper_consultant_cashier"
+                  name="捐款者基本資料"
+                  parent="first_categ"
+                  action="normal_p_action"
+                  sequence="1"/>
+        <menuitem id="people_type_view"
+                  name="捐款者分類"
+                  parent="first_categ"
+                  action="people_type_action"
+                  sequence="2"/>
+        <menuitem id="donate_together"
+                  name="捐款明細"
+                  parent="first_categ"
+                  action="donate_order_action"
+                  sequence="3"/>
+        <menuitem id="donate_batch"
+                  name="批次捐款"
+                  parent="first_categ"
+                  action="donate_batch_view_action"
+                  sequence="4"/>
+        <menuitem id="donate_single_menu"
+                  name="單筆捐款"
+                  parent="first_categ"
+                  action="donate_single_view_action"
+                  sequence="5"/>
+        <!--<menuitem id="group_manage_root" name="團員管理" sequence=""/>
+        <menuitem id="grouper_base"
+                  name="團員基本資料作業"
+                  parent="group_manage_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="grouper_donate"
+                  name="團員捐款作業"
+                  parent="group_manage_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="grouper_time_donate"
+                  name="團員批次捐款作業"
+                  parent="group_manage_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="cashier_time_donate"
+                  name="收費員批次捐款作業"
+                  parent="group_manage_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="hand_receipt"
+                  name="手開收據登錄作業"
+                  parent="group_manage_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="donate_history"
+                  name="捐款歷史作業清冊"
+                  parent="group_manage_root"
+                  action="charity_view"
+                  sequence=""/>-->
+        <menuitem id="member_manage_root" name="會員管理" sequence="3"/>
+        <menuitem id="member_manage_categ" name="會員管理" parent="member_manage_root" sequence="1"/>
+        <menuitem id="member_base"
+                  name="會員基本資料作業"
+                  parent="member_manage_categ"
+                  action="member_base_action"
+                  sequence="1"/>
+        <menuitem id="member_fee_menu"
+                  name="會員費用"
+                  parent="member_manage_categ"
+                  action="member_fee_member_view_action"
+                  sequence="2"/>
+         <menuitem id="member_batch_menu"
+                  name="會員費產生"
+                  parent="member_manage_categ"
+                  action="consultant_batch_action"
+                  sequence="3"/>
+        <!--<menuitem id="member_time_product"-->
+                  <!--name="會員批次產生作業"-->
+                  <!--parent="member_manage_root"-->
+                  <!--action="charity_view"-->
+                  <!--sequence="2"/>-->
+        <!--<menuitem id="member_listbook"-->
+                  <!--name="會員名冊"-->
+                  <!--parent="member_manage_root"-->
+                  <!--action="charity_view"-->
+                  <!--sequence="3"/>-->
+        <!--<menuitem id="souvenir_listbook"-->
+                  <!--name="紀念品名冊"-->
+                  <!--parent="member_manage_root"-->
+                  <!--action="charity_view"-->
+                  <!--sequence="4"/>-->
+        <!--<menuitem id="member_card"-->
+                  <!--name="會員證"-->
+                  <!--parent="member_manage_root"-->
+                  <!--action="charity_view"-->
+                  <!--sequence="5"/>-->
+        <!--<menuitem id="souvenir_take_list"-->
+                  <!--name="紀念品領取單"-->
+                  <!--parent="member_manage_root"-->
+                  <!--action="charity_view"-->
+                  <!--sequence="6"/>-->
+        <menuitem id="consultant_manage_root" name="顧問管理" sequence="4"/>
+        <menuitem id="consultant_manage_categ" name="顧問管理" parent="consultant_manage_root" sequence="1"/>
+        <menuitem id="consultant_base"
+                  name="顧問基本資料作業"
+                  parent="consultant_manage_categ"
+                  action="consultant_base_action"
+                  sequence="0"/>
+        <menuitem id="member_data_menu"
+                  name="會員、顧問轉檔"
+                  parent="consultant_manage_categ"
+                  action="member_data_view_action"
+                  sequence="1"/>
+        <menuitem id="consultant_fee_menu"
+                  name="顧問費用"
+                  parent="consultant_manage_categ"
+                  action="member_fee_consultant_view_action"
+                  sequence="2"/>
+        <menuitem id="consultant_batch_menu"
+                  name="顧問費產生"
+                  parent="consultant_manage_categ"
+                  action="consultant_batch_action"
+                  sequence="3"/>
+        <!--<menuitem id="consultant_time_product"-->
+                  <!--name="顧問費批次產生作業"-->
+                  <!--parent="consultant_manage_root"-->
+                  <!--action="charity_view"-->
+                  <!--sequence=""/>-->
+        <!--<menuitem id="consultant_book"-->
+                  <!--name="顧問名冊"-->
+                  <!--parent="consultant_manage_root"-->
+                  <!--action="charity_view"-->
+                  <!--sequence=""/>-->
+        <menuitem id="coffin_manage_root" name="施棺管理" sequence=""/>
+        <menuitem id="coffin_manage_root_categ" name="施棺管理" parent="coffin_manage_root" sequence="1"/>
+        <menuitem id="coffin_base"
+                  name="施棺基本資料作業"
+                  parent="coffin_manage_root_categ"
+                  action="coffin_base_action"
+                  sequence=""/>
+        <menuitem id="coffin_donate"
+                  name="施棺捐款名冊"
+                  parent="coffin_manage_root_categ"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="coffin_funeral_order"
+                  name="施棺及喪葬費用明細表"
+                  parent="coffin_manage_root_categ"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="conffin_donate_order"
+                  name="施棺捐款明細表"
+                  parent="coffin_manage_root_categ"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="coffin_donation_order"
+                  name="施棺捐款列表"
+                  parent="coffin_manage_root_categ"
+                  action="coffin_donation_action"
+                  sequence=""/>
+        <menuitem id="cashier_manage_root" name="收費員管理" sequence=""/>
+        <menuitem id="cashier_manage_categ" name="收費員管理" parent="cashier_manage_root" sequence="1"/>
+        <menuitem id="cashier_base"
+                  name="收費員基本資料作業"
+                  parent="cashier_manage_categ"
+                  action="cashier_base_action"
+                  sequence=""/>
+        <menuitem id="hand_reciept_manage"
+                  name="手開簿管理作業"
+                  parent="cashier_manage_categ"
+                  action="hand_checking_action"
+                  sequence=""/>
+        <menuitem id="donate_list"
+                  name="收費名冊"
+                  parent="cashier_manage_categ"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="nothing_list"
+                  name="空白收費名冊"
+                  parent="cashier_manage_categ"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="change_base_root" name="異動作業" sequence=""/>
+                <menuitem id="donate_reciept_change"
+                  name="捐款收據異動"
+                  parent="change_base_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="author_file_out"
+                  name="委託授權檔匯出"
+                  parent="change_base_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="author_file_in"
+                  name="委託授權檔匯入"
+                  parent="change_base_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="deduction_file_out"
+                  name="扣款檔匯出"
+                  parent="change_base_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="deduction_file_in"
+                  name="扣款檔匯入"
+                  parent="change_base_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="usual_base_root" name="常用功能" sequence=""/>
+        <menuitem id="people_change"
+                  name="人員腳色轉移作業"
+                  parent="usual_base_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="donate_reciept"
+                  name="捐款收據"
+                  parent="usual_base_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="member_cost_reciept"
+                  name="會員(顧問)費收據"
+                  parent="usual_base_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="normal_name"
+                  name="一般名條"
+                  parent="usual_base_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="cost_paper_name"
+                  name="收支報表名條"
+                  parent="usual_base_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="member_list_in"
+                  name="會員名條(繳款用)"
+                  parent="usual_base_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="office_root" name="系統維護" sequence=""/>
+        <menuitem id="code_change"
+                  name="密碼變更作業"
+                  parent="office_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="name_set"
+                  name="權限設定作業"
+                  parent="office_root"
+                  action="charity_view"
+                  sequence=""/>
+        <menuitem id="base_check"
+                  name="基本資料維護作業"
+                  parent="office_root"
+                  action="charity_view"
+                  sequence=""/>
+
+    </data>
+</odoo>

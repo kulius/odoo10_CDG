@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hand_checking_action" model="ir.actions.act_window">
+            <field name="name">手開簿管理作業</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hand.checking</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+        <record id="hand_checking_tree" model="ir.ui.view">
+            <field name="name">hand checking t</field>
+            <field name="model">hand.checking</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="book_id"/>
+                    <field name="owner"/>
+                    <field name="own_date"/>
+                    <field name="back_date"/>
+                    <field name="back_account"/>
+                    <field name="key_total_account"/>
+                    <field name="key_in_total"/>
+                </tree>
+            </field>
+        </record>
+        <record id="hand_checking_form" model="ir.ui.view">
+            <field name="name">hand checking f</field>
+            <field name="model">hand.checking</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button name="data_input_hand_checking" string="匯入手開簿資料" type="object"/>
+                    </header>
+                    <sheet>
+                        <group col="6">
+                            <field name="book_id"/>
+                            <field name="owner"/>
+                            <field name="create_date1"/>
+                        </group>
+                        <notebook>
+                            <page string="領取資料">
+                                <group col="4">
+                                    <field name="own_date"/>
+                                    <field name="back_date"/>
+                                    <field name="take_money"/>
+                                    <field name="key_total_account"/>
+                                    <field name="change_date"/>
+                                </group>
+                                <group>
+                                    <field name="ps"/>
+                                </group>
+                            </page>
+                            <page string="簿冊收費清單">
+                                <group>
+                                    <field name="key_in_total"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

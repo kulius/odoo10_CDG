@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="donate_batch_view_tree" model="ir.ui.view">
+            <field name="name">donate batch t</field>
+            <field name="model">donate.batch</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="donate_date"/>
+                    <field name="donate_user"/>
+                    <field name="donate_total_price"/>
+                    <field name="donate_list"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="donate_batch_view_form" model="ir.ui.view">
+            <field name="name">donate batch f</field>
+            <field name="model">donate.batch</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group col="4">
+                            <field name="donate_user" colspan="4"/>
+                            <field name="tag_bridge"/>
+                            <field name="tag_road"/>
+                            <field name="tag_coffin"/>
+                            <field name="tag_food"/>
+                            <field name="tag_other"/>
+                        </group>
+                        <group col="6">
+                            <button string="產生批次明細" name="check_donate_type" type="object" colspan="1"/>
+                            <button string="確定批次捐款" name="" type="object" colspan="2" />
+                            <field name="donate_price" colspan="3"/>
+                        </group>
+                        <group>
+                            <field name="donate_list" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="new_coding"/>
+                                    <field name="donate_user_id"/>
+                                    <field name="donate_user_number"/>
+                                    <field name="donate_user"/>
+                                    <field name="donate_type"/>
+                                    <field name="donate_price" nolabel="1"/>
+                                </tree>
+                            </field>
+                        <group class="oe_right">
+                            <field name="donate_total_price"  STYLE='FONT-SIZE:22PX'/>
+                        </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="donate_batch_view_action" model="ir.actions.act_window">
+            <field name="name">批次捐款</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">donate.batch</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

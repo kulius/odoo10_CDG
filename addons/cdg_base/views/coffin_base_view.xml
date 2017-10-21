@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <record id="coffin_base_tree" model="ir.ui.view">
+        <field name="name">coffin base t</field>
+        <field name="model">coffin.base</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="coffin_id"/>
+                <field name="donate_type"/>
+                <field name="coffin_date_group"/>
+                <field name="coffin_date"/>
+                <field name="user"/>
+                <field name="geter"/>
+                <field name="donate_price"/>
+                <field name="finish"/>
+            </tree>
+        </field>
+    </record>
+        <record id="coffin_base_form" model="ir.ui.view">
+            <field name="name">coffin base f</field>
+            <field name="model">coffin.base</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button string="施棺檔匯入" name="data_input_coffin" type="object"/>
+                    </header>
+                    <sheet>
+                            <group col="6">
+                                <field name="coffin_id"/>
+                                <field name="donate_type"/>
+                                <field name="create_date"/>
+                            </group>
+                            <group col="7">
+                                <field name="coffin_date_year" string="施棺期別"/>
+                                <field name="coffin_date_group" nolabel="1"/>
+                                <field name="donate_price"/>
+                                <field name="finish"/>
+                            </group>
+                        <notebook>
+                            <page string="施棺資料">
+                                <group col="4">
+                                    <field name="user"/>
+                                    <field name="coffin_date"/>
+                                    <field name="geter"/>
+                                    <field name="dealer"/>
+                                    <field name="con_phone"/>
+                                    <field name="con_phone2"/>
+                                    <field name="cellphone"/>
+                                </group>
+                                <group col="3">
+                                    <field name="zip_code" string="通訊地址"/>
+                                    <field name="con_addr" nolabel="1"/>
+                                </group>
+                                <group col="2">
+                                    <field name="donater_ps" string="捐款者備註"/>
+                                    <field name="ps" string="備註"/>
+                                </group>
+                            </page>
+                            <page string="申請證明影像">
+
+                            </page>
+                            <page string="捐助資料">
+                                <field name="batch_donate"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="coffin_base_action" model="ir.actions.act_window">
+            <field name="name">施棺基本作業</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">coffin.base</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+    </data>
+</odoo>

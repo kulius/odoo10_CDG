@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="member_base_tree" model="ir.ui.view">
+            <field name="name">member base t</field>
+            <field name="model">normal.p</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="new_coding"/>
+                    <field name="name"/>
+                    <field name="address"/>
+                     <field name="con_phone"/>
+                    <field name="con_phone2"/>
+                    <field name="cellphone"/>
+                    <field name="con_addr"/>
+                    <field name="cashier_name"/>
+                    <field name="self"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="member_base_form" model="ir.ui.view">
+            <field name="name">member base f</field>
+            <field name="model">normal.p</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group col="6">
+                                <field name="w_id" string="會員編號"/>
+                                <field name="name" string="會員姓名"/>
+                                <field name="create_date"/>
+                            <field name="member_data_ids"/>
+                            <field name="type" widget="many2many_tags"/>
+                        </group>
+                            <notebook>
+                                <page string="基本資料">
+                                    <group col="4">
+                                        <field name="self_iden"/>
+                                        <field name="cellphone"/>
+                                        <field name="birth"/>
+                                        <field name="con_phone"/>
+                                        <field name="con_phone2"/>
+                                        <field name="address"/>
+                                        <field name="con_addr"/>
+                                        <field name="ps"/>
+                                    </group>
+                                    <span STYLE='FONT-SIZE:25PX'>其他資料</span>
+                                    <group col="4">
+                                        <field name="member_type"/>
+                                        <field name="cashier_name"/>
+                                        <field name="rec_send"/>
+                                        <field name="self"/>
+                                        <field name="booklist"/>
+                                    </group>
+                                </page>
+                                <page string="繳費狀況">
+                                    <group col="4">
+                                        <field name="comp_id"/>
+                                        <field name="member_list"/>
+                                        <field name="year"/>
+                                        <field name="should_pay"/>
+                                        <field name="cashier"/>
+                                        <field name="pay_date"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="member_base_action" model="ir.actions.act_window">
+            <field name="name">會員基本資料</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">normal.p</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('member_base_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('member_base_form')}),
+            ]"/>
+            <field name="domain">['|',('type.id','=',2 ),('type.id','=',3 )]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

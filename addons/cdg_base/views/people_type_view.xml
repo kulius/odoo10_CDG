@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <record id="people_type_action" model="ir.actions.act_window">
+        <field name="name">人員種類</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">people.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            <!-- Add Text Here -->
+          </p><p>
+            <!-- More details about what a user can do with this object will be OK -->
+          </p>
+        </field>
+    </record>
+        <record id="people_type_tree" model="ir.ui.view">
+            <field name="name">people type t</field>
+            <field name="model">people.type</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="people_type_form" model="ir.ui.view">
+            <field name="name">people type f</field>
+            <field name="model">people.type</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

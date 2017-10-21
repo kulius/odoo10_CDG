@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="normal_p_tree" model="ir.ui.view">
+            <field name="name">normal p t</field>
+            <field name="model">normal.p</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="new_coding"/>
+                    <field name="w_id"/>
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="con_phone"/>
+                    <field name="con_phone2"/>
+                    <field name="zip_code"/>
+                    <field name="con_addr"/>
+                    <field name="email"/>
+                    <field name="type" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="normal_p_form" model="ir.ui.view">
+            <field name="name">normal p f</field>
+            <field name="model">normal.p</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                            <button string="轉眷屬檔" name="data_input_form_DB" type="object"/>
+                            <button string="設定眷屬" name="set_parent" type="object"/>
+                        <button name="input_member" type="object" string="轉顧問會員"/>
+                        </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="w_id"/>
+                            <field name="number"/>
+                            <field name="new_coding"/>
+                            <field name="name"/>
+                            <field name="create_date"/>
+                            <field name="ps"/>
+                            <field name="type" widget="many2many_tags"/>
+                            <field name="parent" options="{'create':false ,'create_edit':false}"/>
+                            <field name="key_in_user"/>
+                            <field name="db_chang_date"/>
+                            <field name="is_donate"/>
+                            <field name="con_addr"/>
+                            <field name="member_data_ids"/>
+
+                        </group>
+                         <notebook>
+                                <page string="基本資料">
+                                    <group col="4">
+                                        <field name="birth"/>
+                                        <field name="cellphone"/>
+                                    </group>
+                                    <group col="4">
+                                        <field name="con_phone"/>
+                                        <field name="con_phone2"/>
+                                    </group>
+                                    <group col="4">
+                                        <field name="zip_code"/>
+                                        <field name="rec_addr"/>
+                                        <field name="send_addr"/>
+                                    </group>
+                                    <span STYLE='FONT-SIZE:25PX'>現場捐款</span>
+                                    <group col="4">
+                                        <field name="habbit_donate"/>
+                                        <field name="donate_cycle"/>
+                                        <field name="cashier_name"/>
+                                        <field name="self"/>
+                                         <field name="report_send"/>
+                                        <field name="rec_send"/>
+                                    </group>
+                                    <span STYLE='FONT-SIZE:25PX'>約定轉帳</span>
+                                    <group col="4">
+                                        <field name="prints"/>
+                                        <field name="prints_id"/>
+                                        <field name="bank_id"/>
+                                        <field name="bank_id2"/>
+                                        <field name="account"/>
+                                        <field name="ps2"/>
+                                        <field name="prints_date"/>
+                                        <field name="self_iden"/>
+                                        <field name="bank"/>
+                                        <field name="bank2"/>
+                                    </group>
+                                </page>
+                                <page string="團員眷屬">
+                                    <field name="donate_family1"/>
+                                </page>
+                                <page string="約定轉帳眷屬">
+
+                                </page>
+                                <page string="歷史捐款">
+
+                                </page>
+                                <page string="施棺紀錄">
+                                </page>
+                            </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="normal_p_search" model="ir.ui.view">
+            <field name="name">normal p s</field>
+            <field name="model">normal.p</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="new_coding"/>
+                    <field name="w_id"/>
+                    <field name="con_addr"/>
+                    <field name="number"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="normal_p_action" model="ir.actions.act_window">
+        <field name="name">人員基本資料</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">normal.p</field>
+        <field name="view_mode">tree,form</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+                   (0, 0, {'view_mode': 'tree', 'view_id': ref('normal_p_tree')}),
+                   (0, 0, {'view_mode': 'form', 'view_id': ref('normal_p_form')}),
+                   ]"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            <!-- Add Text Here -->
+          </p><p>
+            <!-- More details about what a user can do with this object will be OK -->
+          </p>
+        </field>
+        </record>
+
+    </data>
+</odoo>

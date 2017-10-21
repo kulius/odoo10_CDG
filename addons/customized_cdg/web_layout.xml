@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="wlogin_layout" inherit_id="web.login_layout">
+        <xpath expr="//a[@href='https://www.odoo.com']" position='replace'>
+            <span>嘉邑行善團</span>
+        </xpath>
+    </template>
+
+    <template id="wmenu_secondary" inherit_id="web.menu_secondary">
+        <xpath expr="//div[@class='o_sub_menu_footer']" position='replace'>
+        </xpath>
+    </template>
+
+    <!--<template id="wfavicon" inherit_id="web.layout">-->
+        <!--<xpath expr="//head//link" position='replace'>-->
+            <!--<link type="image/x-icon" rel="shortcut icon" t-att-href="'/customized_yunerp/static/src/img/yun_ERP.ico'"/>-->
+        <!--</xpath>-->
+    <!--</template>-->
+</odoo>
