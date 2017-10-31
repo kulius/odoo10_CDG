@@ -20,13 +20,11 @@ class DonateBatch(models.Model):
     donate_date = fields.Date(string='捐款日期', default=lambda self: fields.Date.today())
     donate_list = fields.One2many(string='捐款明細', comodel_name='donate.batch.line', inverse_name='parent_id')
 
-
     @api.depends('donate_list.donate_price')
     def compute_donate_total(self):
         for row in self:
             for line in row.donate_list:
                 row.donate_total_price += line.donate_price
-
 
     def check_donate_type(self):
         member = self.env['normal.p'].search([('w_id', '=', self.donate_user.w_id)])

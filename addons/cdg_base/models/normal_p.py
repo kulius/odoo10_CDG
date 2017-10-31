@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 import time
+import psycopg2
 
 from odoo import models, fields, api
 
-#一般人基本檔 團員 會員 收費員 顧問
+# 一般人基本檔 團員 會員 收費員 顧問
 import logging
 
 _logger = logging.getLogger(__name__)
 
+
 class NormalP(models.Model):
+    # 捐款人
     _name = 'normal.p'
 
     new_coding = fields.Char(string='新編捐款者編號')
@@ -21,7 +24,7 @@ class NormalP(models.Model):
     con_phone = fields.Char(string='連絡電話(一)')
     con_phone2 = fields.Char(string='連絡電話(二)')
     zip_code = fields.Char(string='郵遞區號')
-    key_in_user = fields.Many2one(comodel_name='c.worker',string='輸入人員')
+    key_in_user = fields.Many2one(comodel_name='c.worker', string='輸入人員', ondelete='cascade')
     db_chang_date = fields.Date(string='異動日期')
     build_date = fields.Date(string='建檔日期')
 
@@ -33,14 +36,15 @@ class NormalP(models.Model):
     con_addr = fields.Char(string='聯絡地址')
     send_addr = fields.Char(string='寄送地址')
     address = fields.Char(string='通訊地址')
-    sex = fields.Selection(selection=[(1,'男生'),(2,'女生')],string='性別')
+    sex = fields.Selection(selection=[(1, '男生'), (2, '女生')], string='性別')
     come_date = fields.Date(string='到職日期')
     lev_date = fields.Date(string='離職日期')
     ps = fields.Text(string='備註')
-    habbit_donate = fields.Selection(selection=[(1,'造橋'),(2,'補路'),(3,'施棺'),(4,'伙食費'),(5,'窮困扶助'),(6,'其他工程')],string='喜好捐款')
-    cashier_name = fields.Many2one(comodel_name='c.worker',string='收費員姓名', domain="[('job_type', '=', '2'), ]")
-    donate_cycle = fields.Selection(selection=[('03','季繳'),('06','半年繳'),('12','年繳')],string='捐助週期')
-    rec_type = fields.Selection(selection=[(1,'正常'),(2,'年收據')],string='收據狀態')
+    habbit_donate = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '伙食費'), (5, '窮困扶助'), (6, '其他工程')],
+                                     string='喜好捐款')
+    cashier_name = fields.Many2one(comodel_name='c.worker', string='收費員姓名', domain="[('job_type', '=', '2'), ]", ondelete='cascade')
+    donate_cycle = fields.Selection(selection=[('03', '季繳'), ('06', '半年繳'), ('12', '年繳')], string='捐助週期')
+    rec_type = fields.Selection(selection=[(1, '正常'), (2, '年收據')], string='收據狀態')
     rec_send = fields.Boolean(string='收據寄送')
     is_donate = fields.Boolean(string='是否捐助')
     self = fields.Char(string='自訂排序')
@@ -67,9 +71,9 @@ class NormalP(models.Model):
     member_type = fields.Selection(selection=[(1, '基本會員'), (2, '贊助會員')], string='會員種類')
     hire_date = fields.Date(string='雇用日期')
 
-    #來判斷你是不是老大
-    parent = fields.Many2one(comodel_name='normal.p', string='戶長')
-    donate_family1 = fields.One2many(comodel_name='normal.p',inverse_name='parent', string='團員眷屬')
+    # 來判斷你是不是老大
+    parent = fields.Many2one(comodel_name='normal.p', string='戶長', ondelete='cascade')
+    donate_family1 = fields.One2many(comodel_name='normal.p', inverse_name='parent', string='團員眷屬')
 
     member_data_ids = fields.Many2one(comodel_name='member.data', string='關聯的顧問會員檔')
 
@@ -84,12 +88,12 @@ class NormalP(models.Model):
     def input_member(self):
         max_id = 753395
         member_data = self.env['member.data'].search([])
-        new_id =""
+        new_id = ""
         i = 1
-        type_id =0
+        type_id = 0
         for line in member_data:
             _logger.error(' %s / %s', i, len(member_data))
-            if line.conn_zip_code !="":
+            if line.conn_zip_code != "":
                 new_id = line.conn_zip_code[:3] + str(max_id)
             else:
                 new_id = '000' + str(max_id)
@@ -107,8 +111,8 @@ class NormalP(models.Model):
                 'member_data_ids': line.id,
                 'type': self.check_type(line)
             })
-            i = i+1
-            max_id = max_id +1
+            i = i + 1
+            max_id = max_id + 1
 
     def check_type(self, line):
         if line.member_type.id > 0:
@@ -146,9 +150,7 @@ class NormalP(models.Model):
             })
             i += 1
 
-
-
-    def check_habbit(self,habbit):
+    def check_habbit(self, habbit):
         if habbit == u'01':
             return 1
         elif habbit == u'02':
@@ -163,6 +165,7 @@ class NormalP(models.Model):
             return 6
         else:
             return None
+
     # 生日裡面有亂放東西，需要驗證是否真的是YYYY-MM-DD的格式
     def check_db_date(self, date):
         if date:
@@ -174,24 +177,35 @@ class NormalP(models.Model):
         else:
             return None
 
-    def check_user(self,row):
-        check = self.env['c.worker'].search([('w_id','=',row)])
-        if check.id >0:
+    def check_user(self, row):
+        check = self.env['c.worker'].search([('w_id', '=', row)])
+        if check.id > 0:
             return check.id
         else:
             return False
 
     def set_parent(self):
-        member = self.search([('new_coding','=',None)])
-        i = 726050
-        for line in member:
-            _logger.error(' %s / %s', i-726050, len(member))
-            line.write({
-                'new_coding':u'000'+str(i)
-            })
-            i +=1
+        self.search([]).remove()
 
 
+    # def set_parent(self):
+    #     member = self.search([('w_id', '!=', None), ('number', '=', '1')])
+    #     conn = psycopg2.connect("dbname=old_cdg user=odoo password=odoo")
+    #     cur = conn.cursor()
+    #     i = 1
+    #     for line in member:
+    #         # try:
+    #         sql = "UPDATE normal_p SET parent = '{}' WHERE w_id = '{}' AND number != '1'".format(str(line.id),
+    #                                                                                              str(line.w_id))
+    #         _logger.error('it is run to %s line', i)
+    #         cur.execute(sql)
+    #         # except Exception:
+    #         #     _logger.error('it is run to %s line', i)
+    #         #     pass
+    #         i += 1
+    #     conn.commit()
+    #     cur.close()
+    #     conn.close()
 
     def data_input_from_database(self):
         data = self.env['base.external.dbsource'].search([])
@@ -200,14 +214,14 @@ class NormalP(models.Model):
         for line in lines:
             _logger.error(' %s / %s', i, len(lines))
             exist = False
-            member = self.search([('w_id', '=',line[u'團員編號']),('number','=','1'),('name','=',line[u'姓名'])])
+            member = self.search([('w_id', '=', line[u'團員編號']), ('number', '=', '1'), ('name', '=', line[u'姓名'])])
             if member.id > 0:
                 exist = True
             if exist is False and member.special_tag is not True:
                 id_create = self.create({
-                    'special_tag':True,
+                    'special_tag': True,
                     'w_id': line[u'團員編號'],
-                    'number':u'0',
+                    'number': u'0',
                     'name': line[u'姓名'],
                     'birth': self.check(line[u'出生日期']),
                     'cellphone': line[u'手機'],
@@ -222,26 +236,26 @@ class NormalP(models.Model):
                     'bank_id2': line[u'扣款分行代碼'],
                     'thanks_send': self.checkbool(line[u'感謝狀寄送']),
                     'report_send': self.checkbool(line[u'報表寄送']),
-                    'bank_check':self.checkbool(line[u'銀行核印']),
-                    'cashier':line[u'收費員編號'],
-                    'build_date':self.check_db_date(line[u'建檔日期']),
+                    'bank_check': self.checkbool(line[u'銀行核印']),
+                    'cashier': line[u'收費員編號'],
+                    'build_date': self.check_db_date(line[u'建檔日期']),
                     'db_chang_date': self.check(line[u'異動日期']),
                     'key_in_user': self.check_user(line[u'輸入人員']),
                 })
 
             i += 1
 
-    def check(self,date_check):
+    def check(self, date_check):
         if date_check:
             return date_check
         else:
-            return  None
+            return None
 
-    def checkbool(self,bool):
+    def checkbool(self, bool):
         if bool == 'Y':
             return True
         elif bool == 'N':
-            return  False
+            return False
 
 #
 # class DonateFamily(models.Model):

@@ -31,7 +31,7 @@ class ReportDonateBatchIndependent(models.AbstractModel):
         target = self.env['donate.batch'].browse(docids)
         boss = 0
         for line in target.donate_list:
-            if line.donate_user.number  == '1':
+            if line.donate_user.number == '1':
                 boss = line.donate_user
                 break
 
@@ -42,4 +42,3 @@ class ReportDonateBatchIndependent(models.AbstractModel):
             'boss': boss.donate_family1,
         }
         return Report.render('cdg_base.receipt_independent_template', docargs)
-

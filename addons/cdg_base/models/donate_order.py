@@ -8,12 +8,14 @@ _logger = logging.getLogger(__name__)
 class DonateOrder(models.Model):
     _name = 'donate.order'
 
-   #name = fields.Many2one(comodel_name='normal.p',string='姓名')
+    # name = fields.Many2one(comodel_name='normal.p',string='姓名')
+    donate_list_id = fields.Many2one(comodel_name='donate.single')
     con_phone = fields.Char(string='連絡電話')
     p_type = fields.Char(string='人員種類')
     donate = fields.Integer(string='捐款金額')
     donate_total = fields.Integer(string='捐款總額')
-    donate_type = fields.Selection(selection=[(1,'造橋'),(2,'補路'),(3,'施棺'),(4,'伙食費'),(5,'窮困扶助'),(6,'其他工程')],string='捐款種類')
+    donate_type = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '伙食費'), (5, '窮困扶助'), (6, '其他工程')],
+                                   string='捐款種類')
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款人姓名')
     paid_id = fields.Char(string='收費編號')
     donate_id = fields.Char(string='捐款編號')
@@ -71,30 +73,30 @@ class DonateOrder(models.Model):
                     'clerk': line[u'收費員編號'],
                     'key_in_user': self.check_user(line[u'輸入人員']),
                     'db_chang_date': self.check(line[u'異動日期']),
-                    'report_year':self.checkbool(line[u'收據年度開立'])
+                    'report_year': self.checkbool(line[u'收據年度開立'])
                 })
             i += 1
 
-    def checkbool(self,bool):
+    def checkbool(self, bool):
         if bool == 'Y':
             return True
         elif bool == 'N':
-            return  False
+            return False
 
-    def check(self,date_check):
+    def check(self, date_check):
         if date_check:
             return date_check
         else:
-            return  None
+            return None
 
-    def check_user(self,row):
-        check = self.env['c.worker'].search([('w_id','=',row)])
-        if check.id >0:
+    def check_user(self, row):
+        check = self.env['c.worker'].search([('w_id', '=', row)])
+        if check.id > 0:
             return check.id
         else:
             return False
 
-    def check_habbit(self,habbit=None):
+    def check_habbit(self, habbit=None):
         if habbit == u'01':
             return 1
         elif habbit == u'02':
@@ -109,6 +111,3 @@ class DonateOrder(models.Model):
             return 6
         else:
             return None
-
-
-
