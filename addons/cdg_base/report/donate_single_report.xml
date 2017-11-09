@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report id="receipt_independent"
+                model="donate.single"
+                string="分開收據"
+                report_type="qweb-pdf"
+                name="cdg_base.receipt_single_independent_template"
+                menu="True"/>
+
+        <report id="receipt_single_all"
+                model="donate.single"
+                string="合併收據"
+                report_type="qweb-pdf"
+                name="cdg_base.receipt_single_all_template"
+        />
+         <template id="external_layout_footer_inherit_cr"
+            inherit_id="report.external_layout_footer">
+            <xpath expr="//div[@class='footer']" position="replace">
+                <div class="footer">
+                    <!-- you're code here -->
+                </div>
+            </xpath>
+        </template>
+
+        <template id="receipt_single_all_template">
+             <t t-call="report.html_container">
+                <t t-call="report.layout">
+                    <div class="page">
+                        <table class="table table-bordered">
+                            <tr>
+                              <td>
+                        <table class="table" style="width:50%;">
+                            <t t-set= "boss" t-value="0" />
+                            <t t-set= "times" t-value="0" />
+                            <h2 style="margin-left:20%;">範例住址<t t-esc= "data.donate_member.con_addr"/></h2>
+                            <h2 style="margin-left:20%;"><t t-esc="data.donate_member.name"/></h2>
+                            <h2 style="margin-left:20%;">編號12313</h2>
+                            <thead>
+                             <th>捐款人姓名</th>
+                             <th>捐款種類</th>
+                             <th>捐款金額</th>
+                            </thead>
+                            <tbody>
+                             <t t-foreach="docs" t-as="key">
+                                 <tr>
+                                     <td class="text-left">
+                                         <span>
+                                             <t t-esc="key.donate_member.name"/>
+                                         </span>
+                                     </td>
+                                     <td class="text-left">
+                                         <span>
+                                             <t t-esc="dict(key.fields_get(allfields=['donate_type'])['donate_type']['selection'])[key.donate_type]"/>
+                                         </span>
+                                     </td>
+                                     <td class="text-left">
+                                         <span>
+                                             <t t-esc="key.donate"/>
+                                         </span>
+                                     </td>
+                                 </tr>
+                             </t>
+                             <tr>
+                                 <td class="text-right text-primary" colspan="2">
+                                 </td>
+                                 <td class="text-primary">
+                                     <strong>
+                                         <t t-esc="data.donate_total"/>
+                                     </strong>
+                                 </td>
+                             </tr>
+                         </tbody>
+                        </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                              <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                     <h2 style="margin-left:20%;"><span>          </span>範例住址<t t-esc= "data.donate_member.con_addr"/></h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                <h2 style="margin-left:20%;"><span>          </span><t t-esc="data.donate_member.name"/></h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h2 style="margin-left:20%;">編號12313</h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                        <table class="table" style="width:50%;">
+                            <thead>
+                             <th>捐款人姓名</th>
+                             <th>捐款種類</th>
+                             <th>捐款金額</th>
+                            </thead>
+                            <tbody>
+                             <t t-foreach="docs" t-as="key">
+                                 <tr>
+                                     <td class="text-left">
+                                         <span>
+                                             <t t-esc="key.donate_member.name"/>
+                                         </span>
+                                     </td>
+                                     <td class="text-left">
+                                         <span>
+                                             <t t-esc="dict(key.fields_get(allfields=['donate_type'])['donate_type']['selection'])[key.donate_type]"/>
+                                         </span>
+                                     </td>
+                                     <td class="text-left">
+                                         <span>
+                                             <t t-esc="key.donate"/>
+                                         </span>
+                                     </td>
+                                 </tr>
+                             </t>
+                             <tr>
+                                 <td class="text-right text-primary" colspan="2">
+                                 </td>
+                                 <td class="text-primary">
+
+                                     <h2><t t-esc="data.donate_total"/></h2>
+                                 </td>
+                             </tr>
+                         </tbody>
+                        </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+             </t>
+        </template>
+
+        <template id="receipt_single_independent_template">
+            <t t-call="report.html_container">
+                <t t-foreach="boss" t-as="key">
+                <t t-call="report.external_layout">
+                             <div class="page">
+                        <t t-set= "boss" t-value="0" />
+                        <h1>分開收據</h1>
+                        <h2>捐款者名稱：<t t-esc="key.name"/></h2>
+                        <h2>地址:<t t-esc= "key.con_addr"/></h2>
+                        <table class="table table-bordered">
+                            <thead>
+                             <th>捐款人姓名</th>
+                             <th>捐款種類</th>
+                             <th>捐款金額</th>
+                            </thead>
+                            <tbody>
+                                <t t-set="total" t-value="0"/>
+                                <t t-foreach="docs" t-as="line">
+                                    <t t-if="line.donate_member == key">
+                                        <tr>
+                                     <td class="text-left">
+                                         <span>
+                                             <t t-esc="line.donate_member.name"/>
+                                         </span>
+                                     </td>
+                                     <td class="text-left">
+                                         <span>
+                                             <t t-esc="dict(line.fields_get(allfields=['donate_type'])['donate_type']['selection'])[line.donate_type]"/>
+                                         </span>
+                                     </td>
+                                     <td class="text-left">
+                                         <span>
+                                             <t t-esc="line.donate"/>
+                                             <t t-set="total" t-value="total + line.donate"/>
+                                         </span>
+                                     </td>
+                                     </tr>
+                                    </t>
+                                </t>
+                                <tr>
+                                    <td class="text-right text-primary bg-info" colspan="2">
+                                     <strong>
+                                         捐款總計:
+                                     </strong>
+                                    </td>
+                                    <td class="text-primary bg-info">
+                                        <strong>
+                                            <t t-esc="total"/>
+                                        </strong>
+                                    </td>
+                             </tr>
+                         </tbody>
+                        </table>
+                    </div>
+
+                     </t>
+                </t>
+                </t>
+        </template>
+
+
+
+    </data>
+</odoo>

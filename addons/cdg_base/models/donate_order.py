@@ -16,6 +16,9 @@ class DonateOrder(models.Model):
     donate_total = fields.Integer(string='捐款總額')
     donate_type = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '伙食費'), (5, '窮困扶助'), (6, '其他工程')],
                                    string='捐款種類')
+
+    state = fields.Selection([(1, '已產生'), (2, '已作廢')],
+                             string='狀態', default=1, index=True)
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款人姓名')
     paid_id = fields.Char(string='收費編號')
     donate_id = fields.Char(string='捐款編號')

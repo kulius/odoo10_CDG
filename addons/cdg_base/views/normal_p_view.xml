@@ -41,7 +41,7 @@
                             <field name="create_date"/>
                             <field name="ps"/>
                             <field name="type" widget="many2many_tags"/>
-                            <!--<field name="parent" options="{'create':false ,'create_edit':false}"/>-->
+                            <field name="parent" options="{'create':false ,'create_edit':false}"/>
                             <field name="key_in_user"/>
                             <field name="db_chang_date"/>
                             <field name="is_donate"/>
@@ -88,7 +88,7 @@
                                     </group>
                                 </page>
                                 <page string="團員眷屬">
-                                    <!--<field name="donate_family1"/>-->
+                                    <field name="donate_family1"/>
                                 </page>
                                 <page string="約定轉帳眷屬">
 

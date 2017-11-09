@@ -6,6 +6,7 @@
             <field name="model">donate.single</field>
             <field name="arch" type="xml">
                 <tree string="">
+                    <field name="state"/>
                     <field name="donate_id"/>
                     <field name="name"/>
                     <field name="create_date" string="捐款日期"/>
@@ -19,13 +20,17 @@
             <field name="model">donate.single</field>
             <field name="arch" type="xml">
                 <form string="">
+                    <header>
+                        <button name="button_to_cnacel_donate" string="作廢" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="1,2"/>
+                    </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button name="parent_list_creat" string="批次" type="object" class="oe_stat_button"
+                            <button name="parent_list_creat" string="載入眷屬" type="object" class="oe_stat_button"
                                     icon="fa-users">
                                 <!--將該成員眷屬列出-->
                             </button>
-                            <button name="add_to_list" string="產生明細" type="object" class="oe_stat_button"
+                            <button name="add_to_list" string="產生捐款明細" type="object" class="oe_stat_button"
                                     icon="fa-list">
                             </button>
                         </div>
@@ -44,16 +49,22 @@
                         <notebook>
                             <page string="捐款">
                                 <span STYLE='FONT-SIZE:25PX'>捐款項目</span>
-                                <group col="4">
+                                <group col="6">
                                     <field name="bridge"/>
+                                    <field name="bridge_money" nolabel="1"/>
                                     <field name="road"/>
-                                    <field name="bridge_money"/>
-                                    <field name="road_money"/>
+                                    <field name="road_money" nolabel="1"/>
                                     <field name="coffin"/>
-                                    <field name="poor_help"/>
-                                    <field name="coffin_money"/>
-                                    <field name="poor_help_money"/>
+                                    <field name="coffin_money" nolabel="1"/>
+                                    <field name="poor_help" />
+                                    <field name="poor_help_money" nolabel="1"/>
                                 </group>
+                                <field name="family_check">
+                                    <tree>
+                                        <field name="family_new_coding"/>
+                                        <field name="donate_member"/>
+                                    </tree>
+                                </field>
                                 <span STYLE='FONT-SIZE:25PX'>捐款方式</span>
                                 <group col="8">
                                     <field name="cash"/>
@@ -65,13 +76,13 @@
                                     <field name="year_receipt_send"/>
                                 </group>
                             </page>
-                            <page string="眷屬明細">
-                                <field name="person_check">
-                                    <field name="new_coding"/>
-                                    <field name="name"/>
-                                    <field name="birth"/>
-                                </field>
-                            </page>
+                            <!--<page string="眷屬明細">-->
+                                <!--<field name="person_check">-->
+                                    <!--<field name="new_coding"/>-->
+                                    <!--<field name="name"/>-->
+                                    <!--<field name="birth"/>-->
+                                <!--</field>-->
+                            <!--</page>-->
                             <page string="捐款記錄明細">
                                 <field name="donate_list">
                                     <tree>

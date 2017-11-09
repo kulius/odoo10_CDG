@@ -17,6 +17,7 @@
             <field name="model">donate.order</field>
             <field name="arch" type="xml">
                 <tree string="">
+                    <field name="state"/>
                     <field name="donate_id"/>
                     <field name="paid_id"/>
                     <field name="donate_w_id"/>
@@ -35,6 +36,7 @@
             <field name="arch" type="xml">
                 <form string="">
                     <header>
+                        <field name="state" widget="statusbar" statusbar_visible="1,2"/>
                         <button string="轉捐款檔" name="data_input_from_database" type="object"/>
                     </header>
                     <sheet>
@@ -50,30 +52,30 @@
                             <field name="donate_total"/>
                             <!--<field name="address"/>-->
                                 <!--<field name="city"/>-->
-                            <!--<field name="donate_type"/>-->
+                            <field name="donate_type"/>
                             <field name="self_id"/>
                         </group>
-                        <span STYLE='FONT-SIZE:25PX'>捐款項目</span>
-                        <group col="4">
-                            <field name="bridge"/>
-                            <field name="road"/>
-                            <field name="bridge_money"/>
-                            <field name="road_money"/>
-                            <field name="coffin"/>
-                            <field name="poor_help"/>
-                            <field name="coffin_money"/>
-                            <field name="poor_help_money"/>
-                        </group>
-                        <span STYLE='FONT-SIZE:25PX'>捐款方式</span>
-                        <group col="8">
-                            <field name="cash"/>
-                            <field name="mail"/>
-                            <field name="credit_card"/>
-                            <field name="bank"/>
-                            <field name="receipt_send"/>
-                            <field name="report_send"/>
-                            <field name="year_receipt_send"/>
-                        </group>
+                        <!--<span STYLE='FONT-SIZE:25PX'>捐款項目</span>-->
+                        <!--<group col="4">-->
+                            <!--<field name="bridge"/>-->
+                            <!--<field name="road"/>-->
+                            <!--<field name="bridge_money"/>-->
+                            <!--<field name="road_money"/>-->
+                            <!--<field name="coffin"/>-->
+                            <!--<field name="poor_help"/>-->
+                            <!--<field name="coffin_money"/>-->
+                            <!--<field name="poor_help_money"/>-->
+                        <!--</group>-->
+                        <!--<span STYLE='FONT-SIZE:25PX'>捐款方式</span>-->
+                        <!--<group col="8">-->
+                            <!--<field name="cash"/>-->
+                            <!--<field name="mail"/>-->
+                            <!--<field name="credit_card"/>-->
+                            <!--<field name="bank"/>-->
+                            <!--<field name="receipt_send"/>-->
+                            <!--<field name="report_send"/>-->
+                            <!--<field name="year_receipt_send"/>-->
+                        <!--</group>-->
                     </sheet>
                 </form>
             </field>

@@ -9,7 +9,9 @@
                 report_type="qweb-pdf"
                 name="cdg_base.receipt_all_template"
         />
-        <report id="receipt_independent"
+
+
+        <report id="receipt_single_independent"
                 model="donate.batch"
                 string="分開收據"
                 report_type="qweb-pdf"

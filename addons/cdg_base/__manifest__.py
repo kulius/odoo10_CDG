@@ -26,6 +26,7 @@
         'views/donate_single_view.xml',
         'views/charity_view.xml',
         'report/donate_batch_report.xml',
+        'report/donate_single_report.xml',
     ],
     'demo': [],
 }

@@ -77,6 +77,17 @@ class NormalP(models.Model):
 
     member_data_ids = fields.Many2one(comodel_name='member.data', string='關聯的顧問會員檔')
 
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|', ('name', operator, name), '|', ('w_id', operator, name), ('new_coding', operator, name)]
+
+        banks = self.search(domain + args, limit=limit)
+        return banks.name_get()
+
+
     @api.multi
     def name_get(self):
         result = []
