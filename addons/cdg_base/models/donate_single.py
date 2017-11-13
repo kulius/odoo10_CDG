@@ -13,7 +13,8 @@ class DonateSingle(models.Model):
 
     paid_id = fields.Char(string='收費編號', readonly=True)
     donate_id = fields.Char(string='捐款編號', readonly=True)
-    donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者編號', domain=[('w_id', '!=', '')])  # demo用
+    donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者編號', domain=[('w_id', '!=', '')],
+                                    states={2: [('readonly', True)]})  # demo用
     name = fields.Char(string='姓名', compute='set_donate_name')
     self_iden = fields.Char(string='身分證字號', compute='set_donate_name', store=True)
     cellphone = fields.Char(string='手機', compute='set_donate_name', store=True)
@@ -21,7 +22,7 @@ class DonateSingle(models.Model):
     zip_code = fields.Char(string='郵遞區號', compute='set_donate_name', store=True)
     con_addr = fields.Char(string='聯絡地址', compute='set_donate_name', store=True)
 
-    state = fields.Selection([(1, '已產生'), (2, '已作廢')],
+    state = fields.Selection([(1, '已產生'), (2, '已列印'), (3, '已作廢')],
                              string='狀態', default=1, index=True)
 
     donate_total = fields.Integer(string='捐款總額', compute='compute_total')
@@ -33,21 +34,60 @@ class DonateSingle(models.Model):
     road = fields.Boolean(string='補路')
     coffin = fields.Boolean(string='施棺')
     poor_help = fields.Boolean(string='貧困扶助')
-    bridge_money = fields.Integer(string='$')
-    road_money = fields.Integer(string='$')
-    coffin_money = fields.Integer(string='$')
-    poor_help_money = fields.Integer(string='$')
-    cash = fields.Boolean(string='現金')
-    mail = fields.Boolean(string='郵政劃撥')
-    credit_card = fields.Boolean(string='信用卡扣款')
-    bank = fields.Boolean(string='銀行轉帳')
-    person_check = fields.Many2many(comodel_name="normal.p", string="捐款人名冊", )
-    family_check = fields.One2many(comodel_name='donate.family.line',inverse_name='parent_id', string='捐款人名冊')
-    donate_list = fields.One2many(comodel_name='donate.order', inverse_name='donate_list_id', string='捐款明細')
+    bridge_money = fields.Integer(string='$', states={2: [('readonly', True)]})
+    road_money = fields.Integer(string='$', states={2: [('readonly', True)]})
+    coffin_money = fields.Integer(string='$', states={2: [('readonly', True)]})
+    poor_help_money = fields.Integer(string='$', states={2: [('readonly', True)]})
+    cash = fields.Boolean(string='現金', states={2: [('readonly', True)]})
+    mail = fields.Boolean(string='郵政劃撥', states={2: [('readonly', True)]})
+    credit_card = fields.Boolean(string='信用卡扣款', states={2: [('readonly', True)]})
+    bank = fields.Boolean(string='銀行轉帳', states={2: [('readonly', True)]})
+    person_check = fields.Many2many(comodel_name="normal.p", string="捐款人名冊")
+    family_check = fields.One2many(comodel_name='donate.family.line',inverse_name='parent_id', string='捐款人名冊', states={2: [('readonly', True)]})
+    donate_list = fields.One2many(comodel_name='donate.order', inverse_name='donate_list_id', string='捐款明細', states={2: [('readonly', True)]})
+
+    def bring_last_history(self):
+        max_paid = 0
+        max = None
+        for line in self.donate_member.donate_history_ids:
+            if max_paid < int(line.paid_id) and line.state == 1:
+                max_paid = int(line.paid_id)
+                max = line
+
+        donate_group = self.env['donate.order'].search([('donate_id', '=', max.donate_id)])
+        self.family_check.unlink()
+        r = []
+        exist = []
+        for line in donate_group:
+            exist_record = False
+            for ex_line in exist:
+                if ex_line == line.donate_member.id:
+                    exist_record = True
+            if exist_record is False:
+                exist.append(line.donate_member.id)
+                r.append([0, 0, {
+                    'donate_member': line.donate_member.id
+                }])
+
+        self.write({
+            'family_check': r
+        })
+        max = self.env['donate.order'].search([], order='paid_id desc', limit=1)
+        max_int = int(max.paid_id) + 1
+        for line in donate_group:
+            line.write({
+                'donate_id': self.donate_id,
+                'paid_id': max_int
+            })
+            max_int += 1
+        self.donate_list = donate_group
+
 
     @api.model
     def create(self, vals):
         res_id = super(DonateSingle, self).create(vals)
+        if res_id.donate_member.id is False:
+            raise ValidationError(u'需要選取捐款人!')
         max = self.env['donate.order'].search([], order='paid_id desc', limit=1)
         donate_id = max.donate_id
         int_max = int(donate_id[1:]) + 1
@@ -116,9 +156,13 @@ class DonateSingle(models.Model):
                 line.donate_total += row.donate
 
     def button_to_cnacel_donate(self):
-        if self.state != 1:
+        if self.state == 3:
             raise ValidationError(u'本捐款單已作廢!!')
-        self.state = 2
+        elif self.state == 2:
+            raise ValidationError(u'本捐款單已列印收據!!')
+        self.state = 3
+        for line in self.donate_list:
+            line.state = 2
 
     def add_to_list_create(self, record):
 
@@ -127,16 +171,16 @@ class DonateSingle(models.Model):
         if record.family_check:
             for line in record.family_check:
                 if record.bridge:
-                    record.save_donate_list(1, str(max_int), line, record.bridge_money)
+                    record.save_donate_list(1, str(max_int), line.donate_member, record.bridge_money)
                     max_int = max_int + 1
                 if record.road:
-                    record.save_donate_list(2, str(max_int), line, record.road_money)
+                    record.save_donate_list(2, str(max_int), line.donate_member, record.road_money)
                     max_int = max_int + 1
                 if record.coffin:
-                    record.save_donate_list(3, str(max_int), line, record.coffin_money)
+                    record.save_donate_list(3, str(max_int), line.donate_member, record.coffin_money)
                     max_int = max_int + 1
                 if record.poor_help:
-                    record.save_donate_list(4, str(max_int), line, record.poor_help_money)
+                    record.save_donate_list(4, str(max_int), line.donate_member, record.poor_help_money)
                     max_int = max_int + 1
         else:
             if record.bridge:
@@ -156,19 +200,19 @@ class DonateSingle(models.Model):
         # 將明細產生按鈕執行
         max = self.env['donate.order'].search([], order='paid_id desc', limit=1)
         max_int = int(max.paid_id) + 1
-        if self.person_check:
-            for line in self.person_check:
+        if self.family_check:
+            for line in self.family_check:
                 if self.bridge:
-                    self.save_donate_list(1, str(max_int), line, self.bridge_money)
+                    self.save_donate_list(1, str(max_int), line.donate_member, self.bridge_money)
                     max_int = max_int + 1
                 if self.road:
-                    self.save_donate_list(2, str(max_int), line, self.road_money)
+                    self.save_donate_list(2, str(max_int), line.donate_member, self.road_money)
                     max_int = max_int + 1
                 if self.coffin:
-                    self.save_donate_list(3, str(max_int), line, self.coffin_money)
+                    self.save_donate_list(3, str(max_int), line.donate_member, self.coffin_money)
                     max_int = max_int + 1
                 if self.poor_help:
-                    self.save_donate_list(4, str(max_int), line, self.poor_help_money)
+                    self.save_donate_list(4, str(max_int), line.donate_member, self.poor_help_money)
                     max_int = max_int + 1
         else:
             if self.bridge:
@@ -189,18 +233,32 @@ class DonateSingle(models.Model):
             'donate_list': [(0, 0, {
                 'donate_id': self.donate_id,
                 'paid_id': str(paid_id),
-                'donate_member': member_id.donate_member.id,
+                'donate_member': member_id.id,
                 'donate_type': donate_type,
                 'donate': money,
                 'donate_date': datetime.date.today(),
-                'self_id': member_id.donate_member.self_iden,
+                'self_id': member_id.self_iden,
             })]
         })
 
-
-
     def parent_list_creat(self):
-        self.person_check = self.donate_member.mapped('donate_family1')
+        member = self.env['normal.p'].search([('w_id', '=', self.donate_member.w_id)])
+        r = []
+        for line in member:
+            exist = False
+            for family_line in self.family_check:
+                if family_line.donate_member.id == line.id:
+                    exist = True
+
+            if exist is False:
+                r.append([0, 0, {
+                    'donate_member': line.id
+                }])
+
+        self.write({
+            'family_check': r
+        })
+        self.donate_list.unlink()
 
     @api.depends('donate_member')
     def set_donate_name(self):

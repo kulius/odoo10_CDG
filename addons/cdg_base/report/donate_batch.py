@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 
 class ReportDonateBatch(models.AbstractModel):
@@ -9,8 +10,11 @@ class ReportDonateBatch(models.AbstractModel):
 
     @api.model
     def render_html(self, docids, data=None):
+
         Report = self.env['report']
         target = self.env['donate.batch'].browse(docids)
+
+
         docargs = {
             'doc_ids': docids,
             'doc_model': 'donate.batch',
@@ -29,6 +33,9 @@ class ReportDonateBatchIndependent(models.AbstractModel):
     def render_html(self, docids, data=None):
         Report = self.env['report']
         target = self.env['donate.batch'].browse(docids)
+
+
+
         boss = 0
         for line in target.donate_list:
             if line.donate_user.number == '1':

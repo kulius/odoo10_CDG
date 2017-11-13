@@ -14,9 +14,8 @@ class DonateOrder(models.Model):
     p_type = fields.Char(string='人員種類')
     donate = fields.Integer(string='捐款金額')
     donate_total = fields.Integer(string='捐款總額')
-    donate_type = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '伙食費'), (5, '窮困扶助'), (6, '其他工程')],
+    donate_type = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '窮困扶助'), (5, '其他工程')],
                                    string='捐款種類')
-
     state = fields.Selection([(1, '已產生'), (2, '已作廢')],
                              string='狀態', default=1, index=True)
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款人姓名')
@@ -49,11 +48,11 @@ class DonateOrder(models.Model):
     address = fields.Char(string='住址')
     city = fields.Char(string='市區')
 
-    @api.onchange('name')
-    def setconphone(self):
-        self.con_phone = self.name.con_phone
-        self.p_type = self.name.type.name
-        self.donate_w_id = self.name.w_id.id
+    # @api.onchange('name')
+    # def setconphone(self):
+    #     self.con_phone = self.name.con_phone
+    #     self.p_type = self.name.type.name
+    #     self.donate_w_id = self.name.w_id.id
 
     def data_input_from_database(self):
         data = self.env['base.external.dbsource'].search([])

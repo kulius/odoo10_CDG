@@ -22,10 +22,13 @@
                 <form string="">
                     <header>
                         <button name="button_to_cnacel_donate" string="作廢" type="object" class="oe_highlight"/>
-                        <field name="state" widget="statusbar" statusbar_visible="1,2"/>
+                        <field name="state" widget="statusbar" statusbar_visible="1,2,3"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
+                            <button name="bring_last_history" string="上次捐款紀錄" type="object" class="oe_stat_button"
+                                    icon="fa-level-up">
+                            </button>
                             <button name="parent_list_creat" string="載入眷屬" type="object" class="oe_stat_button"
                                     icon="fa-users">
                                 <!--將該成員眷屬列出-->
@@ -86,6 +89,7 @@
                             <page string="捐款記錄明細">
                                 <field name="donate_list">
                                     <tree>
+                                        <field name="state"/>
                                         <field name="donate_id"/>
                                         <field name="paid_id"/>
                                         <field name="donate_member"/>
@@ -102,11 +106,23 @@
             </field>
         </record>
 
+        <record id="donate_single_view_search" model="ir.ui.view">
+            <field name="name">donate_single_view_search</field>
+            <field name="model">donate.single</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="未列印的捐款單" name="un_print_donate" domain="[('state','=',1)]"/>
+                </search>
+            </field>
+        </record>
+
         <record id="donate_single_view_action" model="ir.actions.act_window">
             <field name="name">單筆捐款</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">donate.single</field>
             <field name="view_mode">tree,form</field>
+            <!--<field name="domain">[('create_uid','=',uid)]</field>-->
+            <field name="context">{'search_default_un_print_donate': 1}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     <!-- Add Text Here -->
@@ -114,6 +130,20 @@
                 <p>
                     <!-- More details about what a user can do with this object will be OK -->
                 </p>
+            </field>
+        </record>
+
+        <record id="start_donate_action" model="ir.actions.act_window">
+            <field name="name">開始捐款</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">donate.single</field>
+            <field name="view_mode">form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
             </field>
         </record>
 

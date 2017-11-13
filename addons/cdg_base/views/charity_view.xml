@@ -49,15 +49,20 @@
                   parent="first_categ"
                   action="donate_order_action"
                   sequence="3"/>
-        <menuitem id="donate_batch"
-                  name="批次捐款"
-                  parent="first_categ"
-                  action="donate_batch_view_action"
-                  sequence="4"/>
+        <!--<menuitem id="donate_batch"-->
+                  <!--name="批次捐款"-->
+                  <!--parent="first_categ"-->
+                  <!--action="donate_batch_view_action"-->
+                  <!--sequence="4"/>-->
         <menuitem id="donate_single_menu"
-                  name="單筆捐款"
+                  name="已產生捐款"
                   parent="first_categ"
                   action="donate_single_view_action"
+                  sequence="5"/>
+        <menuitem id="start_donate_menu"
+                  name="開始捐款"
+                  parent="first_categ"
+                  action="start_donate_action"
                   sequence="5"/>
         <!--<menuitem id="group_manage_root" name="團員管理" sequence=""/>
         <menuitem id="grouper_base"

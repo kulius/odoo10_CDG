@@ -70,22 +70,28 @@ class NormalP(models.Model):
     booklist = fields.Boolean(string='名冊列印')
     member_type = fields.Selection(selection=[(1, '基本會員'), (2, '贊助會員')], string='會員種類')
     hire_date = fields.Date(string='雇用日期')
+    merge_report = fields.Boolean(string='年收據合併', help='將捐款者的收據整合進該住址')
 
     # 來判斷你是不是老大
     parent = fields.Many2one(comodel_name='normal.p', string='戶長', ondelete='cascade')
     donate_family1 = fields.One2many(comodel_name='normal.p', inverse_name='parent', string='團員眷屬')
-
     member_data_ids = fields.Many2one(comodel_name='member.data', string='關聯的顧問會員檔')
+    donate_history_ids = fields.One2many(comodel_name='donate.order', inverse_name='donate_member')
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
         args = args or []
         domain = []
         if name:
-            domain = ['|', ('name', operator, name), '|', ('w_id', operator, name), ('new_coding', operator, name)]
+            domain = ['|', ('name', operator, name), '|', ('w_id', operator, name), '|', ('new_coding', operator, name),
+                      '|', ('self_iden',operator, name), ('con_addr', operator, name)]
 
         banks = self.search(domain + args, limit=limit)
         return banks.name_get()
+
+    @api.multi
+    def my_self(self):
+        return [('parent', '=', self.id)]
 
 
     @api.multi

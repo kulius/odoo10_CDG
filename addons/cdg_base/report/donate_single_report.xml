@@ -13,25 +13,23 @@
                 model="donate.single"
                 string="合併收據"
                 report_type="qweb-pdf"
-                name="cdg_base.receipt_single_all_template"
-        />
-         <template id="external_layout_footer_inherit_cr"
-            inherit_id="report.external_layout_footer">
-            <xpath expr="//div[@class='footer']" position="replace">
-                <div class="footer">
-                    <!-- you're code here -->
-                </div>
-            </xpath>
-        </template>
+                name="cdg_base.receipt_single_all_template"/>
+
+
+        <!--<report id="receipt_single_each_type"-->
+                <!--model="donate.single"-->
+                <!--string="一張一種收據"-->
+                <!--report_type="qweb-pdf"-->
+                <!--name="cdg_base.receipt_single_all_template"/>-->
 
         <template id="receipt_single_all_template">
              <t t-call="report.html_container">
                 <t t-call="report.layout">
                     <div class="page">
-                        <table class="table table-bordered">
+                        <table class="table">
                             <tr>
                               <td>
-                        <table class="table" style="width:50%;">
+                        <table  style="width:48%;">
                             <t t-set= "boss" t-value="0" />
                             <t t-set= "times" t-value="0" />
                             <h2 style="margin-left:20%;">範例住址<t t-esc= "data.donate_member.con_addr"/></h2>
@@ -66,9 +64,11 @@
                                  <td class="text-right text-primary" colspan="2">
                                  </td>
                                  <td class="text-primary">
-                                     <strong>
-                                         <t t-esc="data.donate_total"/>
-                                     </strong>
+                                     <h2>
+                                          <t t-esc="data.donate_total"/>
+                                     </h2>
+
+
                                  </td>
                              </tr>
                          </tbody>
@@ -99,25 +99,37 @@
                             <tr>
                                 <td></td>
                             </tr>
+                              <tr>
+                                <td></td>
+                            </tr>
+                              <tr>
+                                <td></td>
+                            </tr>
+                              <tr>
+                                <td></td>
+                            </tr>
+                              <tr>
+                                <td></td>
+                            </tr>
+                              <tr>
+                                <td></td>
+                            </tr>
+                              <tr>
+                                <td></td>
+                            </tr>
+                              <tr>
+                                <td></td>
+                            </tr>
+
 
                             <tr>
                                 <td>
-                                     <h2 style="margin-left:20%;"><span>          </span>範例住址<t t-esc= "data.donate_member.con_addr"/></h2>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                <h2 style="margin-left:20%;"><span>          </span><t t-esc="data.donate_member.name"/></h2>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h2 style="margin-left:20%;">編號12313</h2>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                        <table class="table" style="width:50%;">
+                        <table  style="width:48%;">
+                            <t t-set= "boss" t-value="0" />
+                            <t t-set= "times" t-value="0" />
+                            <h2 style="margin-left:20%;">範例住址<t t-esc= "data.donate_member.con_addr"/></h2>
+                            <h2 style="margin-left:20%;"><t t-esc="data.donate_member.name"/></h2>
+                            <h2 style="margin-left:20%;">編號12313</h2>
                             <thead>
                              <th>捐款人姓名</th>
                              <th>捐款種類</th>

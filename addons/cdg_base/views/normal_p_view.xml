@@ -47,6 +47,7 @@
                             <field name="is_donate"/>
                             <field name="con_addr"/>
                             <field name="member_data_ids"/>
+                            <field name="merge_report"/>
 
                         </group>
                          <notebook>
@@ -94,7 +95,7 @@
 
                                 </page>
                                 <page string="歷史捐款">
-
+                                    <field name="donate_history_ids"/>
                                 </page>
                                 <page string="施棺紀錄">
                                 </page>
@@ -115,12 +116,13 @@
                     <field name="w_id"/>
                     <field name="con_addr"/>
                     <field name="number"/>
+                    <filter string="戶長" name="top_of_home" domain="[('donate_family1','!=', False)]" />
                 </search>
             </field>
         </record>
 
         <record id="normal_p_action" model="ir.actions.act_window">
-        <field name="name">人員基本資料</field>
+        <field name="name">捐款者基本資料</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">normal.p</field>
         <field name="view_mode">tree,form</field>

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 
 class ReportDonateSingle(models.AbstractModel):
@@ -11,6 +12,11 @@ class ReportDonateSingle(models.AbstractModel):
     def render_html(self, docids, data=None):
         Report = self.env['report']
         target = self.env['donate.single'].browse(docids)
+
+        if target.state == 3:
+            raise ValidationError(u'本捐款單已經作廢')
+        elif target.state == 1:
+            target.state = 2
         docargs = {
             'doc_ids': docids,
             'doc_model': 'donate.single',
@@ -29,6 +35,11 @@ class ReportDonateSingleIndependent(models.AbstractModel):
     def render_html(self, docids, data=None):
         Report = self.env['report']
         target = self.env['donate.single'].browse(docids)
+
+        if target.state == 3:
+            raise ValidationError(u'本捐款單已經作廢')
+        elif target.state == 1:
+            target.state = 2
         boss = 0
         for line in target.donate_list:
             if line.donate_member.number == '1':
