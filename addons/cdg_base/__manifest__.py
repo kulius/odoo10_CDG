@@ -1,7 +1,9 @@
 {
     'name': "CDG",
     'version': '1.0',
-    'depends': [],
+    'depends': [
+        'report'
+    ],
     'author': "先捷電腦",
     'website': "http://www.alltop.com/",
     'category': '',
@@ -9,6 +11,7 @@
     
     """,
     'data': [
+        'report/paper.xml',
         'views/hand_checking_view.xml',
         'views/coffin_donation_view.xml',
         'views/coffin_base_view.xml',

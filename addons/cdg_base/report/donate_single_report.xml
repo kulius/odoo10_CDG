@@ -7,13 +7,17 @@
                 string="分開收據"
                 report_type="qweb-pdf"
                 name="cdg_base.receipt_single_independent_template"
-                menu="True"/>
+                paperformat="paper_form_cdg"
+                />
+
 
         <report id="receipt_single_all"
                 model="donate.single"
                 string="合併收據"
                 report_type="qweb-pdf"
-                name="cdg_base.receipt_single_all_template"/>
+                name="cdg_base.receipt_single_all_template"
+                paperformat="paper_form_cdg"
+        />
 
 
         <!--<report id="receipt_single_each_type"-->
