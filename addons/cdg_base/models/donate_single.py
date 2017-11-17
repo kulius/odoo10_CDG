@@ -45,6 +45,10 @@ class DonateSingle(models.Model):
     person_check = fields.Many2many(comodel_name="normal.p", string="捐款人名冊")
     family_check = fields.One2many(comodel_name='donate.family.line',inverse_name='parent_id', string='捐款人名冊', states={2: [('readonly', True)]})
     donate_list = fields.One2many(comodel_name='donate.order', inverse_name='donate_list_id', string='捐款明細', states={2: [('readonly', True)]})
+    work_id = fields.Many2one(comodel_name='c.worker', string='收費員', states={2: [('readonly', True)]})
+
+    history_donate_flag = fields.Boolean(string='是否上次捐款')
+
 
     def bring_last_history(self):
         max_paid = 0
@@ -97,6 +101,36 @@ class DonateSingle(models.Model):
 
         self.add_to_list_create(res_id)
         return res_id
+
+    @api.onchange('history_donate_flag')
+    def get_history_donate(self):
+        if self.history_donate_flag is True:
+            max_paid = 0
+            max = None
+            for line in self.donate_member.donate_history_ids:
+                if max_paid < int(line.paid_id) and line.state == 1:
+                    max_paid = int(line.paid_id)
+                    max = line
+            old = self.search([('donate_id', '=', max.donate_id)])
+
+            r = []
+            for line in old.family_check:
+                r.append([0, 0, {
+                    'donate_member': line.donate_member.id
+                }])
+
+            self.update({
+                'family_check': r,
+                'bridge': old.bridge,
+                'bridge_money': old.bridge_money,
+                'road': old.road,
+                'road_money': old.road_money,
+                'coffin': old.coffin,
+                'coffin_money': old.coffin_money,
+                'poor_help': old.poor_help,
+                'poor_help_money': old.poor_help_money,
+            })
+
 
     @api.onchange('bridge', 'road', 'coffin', 'poor_help')
     def set_default_price(self):

@@ -26,9 +26,9 @@
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button name="bring_last_history" string="上次捐款紀錄" type="object" class="oe_stat_button"
-                                    icon="fa-level-up">
-                            </button>
+                            <!--<button name="bring_last_history" string="上次捐款紀錄" type="object" class="oe_stat_button"-->
+                                    <!--icon="fa-level-up">-->
+                            <!--</button>-->
                             <button name="parent_list_creat" string="載入眷屬" type="object" class="oe_stat_button"
                                     icon="fa-users">
                                 <!--將該成員眷屬列出-->
@@ -48,11 +48,15 @@
                             <field name="zip_code"/>
                             <field name="con_addr"/>
                             <field name="donate_total"/>
+                            <field name="work_id"/>
+                            <field name="history_donate_flag"/>
                         </group>
+
                         <notebook>
                             <page string="捐款">
                                 <span STYLE='FONT-SIZE:25PX'>捐款項目</span>
                                 <group col="6">
+
                                     <field name="bridge"/>
                                     <field name="bridge_money" nolabel="1"/>
                                     <field name="road"/>

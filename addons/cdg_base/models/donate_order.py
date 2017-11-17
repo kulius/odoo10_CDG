@@ -48,6 +48,9 @@ class DonateOrder(models.Model):
     address = fields.Char(string='住址')
     city = fields.Char(string='市區')
 
+    report_big = fields.Char()
+    report_price = fields.Integer()
+
     # @api.onchange('name')
     # def setconphone(self):
     #     self.con_phone = self.name.con_phone
