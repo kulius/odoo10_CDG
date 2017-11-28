@@ -56,7 +56,6 @@
                             <page string="捐款">
                                 <span STYLE='FONT-SIZE:25PX'>捐款項目</span>
                                 <group col="6">
-
                                     <field name="bridge"/>
                                     <field name="bridge_money" nolabel="1"/>
                                     <field name="road"/>

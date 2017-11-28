@@ -4,7 +4,7 @@
 
         <report id="receipt_independent"
                 model="donate.single"
-                string="分開收據"
+                string="個人收據"
                 report_type="qweb-pdf"
                 name="cdg_base.receipt_single_independent_template"
                 paperformat="paper_form_cdg"
@@ -18,18 +18,26 @@
                 name="cdg_base.receipt_single_all_template"
                 paperformat="paper_form_cdg"
         />
-
-
-        <!--<report id="receipt_single_each_type"-->
-                <!--model="donate.single"-->
-                <!--string="一張一種收據"-->
-                <!--report_type="qweb-pdf"-->
-                <!--name="cdg_base.receipt_single_all_template"/>-->
+        <report id="receipt_one_kind_one_person"
+                model="donate.single"
+                string="單獨收據"
+                report_type="qweb-pdf"
+                name="cdg_base.receipt_single_one_kind_one_person"
+                paperformat="paper_form_cdg"
+        />
+        <report id="receipt_default"
+                model="donate.single"
+                string="預設收據"
+                report_type="qweb-pdf"
+                name="cdg_base.receipt_single_default"
+                paperformat="paper_form_cdg"
+        />
 
         <template id="receipt_single_all_template">
-             <t t-call="report.html_container">
+            <t t-call="report.layout">
+                <t t-foreach="docs" t-as="data">
                     <div class="page">
-                        <style type="text/css">
+                          <style type="text/css">
                             .header_css{
                             height: 40mm;
 
@@ -145,17 +153,19 @@
                                             <div style="display: table-row;">
                                                 <div class="top_css"><span><t t-esc="data.donate_id"/></span></div>
                                             </div>
-                                            <div class="bottom_css"><span><t t-esc="date"/></span></div>
+                                            <div class="bottom_css"><span><t t-esc="data.report_donate"/></span></div>
 
 
                                         </div>
                             </div>
                                 <div class="detial_css">
                                     <div class="detial_one">
+                                        <t t-set="foo" t-value="0"/>
                                         <table  style="width:65mm;font-size:20px;margin-left:10mm;">
                                         <tbody>
-                                            <t t-foreach="one" t-as="key">
-                                                <tr>
+                                            <t t-foreach="data.donate_list" t-as="key">
+                                                <t t-if="foo&lt;10">
+                                                    <tr>
                                                     <td class="text-left">
                                                         <span>
                                                             <t t-esc="key.donate_member.name"/>
@@ -172,15 +182,19 @@
                                                         </span>
                                                     </td>
                                                 </tr>
+                                                    <t t-set="foo" t-value="foo+1"/>
+                                                </t>
                                             </t>
                                         </tbody>
                                     </table>
                                     </div>
-
+                                     <t t-set="foo" t-value="0"/>
                                      <div class="detial_two">
                                         <table style="width:79mm;font-size:20px;">
                                         <tbody>
-                                            <t t-foreach="three" t-as="key">
+                                            <t t-foreach="data.donate_list" t-as="key">
+                                                  <t t-if="foo&gt;19">
+                                                     <t t-if="foo&lt;30">
                                                 <tr>
                                                     <td class="text-left">
                                                         <span>
@@ -198,14 +212,19 @@
                                                         </span>
                                                     </td>
                                                 </tr>
+                                                     </t>
+                                                 </t>
+                                                 <t t-set="foo" t-value="foo+1"/>
                                             </t>
                                         </tbody>
                                     </table>
                                     </div>
-
+                                     <t t-set="foo" t-value="0"/>
                                      <div class="detial_middle"> <table style="width:79mm;font-size:20px;">
                                         <tbody>
-                                            <t t-foreach="two" t-as="key">
+                                            <t t-foreach="data.donate_list" t-as="key">
+                                                 <t t-if="foo&gt;9">
+                                                     <t t-if="foo&lt;20">
                                                 <tr>
                                                     <td class="text-left">
                                                         <span>
@@ -223,6 +242,10 @@
                                                         </span>
                                                     </td>
                                                 </tr>
+
+                                                     </t>
+                                                 </t>
+                                                 <t t-set="foo" t-value="foo+1"/>
                                             </t>
                                         </tbody>
                                     </table>
@@ -231,7 +254,7 @@
                         <div class="total_css">
                             <div class="total_left">
                                 <p style="margin-left:50%;">
-                                <t t-esc="big"/>
+                                <t t-esc="data.report_price_big"/>
                             </p>
                             </div>
                             <div class="total_right">
@@ -241,12 +264,12 @@
 
                         </div>
                         <div class="total_css">
-                            <div style="margin-left:78%;"><t t-esc="data.work_id.name"/></div>
+                            <div style="margin-left:78%;"><t t-esc="data.create_uid.name"/></div>
                         </div>
 
                         <div class="useless"></div>
 
-                         <div class="header_css">
+                          <div class="header_css">
                                     <div class="left_css">
                                 <h2 style="margin-left:26%;">
                                     <t t-if="not data.donate_member.con_addr ">
@@ -261,15 +284,19 @@
                                             <div style="display: table-row;">
                                                 <div class="top_css"><span><t t-esc="data.donate_id"/></span></div>
                                             </div>
-                                            <div class="bottom_css"><span><t t-esc="date"/></span></div>
+                                            <div class="bottom_css"><span><t t-esc="data.report_donate"/></span></div>
+
+
                                         </div>
                             </div>
-                        <div class="detial_css">
+                                <div class="detial_css">
                                     <div class="detial_one">
+                                        <t t-set="foo" t-value="0"/>
                                         <table  style="width:65mm;font-size:20px;margin-left:10mm;">
                                         <tbody>
-                                            <t t-foreach="one" t-as="key">
-                                                <tr>
+                                            <t t-foreach="data.donate_list" t-as="key">
+                                                <t t-if="foo&lt;10">
+                                                    <tr>
                                                     <td class="text-left">
                                                         <span>
                                                             <t t-esc="key.donate_member.name"/>
@@ -286,15 +313,19 @@
                                                         </span>
                                                     </td>
                                                 </tr>
+                                                    <t t-set="foo" t-value="foo+1"/>
+                                                </t>
                                             </t>
                                         </tbody>
                                     </table>
                                     </div>
-
+                                     <t t-set="foo" t-value="0"/>
                                      <div class="detial_two">
                                         <table style="width:79mm;font-size:20px;">
                                         <tbody>
-                                            <t t-foreach="three" t-as="key">
+                                            <t t-foreach="data.donate_list" t-as="key">
+                                                  <t t-if="foo&gt;19">
+                                                     <t t-if="foo&lt;30">
                                                 <tr>
                                                     <td class="text-left">
                                                         <span>
@@ -312,14 +343,19 @@
                                                         </span>
                                                     </td>
                                                 </tr>
+                                                     </t>
+                                                 </t>
+                                                 <t t-set="foo" t-value="foo+1"/>
                                             </t>
                                         </tbody>
                                     </table>
                                     </div>
-
+                                     <t t-set="foo" t-value="0"/>
                                      <div class="detial_middle"> <table style="width:79mm;font-size:20px;">
                                         <tbody>
-                                            <t t-foreach="two" t-as="key">
+                                            <t t-foreach="data.donate_list" t-as="key">
+                                                 <t t-if="foo&gt;9">
+                                                     <t t-if="foo&lt;20">
                                                 <tr>
                                                     <td class="text-left">
                                                         <span>
@@ -337,6 +373,10 @@
                                                         </span>
                                                     </td>
                                                 </tr>
+
+                                                     </t>
+                                                 </t>
+                                                 <t t-set="foo" t-value="foo+1"/>
                                             </t>
                                         </tbody>
                                     </table>
@@ -345,7 +385,7 @@
                         <div class="total_css">
                             <div class="total_left">
                                 <p style="margin-left:50%;">
-                                <t t-esc="big"/>
+                                <t t-esc="data.report_price_big"/>
                             </p>
                             </div>
                             <div class="total_right">
@@ -355,17 +395,19 @@
 
                         </div>
                         <div class="total_css">
-                            <div style="margin-left:78%;"><t t-esc="data.work_id.name"/></div>
+                            <div style="margin-left:78%;"><t t-esc="data.create_uid.name"/></div>
                         </div>
+
                     </div>
-             </t>
+                </t>
+            </t>
         </template>
 
         <template id="receipt_single_independent_template">
             <t t-call="report.html_container">
-                <t t-foreach="boss" t-as="person">
+                <t t-foreach="docs" t-as="line">
                     <div class="page">
-                        <style type="text/css">
+                          <style type="text/css">
                             .header_css{
                             height: 40mm;
 
@@ -469,31 +511,34 @@
                                 <div class="header_css">
                                     <div class="left_css">
                                 <h2 style="margin-left:26%;">
-                                    <t t-if="not person.donate_member.con_addr ">
+                                    <t t-if="not line.title_donate.con_addr ">
                                         無
                                     </t>
-                                    <t t-esc= "person.donate_member.con_addr"/>
+                                    <t t-esc= "line.title_donate.con_addr"/>
                                 </h2>
-                                <h2 style="margin-left:26%;"><t t-esc="person.donate_member.name"/></h2>
-                                <h2 style="margin-left:26%;"><t t-esc="person.donate_member.new_coding"/></h2>
+                                <h2 style="margin-left:26%;"><t t-esc="line.title_donate.name"/></h2>
+                                <h2 style="margin-left:26%;"><t t-esc="line.title_donate.new_coding"/></h2>
                                     </div>
                                         <div class="right_css">
                                             <div style="display: table-row;">
-                                                <div class="top_css"><span><t t-esc="person.donate_id"/></span></div>
+                                                <div class="top_css"><span><t t-esc="line.title_doante_code"/></span></div>
                                             </div>
-                                            <div class="bottom_css"><span><t t-esc="date"/></span></div>
+                                            <div class="bottom_css"><span><t t-esc="line.title_doante_date"/></span></div>
+
+
                                         </div>
                             </div>
                                 <div class="detial_css">
                                     <div class="detial_one">
+                                        <t t-set="foo" t-value="0"/>
                                         <table  style="width:65mm;font-size:20px;margin-left:10mm;">
                                         <tbody>
-                                            <t t-foreach="docs" t-as="key">
-                                                <t t-if="key.donate_member==person.donate_member">
-                                                       <tr>
+                                            <t t-foreach="line.donate_line" t-as="key">
+                                                <t t-if="foo&lt;10">
+                                                    <tr>
                                                     <td class="text-left">
                                                         <span>
-                                                            <t t-esc="key.donate_member.name"/>
+                                                            <t t-esc="key.name"/>
                                                         </span>
                                                     </td>
                                                     <td class="text-left">
@@ -503,10 +548,11 @@
                                                     </td>
                                                     <td class="text-left">
                                                         <span>
-                                                            <t t-esc="key.donate"/>
+                                                            <t t-esc="key.donate_price"/>
                                                         </span>
                                                     </td>
                                                 </tr>
+                                                    <t t-set="foo" t-value="foo+1"/>
                                                 </t>
                                             </t>
                                         </tbody>
@@ -516,49 +562,52 @@
                         <div class="total_css">
                             <div class="total_left">
                                 <p style="margin-left:50%;">
-                                <t t-esc="person.report_big"/>
+                                <t t-esc="line.title_total_price_big"/>
                             </p>
                             </div>
                             <div class="total_right">
-                                <div class="total_right_money"><t t-esc="person.report_price"/></div>
-                                <div class="total_right_person"><t t-esc="data.work_id.name"/></div>
+                                <div class="total_right_money"><t t-esc="line.title_total_price"/></div>
+                                <div class="total_right_person">123</div>
                             </div>
 
                         </div>
                         <div class="total_css">
-                            <div style="margin-left:78%;"><t t-esc="data.work_id.name"/></div>
+                            <div style="margin-left:78%;"><t t-esc="line.create_uid.name"/></div>
                         </div>
 
                         <div class="useless"></div>
 
-                         <div class="header_css">
+                          <div class="header_css">
                                     <div class="left_css">
                                 <h2 style="margin-left:26%;">
-                                    <t t-if="not person.donate_member.con_addr ">
+                                    <t t-if="not line.title_donate.con_addr ">
                                         無
                                     </t>
-                                    <t t-esc= "person.donate_member.con_addr"/>
+                                    <t t-esc= "line.title_donate.con_addr"/>
                                 </h2>
-                                <h2 style="margin-left:26%;"><t t-esc="person.donate_member.name"/></h2>
-                                <h2 style="margin-left:26%;"><t t-esc="person.donate_member.new_coding"/></h2>
+                                <h2 style="margin-left:26%;"><t t-esc="line.title_donate.name"/></h2>
+                                <h2 style="margin-left:26%;"><t t-esc="line.title_donate.new_coding"/></h2>
                                     </div>
                                         <div class="right_css">
                                             <div style="display: table-row;">
-                                                <div class="top_css"><span><t t-esc="person.donate_id"/></span></div>
+                                                <div class="top_css"><span><t t-esc="line.title_doante_code"/></span></div>
                                             </div>
-                                            <div class="bottom_css"><span><t t-esc="date"/></span></div>
+                                            <div class="bottom_css"><span><t t-esc="line.title_doante_date"/></span></div>
+
+
                                         </div>
                             </div>
                                 <div class="detial_css">
                                     <div class="detial_one">
+                                        <t t-set="foo" t-value="0"/>
                                         <table  style="width:65mm;font-size:20px;margin-left:10mm;">
                                         <tbody>
-                                            <t t-foreach="docs" t-as="key">
-                                                <t t-if="key.donate_member==person.donate_member">
-                                                       <tr>
+                                            <t t-foreach="line.donate_line" t-as="key">
+                                                <t t-if="foo&lt;10">
+                                                    <tr>
                                                     <td class="text-left">
                                                         <span>
-                                                            <t t-esc="key.donate_member.name"/>
+                                                            <t t-esc="key.name"/>
                                                         </span>
                                                     </td>
                                                     <td class="text-left">
@@ -568,10 +617,11 @@
                                                     </td>
                                                     <td class="text-left">
                                                         <span>
-                                                            <t t-esc="key.donate"/>
+                                                            <t t-esc="key.donate_price"/>
                                                         </span>
                                                     </td>
                                                 </tr>
+                                                    <t t-set="foo" t-value="foo+1"/>
                                                 </t>
                                             </t>
                                         </tbody>
@@ -581,18 +631,518 @@
                         <div class="total_css">
                             <div class="total_left">
                                 <p style="margin-left:50%;">
-                                <t t-esc="person.report_big"/>
+                                <t t-esc="line.title_total_price_big"/>
                             </p>
                             </div>
                             <div class="total_right">
-                                <div class="total_right_money"><t t-esc="person.report_price"/></div>
-                                <div class="total_right_person"><t t-esc="data.work_id.name"/></div>
+                                <div class="total_right_money"><t t-esc="line.title_total_price"/></div>
+                                <div class="total_right_person">123</div>
                             </div>
 
                         </div>
                         <div class="total_css">
-                            <div style="margin-left:78%;"><t t-esc="data.work_id.name"/></div>
+                            <div style="margin-left:78%;"><t t-esc="line.create_uid.name"/></div>
                         </div>
+
+
+
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <template id="receipt_single_one_kind_one_person">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="line">
+                    <div class="page">
+                          <style type="text/css">
+                            .header_css{
+                            height: 40mm;
+
+                            }
+                            .right_css{
+                            height: 40mm;
+                            width: 57mm;                                                                                                                                       ZA
+
+                            float:right;
+                            position:relative;
+                            display: table;
+
+                            }
+                            .left_css{
+                            height: 40mm;
+                            width: 180mm;
+
+                            float:left;
+                            }
+                            .top_css{
+                            height: 20mm;
+                            width: 57mm;
+
+                            text-align:center;
+                            font-size:26px;
+                            display: table-cell;
+                            vertical-align: bottom;
+                            }
+                            .bottom_css{
+                            height: 20mm;
+                            width: 57mm;
+
+                            text-align:center;
+                            font-size:26px;
+                            display: table-cell;
+                            vertical-align: bottom;
+                            }
+
+                            .detial_css{
+                            height: 65mm;
+
+                            }
+                            .detial_middle{
+                            width: 79mm;
+                            height: 65mm;
+                            margin-left:79mm;
+
+                            }
+
+                            .detial_one{
+                            width: 79mm;
+                            height: 65mm;
+                            float:left;
+
+                            }
+
+                            .detial_two{
+                            width: 79mm;
+                            height: 65mm;
+                            float:right;
+
+                            }
+                            .total_css{
+                            height: 13mm;
+
+                            font-weight:bold;
+                            font-size:26px;
+                            }
+                            .total_right{
+                            height: 13mm;
+                            width: 82mm;
+
+                            float:right;
+                            }
+                            .total_right_money{
+                            height: 13mm;
+                            width: 52mm;
+
+                            float:left;
+                            }
+                            .total_right_person{
+                            height: 13mm;
+                            width: 30mm;
+
+                            float:right;
+                            }
+
+                            .total_left{
+                            height: 13mm;
+                            width: 155mm;
+
+                            float:left;
+                            }
+                            .useless{
+                            height: 54mm;
+
+                            }
+
+                        </style>
+
+                                <div class="header_css">
+                                    <div class="left_css">
+                                <h2 style="margin-left:26%;">
+                                    <t t-if="not line.title_donate.con_addr ">
+                                        無
+                                    </t>
+                                    <t t-esc= "line.title_donate.con_addr"/>
+                                </h2>
+                                <h2 style="margin-left:26%;"><t t-esc="line.title_donate.name"/></h2>
+                                <h2 style="margin-left:26%;"><t t-esc="line.title_donate.new_coding"/></h2>
+                                    </div>
+                                        <div class="right_css">
+                                            <div style="display: table-row;">
+                                                <div class="top_css"><span><t t-esc="line.title_doante_code"/></span></div>
+                                            </div>
+                                            <div class="bottom_css"><span><t t-esc="line.title_doante_date"/></span></div>
+
+
+                                        </div>
+                            </div>
+                                <div class="detial_css">
+                                    <div class="detial_one">
+                                        <t t-set="foo" t-value="0"/>
+                                        <table  style="width:65mm;font-size:20px;margin-left:10mm;">
+                                        <tbody>
+                                            <t t-foreach="line.donate_line" t-as="key">
+                                                <t t-if="foo&lt;10">
+                                                    <tr>
+                                                    <td class="text-left">
+                                                        <span>
+                                                            <t t-esc="key.name"/>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <span>
+                                                            <t t-esc="dict(key.fields_get(allfields=['donate_type'])['donate_type']['selection'])[key.donate_type]"/>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <span>
+                                                            <t t-esc="key.donate_price"/>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                    <t t-set="foo" t-value="foo+1"/>
+                                                </t>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                        <div class="total_css">
+                            <div class="total_left">
+                                <p style="margin-left:50%;">
+                                <t t-esc="line.title_total_price_big"/>
+                            </p>
+                            </div>
+                            <div class="total_right">
+                                <div class="total_right_money"><t t-esc="line.title_total_price"/></div>
+                                <div class="total_right_person">123</div>
+                            </div>
+
+                        </div>
+                        <div class="total_css">
+                            <div style="margin-left:78%;"><t t-esc="line.create_uid.name"/></div>
+                        </div>
+
+                        <div class="useless"></div>
+
+                           <div class="header_css">
+                                    <div class="left_css">
+                                <h2 style="margin-left:26%;">
+                                    <t t-if="not line.title_donate.con_addr ">
+                                        無
+                                    </t>
+                                    <t t-esc= "line.title_donate.con_addr"/>
+                                </h2>
+                                <h2 style="margin-left:26%;"><t t-esc="line.title_donate.name"/></h2>
+                                <h2 style="margin-left:26%;"><t t-esc="line.title_donate.new_coding"/></h2>
+                                    </div>
+                                        <div class="right_css">
+                                            <div style="display: table-row;">
+                                                <div class="top_css"><span><t t-esc="line.title_doante_code"/></span></div>
+                                            </div>
+                                            <div class="bottom_css"><span><t t-esc="line.title_doante_date"/></span></div>
+
+
+                                        </div>
+                            </div>
+                                <div class="detial_css">
+                                    <div class="detial_one">
+                                        <t t-set="foo" t-value="0"/>
+                                        <table  style="width:65mm;font-size:20px;margin-left:10mm;">
+                                        <tbody>
+                                            <t t-foreach="line.donate_line" t-as="key">
+                                                <t t-if="foo&lt;10">
+                                                    <tr>
+                                                    <td class="text-left">
+                                                        <span>
+                                                            <t t-esc="key.name"/>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <span>
+                                                            <t t-esc="dict(key.fields_get(allfields=['donate_type'])['donate_type']['selection'])[key.donate_type]"/>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <span>
+                                                            <t t-esc="key.donate_price"/>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                    <t t-set="foo" t-value="foo+1"/>
+                                                </t>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                        <div class="total_css">
+                            <div class="total_left">
+                                <p style="margin-left:50%;">
+                                <t t-esc="line.title_total_price_big"/>
+                            </p>
+                            </div>
+                            <div class="total_right">
+                                <div class="total_right_money"><t t-esc="line.title_total_price"/></div>
+                                <div class="total_right_person">123</div>
+                            </div>
+
+                        </div>
+                        <div class="total_css">
+                            <div style="margin-left:78%;"><t t-esc="line.create_uid.name"/></div>
+                        </div>
+
+
+
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+         <template id="receipt_single_default">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="line">
+                    <div class="page">
+                          <style type="text/css">
+                            .header_css{
+                            height: 40mm;
+
+                            }
+                            .right_css{
+                            height: 40mm;
+                            width: 57mm;                                                                                                                                       ZA
+
+                            float:right;
+                            position:relative;
+                            display: table;
+
+                            }
+                            .left_css{
+                            height: 40mm;
+                            width: 180mm;
+
+                            float:left;
+                            }
+                            .top_css{
+                            height: 20mm;
+                            width: 57mm;
+
+                            text-align:center;
+                            font-size:26px;
+                            display: table-cell;
+                            vertical-align: bottom;
+                            }
+                            .bottom_css{
+                            height: 20mm;
+                            width: 57mm;
+
+                            text-align:center;
+                            font-size:26px;
+                            display: table-cell;
+                            vertical-align: bottom;
+                            }
+
+                            .detial_css{
+                            height: 65mm;
+
+                            }
+                            .detial_middle{
+                            width: 79mm;
+                            height: 65mm;
+                            margin-left:79mm;
+
+                            }
+
+                            .detial_one{
+                            width: 79mm;
+                            height: 65mm;
+                            float:left;
+
+                            }
+
+                            .detial_two{
+                            width: 79mm;
+                            height: 65mm;
+                            float:right;
+
+                            }
+                            .total_css{
+                            height: 13mm;
+
+                            font-weight:bold;
+                            font-size:26px;
+                            }
+                            .total_right{
+                            height: 13mm;
+                            width: 82mm;
+
+                            float:right;
+                            }
+                            .total_right_money{
+                            height: 13mm;
+                            width: 52mm;
+
+                            float:left;
+                            }
+                            .total_right_person{
+                            height: 13mm;
+                            width: 30mm;
+
+                            float:right;
+                            }
+
+                            .total_left{
+                            height: 13mm;
+                            width: 155mm;
+
+                            float:left;
+                            }
+                            .useless{
+                            height: 54mm;
+
+                            }
+
+                        </style>
+
+                                <div class="header_css">
+                                    <div class="left_css">
+                                <h2 style="margin-left:26%;">
+                                    <t t-if="not line.title_donate.con_addr ">
+                                        無
+                                    </t>
+                                    <t t-esc= "line.title_donate.con_addr"/>
+                                </h2>
+                                <h2 style="margin-left:26%;"><t t-esc="line.title_donate.name"/></h2>
+                                <h2 style="margin-left:26%;"><t t-esc="line.title_donate.new_coding"/></h2>
+                                    </div>
+                                        <div class="right_css">
+                                            <div style="display: table-row;">
+                                                <div class="top_css"><span><t t-esc="line.title_doante_code"/></span></div>
+                                            </div>
+                                            <div class="bottom_css"><span><t t-esc="line.title_doante_date"/></span></div>
+
+
+                                        </div>
+                            </div>
+                                <div class="detial_css">
+                                    <div class="detial_one">
+                                        <t t-set="foo" t-value="0"/>
+                                        <table  style="width:65mm;font-size:20px;margin-left:10mm;">
+                                        <tbody>
+                                            <t t-foreach="line.donate_line" t-as="key">
+                                                <t t-if="foo&lt;10">
+                                                    <tr>
+                                                    <td class="text-left">
+                                                        <span>
+                                                            <t t-esc="key.name"/>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <span>
+                                                            <t t-esc="dict(key.fields_get(allfields=['donate_type'])['donate_type']['selection'])[key.donate_type]"/>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <span>
+                                                            <t t-esc="key.donate_price"/>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                    <t t-set="foo" t-value="foo+1"/>
+                                                </t>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                        <div class="total_css">
+                            <div class="total_left">
+                                <p style="margin-left:50%;">
+                                <t t-esc="line.title_total_price_big"/>
+                            </p>
+                            </div>
+                            <div class="total_right">
+                                <div class="total_right_money"><t t-esc="line.title_total_price"/></div>
+                                <div class="total_right_person">123</div>
+                            </div>
+
+                        </div>
+                        <div class="total_css">
+                            <div style="margin-left:78%;"><t t-esc="line.create_uid.name"/></div>
+                        </div>
+
+                        <div class="useless"></div>
+
+                           <div class="header_css">
+                                    <div class="left_css">
+                                <h2 style="margin-left:26%;">
+                                    <t t-if="not line.title_donate.con_addr ">
+                                        無
+                                    </t>
+                                    <t t-esc= "line.title_donate.con_addr"/>
+                                </h2>
+                                <h2 style="margin-left:26%;"><t t-esc="line.title_donate.name"/></h2>
+                                <h2 style="margin-left:26%;"><t t-esc="line.title_donate.new_coding"/></h2>
+                                    </div>
+                                        <div class="right_css">
+                                            <div style="display: table-row;">
+                                                <div class="top_css"><span><t t-esc="line.title_doante_code"/></span></div>
+                                            </div>
+                                            <div class="bottom_css"><span><t t-esc="line.title_doante_date"/></span></div>
+
+
+                                        </div>
+                            </div>
+                                <div class="detial_css">
+                                    <div class="detial_one">
+                                        <t t-set="foo" t-value="0"/>
+                                        <table  style="width:65mm;font-size:20px;margin-left:10mm;">
+                                        <tbody>
+                                            <t t-foreach="line.donate_line" t-as="key">
+                                                <t t-if="foo&lt;10">
+                                                    <tr>
+                                                    <td class="text-left">
+                                                        <span>
+                                                            <t t-esc="key.name"/>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <span>
+                                                            <t t-esc="dict(key.fields_get(allfields=['donate_type'])['donate_type']['selection'])[key.donate_type]"/>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <span>
+                                                            <t t-esc="key.donate_price"/>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                    <t t-set="foo" t-value="foo+1"/>
+                                                </t>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                        <div class="total_css">
+                            <div class="total_left">
+                                <p style="margin-left:50%;">
+                                <t t-esc="line.title_total_price_big"/>
+                            </p>
+                            </div>
+                            <div class="total_right">
+                                <div class="total_right_money"><t t-esc="line.title_total_price"/></div>
+                                <div class="total_right_person">123</div>
+                            </div>
+
+                        </div>
+                        <div class="total_css">
+                            <div style="margin-left:78%;"><t t-esc="line.create_uid.name"/></div>
+                        </div>
+
+
+
                     </div>
                 </t>
             </t>

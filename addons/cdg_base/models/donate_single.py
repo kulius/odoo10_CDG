@@ -48,6 +48,8 @@ class DonateSingle(models.Model):
     work_id = fields.Many2one(comodel_name='c.worker', string='收費員', states={2: [('readonly', True)]})
 
     history_donate_flag = fields.Boolean(string='是否上次捐款')
+    report_price_big = fields.Char(string='報表用大寫金額')
+    report_donate = fields.Char(string='報表用捐款日期')
 
 
     def bring_last_history(self):

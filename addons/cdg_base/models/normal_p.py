@@ -13,6 +13,8 @@ _logger = logging.getLogger(__name__)
 class NormalP(models.Model):
     # 捐款人
     _name = 'normal.p'
+    _order = 'sequence,id'
+
 
     new_coding = fields.Char(string='新編捐款者編號')
     special_tag = fields.Boolean(string='眷屬檔沒有的團員')
@@ -40,13 +42,13 @@ class NormalP(models.Model):
     come_date = fields.Date(string='到職日期')
     lev_date = fields.Date(string='離職日期')
     ps = fields.Text(string='備註')
-    habbit_donate = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '伙食費'), (5, '窮困扶助'), (6, '其他工程')],
+    habbit_donate = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '伙食費'), (5, '貧困扶助'), (6, '其他工程')],
                                      string='喜好捐款')
     cashier_name = fields.Many2one(comodel_name='c.worker', string='收費員姓名', domain="[('job_type', '=', '2'), ]", ondelete='cascade')
     donate_cycle = fields.Selection(selection=[('03', '季繳'), ('06', '半年繳'), ('12', '年繳')], string='捐助週期')
     rec_type = fields.Selection(selection=[(1, '正常'), (2, '年收據')], string='收據狀態')
     rec_send = fields.Boolean(string='收據寄送')
-    is_donate = fields.Boolean(string='是否捐助')
+
     self = fields.Char(string='自訂排序')
     report_send = fields.Boolean(string='報表寄送')
     thanks_send = fields.Boolean(string='感謝狀寄送')
@@ -65,7 +67,7 @@ class NormalP(models.Model):
     member_list = fields.Char(string='會員名冊編號')
     year = fields.Char(string='繳費年度')
     should_pay = fields.Integer(string='應繳金額')
-    cashier = fields.Char(string='收費員')
+    cashier = fields.Many2one(comodel_name='c.worker', string='收費員')
     pay_date = fields.Date(string='收費日期')
     booklist = fields.Boolean(string='名冊列印')
     member_type = fields.Selection(selection=[(1, '基本會員'), (2, '贊助會員')], string='會員種類')
@@ -77,6 +79,55 @@ class NormalP(models.Model):
     donate_family1 = fields.One2many(comodel_name='normal.p', inverse_name='parent', string='團員眷屬')
     member_data_ids = fields.Many2one(comodel_name='member.data', string='關聯的顧問會員檔')
     donate_history_ids = fields.One2many(comodel_name='donate.order', inverse_name='donate_member')
+
+    sequence = fields.Integer(string='排序')
+    is_donate = fields.Boolean(string='是否捐助', default=True)
+    is_merge = fields.Boolean(string='是否合併收據', default=True)
+
+    donate_family_list = fields.Char(string='眷屬列表', compute='compute_faamily_list')
+
+
+    def donate_batch(self):
+        batch = self.env['normal.p'].browse(self.ids)
+        view = self.env.ref('cdg_base.donate_wizard_form')
+        wiz = self.env['normal.p.wizard'].create({'name': '123'})
+
+        return {
+            'name': 'Name for your window',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': view.id,
+            'res_model': 'normal.p.wizard',
+            'target': 'new',
+            'res_id': wiz.id,
+
+        }
+
+
+
+
+
+    @api.depends('donate_family1.is_donate','donate_family1.is_merge')
+    def compute_faamily_list(self):
+        for line in self:
+            sb = ''
+            for row in line.donate_family1:
+                if row.is_donate is False:
+                    sb += u'(X)' + row.name + ','
+                elif row.is_merge is False:
+                    sb += u'(★)'+ row.name + ','
+                else:
+                    sb += row.name + ','
+            line.donate_family_list = sb
+
+    def toggle_donate(self):
+        self.is_donate = not self.is_donate
+
+    def toggle_merge(self):
+        self.is_merge = not self.is_merge
+
+
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
@@ -242,7 +293,7 @@ class NormalP(models.Model):
                     'name': line[u'姓名'],
                     'birth': self.check(line[u'出生日期']),
                     'cellphone': line[u'手機'],
-                    'zip_code'
+                    'zip_code':line[u'郵遞區號'],
                     'con_addr': line[u'通訊地址'],
                     'con_phone': line[u'電話一'],
                     'con_phone2': line[u'電話二'],

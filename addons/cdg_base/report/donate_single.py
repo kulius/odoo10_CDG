@@ -3,6 +3,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 import datetime
 
+
 class ReportDonateSingle(models.AbstractModel):
     _name = 'report.cdg_base.receipt_single_all_template'
 
@@ -13,39 +14,21 @@ class ReportDonateSingle(models.AbstractModel):
         Report = self.env['report']
         target = self.env['donate.single'].browse(docids)
 
-        date = datetime.datetime.strptime(target.create_date, "%Y-%m-%d %H:%M:%S")
-        date = date.strftime("%Y-%m-%d")
-        if target.state == 3:
-            raise ValidationError(u'本捐款單已經作廢')
-        elif target.state == 1:
-            target.state = 2
-        big = self.convert(target.donate_total)
-        one = self.env['donate.order']
-        two = self.env['donate.order']
-        three = self.env['donate.order']
-        if len(target.donate_list) > 10:
+        for line in target:
+            date = datetime.datetime.strptime(line.create_date, "%Y-%m-%d %H:%M:%S")
+            line.report_donate = date.strftime("%Y-%m-%d")
+            if line.state == 3:
+                raise ValidationError(u'本捐款單已經作廢')
+            elif line.state == 1:
+                line.state = 2
+            line.report_price_big = self.convert(line.donate_total)
 
-            for line in target.donate_list:
-                if len(one) < 10:
-                    one += line
-                elif len(two) < 10:
-                    two += line
-                elif len(three) < 10:
-                    three += line
-
-        else:
-            one = target.donate_list
         docargs = {
             'doc_ids': docids,
             'doc_model': 'donate.single',
-            'docs': target.donate_list,
-            'data': target,
-            'big': big,
-            'date': date,
-            'one': one,
-            'two': two,
-            'three': three
+            'docs': target,
         }
+
         return Report.render('cdg_base.receipt_single_all_template', docargs)
 
     def convert(self,n):
@@ -71,56 +54,26 @@ class ReportDonateSingle(models.AbstractModel):
                     res.append(tmp)
         return ''.join(res[::-1])
 
+class DonateSingleReport(models.Model):
+    _name = 'donate.single.report'
+    _description = u'報表用來整理收據資料用table'
 
-class ReportDonateSingleIndependent(models.AbstractModel):
-    _name = 'report.cdg_base.receipt_single_independent_template'
+    title_donate = fields.Many2one(comodel_name='normal.p', string='收據收件人')
+    title_doante_code = fields.Char(string='捐款編號')
+    title_doante_date = fields.Char(string='捐款日期')
+    donate_line = fields.One2many(comodel_name='report.line',inverse_name='parent_id', string='個人捐款明細')
+    title_total_price = fields.Integer(string='捐款總金額', compute='compute_price', store=True)
+    title_total_price_big = fields.Char(string='金額大寫', compute='compute_price', store=True)
 
-    name = fields.Char()
+    @api.depends('donate_line')
+    def compute_price(self):
+        for line in self:
+            price=0
+            for row in line.donate_line:
+                price += row.donate_price
 
-    @api.model
-    def render_html(self, docids, data=None):
-        Report = self.env['report']
-        target = self.env['donate.single'].browse(docids)
-
-        if target.state == 3:
-            raise ValidationError(u'本捐款單已經作廢')
-        elif target.state == 1:
-            target.state = 2
-        boss = 0
-        for line in target.donate_list:
-            if line.donate_member.number == '1':
-                boss = line.donate_member
-                break
-        res = self.env['donate.order']
-        for line in target.donate_list:
-            exist = False
-            for list in res:
-                if list.donate_member == line.donate_member:
-                    exist = True
-            if exist is False:
-                res += line
-        for list in res:
-            price = 0
-            for line in target.donate_list:
-                if line.donate_member == list.donate_member:
-                    price += line.donate
-
-            list.report_price = price
-            big = self.convert(price)
-            list.report_big = big
-
-        date = datetime.datetime.strptime(target.create_date, "%Y-%m-%d %H:%M:%S")
-        date = date.strftime("%Y-%m-%d")
-
-        docargs = {
-            'doc_ids': docids,
-            'doc_model': 'donate.batch',
-            'docs': target.donate_list,
-            'boss': res,
-            'date': date,
-            'data': target,
-        }
-        return Report.render('cdg_base.receipt_single_independent_template', docargs)
+            line.title_total_price = price
+            line.title_total_price_big = self.convert(price)
 
     def convert(self, n):
         units = ['', '萬', '億']
@@ -144,3 +97,182 @@ class ReportDonateSingleIndependent(models.AbstractModel):
                     tmp += unit
                     res.append(tmp)
         return ''.join(res[::-1])
+
+
+
+class ReportLine(models.Model):
+    _name = 'report.line'
+
+    parent_id = fields.Many2one(comodel_name='donate.single.report')
+    name = fields.Char(string='捐款姓名')
+    donate_type = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '貧困扶助'), (5, '其他工程')],
+                                   string='捐款種類')
+    donate_price = fields.Integer(string='捐款金額')
+
+
+
+
+class ReportDonateSingleIndependent(models.AbstractModel):
+    _name = 'report.cdg_base.receipt_single_independent_template'
+
+    name = fields.Char()
+
+    @api.model
+    def render_html(self, docids, data=None):
+        Report = self.env['report']
+        target = self.env['donate.single'].browse(docids)
+        res = self.env['donate.order']
+        res_line = self.env['donate.order']
+        report_line = self.env['donate.single.report']
+        for row in target:
+            if row.state == 3:
+                raise ValidationError(u'本捐款單已經作廢')
+            elif row.state == 1:
+                row.state = 2
+
+            for line in row.donate_list:
+                res_line += line
+                exist = False
+                for list in res:
+                    if list.donate_member == line.donate_member and list.donate_id == line.donate_id:
+                        exist = True
+                if exist is False:
+                    res += line
+        for line in res:
+            date = datetime.datetime.strptime(line.create_date, "%Y-%m-%d %H:%M:%S")
+            date_sring = date.strftime("%Y-%m-%d")
+            tmp_id = report_line.create({
+                'title_donate': line.donate_member.id,
+                'title_doante_code': line.donate_id,
+                'title_doante_date': date_sring,
+
+            })
+            line_data = []
+            for row in res_line:
+                if row.donate_member == line.donate_member and row.donate_id == line.donate_id:
+                    line_data.append([0,0,{
+                        'name': row.donate_member.name,
+                        'donate_type' : row.donate_type,
+                        'donate_price' : row.donate
+                    }])
+            tmp_id.write({
+                'donate_line': line_data
+            })
+            report_line += tmp_id
+
+        docargs = {
+            'doc_ids': docids,
+            'doc_model': 'donate.batch',
+            'docs': report_line,
+
+        }
+        return Report.render('cdg_base.receipt_single_independent_template', docargs)
+
+
+class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
+    _name = 'report.cdg_base.receipt_single_one_kind_one_person'
+
+    @api.multi
+    def render_html(self,docids, data=None):
+        Report = self.env['report']
+        target = self.env['donate.single'].browse(docids)
+        res = self.env['donate.order']
+
+        report_line = self.env['donate.single.report']
+        for row in target:
+            if row.state == 3:
+                raise ValidationError(u'本捐款單已經作廢')
+            elif row.state == 1:
+                row.state = 2
+
+            for line in row.donate_list:
+                res += line
+        for line in res:
+            date = datetime.datetime.strptime(line.create_date, "%Y-%m-%d %H:%M:%S")
+            date_sring = date.strftime("%Y-%m-%d")
+            tmp_id = report_line.create({
+                'title_donate': line.donate_member.id,
+                'title_doante_code': line.donate_id,
+                'title_doante_date': date_sring,
+
+            })
+            line_data = []
+            line_data.append([0, 0, {
+                'name': line.donate_member.name,
+                'donate_type': line.donate_type,
+                'donate_price': line.donate
+            }])
+            tmp_id.write({
+                'donate_line': line_data
+            })
+            report_line += tmp_id
+
+        docargs = {
+            'doc_ids': docids,
+            'doc_model': 'donate.batch',
+            'docs': report_line,
+
+        }
+        return Report.render('cdg_base.receipt_single_one_kind_one_person', docargs)
+
+
+class ReportDonateSingleDefault(models.AbstractModel):
+    _name = 'report.cdg_base.receipt_single_default'
+
+    @api.model
+    def render_html(self, docids, data=None):
+        Report = self.env['report']
+        target = self.env['donate.single'].browse(docids)
+        res = self.env['donate.order']
+        merge_res= self.env['donate.order']
+        res_line = self.env['donate.order']
+        report_line = self.env['donate.single.report']
+        for row in target:
+            if row.state == 3:
+                raise ValidationError(u'本捐款單已經作廢')
+            elif row.state == 1:
+                row.state = 2
+
+            for line in row.donate_list:
+                res_line += line
+                exist = False
+                for list in res:
+                    if list.donate_member == line.donate_member and list.donate_id == line.donate_id:
+                        exist = True
+                if exist is False:
+                    if line.donate_member.is_merge is False:
+                        res += line
+        for line in res:
+            date = datetime.datetime.strptime(line.create_date, "%Y-%m-%d %H:%M:%S")
+            date_sring = date.strftime("%Y-%m-%d")
+            tmp_id = report_line.create({
+                'title_donate': line.donate_member.id,
+                'title_doante_code': line.donate_id,
+                'title_doante_date': date_sring,
+
+            })
+            line_data = []
+            for row in res_line:
+                if row.donate_member == line.donate_member and row.donate_id == line.donate_id:
+                    line_data.append([0, 0, {
+                        'name': row.donate_member.name,
+                        'donate_type': row.donate_type,
+                        'donate_price': row.donate
+                    }])
+            tmp_id.write({
+                'donate_line': line_data
+            })
+            report_line += tmp_id
+
+
+
+        docargs = {
+            'doc_ids': docids,
+            'doc_model': 'donate.batch',
+            'docs': report_line,
+
+        }
+        return Report.render('cdg_base.receipt_single_default', docargs)
+
+
+

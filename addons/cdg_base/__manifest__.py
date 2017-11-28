@@ -11,6 +11,7 @@
     
     """,
     'data': [
+        'wizard/normal_p_wizard.xml',
         'report/paper.xml',
         'views/hand_checking_view.xml',
         'views/coffin_donation_view.xml',
@@ -30,6 +31,7 @@
         'views/charity_view.xml',
         'report/donate_batch_report.xml',
         'report/donate_single_report.xml',
+
     ],
     'demo': [],
 }

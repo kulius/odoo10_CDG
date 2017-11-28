@@ -14,7 +14,7 @@ class DonateOrder(models.Model):
     p_type = fields.Char(string='人員種類')
     donate = fields.Integer(string='捐款金額')
     donate_total = fields.Integer(string='捐款總額')
-    donate_type = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '窮困扶助'), (5, '其他工程')],
+    donate_type = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '困扶助'), (5, '其他工程')],
                                    string='捐款種類')
     state = fields.Selection([(1, '已產生'), (2, '已作廢')],
                              string='狀態', default=1, index=True)
