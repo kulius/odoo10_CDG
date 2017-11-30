@@ -86,24 +86,23 @@ class NormalP(models.Model):
 
     donate_family_list = fields.Char(string='眷屬列表', compute='compute_faamily_list')
 
+    def donate_batch(self,ids):
+        res = []
+        for line in ids:
+            res.append([4, line])
+        wizard_data = self.env['wizard.batch'].create({
+            'donate_line': res
 
-    def donate_batch(self):
-        batch = self.env['normal.p'].browse(self.ids)
-        view = self.env.ref('cdg_base.donate_wizard_form')
-        wiz = self.env['normal.p.wizard'].create({'name': '123'})
+        })
 
         return {
-            'name': 'Name for your window',
             'type': 'ir.actions.act_window',
-            'view_type': 'form',
+            'res_model': 'wizard.batch',
+            'name': '批次捐款項目',
             'view_mode': 'form',
-            'view_id': view.id,
-            'res_model': 'normal.p.wizard',
+            'res_id': wizard_data.id,
             'target': 'new',
-            'res_id': wiz.id,
-
         }
-
 
 
 

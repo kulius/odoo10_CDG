@@ -11,8 +11,9 @@
     
     """,
     'data': [
-        'wizard/normal_p_wizard.xml',
+
         'report/paper.xml',
+        'wizard/wizard_batch.xml',
         'views/hand_checking_view.xml',
         'views/coffin_donation_view.xml',
         'views/coffin_base_view.xml',

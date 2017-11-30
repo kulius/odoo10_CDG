@@ -225,6 +225,7 @@ class ReportDonateSingleDefault(models.AbstractModel):
         target = self.env['donate.single'].browse(docids)
         res = self.env['donate.order']
         merge_res= self.env['donate.order']
+        merge_res_line = self.env['donate.order']
         res_line = self.env['donate.order']
         report_line = self.env['donate.single.report']
         for row in target:
@@ -234,14 +235,50 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 row.state = 2
 
             for line in row.donate_list:
-                res_line += line
-                exist = False
-                for list in res:
-                    if list.donate_member == line.donate_member and list.donate_id == line.donate_id:
-                        exist = True
-                if exist is False:
-                    if line.donate_member.is_merge is False:
+                if line.donate_member == row.donate_member:
+                    merge_exist = False
+                    for list in merge_res:
+                        if list.donate_member == line.donate_member and list.donate_id == line.donate_id:
+                            merge_exist = True
+                    if merge_exist is False:
+                        merge_res += line
+
+                if line.donate_member.is_merge is True:
+                    merge_res_line += line
+                else:
+                    res_line += line
+                    exist = False
+                    for list in res:
+                        if list.donate_member == line.donate_member and list.donate_id == line.donate_id:
+                            exist = True
+                    if exist is False:
                         res += line
+
+        # 找出要合併列印的人，整理後放入報表用table
+
+        for line in merge_res:
+            date = datetime.datetime.strptime(line.create_date, "%Y-%m-%d %H:%M:%S")
+            date_sring = date.strftime("%Y-%m-%d")
+            tmp_id = report_line.create({
+                'title_donate': line.donate_member.id,
+                'title_doante_code': line.donate_id,
+                'title_doante_date': date_sring,
+
+            })
+            line_data = []
+            for row in merge_res_line:
+                if row.donate_id == line.donate_id:
+                    line_data.append([0, 0, {
+                        'name': row.donate_member.name,
+                        'donate_type': row.donate_type,
+                        'donate_price': row.donate
+                    }])
+            tmp_id.write({
+                'donate_line': line_data
+            })
+            report_line += tmp_id
+
+        # 找出不合併列印的人，整理後放進報表用table
         for line in res:
             date = datetime.datetime.strptime(line.create_date, "%Y-%m-%d %H:%M:%S")
             date_sring = date.strftime("%Y-%m-%d")
@@ -263,8 +300,6 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 'donate_line': line_data
             })
             report_line += tmp_id
-
-
 
         docargs = {
             'doc_ids': docids,

@@ -195,14 +195,21 @@
             </field>
         </record>
 
+        <record id="action_donate_order_batch" model="ir.actions.server">
+            <field name="name">批次捐款</field>
+            <field name="model_id" ref="model_normal_p"/>
+            <field name="code">
+                action =  object.donate_batch(context.get('active_ids', []))
+            </field>
+        </record>
+
 
         <record model="ir.values" id="ir_values_create_delivery_button">
-
             <field name="name">Create Delivery</field>
             <field name="key2">client_action_multi</field>
-            <field name="value" eval="'ir.actions.server,%d'%open_invoice"/>
+            <field name="value" eval="'ir.actions.server,%d'%action_donate_order_batch"/>
             <field name="key">action</field>
-            <field name="object" eval="True" />
+            <field name="object" eval="True"/>
             <field name="model">normal.p</field>
         </record>
 

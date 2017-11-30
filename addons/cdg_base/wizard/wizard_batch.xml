@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--<record id="donate_wizard_form" model="ir.ui.view">-->
+            <!--<field name="name">donate_wizard_form</field>-->
+            <!--<field name="model">normal.p.wizard</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<form string="">-->
+                    <!--<sheet>-->
+                        <!--<span STYLE='FONT-SIZE:25PX'>捐款項目</span>-->
+                                <!--<group col="6">-->
+                                    <!--<field name="bridge"/>-->
+                                    <!--<field name="bridge_money" nolabel="1"/>-->
+                                    <!--<field name="road"/>-->
+                                    <!--<field name="road_money" nolabel="1"/>-->
+                                    <!--<field name="coffin"/>-->
+                                    <!--<field name="coffin_money" nolabel="1"/>-->
+                                    <!--<field name="poor_help" />-->
+                                    <!--<field name="poor_help_money" nolabel="1"/>-->
+
+                                <!--</group>-->
+                    <!--</sheet>-->
+                    <!--<footer>-->
+                        <!--<button type="object" name="confirm" string="OK" class="oe_highlight"/>-->
+                        <!--<button special="cancel" string="Cancel"/>-->
+                    <!--</footer>-->
+                <!--</form>-->
+            <!--</field>-->
+        <!--</record>-->
+        <!--<record id="action_normal_p_wizard" model="ir.actions.act_window">-->
+            <!--<field name="name">action_normal_p_wizard</field>-->
+            <!--<field name="type">ir.actions.act_window</field>-->
+            <!--<field name="res_model">normal.p.wizard</field>-->
+            <!--<field name="view_mode">form</field>-->
+            <!--<field name="help" type="html">-->
+              <!--<p class="oe_view_nocontent_create">-->
+                <!--&lt;!&ndash; Add Text Here &ndash;&gt;-->
+              <!--</p><p>-->
+                <!--&lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+              <!--</p>-->
+            <!--</field>-->
+        <!--</record>-->
+
+
+        <record id="wizard_donate_form" model="ir.ui.view">
+            <field name="name">wizard_donate_form</field>
+            <field name="model">wizard.batch</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group col="6">
+                            <field name="bridge"/>
+                            <field name="bridge_money" nolabel="1"/>
+                            <field name="road"/>
+                            <field name="road_money" nolabel="1"/>
+                            <field name="coffin"/>
+                            <field name="coffin_money" nolabel="1"/>
+                            <field name="poor_help" />
+                            <field name="poor_help_money" nolabel="1"/>
+
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="confirm_donate" string="確定批次捐款" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

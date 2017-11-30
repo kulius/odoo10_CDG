@@ -2,29 +2,45 @@
 from odoo import models, fields, api
 
 
-class WizardNormalP(models.Model):
-    _name = 'normal.p.wizard'
+class WizardDonate(models.Model):
+    _name = 'wizard.batch'
 
+    name = fields.Char()
     bridge = fields.Boolean(string='造橋')
     road = fields.Boolean(string='補路')
     coffin = fields.Boolean(string='施棺')
     poor_help = fields.Boolean(string='貧困扶助')
-    bridge_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    road_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    coffin_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    poor_help_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    name = fields.Char(string='名稱')
+    bridge_money = fields.Integer(string='$')
+    road_money = fields.Integer(string='$')
+    coffin_money = fields.Integer(string='$')
+    poor_help_money = fields.Integer(string='$')
     donate_line = fields.Many2many(comodel_name='normal.p', string='捐款批次的人')
 
-
-
-
-
-
-    def confirm(self):
-        for line in self.name:
-            print line.id
-        return True
+    def confirm_donate(self):
+        order = self.env['donate.single']
+        res = []
+        res_line = []
+        for line in self.donate_line:
+            res_line = []
+            for row in line.donate_family1:
+                if row.is_donate is True:
+                    res_line.append([0, 0, {
+                        'donate_member': row.id
+                    }])
+            order.create({
+                'bridge': self.bridge,
+                'road': self.road,
+                'coffin': self.coffin,
+                'poor_help': self.poor_help,
+                'bridge_money': self.bridge_money,
+                'road_money': self.road_money,
+                'coffin_money': self.coffin_money,
+                'poor_help_money': self.poor_help_money,
+                'donate_member': line.id,
+                'family_check': res_line,
+            })
+        action = self.env.ref('cdg_base.donate_single_view_action').read()[0]
+        return action
 
     @api.onchange('bridge', 'road', 'coffin', 'poor_help')
     def set_default_price(self):
@@ -63,4 +79,3 @@ class WizardNormalP(models.Model):
             self.poor_help = True
         else:
             self.poor_help = False
-

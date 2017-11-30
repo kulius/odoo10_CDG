@@ -1,1 +1,1 @@
-from . import normal_p
+from . import wizard_batch
