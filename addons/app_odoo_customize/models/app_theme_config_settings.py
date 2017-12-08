@@ -431,7 +431,7 @@ class AppThemeConfigSettings(models.TransientModel):
               " FROM 團員眷屬檔"\
               " where 郵遞區號='111' and 序號 <> '1'"\
               " ) as aaa"\
-              " LIMIT 100"
+              " LIMIT 1000"
         self._cr.execute(sql)
 
         return True

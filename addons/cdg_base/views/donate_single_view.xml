@@ -70,9 +70,11 @@
 
                                 </group>
                                 <field name="family_check">
-                                    <tree>
+                                    <tree editable="bottom">
                                         <field name="family_new_coding"/>
                                         <field name="donate_member"/>
+                                        <field name="is_donate"/>
+                                        <field name="is_merge"/>
                                     </tree>
                                 </field>
                                 <span STYLE='FONT-SIZE:25PX'>捐款方式</span>
@@ -118,7 +120,19 @@
             <field name="model">donate.single</field>
             <field name="arch" type="xml">
                 <search>
+                    <field name="name"/>
+                    <field name="key_in_user"/>
+                    <field name="work_id"/>
+                    <field name="create_date"/>
+
                     <filter string="未列印的捐款單" name="un_print_donate" domain="[('state','=',1)]"/>
+                    <filter string="捐款日期" name="donate_date" domain="[('create_date','&gt;=', time.strftime('%Y-%m-01')),('create_date','&lt;',  (context_today() + relativedelta(months=1)).strftime('%Y-%m-01') ) ]"/>
+                    <!--<filter string="輸入人員" name="key_in_user" domain="[('key_in_user', '!=' ,'False')]"/>-->
+                    <!--<filter string="收費員" name="work_id" domain="[('work_id','=','False')] "/>-->
+                    <filter string="捐款來源-現金" name="cash" domain="[('cash','=','True')]"/>
+                    <filter string="捐款來源-郵政劃撥" name="mail" domain="[('mail','=','True')]"/>
+                    <filter string="捐款來源-信用卡" name="credit_card" domain="[('credit_card','=','True')]"/>
+                    <filter string="捐款來源-銀行轉帳" name="bank" domain="[('bank','=','True')]"/>
                 </search>
             </field>
         </record>

@@ -112,14 +112,15 @@ class NormalP(models.Model):
     def compute_faamily_list(self):
         for line in self:
             sb = ''
+            str = ''
             for row in line.donate_family1:
                 if row.is_donate is False:
-                    sb += u'(X)' + row.name + ','
+                    str += u'(X)' + row.name + ','
                 elif row.is_merge is False:
                     sb += u'(★)'+ row.name + ','
                 else:
                     sb += row.name + ','
-            line.donate_family_list = sb
+            line.donate_family_list = sb+str
 
     def toggle_donate(self):
         self.is_donate = not self.is_donate
