@@ -100,7 +100,7 @@ class MemberData(models.Model):
             i += 1
 
     def set_type(self,type):
-        if type == u'99':
+        if type == u'06':
             return [(4, 3)]
         elif type == u'01':
             return [(4, 2)]

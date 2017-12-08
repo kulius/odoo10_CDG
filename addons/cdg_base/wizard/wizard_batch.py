@@ -14,6 +14,7 @@ class WizardDonate(models.Model):
     road_money = fields.Integer(string='$')
     coffin_money = fields.Integer(string='$')
     poor_help_money = fields.Integer(string='$')
+    donate_date = fields.Date('捐款日期')
     donate_line = fields.Many2many(comodel_name='normal.p', string='捐款批次的人')
 
     def confirm_donate(self):
@@ -38,9 +39,10 @@ class WizardDonate(models.Model):
                 'poor_help_money': self.poor_help_money,
                 'donate_member': line.id,
                 'family_check': res_line,
+                'donate_date':self.donate_date
             })
-        action = self.env.ref('cdg_base.donate_single_view_action').read()[0]
-        return action
+        action = self.env.ref('cdg_base.donate_single_view_action').read()[0] #
+        return action #
 
     @api.onchange('bridge', 'road', 'coffin', 'poor_help')
     def set_default_price(self):

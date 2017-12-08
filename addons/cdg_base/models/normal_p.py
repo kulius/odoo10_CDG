@@ -30,6 +30,7 @@ class NormalP(models.Model):
     db_chang_date = fields.Date(string='異動日期')
     build_date = fields.Date(string='建檔日期')
 
+
     email = fields.Char(string='Email')
     type = fields.Many2many(comodel_name='people.type', string='人員種類')
     self_iden = fields.Char(string='身分證字號')
@@ -42,7 +43,7 @@ class NormalP(models.Model):
     come_date = fields.Date(string='到職日期')
     lev_date = fields.Date(string='離職日期')
     ps = fields.Text(string='備註')
-    habbit_donate = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '伙食費'), (5, '貧困扶助'), (6, '其他工程')],
+    habbit_donate = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '伙食費'), (5, '貧困扶助'), (6, '不指定')],
                                      string='喜好捐款')
     cashier_name = fields.Many2one(comodel_name='c.worker', string='收費員姓名', domain="[('job_type', '=', '2'), ]", ondelete='cascade')
     donate_cycle = fields.Selection(selection=[('03', '季繳'), ('06', '半年繳'), ('12', '年繳')], string='捐助週期')
@@ -228,7 +229,7 @@ class NormalP(models.Model):
             return 4
         elif habbit == u'05':
             return 5
-        elif habbit == u'99':
+        elif habbit == u'06':
             return 6
         else:
             return None
@@ -324,6 +325,9 @@ class NormalP(models.Model):
         elif bool == 'N':
             return False
 
+    def history_personal_receipt(self):
+
+        return True
 #
 # class DonateFamily(models.Model):
 #     _name = 'donate.family'

@@ -551,6 +551,7 @@
                                                             <t t-esc="key.donate_price"/>
                                                         </span>
                                                     </td>
+
                                                 </tr>
                                                     <t t-set="foo" t-value="foo+1"/>
                                                 </t>

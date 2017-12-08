@@ -15,8 +15,7 @@ class ReportDonateSingle(models.AbstractModel):
         target = self.env['donate.single'].browse(docids)
 
         for line in target:
-            date = datetime.datetime.strptime(line.create_date, "%Y-%m-%d %H:%M:%S")
-            line.report_donate = date.strftime("%Y-%m-%d")
+            line.report_donate = line.donate_date
             if line.state == 3:
                 raise ValidationError(u'本捐款單已經作廢')
             elif line.state == 1:
@@ -59,6 +58,7 @@ class DonateSingleReport(models.Model):
     _description = u'報表用來整理收據資料用table'
 
     title_donate = fields.Many2one(comodel_name='normal.p', string='收據收件人')
+    donate_wizard = fields.Many2one(comodel_name='wizard.batch',string='捐款日期')
     title_doante_code = fields.Char(string='捐款編號')
     title_doante_date = fields.Char(string='捐款日期')
     donate_line = fields.One2many(comodel_name='report.line',inverse_name='parent_id', string='個人捐款明細')
@@ -139,14 +139,16 @@ class ReportDonateSingleIndependent(models.AbstractModel):
                 if exist is False:
                     res += line
         for line in res:
-            date = datetime.datetime.strptime(line.create_date, "%Y-%m-%d %H:%M:%S")
-            date_sring = date.strftime("%Y-%m-%d")
+         #   date = datetime.datetime.strptime(line.create_date, "%Y-%m-%d %H:%M:%S")
+         #   date_sring = date.strftime("%Y-%m-%d")
             tmp_id = report_line.create({
                 'title_donate': line.donate_member.id,
                 'title_doante_code': line.donate_id,
-                'title_doante_date': date_sring,
-
             })
+            for line in target:
+                tmp_id.write({'title_doante_date': line.donate_date})
+
+            report_line += tmp_id
             line_data = []
             for row in res_line:
                 if row.donate_member == line.donate_member and row.donate_id == line.donate_id:
@@ -159,6 +161,7 @@ class ReportDonateSingleIndependent(models.AbstractModel):
                 'donate_line': line_data
             })
             report_line += tmp_id
+
 
         docargs = {
             'doc_ids': docids,
@@ -188,20 +191,21 @@ class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
             for line in row.donate_list:
                 res += line
         for line in res:
-            date = datetime.datetime.strptime(line.create_date, "%Y-%m-%d %H:%M:%S")
-            date_sring = date.strftime("%Y-%m-%d")
+
             tmp_id = report_line.create({
                 'title_donate': line.donate_member.id,
                 'title_doante_code': line.donate_id,
-                'title_doante_date': date_sring,
-
             })
+
             line_data = []
             line_data.append([0, 0, {
                 'name': line.donate_member.name,
                 'donate_type': line.donate_type,
                 'donate_price': line.donate
             }])
+            for line in target:
+                tmp_id.write({'title_doante_date': line.donate_date})
+
             tmp_id.write({
                 'donate_line': line_data
             })
@@ -257,14 +261,13 @@ class ReportDonateSingleDefault(models.AbstractModel):
         # 找出要合併列印的人，整理後放入報表用table
 
         for line in merge_res:
-            date = datetime.datetime.strptime(line.create_date, "%Y-%m-%d %H:%M:%S")
-            date_sring = date.strftime("%Y-%m-%d")
+
             tmp_id = report_line.create({
                 'title_donate': line.donate_member.id,
                 'title_doante_code': line.donate_id,
-                'title_doante_date': date_sring,
-
             })
+            for line in target:
+                tmp_id.write({'title_doante_date': line.donate_date})
             line_data = []
             for row in merge_res_line:
                 if row.donate_id == line.donate_id:
@@ -285,9 +288,9 @@ class ReportDonateSingleDefault(models.AbstractModel):
             tmp_id = report_line.create({
                 'title_donate': line.donate_member.id,
                 'title_doante_code': line.donate_id,
-                'title_doante_date': date_sring,
-
             })
+            for line in target:
+                tmp_id.write({'title_doante_date': line.donate_date})
             line_data = []
             for row in res_line:
                 if row.donate_member == line.donate_member and row.donate_id == line.donate_id:

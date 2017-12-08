@@ -28,11 +28,17 @@
             <field name="arch" type="xml">
                 <form string="">
                     <header>
-                            <button string="轉眷屬檔" name="data_input_form_DB" type="object"/>
-                            <button string="設定眷屬" name="set_parent" type="object"/>
+                        <button string="轉眷屬檔" name="data_input_form_DB" type="object"/>
+                        <button string="設定眷屬" name="set_parent" type="object"/>
                         <button name="input_member" type="object" string="轉顧問會員"/>
-                        </header>
+                    </header>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="history_personal_receipt" string="個人歷史捐款明細"
+                                    type="object" class="oe_stat_button" icon="fa-users">
+
+                            </button>
+                        </div>
                         <group col="4">
                             <field name="w_id"/>
                             <field name="number"/>
@@ -202,7 +208,7 @@
                 action =  object.donate_batch(context.get('active_ids', []))
             </field>
         </record>
-
+<!--object = normal_p -->
 
         <record model="ir.values" id="ir_values_create_delivery_button">
             <field name="name">Create Delivery</field>

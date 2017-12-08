@@ -112,7 +112,7 @@ class DonateOrder(models.Model):
             return 4
         elif habbit == u'05':
             return 5
-        elif habbit == u'99':
+        elif habbit == u'06':
             return 6
         else:
             return None

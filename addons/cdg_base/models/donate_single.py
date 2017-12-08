@@ -34,10 +34,12 @@ class DonateSingle(models.Model):
     road = fields.Boolean(string='補路')
     coffin = fields.Boolean(string='施棺')
     poor_help = fields.Boolean(string='貧困扶助')
+    others = fields.Boolean(string='不指定')
     bridge_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     road_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     coffin_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     poor_help_money = fields.Integer(string='$', states={2: [('readonly', True)]})
+    others_money = fields.Integer(string='$',states={2:[('readonly',True)]})
     cash = fields.Boolean(string='現金', states={2: [('readonly', True)]})
     mail = fields.Boolean(string='郵政劃撥', states={2: [('readonly', True)]})
     credit_card = fields.Boolean(string='信用卡扣款', states={2: [('readonly', True)]})
@@ -50,6 +52,7 @@ class DonateSingle(models.Model):
     history_donate_flag = fields.Boolean(string='是否上次捐款')
     report_price_big = fields.Char(string='報表用大寫金額')
     report_donate = fields.Char(string='報表用捐款日期')
+    donate_date = fields.Date('捐款日期')
 
 
     def bring_last_history(self):
@@ -131,10 +134,12 @@ class DonateSingle(models.Model):
                 'coffin_money': old.coffin_money,
                 'poor_help': old.poor_help,
                 'poor_help_money': old.poor_help_money,
+                'others': old.others,
+                'others_money': old.others_money,
             })
 
 
-    @api.onchange('bridge', 'road', 'coffin', 'poor_help')
+    @api.onchange('bridge', 'road', 'coffin', 'poor_help','others')
     def set_default_price(self):
         if self.bridge and self.bridge_money == 0:
             self.bridge_money = 100
@@ -152,8 +157,12 @@ class DonateSingle(models.Model):
             self.poor_help_money = 100
         elif self.poor_help is False:
             self.poor_help_money = 0
+        if self.others and self.others_money == 0:
+            self.others_money = 100
+        elif self.others is False:
+            self.others_money = 0
 
-    @api.onchange('bridge_money','road_money','coffin_money', 'poor_help_money')
+    @api.onchange('bridge_money','road_money','coffin_money', 'poor_help_money','others_money')
     def set_checkbox_check(self):
         if self.bridge_money != 0:
             self.bridge = True
@@ -171,6 +180,10 @@ class DonateSingle(models.Model):
             self.poor_help = True
         else:
             self.poor_help = False
+        if self.others_money != 0:
+            self.others = True
+        else:
+            self.others = False
 
     @api.onchange('donate_member')
     def show_family(self):
@@ -218,6 +231,9 @@ class DonateSingle(models.Model):
                 if record.poor_help:
                     record.save_donate_list(4, str(max_int), line.donate_member, record.poor_help_money)
                     max_int = max_int + 1
+                if record.others:
+                    record.save_donate_list(4, str(max_int), line.donate_member, record.others)
+                    max_int = max_int + 1
         else:
             if record.bridge:
                 record.save_donate_list(1, str(max_int), record.donate_member, record.bridge_money)
@@ -230,6 +246,9 @@ class DonateSingle(models.Model):
                 max_int = max_int + 1
             if record.poor_help:
                 record.save_donate_list(4, str(max_int), record.donate_member, record.poor_help_money)
+                max_int = max_int + 1
+            if record.others:
+                record.save_donate_list(4, str(max_int), record.donate_member, record.ohters_money)
                 max_int = max_int + 1
 
     def add_to_list(self):
@@ -250,6 +269,9 @@ class DonateSingle(models.Model):
                 if self.poor_help:
                     self.save_donate_list(4, str(max_int), line.donate_member, self.poor_help_money)
                     max_int = max_int + 1
+                if self.others:
+                    self.save_donate_list(4, str(max_int), line.donate_member, self.others_money)
+                    max_int = max_int + 1
         else:
             if self.bridge:
                 self.save_donate_list(1, str(max_int), self.donate_member, self.bridge_money)
@@ -262,6 +284,9 @@ class DonateSingle(models.Model):
                 max_int = max_int + 1
             if self.poor_help:
                 self.save_donate_list(4, str(max_int), self.donate_member, self.poor_help_money)
+                max_int = max_int + 1
+            if self.others:
+                self.save_donate_list(4, str(max_int), self.donate_member, self.others_money)
                 max_int = max_int + 1
 
     def save_donate_list(self, donate_type, paid_id, member_id, money):  # 將明細產生
