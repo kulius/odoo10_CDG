@@ -50,7 +50,6 @@
                             <field name="donate_total"/>
                             <field name="work_id"/>
                             <field name="history_donate_flag"/>
-                            <field name="donate_date"/>
                         </group>
 
                         <notebook>
@@ -68,7 +67,6 @@
                                     <field name="others"/>
                                     <field name="others_money" nolabel="1"/>
                                     <field name="donate_date"/>
-
                                 </group>
                                 <field name="family_check">
                                     <tree editable="bottom">
