@@ -15,7 +15,6 @@ class NormalP(models.Model):
     _name = 'normal.p'
     _order = 'sequence,id'
 
-
     new_coding = fields.Char(string='新編捐款者編號')
     special_tag = fields.Boolean(string='眷屬檔沒有的團員')
     w_id = fields.Char(string='舊團員編號')
@@ -87,6 +86,18 @@ class NormalP(models.Model):
 
     donate_family_list = fields.Char(string='眷屬列表', compute='compute_faamily_list')
 
+    active = fields.Boolean(default=True)
+
+    def action_chang_donater_wizard(self):
+
+        wizard_data = self.env['chang.donater'].create({
+            'from_target': self.id
+        })
+
+        action = self.env.ref('cdg_base.chang_donater_action').read()[0]
+        action['res_id'] = wizard_data.id
+
+        return action
     def donate_batch(self,ids):
         res = []
         for line in ids:

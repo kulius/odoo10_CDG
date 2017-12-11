@@ -38,6 +38,12 @@
                                     type="object" class="oe_stat_button" icon="fa-users">
 
                             </button>
+                            <button name="action_chang_donater_wizard" string="合併捐款者"
+                                    type="object" class="oe_stat_button" icon="fa-exchange"
+                                    groups="cdg_base.cdg_employee">
+
+                            </button>
+
                         </div>
                         <group col="4">
                             <field name="w_id"/>

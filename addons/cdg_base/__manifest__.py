@@ -32,7 +32,8 @@
         'views/charity_view.xml',
         'report/donate_batch_report.xml',
         'report/donate_single_report.xml',
-        
+
+        'wizard/chang_donate.xml',
         
         'security/group.xml',
         'security/ir.model.access.csv',

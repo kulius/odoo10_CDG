@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="chang_donater_form" model="ir.ui.view">
+            <field name="name">chang_donater_form</field>
+            <field name="model">chang.donater</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="new_target"/>
+                            <field name="from_target"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="active_to_transfer" string="確定合併" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="chang_donater_action" name="合併捐款者" res_model="chang.donater"
+                    view_mode="form" target="new" multi="False"/>
+
+    </data>
+</odoo>
