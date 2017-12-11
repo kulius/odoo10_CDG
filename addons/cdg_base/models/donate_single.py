@@ -25,7 +25,7 @@ class DonateSingle(models.Model):
     state = fields.Selection([(1, '已產生'), (2, '已列印'), (3, '已作廢')],
                              string='狀態', default=1, index=True)
 
-    donate_total = fields.Integer(string='捐款總額', compute='compute_total')
+    donate_total = fields.Integer(string='捐款總額', compute='compute_total',store=True)
 
     receipt_send = fields.Boolean(string='收據寄送')
     report_send = fields.Boolean(string='報表寄送')
@@ -53,8 +53,8 @@ class DonateSingle(models.Model):
     history_donate_flag = fields.Boolean(string='是否上次捐款')
     report_price_big = fields.Char(string='報表用大寫金額')
     report_donate = fields.Char(string='報表用捐款日期')
-    donate_date = fields.Date('捐款日期')
-    sreceipt_number = fields.Integer(string='收據筆數', compute='compute_sreceipt')
+    donate_date = fields.Date('捐款日期',default=lambda self: fields.date.today())
+    sreceipt_number = fields.Integer(string='收據筆數', compute='compute_sreceipt', store=True)
 
 
     def bring_last_history(self):

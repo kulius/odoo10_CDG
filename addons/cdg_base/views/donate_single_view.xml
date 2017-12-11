@@ -9,7 +9,7 @@
                     <field name="state"/>
                     <field name="donate_id"/>
                     <field name="name"/>
-                    <field name="create_date" string="捐款日期"/>
+                    <field name="donate_date" string="捐款日期"/>
                     <field name="donate_total"/>
                 </tree>
             </field>
@@ -50,6 +50,7 @@
                             <field name="donate_total"/>
                             <field name="work_id"/>
                             <field name="history_donate_flag"/>
+                            <field name="donate_date"/>
                         </group>
 
                         <notebook>
@@ -123,8 +124,8 @@
                     <field name="name"/>
                     <field name="key_in_user"/>
                     <field name="work_id"/>
-                    <field string="捐款日期-起" name="create_date" filter_domain="[('create_date', '&gt;',self )]"/>
-                    <field string="捐款日期-迄" name="create_date" filter_domain="[('create_date', '&lt;=',self)]"/>
+                    <field string="捐款日期-起" name="donate_date" filter_domain="[('donate_date', '&gt;=',self )]"/>
+                    <field string="捐款日期-迄" name="donate_date" filter_domain="[('donate_date', '&lt;=',self)]"/>
 
                     <filter string="未列印的捐款單" name="un_print_donate" domain="[('state','=',1)]"/>
                     <filter string="捐款日期" name="donate_date_today" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('create_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>
@@ -188,7 +189,7 @@
                 <pivot string="收據分析表">
                     <field name="work_id" type="row"/>
                     <field name="key_in_user" type="row"/>
-                    <field name="create_date" type="measure" string="收據日期"/>
+                    <!--<field name="create_date" type="measure" string="收據日期"/>-->
                     <field name="sreceipt_number" type="measure"/>
                     <field name="donate_total" type="measure"/>
                 </pivot>

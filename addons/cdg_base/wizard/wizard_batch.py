@@ -14,7 +14,7 @@ class WizardDonate(models.Model):
     road_money = fields.Integer(string='$')
     coffin_money = fields.Integer(string='$')
     poor_help_money = fields.Integer(string='$')
-    donate_date = fields.Date('捐款日期')
+    donate_date = fields.Date('捐款日期',default=lambda self: fields.date.today())
     donate_line = fields.Many2many(comodel_name='normal.p', string='捐款批次的人')
 
     def confirm_donate(self):
