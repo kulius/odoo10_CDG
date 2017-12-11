@@ -15,7 +15,7 @@ class DonateSingle(models.Model):
     donate_id = fields.Char(string='捐款編號', readonly=True)
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者編號', domain=[('w_id', '!=', '')],
                                     states={2: [('readonly', True)]})  # demo用
-    name = fields.Char(string='姓名', compute='set_donate_name')
+    name = fields.Char(string='姓名', compute='set_donate_name',store=True)
     self_iden = fields.Char(string='身分證字號', compute='set_donate_name', store=True)
     cellphone = fields.Char(string='手機', compute='set_donate_name', store=True)
     con_phone = fields.Char(string='連絡電話', compute='set_donate_name', store=True)
@@ -92,6 +92,8 @@ class DonateSingle(models.Model):
             })
             max_int += 1
         self.donate_list = donate_group
+
+
 
 
     @api.model

@@ -35,13 +35,10 @@
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button name="history_personal_receipt" string="個人歷史捐款明細"
-                                    type="object" class="oe_stat_button" icon="fa-users">
-
+                                    type="object" class="oe_stat_button" icon="fa-repeat">
                             </button>
                             <button name="action_chang_donater_wizard" string="合併捐款者"
-                                    type="object" class="oe_stat_button" icon="fa-exchange"
-                                    groups="cdg_base.cdg_employee">
-
+                                    type="object" class="oe_stat_button" icon="fa-exchange">
                             </button>
 
                         </div>
@@ -63,6 +60,8 @@
                             <field name="cashier"/>
                             <field name="is_donate"/>
                             <field name="is_merge"/>
+                            <field name="report_send"/>
+                            <field name="rec_send"/>
                             <field name="donate_family_list"/>
                         </group>
                          <notebook>
@@ -79,28 +78,6 @@
                                         <field name="zip_code"/>
                                         <field name="rec_addr"/>
                                         <field name="send_addr"/>
-                                    </group>
-                                    <span STYLE='FONT-SIZE:25PX'>現場捐款</span>
-                                    <group col="4">
-                                        <field name="habbit_donate"/>
-                                        <field name="donate_cycle"/>
-                                        <field name="cashier_name"/>
-                                        <field name="self"/>
-                                         <field name="report_send"/>
-                                        <field name="rec_send"/>
-                                    </group>
-                                    <span STYLE='FONT-SIZE:25PX'>約定轉帳</span>
-                                    <group col="4">
-                                        <field name="prints"/>
-                                        <field name="prints_id"/>
-                                        <field name="bank_id"/>
-                                        <field name="bank_id2"/>
-                                        <field name="account"/>
-                                        <field name="ps2"/>
-                                        <field name="prints_date"/>
-                                        <field name="self_iden"/>
-                                        <field name="bank"/>
-                                        <field name="bank2"/>
                                     </group>
                                 </page>
                                 <page string="團員眷屬">
@@ -126,6 +103,21 @@
                                     <field name="donate_history_ids"/>
                                 </page>
                                 <page string="施棺紀錄">
+                                </page>
+                                <page string="約定轉帳">
+                                    <span STYLE='FONT-SIZE:25PX'>約定轉帳</span>
+                                    <group col="4">
+                                        <field name="prints"/>
+                                        <field name="prints_id"/>
+                                        <field name="bank_id"/>
+                                        <field name="bank_id2"/>
+                                        <field name="account"/>
+                                        <field name="ps2"/>
+                                        <field name="prints_date"/>
+                                        <field name="self_iden"/>
+                                        <field name="bank"/>
+                                        <field name="bank2"/>
+                                    </group>
                                 </page>
                             </notebook>
                     </sheet>

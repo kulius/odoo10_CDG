@@ -90,6 +90,8 @@ class NormalP(models.Model):
 
     def action_chang_donater_wizard(self):
 
+
+
         wizard_data = self.env['chang.donater'].create({
             'from_target': self.id
         })
@@ -98,6 +100,13 @@ class NormalP(models.Model):
         action['res_id'] = wizard_data.id
 
         return action
+
+    def history_personal_receipt(self):
+        _logger.info("Hello")
+        action = self.env.ref('cdg_base.donate_single_view_search').read()[0]  # 模塊名+form or view or action
+        action['context'] = [('search_default_un_print_donate', '=', 1 )]  # = normal_p.id
+        return action
+
     def donate_batch(self,ids):
         res = []
         for line in ids:
@@ -138,6 +147,8 @@ class NormalP(models.Model):
 
     def toggle_merge(self):
         self.is_merge = not self.is_merge
+
+
 
 
 
