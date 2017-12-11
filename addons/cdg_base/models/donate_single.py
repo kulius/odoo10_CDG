@@ -54,6 +54,7 @@ class DonateSingle(models.Model):
     report_price_big = fields.Char(string='報表用大寫金額')
     report_donate = fields.Char(string='報表用捐款日期')
     donate_date = fields.Date('捐款日期')
+    sreceipt_number = fields.Integer(string='收據筆數', compute='compute_sreceipt')
 
 
     def bring_last_history(self):
@@ -204,6 +205,13 @@ class DonateSingle(models.Model):
         for line in self:
             for row in line.donate_list:
                 line.donate_total += row.donate
+
+    @api.depends('donate_list')
+    def compute_sreceipt(self):
+        for line in self:
+            for row in line.donate_list:
+                if line.receipt_send == True:
+                    line.sreceipt_number += 1
 
     def button_to_cnacel_donate(self):
         if self.state == 3:

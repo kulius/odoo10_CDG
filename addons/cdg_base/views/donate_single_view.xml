@@ -123,10 +123,11 @@
                     <field name="name"/>
                     <field name="key_in_user"/>
                     <field name="work_id"/>
-                    <field name="create_date"/>
+                    <field string="捐款日期-起" name="create_date" filter_domain="[('create_date', '&gt;',self )]"/>
+                    <field string="捐款日期-迄" name="create_date" filter_domain="[('create_date', '&lt;=',self)]"/>
 
                     <filter string="未列印的捐款單" name="un_print_donate" domain="[('state','=',1)]"/>
-                    <filter string="捐款日期" name="donate_date" domain="[('create_date','&gt;=', time.strftime('%Y-%m-01')),('create_date','&lt;',  (context_today() + relativedelta(months=1)).strftime('%Y-%m-01') ) ]"/>
+                    <filter string="捐款日期" name="donate_date_today" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('create_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>
                     <filter string="捐款來源-現金" name="cash" domain="[('cash','=','True')]"/>
                     <filter string="捐款來源-郵政劃撥" name="mail" domain="[('mail','=','True')]"/>
                     <filter string="捐款來源-信用卡" name="credit_card" domain="[('credit_card','=','True')]"/>
@@ -186,7 +187,10 @@
             <field name="arch" type="xml">
                 <pivot string="收據分析表">
                     <field name="work_id" type="row"/>
-                    <field name="donate_date" type="measure"/>
+                    <field name="key_in_user" type="row"/>
+                    <field name="create_date" type="measure" string="收據日期"/>
+                    <field name="sreceipt_number" type="measure"/>
+                    <field name="donate_total" type="measure"/>
                 </pivot>
             </field>
         </record>
