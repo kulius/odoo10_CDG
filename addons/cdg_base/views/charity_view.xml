@@ -69,6 +69,11 @@
                   parent="first_categ"
                   action="start_donate_action"
                   sequence="5"/>
+        <menuitem id="receipt_analysis_menu"
+                  name="收據分析表"
+                 parent="first_categ"
+                  action="receipt_analysis_action"
+                  sequence="6"/>
         <!--<menuitem id="group_manage_root" name="團員管理" sequence=""/>
         <menuitem id="grouper_base"
                   name="團員基本資料作業"
