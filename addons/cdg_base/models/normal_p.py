@@ -105,7 +105,7 @@ class NormalP(models.Model):
 
     def historypersonal(self):
         action = self.env.ref('cdg_base.donate_single_view_action').read()[0]  # 模塊名+form or view or action
-        action['domain'] = [('donate_member', '=', self.new_coding)]  # = normal_p.id
+        action['domain'] = ['&',('donate_member', '=', self.new_coding),'|','&',('state','=',2),('donate_member', '=', self.new_coding)]  # = normal_p.id
         return action
 
     def donate_batch(self,ids):
