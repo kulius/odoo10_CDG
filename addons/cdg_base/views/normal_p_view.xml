@@ -34,7 +34,7 @@
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button name="history_personal_receipt" string="個人歷史捐款明細"
+                            <button name="historypersonal" string="個人歷史捐款明細"
                                     type="object" class="oe_stat_button" icon="fa-repeat">
                             </button>
                             <button name="action_chang_donater_wizard" string="合併捐款者"
@@ -76,9 +76,11 @@
                                     </group>
                                     <group col="4">
                                         <field name="zip_code"/>
-                                        <field name="rec_addr"/>
-                                        <field name="send_addr"/>
+                                        <field name="rec_addr" colspan="4"/>
+                                        <field name="zip_code"/>
+                                        <field name="send_addr" colspan="4" />
                                     </group>
+
                                 </page>
                                 <page string="團員眷屬">
                                     <field name="donate_family1" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form'}">

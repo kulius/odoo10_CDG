@@ -25,6 +25,7 @@ class NormalP(models.Model):
     con_phone = fields.Char(string='連絡電話(一)')
     con_phone2 = fields.Char(string='連絡電話(二)')
     zip_code = fields.Char(string='郵遞區號')
+    zip = fields.Char()
     key_in_user = fields.Many2one(comodel_name='c.worker', string='輸入人員', ondelete='cascade')
     db_chang_date = fields.Date(string='異動日期')
     build_date = fields.Date(string='建檔日期')
@@ -101,10 +102,10 @@ class NormalP(models.Model):
 
         return action
 
-    def history_personal_receipt(self):
-        _logger.info("Hello")
+    def historypersonal(self):
+        print("Hello")
         action = self.env.ref('cdg_base.donate_single_view_search').read()[0]  # 模塊名+form or view or action
-        action['context'] = [('search_default_un_print_donate', '=', 1 )]  # = normal_p.id
+        action['domain'] = [('donate_member', '=', self.name)]  # = normal_p.id
         return action
 
     def donate_batch(self,ids):

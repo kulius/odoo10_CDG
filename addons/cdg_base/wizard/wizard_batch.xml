@@ -57,6 +57,8 @@
                             <field name="coffin_money" nolabel="1"/>
                             <field name="poor_help" />
                             <field name="poor_help_money" nolabel="1"/>
+                            <field name="others"/>
+                            <field name="others_money" nolabel="1"/>
                             <field name="donate_date"/>
                         </group>
                     </sheet>
