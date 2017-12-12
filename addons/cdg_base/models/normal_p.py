@@ -80,6 +80,7 @@ class NormalP(models.Model):
     donate_family1 = fields.One2many(comodel_name='normal.p', inverse_name='parent', string='團員眷屬')
     member_data_ids = fields.Many2one(comodel_name='member.data', string='關聯的顧問會員檔')
     donate_history_ids = fields.One2many(comodel_name='donate.order', inverse_name='donate_member')
+    aaaaa = fields.One2many(comodel_name='donate.single',inverse_name='state')
 
     sequence = fields.Integer(string='排序')
     is_donate = fields.Boolean(string='是否捐助', default=True)
@@ -103,9 +104,8 @@ class NormalP(models.Model):
         return action
 
     def historypersonal(self):
-        print("Hello")
-        action = self.env.ref('cdg_base.donate_single_view_search').read()[0]  # 模塊名+form or view or action
-        action['domain'] = [('donate_member', '=', self.name)]  # = normal_p.id
+        action = self.env.ref('cdg_base.donate_single_view_action').read()[0]  # 模塊名+form or view or action
+        action['domain'] = [('donate_member', '=', self.new_coding)]  # = normal_p.id
         return action
 
     def donate_batch(self,ids):
