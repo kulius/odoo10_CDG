@@ -49,12 +49,15 @@ class DonateSingle(models.Model):
     donate_list = fields.One2many(comodel_name='donate.order', inverse_name='donate_list_id', string='捐款明細', states={2: [('readonly', True)]})
     work_id = fields.Many2one(comodel_name='c.worker', string='收費員', states={2: [('readonly', True)]})
     key_in_user = fields.Many2one(comodel_name='c.worker', string='輸入人員', states={2: [('readonly', True)]})
+    print_user = fields.Many2one(comodel_name='c.worker', string='列印人員', states={2: [('readonly', True)]})
 
     history_donate_flag = fields.Boolean(string='是否上次捐款')
     report_price_big = fields.Char(string='報表用大寫金額')
     report_donate = fields.Char(string='報表用捐款日期')
     donate_date = fields.Date('捐款日期',default=lambda self: fields.date.today())
     sreceipt_number = fields.Integer(string='收據筆數', compute='compute_sreceipt', store=True)
+    print_count = fields.Integer(string='列印筆數', compute='compute_print',store=True)
+    print_date = fields.Date('列印日期',default=lambda self: fields.date.today())
 
 
     def bring_last_history(self):

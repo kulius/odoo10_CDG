@@ -20,6 +20,7 @@ class ReportDonateSingle(models.AbstractModel):
                 raise ValidationError(u'本捐款單已經作廢')
             elif line.state == 1:
                 line.state = 2
+                line.print_count+=1
             line.report_price_big = self.convert(line.donate_total)
 
         docargs = {
@@ -129,6 +130,7 @@ class ReportDonateSingleIndependent(models.AbstractModel):
                 raise ValidationError(u'本捐款單已經作廢')
             elif row.state == 1:
                 row.state = 2
+                row.print_count += 1
 
             for line in row.donate_list:
                 res_line += line
@@ -187,6 +189,7 @@ class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
                 raise ValidationError(u'本捐款單已經作廢')
             elif row.state == 1:
                 row.state = 2
+                row.print_count += 1
 
             for line in row.donate_list:
                 res += line
@@ -237,6 +240,7 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 raise ValidationError(u'本捐款單已經作廢')
             elif row.state == 1:
                 row.state = 2
+                row.print_count += 1
 
             for line in row.donate_list:
                 if line.donate_member == row.donate_member:
