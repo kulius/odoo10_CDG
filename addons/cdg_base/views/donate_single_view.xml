@@ -49,6 +49,9 @@
                             <field name="con_addr"/>
                             <field name="donate_total"/>
                             <field name="work_id"/>
+                            <field name="print_user"/>
+                            <field name="key_in_user"/>
+                            <field name="print_date"/>
                             <field name="history_donate_flag"/>
                         </group>
 
@@ -185,11 +188,10 @@
             <field name="model">donate.single</field>
             <field name="arch" type="xml">
                 <pivot string="收據分析表">
-                    <field name="work_id" type="row"/>
                     <field name="key_in_user" type="row"/>
-                    <!--<field name="create_date" type="measure" string="收據日期"/>-->
+                    <field name="print_user" type="row"/>
                     <field name="sreceipt_number" type="measure"/>
-                    <field name="donate_total" type="measure"/>
+                    <field name="print_count" type="measure"/>
                 </pivot>
             </field>
         </record>
