@@ -205,7 +205,8 @@ class DonateSingle(models.Model):
     def compute_total(self):
         for line in self:
             for row in line.donate_list:
-                line.donate_total += row.donate
+                if row.donate_member.is_donate == True:
+                    line.donate_total += row.donate
 
     @api.depends('donate_list')
     def compute_sreceipt(self):
@@ -228,7 +229,7 @@ class DonateSingle(models.Model):
         max = self.env['donate.order'].search([], order='paid_id desc', limit=1)
         max_int = int(max.paid_id) + 1
         if record.family_check:
-            for line in record.family_check:
+            for line in record.family_check.filtered(lambda  x :x.is_donate==True):
                 if record.bridge:
                     record.save_donate_list(1, str(max_int), line.donate_member, record.bridge_money)
                     max_int = max_int + 1
@@ -266,7 +267,7 @@ class DonateSingle(models.Model):
         max = self.env['donate.order'].search([], order='paid_id desc', limit=1)
         max_int = int(max.paid_id) + 1
         if self.family_check:
-            for line in self.family_check:
+            for line in self.family_check.filtered(lambda  x :x.is_donate==True):
                 if self.bridge:
                     self.save_donate_list(1, str(max_int), line.donate_member, self.bridge_money)
                     max_int = max_int + 1
