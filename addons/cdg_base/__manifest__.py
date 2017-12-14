@@ -34,7 +34,6 @@
         'report/donate_single_report.xml',
 
         'wizard/chang_donate.xml',
-        'wizard/print_check.xml',
         
         'security/group.xml',
         'security/ir.model.access.csv',
