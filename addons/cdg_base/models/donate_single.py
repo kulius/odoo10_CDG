@@ -264,6 +264,7 @@ class DonateSingle(models.Model):
 
     def add_to_list(self):
         # 將明細產生按鈕執行
+        self.donate_list.unlink()
         max = self.env['donate.order'].search([], order='paid_id desc', limit=1)
         max_int = int(max.paid_id) + 1
         if self.family_check:
