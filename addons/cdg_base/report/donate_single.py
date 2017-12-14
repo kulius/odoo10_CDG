@@ -23,6 +23,8 @@ class ReportDonateSingle(models.AbstractModel):
                 line.print_count+=1
                 line.print_date = datetime.date.today()
                 line.print_user = self.env.uid
+            elif line.state == 2:
+                self.env.ref('cdg_base.print_check_action').read()[0]
 
             line.report_price_big = self.convert(line.donate_total)
 

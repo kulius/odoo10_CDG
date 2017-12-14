@@ -8,8 +8,7 @@
                 report_type="qweb-pdf"
                 name="cdg_base.receipt_single_independent_template"
                 paperformat="paper_form_cdg"
-                />
-
+        />
 
         <report id="receipt_single_all"
                 model="donate.single"
