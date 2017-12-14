@@ -91,20 +91,19 @@ class NormalP(models.Model):
 
     def action_chang_donater_wizard(self):
 
-
-
         wizard_data = self.env['chang.donater'].create({
             'from_target': self.id
         })
 
         action = self.env.ref('cdg_base.chang_donater_action').read()[0]
         action['res_id'] = wizard_data.id
-
         return action
 
     def historypersonal(self):
-        action = self.env.ref('cdg_base.donate_single_view_action').read()[0]  # 模塊名+form or view or action
-        action['domain'] = ['&',('donate_member', '=', self.new_coding),'|','&',('state','=',2),('donate_member', '=', self.new_coding)]  # = normal_p.id
+        action = self.env.ref('cdg_base.donate_single_view_action').read()[0]
+        action['context'] = {}
+        action['domain'] =[]
+        action['domain'] = ['&',('donate_member', '=', self.new_coding),('state','!=',3)]
         return action
 
     def donate_batch(self,ids):
@@ -126,8 +125,6 @@ class NormalP(models.Model):
         }
 
 
-
-
     @api.depends('donate_family1.is_donate','donate_family1.is_merge')
     def compute_faamily_list(self):
         for line in self:
@@ -147,9 +144,6 @@ class NormalP(models.Model):
 
     def toggle_merge(self):
         self.is_merge = not self.is_merge
-
-
-
 
 
     @api.model
@@ -347,10 +341,6 @@ class NormalP(models.Model):
             return True
         elif bool == 'N':
             return False
-
-    def history_personal_receipt(self):
-
-        return True
 #
 # class DonateFamily(models.Model):
 #     _name = 'donate.family'
