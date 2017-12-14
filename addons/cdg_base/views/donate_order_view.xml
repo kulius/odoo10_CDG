@@ -82,7 +82,7 @@
         </record>
 
         <record id="donate_order_action" model="ir.actions.act_window">
-        <field name="name">捐款者的一般捐款</field>
+        <field name="name">捐款明細</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">donate.order</field>
         <field name="view_mode">tree,form</field>

@@ -2,7 +2,7 @@
 <odoo>
     <data>
     <record id="people_type_action" model="ir.actions.act_window">
-        <field name="name">人員種類</field>
+        <field name="name">捐款者分類</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">people.type</field>
         <field name="view_mode">tree,form</field>

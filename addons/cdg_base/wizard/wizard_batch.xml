@@ -48,6 +48,11 @@
             <field name="arch" type="xml">
                 <form string="">
                     <sheet>
+                        <div class="col-md-6">
+                            <group>
+                                <field name="donate_date" colspan="2"/>
+                            </group>
+                        </div>
                         <group col="6">
                             <field name="bridge"/>
                             <field name="bridge_money" nolabel="1"/>
@@ -55,11 +60,10 @@
                             <field name="road_money" nolabel="1"/>
                             <field name="coffin"/>
                             <field name="coffin_money" nolabel="1"/>
-                            <field name="poor_help" />
+                            <field name="poor_help"/>
                             <field name="poor_help_money" nolabel="1"/>
                             <field name="others"/>
                             <field name="others_money" nolabel="1"/>
-                            <field name="donate_date"/>
                         </group>
                     </sheet>
                     <footer>

@@ -2,7 +2,6 @@
 <odoo>
     <data>
 
-
         <record id="normal_p_tree" model="ir.ui.view">
             <field name="name">normal p t</field>
             <field name="model">normal.p</field>
@@ -34,74 +33,79 @@
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button name="historypersonal" string="個人歷史捐款明細"
-                                    type="object" class="oe_stat_button" icon="fa-repeat">
+                            <button name="historypersonal" string="歷史捐款"
+                                    type="object" class="oe_stat_button" icon="fa-book">
                             </button>
                             <button name="action_chang_donater_wizard" string="合併捐款者"
                                     type="object" class="oe_stat_button" icon="fa-exchange">
                             </button>
-
                         </div>
                         <group col="4">
-                            <field name="w_id"/>
-                            <field name="number"/>
                             <field name="new_coding"/>
                             <field name="name"/>
-                            <field name="create_date"/>
-                            <field name="ps"/>
+                            <field name="create_date" string="創建日期"/>
                             <field name="type" widget="many2many_tags"/>
                             <field name="parent" options="{'create':false ,'create_edit':false}"
-                                   context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>/>
-                            <field name="key_in_user"/>
-                            <field name="db_chang_date"/>
-                            <field name="con_addr"/>
+                                   context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
                             <field name="member_data_ids"/>
                             <field name="merge_report"/>
                             <field name="cashier"/>
-                            <field name="is_donate"/>
-                            <field name="is_merge"/>
+                        </group>
+                            <span STYLE='FONT-SIZE:25PX'></span>
+                        <group col="4">
                             <field name="report_send"/>
                             <field name="rec_send"/>
-                            <field name="donate_family_list"/>
                         </group>
                          <notebook>
                                 <page string="基本資料">
-                                    <group col="4">
-                                        <field name="birth"/>
-                                        <field name="cellphone"/>
-                                    </group>
-                                    <group col="4">
-                                        <field name="con_phone"/>
-                                        <field name="con_phone2"/>
-                                    </group>
-                                    <group col="4">
-                                        <field name="zip_code"/>
-                                        <field name="rec_addr" colspan="4"/>
-                                        <field name="zip_code"/>
-                                        <field name="send_addr" colspan="4" />
-                                    </group>
-
+                                    <div class="col-md-12">
+                                        <group col="4">
+                                            <field name="birth"/>
+                                            <field name="cellphone"/>
+                                        </group>
+                                        <group col="4">
+                                            <field name="con_phone"/>
+                                            <field name="con_phone2"/>
+                                        </group>
+                                        <group col="6">
+                                            <field name="zip_code" colspan="2"/>
+                                            <field name="con_addr" colspan="4"/>
+                                        </group>
+                                        <group col="6">
+                                            <field name="zip_code" colspan="2"/>
+                                            <field name="rec_addr" colspan="4"/>
+                                        </group>
+                                        <group col="6">
+                                            <field name="zip_code" colspan="2"/>
+                                            <field name="send_addr" colspan="4"/>
+                                        </group>
+                                        <group col="6">
+                                            <field name="donate_family_list" colspan="6"/>
+                                        </group>
+                                        <group col="6">
+                                            <field name="ps" colspan="6"/>
+                                        </group>
+                                    </div>
                                 </page>
                                 <page string="團員眷屬">
                                     <field name="donate_family1" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form'}">
                                         <tree>
                                             <field name="sequence" widget="handle"/>
                                             <field name="w_id"/>
-
-                                        <field name="number"/>
-                                        <field name="new_coding"/>
-                                        <field name="name"/>
-                                        <field name="is_donate"/>
-                                        <field name="is_merge"/>
-                                        <button name="toggle_donate" string="捐助變更" type="object"/>
-                                        <button name="toggle_merge" string="合併變更" type="object"/>
+                                            <field name="number"/>
+                                            <field name="new_coding"/>
+                                            <field name="name"/>
+                                            <field name="is_donate"/>
+                                            <field name="is_merge"/>
+                                            <button name="toggle_donate" string="捐助變更" type="object"/>
+                                            <button name="toggle_merge" string="合併變更" type="object"/>
                                         </tree>
                                     </field>
                                 </page>
                                 <page string="約定轉帳眷屬">
 
                                 </page>
-                                <page string="歷史捐款">
+                                <page string="個人歷史捐款明細">
                                     <field name="donate_history_ids"/>
                                 </page>
                                 <page string="施棺紀錄">
@@ -126,7 +130,6 @@
                 </form>
             </field>
         </record>
-
 
         <record id="normal_p_search" model="ir.ui.view">
             <field name="name">normal p s</field>
@@ -219,8 +222,6 @@
             <field name="model">normal.p</field>
         </record>
 
-
-
          <record id="collect_action" model="ir.actions.act_window">
              <field name="name">收費員批次捐款</field>
              <field name="type">ir.actions.act_window</field>
@@ -241,10 +242,5 @@
           </p>
         </field>
         </record>
-
-
-
-
-
     </data>
 </odoo>

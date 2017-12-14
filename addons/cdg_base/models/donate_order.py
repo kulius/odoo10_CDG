@@ -14,7 +14,7 @@ class DonateOrder(models.Model):
     p_type = fields.Char(string='人員種類')
     donate = fields.Integer(string='捐款金額')
     donate_total = fields.Integer(string='捐款總額')
-    donate_type = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '困扶助'), (5, '其他工程')],
+    donate_type = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '困扶助'), (5, '不指定')],
                                    string='捐款種類')
     state = fields.Selection([(1, '已產生'), (2, '已作廢')],
                              string='狀態', default=1, index=True)
@@ -37,10 +37,12 @@ class DonateOrder(models.Model):
     road = fields.Boolean(string='補路')
     coffin = fields.Boolean(string='施棺')
     poor_help = fields.Boolean(string='貧困扶助')
+    others = fields.Boolean(string='不指定')
     bridge_money = fields.Integer(string='$')
     road_money = fields.Integer(string='$')
     coffin_money = fields.Integer(string='$')
     poor_help_money = fields.Integer(string='$')
+    others_money = fields.Integer(string='$')
     cash = fields.Boolean(string='現金')
     mail = fields.Boolean(string='郵政劃撥')
     credit_card = fields.Boolean(string='信用卡扣款')

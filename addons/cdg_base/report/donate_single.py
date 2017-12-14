@@ -21,6 +21,9 @@ class ReportDonateSingle(models.AbstractModel):
             elif line.state == 1:
                 line.state = 2
                 line.print_count+=1
+                line.print_date = datetime.date.today()
+                line.print_user = self.env.uid
+
             line.report_price_big = self.convert(line.donate_total)
 
         docargs = {
@@ -131,6 +134,8 @@ class ReportDonateSingleIndependent(models.AbstractModel):
             elif row.state == 1:
                 row.state = 2
                 row.print_count += 1
+                row.print_date = datetime.date.today()
+                row.print_user = self.env.uid
 
             for line in row.donate_list:
                 res_line += line
@@ -190,6 +195,8 @@ class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
             elif row.state == 1:
                 row.state = 2
                 row.print_count += 1
+                row.print_date=datetime.date.today()
+                row.print_user = self.env.uid
 
             for line in row.donate_list:
                 res += line
@@ -241,6 +248,8 @@ class ReportDonateSingleDefault(models.AbstractModel):
             elif row.state == 1:
                 row.state = 2
                 row.print_count += 1
+                row.print_date = datetime.date.today()
+                row.print_user = self.env.uid
 
             for line in row.donate_list:
                 if line.donate_member == row.donate_member:
