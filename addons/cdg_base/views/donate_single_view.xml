@@ -34,7 +34,7 @@
                                 <!--將該成員眷屬列出-->
                             </button>
                             <button name="add_to_list" string="產生捐款明細" type="object" class="oe_stat_button"
-                                    icon="fa-list" attrs="{'invisible': [('state', '!=', '1')]}">
+                                    icon="fa-list" attrs="{'invisible': [('state', '=', 2)]}">
                             </button>
                         </div>
                         <group col="4">
