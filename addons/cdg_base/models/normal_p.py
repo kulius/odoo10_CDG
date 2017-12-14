@@ -101,9 +101,9 @@ class NormalP(models.Model):
 
     def historypersonal(self):
         action = self.env.ref('cdg_base.donate_single_view_action').read()[0]
-        action['context'] = {}
-        action['domain'] =[]
-        action['domain'] = ['&',('donate_member', '=', self.new_coding),('state','!=',3)]
+        action['context'] ={} # remove default domain condition in search box
+        action['domain'] =[] # remove any value in search box
+        action['domain'] = ['&',('donate_member', '=', self.new_coding),('state','!=',3)] # set new domain condition to search data
         return action
 
     def donate_batch(self,ids):
