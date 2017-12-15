@@ -1011,7 +1011,7 @@
                         </style>
 
                                 <div class="makeup_css">
-                                    <p align="right"><span style="font-size:0.5cm;"><t t-esc="line.title_Make_up_date"/><t t-if="flag==True"></t> 補單</span></p>
+                                    <p align="right"><span style="font-size:0.5cm;"><t t-if="flag"><t t-esc="line.title_Make_up_date"/> 補單</t></span></p>
                                 </div>
                                 <div class="header_css">
                                     <div class="left_css">
@@ -1081,7 +1081,7 @@
                         <div class="useless"></div>
 
                          <div class="makeup_css">
-                                    <p align="right"><span style="font-size:0.5cm;"><t t-esc="line.title_Make_up_date"/><t t-if="flag==True"></t> 補單</span></p>
+                                    <p align="right"><span style="font-size:0.5cm;"><t t-if="flag"><t t-esc="line.title_Make_up_date"/> 補單</t></span></p>
                                 </div>
 
                            <div class="header_css">

@@ -244,7 +244,8 @@ class ReportDonateSingleDefault(models.AbstractModel):
         res_line = self.env['donate.order']
         report_line = self.env['donate.single.report']
         flag = False
-        if data != None:
+
+        if data:
             target = self.env['donate.single'].browse(data['from_target'])
             flag = data['flag']
 
