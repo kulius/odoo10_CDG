@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="print_check_form" model="ir.ui.view">
+            <field name="name">print_check_form</field>
+            <field name="model">print.check</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="flag" string="確認需要補單?"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="active_to_print" string="確定補單" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="print_check_action" name="補單確認" res_model="print.check"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>

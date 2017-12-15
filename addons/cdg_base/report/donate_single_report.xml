@@ -904,7 +904,12 @@
             <t t-call="report.html_container">
                 <t t-foreach="docs" t-as="line">
                     <div class="page">
+                        <!--<link rel='stylesheet' href='/module_name/static/src/css/report.css'/>-->
                           <style type="text/css">
+                            .makeup_css{
+                              height: 8mm;
+
+                              }
                             .header_css{
                             height: 40mm;
 
@@ -999,12 +1004,15 @@
                             float:left;
                             }
                             .useless{
-                            height: 54mm;
+                            height: 48mm;
 
                             }
 
                         </style>
 
+                                <div class="makeup_css">
+                                    <p align="right"><span style="font-size:0.5cm;"><t t-esc="line.title_Make_up_date"/><t t-if="flag==True"></t> 補單</span></p>
+                                </div>
                                 <div class="header_css">
                                     <div class="left_css">
                                 <h2 style="margin-left:26%;">
@@ -1021,8 +1029,6 @@
                                                 <div class="top_css"><span><t t-esc="line.title_doante_code"/></span></div>
                                             </div>
                                             <div class="bottom_css"><span><t t-esc="line.title_doante_date"/></span></div>
-
-
                                         </div>
                             </div>
                                 <div class="detial_css">
@@ -1074,6 +1080,10 @@
 
                         <div class="useless"></div>
 
+                         <div class="makeup_css">
+                                    <p align="right"><span style="font-size:0.5cm;"><t t-esc="line.title_Make_up_date"/><t t-if="flag==True"></t> 補單</span></p>
+                                </div>
+
                            <div class="header_css">
                                     <div class="left_css">
                                 <h2 style="margin-left:26%;">
@@ -1090,8 +1100,6 @@
                                                 <div class="top_css"><span><t t-esc="line.title_doante_code"/></span></div>
                                             </div>
                                             <div class="bottom_css"><span><t t-esc="line.title_doante_date"/></span></div>
-
-
                                         </div>
                             </div>
                                 <div class="detial_css">

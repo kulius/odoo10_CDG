@@ -65,6 +65,7 @@ class DonateSingleReport(models.Model):
     donate_wizard = fields.Many2one(comodel_name='wizard.batch',string='捐款日期')
     title_doante_code = fields.Char(string='捐款編號')
     title_doante_date = fields.Char(string='捐款日期')
+    title_Make_up_date=fields.Char(string='日期',default=lambda self: fields.date.today())
     donate_line = fields.One2many(comodel_name='report.line',inverse_name='parent_id', string='個人捐款明細')
     title_total_price = fields.Integer(string='捐款總金額', compute='compute_price', store=True)
     title_total_price_big = fields.Char(string='金額大寫', compute='compute_price', store=True)
@@ -242,6 +243,11 @@ class ReportDonateSingleDefault(models.AbstractModel):
         merge_res_line = self.env['donate.order']
         res_line = self.env['donate.order']
         report_line = self.env['donate.single.report']
+        flag = False
+        if data != None:
+            target = self.env['donate.single'].browse(data['from_target'])
+            flag = data['flag']
+
         for row in target:
             if row.state == 3:
                 raise ValidationError(u'本捐款單已經作廢')
@@ -321,7 +327,7 @@ class ReportDonateSingleDefault(models.AbstractModel):
             'doc_ids': docids,
             'doc_model': 'donate.batch',
             'docs': report_line,
-
+            'flag':flag
         }
         return Report.render('cdg_base.receipt_single_default', docargs)
 
