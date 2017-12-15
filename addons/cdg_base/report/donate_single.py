@@ -244,6 +244,7 @@ class ReportDonateSingleDefault(models.AbstractModel):
         res_line = self.env['donate.order']
         report_line = self.env['donate.single.report']
         flag = False
+        check_print =False
 
         if data:
             target = self.env['donate.single'].browse(data['from_target'])
@@ -257,6 +258,9 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 row.print_count += 1
                 row.print_date = datetime.date.today()
                 row.print_user = self.env.uid
+            elif flag == False and row.state == 2:
+                check_print = True
+
 
             for line in row.donate_list:
                 if line.donate_member == row.donate_member:
@@ -278,6 +282,8 @@ class ReportDonateSingleDefault(models.AbstractModel):
                     if exist is False:
                         res += line
 
+        #if check_print  == True:
+            #raise UserError(_(u'本捐款單已經作廢'))
         # 找出要合併列印的人，整理後放入報表用table
 
         for line in merge_res:
