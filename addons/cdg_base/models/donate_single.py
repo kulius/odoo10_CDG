@@ -49,7 +49,7 @@ class DonateSingle(models.Model):
     donate_list = fields.One2many(comodel_name='donate.order', inverse_name='donate_list_id', string='捐款明細', states={2: [('readonly', True)]})
     work_id = fields.Many2one(comodel_name='c.worker', string='收費員', states={2: [('readonly', True)]})
     key_in_user = fields.Many2one(comodel_name='c.worker', string='輸入人員', states={2: [('readonly', True)]}, default=lambda self: self.env.user)
-    print_user = fields.Many2one(comodel_name='c.worker', string='列印人員', states={2: [('readonly', True)]})
+    print_user = fields.Many2one(comodel_name='res.users', string='列印人員', states={2: [('readonly', True)]})
 
     history_donate_flag = fields.Boolean(string='是否上次捐款')
     report_price_big = fields.Char(string='報表用大寫金額')
