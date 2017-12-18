@@ -14,6 +14,7 @@ class DonateBatch(models.Model):
     tag_coffin = fields.Boolean(string='施棺')
     tag_food = fields.Boolean(string='伙食費')
     tag_allowance = fields.Boolean(string='窮困扶助')
+    tag_noassign = fields.Boolean(string='不指定')
     tag_other = fields.Boolean(string='其他工程')
     donate_price = fields.Integer(string='捐款金額')
     donate_total_price = fields.Integer(string='捐款總額', compute='compute_donate_total')
@@ -29,18 +30,20 @@ class DonateBatch(models.Model):
     def check_donate_type(self):
         member = self.env['normal.p'].search([('w_id', '=', self.donate_user.w_id)])
         if self.tag_bridge:
-            self.set_donate_list(member, 1)
+            self.set_donate_list(member, 01)
         if self.tag_road:
-            self.set_donate_list(member, 2)
+            self.set_donate_list(member, 02)
         if self.tag_coffin:
-            self.set_donate_list(member, 3)
+            self.set_donate_list(member, 03)
         if self.tag_food:
-            self.set_donate_list(member, 4)
+            self.set_donate_list(member, 04)
         if self.tag_allowance:
-            self.set_donate_list(member, 5)
+            self.set_donate_list(member, 05)
         if self.tag_other:
-            self.set_donate_list(member, 6)
-        self.tag_bridge = self.tag_road = self.tag_coffin = self.tag_food = self.tag_allowance = self.tag_other = False
+            self.set_donate_list(member, 06)
+        if self.tag_other:
+            self.set_donate_list(member, 99)
+        self.tag_bridge = self.tag_road = self.tag_coffin = self.tag_food = self.tag_allowance = self.tag_noassign = self.tag_other = False
         self.donate_price = 0
         self.name = self.donate_user.name + u'的批次捐款'
 
@@ -66,7 +69,7 @@ class DonateBatchLine(models.Model):
     donate_user = fields.Many2one(comodel_name='normal.p', string='捐款者')
     donate_user_id = fields.Char(string='團員編號', compute='compute_set_donate')
     donate_user_number = fields.Char(string='序號', compute='compute_set_donate')
-    donate_type = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '伙食費'), (5, '窮困扶助'), (6, '其他工程')],
+    donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (04, '伙食費'), (05, '貧困扶助'),(06, '不指定'), (99, '其他工程')],
                                    string='捐款種類', default=1, index=True)
     donate_price = fields.Integer(string='捐款金額')
     new_coding = fields.Char(string='新編捐款者編號', compute='compute_set_donate')

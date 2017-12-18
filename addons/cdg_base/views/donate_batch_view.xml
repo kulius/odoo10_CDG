@@ -27,7 +27,7 @@
                             <field name="tag_road"/>
                             <field name="tag_coffin"/>
                             <field name="tag_food"/>
-                            <field name="tag_other"/>
+                            <field name="tag_noassign"/>
                         </group>
                         <group col="6">
                             <button string="產生批次明細" name="check_donate_type" type="object" colspan="1"/>

@@ -65,8 +65,8 @@
                                     <field name="coffin_money" nolabel="1"/>
                                     <field name="poor_help" />
                                     <field name="poor_help_money" nolabel="1"/>
-                                    <field name="others"/>
-                                    <field name="others_money" nolabel="1"/>
+                                    <field name="noassign" />
+                                    <field name="noassign_money" nolabel="1"/>
                                 </group>
                                 <field name="family_check">
                                     <tree editable="bottom">

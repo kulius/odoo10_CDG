@@ -43,7 +43,7 @@ class NormalP(models.Model):
     come_date = fields.Date(string='到職日期')
     lev_date = fields.Date(string='離職日期')
     ps = fields.Text(string='備註')
-    habbit_donate = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '伙食費'), (5, '貧困扶助'), (6, '不指定')],
+    habbit_donate = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (04, '伙食費'), (05, '貧困扶助'),(06, '不指定'), (99, '其他工程')],
                                      string='喜好捐款')
     cashier_name = fields.Many2one(comodel_name='c.worker', string='收費員姓名', domain="[('job_type', '=', '2'), ]", ondelete='cascade')
     donate_cycle = fields.Selection(selection=[('03', '季繳'), ('06', '半年繳'), ('12', '年繳')], string='捐助週期')
@@ -237,17 +237,19 @@ class NormalP(models.Model):
 
     def check_habbit(self, habbit):
         if habbit == u'01':
-            return 1
+            return 01
         elif habbit == u'02':
-            return 2
+            return 02
         elif habbit == u'03':
-            return 3
+            return 03
         elif habbit == u'04':
-            return 4
+            return 04
         elif habbit == u'05':
-            return 5
+            return 05
         elif habbit == u'06':
-            return 6
+            return 06
+        elif habbit == u'99':
+            return 99
         else:
             return None
 

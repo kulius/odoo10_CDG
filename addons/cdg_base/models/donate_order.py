@@ -14,7 +14,7 @@ class DonateOrder(models.Model):
     p_type = fields.Char(string='人員種類')
     donate = fields.Integer(string='捐款金額')
     donate_total = fields.Integer(string='捐款總額')
-    donate_type = fields.Selection(selection=[(1, '造橋'), (2, '補路'), (3, '施棺'), (4, '困扶助'), (5, '不指定')],
+    donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (04, '伙食費'), (05, '貧困扶助'),(06, '不指定'), (99, '其他工程')],
                                    string='捐款種類')
     state = fields.Selection([(1, '已產生'), (2, '已作廢')],
                              string='狀態', default=1, index=True)
@@ -105,16 +105,18 @@ class DonateOrder(models.Model):
 
     def check_habbit(self, habbit=None):
         if habbit == u'01':
-            return 1
+            return 01
         elif habbit == u'02':
-            return 2
+            return 02
         elif habbit == u'03':
-            return 3
+            return 03
         elif habbit == u'04':
-            return 4
+            return 04
         elif habbit == u'05':
-            return 5
+            return 05
         elif habbit == u'06':
-            return 6
+            return 06
+        elif habbit == u'99':
+            return 99
         else:
             return None

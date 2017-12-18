@@ -33,12 +33,16 @@ class DonateSingle(models.Model):
     bridge = fields.Boolean(string='造橋')
     road = fields.Boolean(string='補路')
     coffin = fields.Boolean(string='施棺')
+    food = fields.Boolean(string='伙食費')
     poor_help = fields.Boolean(string='貧困扶助')
-    others = fields.Boolean(string='不指定')
+    noassign = fields.Boolean(string='不指定')
+    others = fields.Boolean(string='其他工程')
     bridge_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     road_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     coffin_money = fields.Integer(string='$', states={2: [('readonly', True)]})
+    food_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     poor_help_money = fields.Integer(string='$', states={2: [('readonly', True)]})
+    noassign_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     others_money = fields.Integer(string='$',states={2:[('readonly',True)]})
     cash = fields.Boolean(string='現金', states={2: [('readonly', True)]})
     mail = fields.Boolean(string='郵政劃撥', states={2: [('readonly', True)]})
@@ -152,14 +156,16 @@ class DonateSingle(models.Model):
                 'road_money': old.road_money,
                 'coffin': old.coffin,
                 'coffin_money': old.coffin_money,
+                'food': old.food,
+                'food_money': old.food_money,
                 'poor_help': old.poor_help,
                 'poor_help_money': old.poor_help_money,
-                'others': old.others,
-                'others_money': old.others_money,
+                'noassign': old.noassign,
+                'noassign_money': old.noassign_money,
             })
 
 
-    @api.onchange('bridge', 'road', 'coffin', 'poor_help','others')
+    @api.onchange('bridge', 'road', 'coffin', 'poor_help','noassign')
     def set_default_price(self):
         if self.bridge and self.bridge_money == 0:
             self.bridge_money = 100
@@ -177,12 +183,13 @@ class DonateSingle(models.Model):
             self.poor_help_money = 100
         elif self.poor_help is False:
             self.poor_help_money = 0
-        if self.others and self.others_money == 0:
-            self.others_money = 100
-        elif self.others is False:
-            self.others_money = 0
+        if self.noassign and self.noassign_money == 0:
+            self.noassign_money = 100
+        elif self.noassign is False:
+            self.noassign_money = 0
 
-    @api.onchange('bridge_money','road_money','coffin_money', 'poor_help_money','others_money')
+
+    @api.onchange('bridge_money','road_money','coffin_money', 'poor_help_money','noassign_money')
     def set_checkbox_check(self):
         if self.bridge_money != 0:
             self.bridge = True
@@ -200,10 +207,11 @@ class DonateSingle(models.Model):
             self.poor_help = True
         else:
             self.poor_help = False
-        if self.others_money != 0:
-            self.others = True
+        if self.noassign_money != 0:
+            self.noassign = True
         else:
-            self.others = False
+            self.noassign = False
+
 
     @api.onchange('donate_member')
     def show_family(self):
@@ -259,8 +267,8 @@ class DonateSingle(models.Model):
                 if record.poor_help:
                     record.save_donate_list(4, str(max_int), line.donate_member, record.poor_help_money)
                     max_int = max_int + 1
-                if record.others:
-                    record.save_donate_list(5, str(max_int), line.donate_member, record.others_money)
+                if record.noassign:
+                    record.save_donate_list(5, str(max_int), line.donate_member, record.noassign_money)
                     max_int = max_int + 1
         else:
             if record.bridge:
@@ -275,8 +283,8 @@ class DonateSingle(models.Model):
             if record.poor_help:
                 record.save_donate_list(4, str(max_int), record.donate_member, record.poor_help_money)
                 max_int = max_int + 1
-            if record.others:
-                record.save_donate_list(5, str(max_int), record.donate_member, record.ohters_money)
+            if record.noassign:
+                record.save_donate_list(5, str(max_int), record.donate_member, record.noassign_money)
                 max_int = max_int + 1
 
     def add_to_list(self):
@@ -298,8 +306,8 @@ class DonateSingle(models.Model):
                 if self.poor_help:
                     self.save_donate_list(4, str(max_int), line.donate_member, self.poor_help_money)
                     max_int = max_int + 1
-                if self.others:
-                    self.save_donate_list(5, str(max_int), line.donate_member, self.others_money)
+                if self.noassign:
+                    self.save_donate_list(4, str(max_int), line.donate_member, self.noassign_money)
                     max_int = max_int + 1
         else:
             if self.bridge:
@@ -314,8 +322,8 @@ class DonateSingle(models.Model):
             if self.poor_help:
                 self.save_donate_list(4, str(max_int), self.donate_member, self.poor_help_money)
                 max_int = max_int + 1
-            if self.others:
-                self.save_donate_list(5, str(max_int), self.donate_member, self.others_money)
+            if self.noassign:
+                self.save_donate_list(5, str(max_int), self.donate_member, self.noassign_money)
                 max_int = max_int + 1
 
     def save_donate_list(self, donate_type, paid_id, member_id, money):  # 將明細產生
