@@ -76,10 +76,6 @@
                                             <field name="rec_addr" colspan="4"/>
                                         </group>
                                         <group col="6">
-                                            <field name="zip_code" colspan="2"/>
-                                            <field name="send_addr" colspan="4"/>
-                                        </group>
-                                        <group col="6">
                                             <field name="donate_family_list" colspan="6"/>
                                         </group>
                                         <group col="6">

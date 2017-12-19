@@ -30,7 +30,7 @@ class NormalP(models.Model):
     db_chang_date = fields.Date(string='異動日期')
     build_date = fields.Date(string='建檔日期')
 
-    #請無視
+
     email = fields.Char(string='Email')
     type = fields.Many2many(comodel_name='people.type', string='人員種類')
     self_iden = fields.Char(string='身分證字號')
