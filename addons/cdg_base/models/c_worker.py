@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+import time
 from odoo import models, fields, api
+import datetime
 
 #員工基本檔
 

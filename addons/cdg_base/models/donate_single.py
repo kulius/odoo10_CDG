@@ -52,7 +52,7 @@ class DonateSingle(models.Model):
     family_check = fields.One2many(comodel_name='donate.family.line',inverse_name='parent_id', string='捐款人名冊', states={2: [('readonly', True)]})
     donate_list = fields.One2many(comodel_name='donate.order', inverse_name='donate_list_id', string='捐款明細', states={2: [('readonly', True)]})
     work_id = fields.Many2one(comodel_name='c.worker', string='收費員', states={2: [('readonly', True)]})
-    key_in_user = fields.Many2one(comodel_name='c.worker', string='輸入人員', states={2: [('readonly', True)]}, default=lambda self: self.env.user)
+    key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]}, default=lambda self: self.env.user)
     print_user = fields.Many2one(comodel_name='res.users', string='列印人員', states={2: [('readonly', True)]})
 
     history_donate_flag = fields.Boolean(string='是否上次捐款')
@@ -265,10 +265,10 @@ class DonateSingle(models.Model):
                     record.save_donate_list(3, str(max_int), line.donate_member, record.coffin_money)
                     max_int = max_int + 1
                 if record.poor_help:
-                    record.save_donate_list(4, str(max_int), line.donate_member, record.poor_help_money)
+                    record.save_donate_list(5, str(max_int), line.donate_member, record.poor_help_money)
                     max_int = max_int + 1
                 if record.noassign:
-                    record.save_donate_list(5, str(max_int), line.donate_member, record.noassign_money)
+                    record.save_donate_list(6, str(max_int), line.donate_member, record.noassign_money)
                     max_int = max_int + 1
         else:
             if record.bridge:
@@ -281,10 +281,10 @@ class DonateSingle(models.Model):
                 record.save_donate_list(3, str(max_int), record.donate_member, record.coffin_money)
                 max_int = max_int + 1
             if record.poor_help:
-                record.save_donate_list(4, str(max_int), record.donate_member, record.poor_help_money)
+                record.save_donate_list(5, str(max_int), record.donate_member, record.poor_help_money)
                 max_int = max_int + 1
             if record.noassign:
-                record.save_donate_list(5, str(max_int), record.donate_member, record.noassign_money)
+                record.save_donate_list(6, str(max_int), record.donate_member, record.noassign_money)
                 max_int = max_int + 1
 
     def add_to_list(self):
@@ -304,10 +304,10 @@ class DonateSingle(models.Model):
                     self.save_donate_list(3, str(max_int), line.donate_member, self.coffin_money)
                     max_int = max_int + 1
                 if self.poor_help:
-                    self.save_donate_list(4, str(max_int), line.donate_member, self.poor_help_money)
+                    self.save_donate_list(5, str(max_int), line.donate_member, self.poor_help_money)
                     max_int = max_int + 1
                 if self.noassign:
-                    self.save_donate_list(4, str(max_int), line.donate_member, self.noassign_money)
+                    self.save_donate_list(6, str(max_int), line.donate_member, self.noassign_money)
                     max_int = max_int + 1
         else:
             if self.bridge:
@@ -320,10 +320,10 @@ class DonateSingle(models.Model):
                 self.save_donate_list(3, str(max_int), self.donate_member, self.coffin_money)
                 max_int = max_int + 1
             if self.poor_help:
-                self.save_donate_list(4, str(max_int), self.donate_member, self.poor_help_money)
+                self.save_donate_list(5, str(max_int), self.donate_member, self.poor_help_money)
                 max_int = max_int + 1
             if self.noassign:
-                self.save_donate_list(5, str(max_int), self.donate_member, self.noassign_money)
+                self.save_donate_list(6, str(max_int), self.donate_member, self.noassign_money)
                 max_int = max_int + 1
 
     def save_donate_list(self, donate_type, paid_id, member_id, money):  # 將明細產生
