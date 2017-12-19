@@ -29,8 +29,9 @@
                     <header>
                         <button string="轉眷屬檔" name="data_input_form_DB" type="object"/>
                         <button string="設定眷屬" name="set_parent" type="object"/>
-                        <button name="input_member" type="object" string="轉會員"/>
-                        <button name="input_member2" type="object" string="轉顧問"/>
+                    <!--    <button string="轉會員顧問" name="input_member" type="object" /> -->
+                        <button string="轉顧問" name="set_consultant" type="object" />
+                        <button string="轉會員" name="set_member" type="object" />
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
