@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+   <data>
     <record id="people_type_action" model="ir.actions.act_window">
         <field name="name">捐款者分類</field>
         <field name="type">ir.actions.act_window</field>

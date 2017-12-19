@@ -110,7 +110,7 @@ class ReportLine(models.Model):
 
     parent_id = fields.Many2one(comodel_name='donate.single.report')
     name = fields.Char(string='捐款姓名')
-    donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (04, '貧困扶助'),(05, '不指定')],
+    donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (05, '貧困扶助'),(06, '不指定')],
                                    string='捐款種類')
     donate_price = fields.Integer(string='捐款金額')
 

@@ -33,17 +33,13 @@ class DonateSingle(models.Model):
     bridge = fields.Boolean(string='造橋')
     road = fields.Boolean(string='補路')
     coffin = fields.Boolean(string='施棺')
-    food = fields.Boolean(string='伙食費')
     poor_help = fields.Boolean(string='貧困扶助')
     noassign = fields.Boolean(string='不指定')
-    others = fields.Boolean(string='其他工程')
     bridge_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     road_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     coffin_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    food_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     poor_help_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     noassign_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    others_money = fields.Integer(string='$',states={2:[('readonly',True)]})
     cash = fields.Boolean(string='現金', states={2: [('readonly', True)]})
     mail = fields.Boolean(string='郵政劃撥', states={2: [('readonly', True)]})
     credit_card = fields.Boolean(string='信用卡扣款', states={2: [('readonly', True)]})
@@ -156,8 +152,6 @@ class DonateSingle(models.Model):
                 'road_money': old.road_money,
                 'coffin': old.coffin,
                 'coffin_money': old.coffin_money,
-                'food': old.food,
-                'food_money': old.food_money,
                 'poor_help': old.poor_help,
                 'poor_help_money': old.poor_help_money,
                 'noassign': old.noassign,

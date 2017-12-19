@@ -35,14 +35,10 @@ class DonateBatch(models.Model):
             self.set_donate_list(member, 02)
         if self.tag_coffin:
             self.set_donate_list(member, 03)
-        if self.tag_food:
-            self.set_donate_list(member, 04)
         if self.tag_allowance:
             self.set_donate_list(member, 05)
         if self.tag_other:
             self.set_donate_list(member, 06)
-        if self.tag_other:
-            self.set_donate_list(member, 99)
         self.tag_bridge = self.tag_road = self.tag_coffin = self.tag_food = self.tag_allowance = self.tag_noassign = self.tag_other = False
         self.donate_price = 0
         self.name = self.donate_user.name + u'的批次捐款'
