@@ -22,7 +22,8 @@ class MemberData(models.Model):
     reg_address = fields.Char(string='戶籍通訊地址')
     conn_zip_code = fields.Char(string='郵遞區號')
     conn_address = fields.Char(string='通訊地址')
-    member_type = fields.Many2many(comodel_name='people.type', string='會員種類')
+    member_type = fields.Char(string='會員種類')
+    #member_type = fields.Many2many(comodel_name='people.type', string='會員種類')
     advise_date = fields.Date(string='聘僱日期(顧問才有)')
     build_date = fields.Date(string='建檔日期')
     db_chang_date = fields.Date(string='異動日期')
@@ -34,6 +35,7 @@ class MemberData(models.Model):
     report_send = fields.Boolean(string='收據寄送(顧問才有)')
     self_order = fields.Char(string='自訂排序')
     worker_id = fields.Many2one(comodel_name='c.worker', string='輸入人員')
+    normal_p_id = fields.Many2one(comodel_name='normal.p', string='捐款名冊')
 
     def data_input_form_DB(self):
         data = self.env['base.external.dbsource'].search([])

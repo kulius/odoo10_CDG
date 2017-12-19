@@ -343,6 +343,19 @@ class NormalP(models.Model):
             return True
         elif bool == 'N':
             return False
+
+    def set_consultant(self):
+        sql =" INSERT INTO member_data(member_id,name,birthday,user_id,cellphone,phone1,phone2,reg_zip_code,reg_address,conn_zip_code,conn_address,description,clerk_id,rec_send,print_note,self_order,normal_p_id, member_type) "\
+             " SELECT 會員編號, 姓名, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期, 身份證號, 手機, 電話一, 電話二, 戶籍郵遞區號, 戶籍通訊地址, 郵遞區號, 通訊地址, 備註, 收費員編號, case when 收據寄送='N' then FALSE else TRUE end as 收據寄送, case when 名冊列印='N' then FALSE else TRUE end as 名冊列印, 自訂排序, b.id, 會員種類編號  FROM 會員檔 a"\
+             " INNER JOIN normal_p b on a.姓名=b.name and a.戶籍通訊地址=b.con_addr"
+        self._cr.execute(sql)
+        return True
+    def set_member(self):
+        sql ="INSERT INTO member_data(adviser_id,name,cellphone,phone1,phone2,reg_zip_code,reg_address,conn_zip_code,conn_address,advise_date,description,clerk_id,rec_send,report_send,thanks_send,self_order,normal_p_id) "\
+             " SELECT 顧問編號, 姓名, 手機, 電話一, 電話二, 戶籍郵遞區號, 戶籍通訊地址, 郵遞區號, 通訊地址,case when 聘顧日期='' then NULL else cast(聘顧日期 as date) end as 聘顧日期, 備註, 收費員編號, case when 收據寄送='N' then FALSE else TRUE end as 收據寄送, case when 報表寄送='N' then FALSE else TRUE end as 報表寄送, case when 感謝狀寄送='N' then FALSE else TRUE end as 感謝狀寄送, 自訂排序, b.id FROM 顧問檔 a"\
+             " INNER JOIN normal_p b on a.姓名=b.name and a.戶籍通訊地址=b.con_addr"
+        self._cr.execute(sql)
+        return True
 #
 # class DonateFamily(models.Model):
 #     _name = 'donate.family'
