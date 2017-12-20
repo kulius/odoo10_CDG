@@ -5,7 +5,7 @@ import logging, time
 class MemberFeeOnly(models.Model):
     _name = 'associatemember.fee'
 
-    member_id = fields.Char(string='舊會員編號')
+    member_id = fields.Char(string='會員編號')
     member_note_code = fields.Char(string='會員名冊編號')
     year = fields.Char(string='年度')
     fee_code = fields.Char(string='收費編號')
