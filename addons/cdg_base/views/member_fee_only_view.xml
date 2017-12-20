@@ -3,21 +3,20 @@
     <data>
         <record id="member_fee_only_view_tree" model="ir.ui.view">
             <field name="name">member fee only tree</field>
-            <field name="model">member_only.fee</field>
+            <field name="model">member.only.fee</field>
             <field name="arch" type="xml">
-                <tree string="">
+                <tree>
                     <field name="year"/>
-                    <field name="member_id"/>
-                    <field name="member_note_id"/>
                     <field name="fee_payable"/>
                     <field name="fee_date"/>
+                    <field name="normal_p_id"/>
                 </tree>
             </field>
         </record>
 
         <record id="member_fee_only_view_form" model="ir.ui.view">
             <field name="name">member fee only form</field>
-            <field name="model">member_only.fee</field>
+            <field name="model">member.only.fee</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
@@ -26,15 +25,12 @@
                     </header>
                     <sheet>
                         <group>
-                            <field name="member_id"/>
-                            <field name="member_note_id"/>
+                            <field name="member_note_code"/>
                             <field name="year"/>
-                            <field name="fee_id"/>
+                            <field name="fee_code"/>
                             <field name="fee_payable"/>
                             <field name="fee_date"/>
                             <field name="clerk_id"/>
-                            <field name="worker_id"/>
-                            <field name="db_chang_date"/>
                             <field name="normal_p_id"/>
                         </group>
                     </sheet>
@@ -45,9 +41,9 @@
         <record id="member_fee_only_view_action" model="ir.actions.act_window">
             <field name="name">會員收費</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">member_only.fee</field>
+            <field name="res_model">member.only.fee</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('member_id','!=','')]</field>
+            <field name="domain">[]</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 <!-- Add Text Here -->

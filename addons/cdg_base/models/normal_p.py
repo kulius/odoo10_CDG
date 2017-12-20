@@ -81,8 +81,11 @@ class NormalP(models.Model):
     donate_family1 = fields.One2many(comodel_name='normal.p', inverse_name='parent', string='團員眷屬')
     member_data_ids = fields.Many2one(comodel_name='member.data', string='關聯的顧問會員檔')
     donate_history_ids = fields.One2many(comodel_name='donate.order', inverse_name='donate_member')
-    member_pay_history = fields.One2many(comodel_name='consultant.fee', inverse_name='consultant_fee')
-    consultant_pay_history = fields.One2many(comodel_name='member_only.fee', inverse_name='member_fee')
+
+
+
+    member_pay_history = fields.One2many(comodel_name='member.only.fee', inverse_name='normal_p_id')
+    consultant_pay_history = fields.One2many(comodel_name='consultant.fee', inverse_name='normal_p_id')
 
     sequence = fields.Integer(string='排序')
     is_donate = fields.Boolean(string='是否捐助', default=True)
@@ -359,26 +362,26 @@ class NormalP(models.Model):
         self._cr.execute(sql)
         return True
     def start_mamber_batch(self):
-        data = self.env['member_only.fee'].search([])
+        data = self.env['member.only.fee'].search([])
         data.create({
-            'member_id':'00076',
-            'member_note_id':0,
+
             'year':self.year,
-            'fee_id':'F120100081',
+            'fee_code':'F120100081',
             'fee_payable':1200,
             'fee_date':'2017-12-20',
             'clerk_id':150,
+            'normal_p_id':754512
         })
         return True
     def start_consultant_batch(self):
         data = self.env['consultant.fee'].search([])
         data.create({
-            'consultant_id':'00072',
             'year':self.year,
-            'fee_id':'F1201000xx',
+            'fee_code':'F1201000xx',
             'fee_payable':10000,
             'fee_date':'2017-12-20',
             'clerk_id':150,
+            'normal_p_id': 761747
         })
         return True
 
