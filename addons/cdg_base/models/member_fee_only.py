@@ -3,7 +3,7 @@ from odoo import models, fields, api
 import logging, time
 
 class MemberFeeOnly(models.Model):
-    _name = 'member.only.fee'
+    _name = 'associatemember.fee'
 
     member_id = fields.Char(string='舊會員編號')
     member_note_code = fields.Char(string='會員名冊編號')

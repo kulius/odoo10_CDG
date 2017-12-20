@@ -60,7 +60,7 @@ class DonateOrder(models.Model):
     #     self.donate_w_id = self.name.w_id.id
 
 
-    # 在這邊複製下面的方法(產生個人歷史捐款)修改，只顯示顧問歷史以及只顯示會員歷史捐款
+
     def data_input_from_database(self):
         data = self.env['base.external.dbsource'].search([])
         lines = data.execute('SELECT * FROM 捐款檔')

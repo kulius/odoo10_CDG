@@ -84,7 +84,7 @@ class NormalP(models.Model):
 
 
 
-    member_pay_history = fields.One2many(comodel_name='member.only.fee', inverse_name='normal_p_id')
+    member_pay_history = fields.One2many(comodel_name='associatemember.fee', inverse_name='normal_p_id')
     consultant_pay_history = fields.One2many(comodel_name='consultant.fee', inverse_name='normal_p_id')
 
     sequence = fields.Integer(string='排序')
@@ -362,7 +362,7 @@ class NormalP(models.Model):
         self._cr.execute(sql)
         return True
     def start_mamber_batch(self):
-        data = self.env['member.only.fee'].search([])
+        data = self.env['associatemember.fee'].search([])
         data.create({
 
             'year':self.year,

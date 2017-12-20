@@ -3,7 +3,7 @@
     <data>
         <record id="member_fee_only_view_tree" model="ir.ui.view">
             <field name="name">member fee only tree</field>
-            <field name="model">member.only.fee</field>
+            <field name="model">associatemember.fee</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="year"/>
@@ -16,7 +16,7 @@
 
         <record id="member_fee_only_view_form" model="ir.ui.view">
             <field name="name">member fee only form</field>
-            <field name="model">member.only.fee</field>
+            <field name="model">associatemember.fee</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
@@ -41,7 +41,7 @@
         <record id="member_fee_only_view_action" model="ir.actions.act_window">
             <field name="name">會員收費</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">member.only.fee</field>
+            <field name="res_model">associatemember.fee</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
             <field name="help" type="html">
