@@ -370,7 +370,7 @@ class NormalP(models.Model):
             'fee_payable':1200,
             'fee_date':'2017-12-20',
             'clerk_id':150,
-            'normal_p_id':754512
+            'normal_p_id':754514
         })
         return True
     def start_consultant_batch(self):
