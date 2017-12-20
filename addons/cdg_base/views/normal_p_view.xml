@@ -127,7 +127,7 @@
                                     <field name="member_pay_history"/>
                                 </page>
                                 <page string="顧問繳費明細">
-                                    <field name="consultant_history_id"/>
+                                    <field name="consultant_pay_history"/>
                                 </page>
 
                             </notebook>
