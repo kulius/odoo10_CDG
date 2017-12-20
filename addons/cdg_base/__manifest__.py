@@ -28,10 +28,13 @@
         'views/member_data_view.xml',
         'views/consultant_batch_view.xml',
         'views/member_fee_view.xml',
+        'views/consultant_fee_only_view.xml',
+        'views/member_fee_only_view.xml',
         'views/donate_single_view.xml',
         'views/charity_view.xml',
         'report/donate_batch_report.xml',
         'report/donate_single_report.xml',
+
 
         'wizard/chang_donate.xml',
         'wizard/print_check.xml',

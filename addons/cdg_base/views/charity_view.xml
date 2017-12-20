@@ -115,7 +115,7 @@
         <menuitem id="member_fee_menu"
                   name="會員費用"
                   parent="member_manage_categ"
-                  action="member_fee_member_view_action"
+                  action="member_fee_only_view_action"
                   sequence="2"/>
          <menuitem id="member_batch_menu"
                   name="會員費產生"
@@ -157,7 +157,7 @@
         <menuitem id="consultant_fee_menu"
                   name="顧問費用"
                   parent="consultant_manage_categ"
-                  action="member_fee_consultant_view_action"
+                  action="consultant_fee_only_view_action"
                   sequence="2"/>
         <menuitem id="consultant_batch_menu"
                   name="顧問費產生"

@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <tree string="">
                     <field name="new_coding"/>
-                    <field name="name" string="顧問姓名"/>
+                    <field name="name"/>
                     <field name="con_phone"/>
                     <field name="con_phone2"/>
                     <field name="cellphone"/>

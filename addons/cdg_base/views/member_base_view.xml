@@ -9,7 +9,7 @@
                     <field name="new_coding"/>
                     <field name="name"/>
                     <field name="address"/>
-                     <field name="con_phone"/>
+                    <field name="con_phone"/>
                     <field name="con_phone2"/>
                     <field name="cellphone"/>
                     <field name="con_addr"/>

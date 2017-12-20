@@ -12,3 +12,5 @@ from . import donate_single
 from . import coffin_base
 from . import coffin_donation
 from . import hand_checking
+from . import consultant_fee_only
+from . import member_fee_only

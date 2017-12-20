@@ -13,8 +13,8 @@ class ConsultantFeeOnly(models.Model):
     clerk_id = fields.Char(string='收費員編號')
     worker_id = fields.Many2one(comodel_name='c.worker', string='輸入人員')
     db_chang_date = fields.Date(string='異動日期')
- #   fee_member = fields.Many2one(comodel_name='normal.p', string='關聯的捐款人')
- #   member_data_ids = fields.Many2one(comodel_name='member.data', string='關聯的轉檔資料')
+    normal_p_id = fields.Many2one(comodel_name='normal.p', string='關聯的轉檔資料')
+
 
 
     def data_input_form_DB(self):
