@@ -154,11 +154,6 @@
                   parent="consultant_manage_categ"
                   action="consultant_base_action"
                   sequence="0"/>
-        <menuitem id="member_data_menu"
-                  name="會員、顧問轉檔"
-                  parent="consultant_manage_categ"
-                  action="member_data_view_action"
-                  sequence="1"/>
         <menuitem id="consultant_fee_menu"
                   name="顧問費用"
                   parent="consultant_manage_categ"
@@ -169,6 +164,11 @@
                   parent="consultant_manage_categ"
                   action="consultant_batch_action"
                   sequence="3"/>
+        <!--<menuitem id="member_data_menu"
+                  name="會員、顧問轉檔"
+                  parent="consultant_manage_categ"
+                  action="member_data_view_action"
+                  sequence="1"/>-->
         <!--<menuitem id="consultant_time_product"-->
                   <!--name="顧問費批次產生作業"-->
                   <!--parent="consultant_manage_root"-->

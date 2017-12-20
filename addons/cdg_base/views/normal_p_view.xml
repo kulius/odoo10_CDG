@@ -123,6 +123,13 @@
                                         <field name="bank2"/>
                                     </group>
                                 </page>
+                                <page string="會員歷史捐款">
+                                    <field name="member_history_id"/>
+                                </page>
+                                <page string="顧問歷史捐款">
+                                    <field name="consultant_history_id"/>
+                                </page>
+
                             </notebook>
                     </sheet>
                 </form>
