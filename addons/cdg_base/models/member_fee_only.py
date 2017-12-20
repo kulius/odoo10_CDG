@@ -14,6 +14,7 @@ class MemberFeeOnly(models.Model):
     clerk_id = fields.Char(string='收費員編號')
     worker_id = fields.Many2one(comodel_name='c.worker', string='輸入人員')
     db_chang_date = fields.Date(string='異動日期')
+    member_fee = fields.Many2one(comodel_name='normal.p', string='關聯的會員')
     normal_p_id = fields.Many2one(comodel_name='normal.p', string='關聯的轉檔資料')
 
 
