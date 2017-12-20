@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="consultant_fee_only_view_tree" model="ir.ui.view">
+            <field name="name">member fee tree</field>
+            <field name="model">consultant.fee</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="year"/>
+                    <field name="consultant_id"/>
+                    <field name="fee_payable"/>
+                    <field name="fee_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="consultant_fee_only_view_form" model="ir.ui.view">
+            <field name="name">member fee form</field>
+            <field name="model">consultant.fee</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="data_input_form_DB" string="轉顧問費用檔" type="object"/>
+                        <button name="connect_to_normal_p" string="收費關聯到捐款者" type="object"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="consultant_id"/>
+                            <field name="year"/>
+                            <field name="fee_id"/>
+                            <field name="fee_payable"/>
+                            <field name="fee_date"/>
+                            <field name="clerk_id"/>
+                            <field name="worker_id"/>
+                            <field name="db_chang_date"/>
+                            <field name="normal_p_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="consultant_fee_only_view_action" model="ir.actions.act_window">
+            <field name="name">顧問收費</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">consultant.fee</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('consultant_id','!=','')]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>
