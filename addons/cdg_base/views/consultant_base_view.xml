@@ -51,13 +51,7 @@
                                 </group>
                             </page>
                             <page string="繳費狀況">
-                                <group col="4">
-                                    <field name="comp_id"/>
-                                    <field name="year"/>
-                                    <field name="cashier"/>
-                                    <field name="should_pay"/>
-                                    <field name="pay_date"/>
-                                </group>
+                                <field name="consultant_pay_history"/>
                             </page>
                         </notebook>
                     </sheet>

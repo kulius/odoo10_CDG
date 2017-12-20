@@ -84,6 +84,7 @@ class NormalP(models.Model):
     member_history_id = fields.One2many(comodel_name='donate.order', inverse_name ='donate_member')
     consultant_history_id = fields.One2many(comodel_name='donate.order', inverse_name='donate_member')
     member_pay_history = fields.One2many(comodel_name='member.fee', inverse_name='fee_member')
+    consultant_pay_history = fields.One2many(comodel_name='member.fee', inverse_name='fee_member')
 
     sequence = fields.Integer(string='排序')
     is_donate = fields.Boolean(string='是否捐助', default=True)

@@ -2,12 +2,12 @@
 <odoo>
     <data>
         <record id="member_base_tree" model="ir.ui.view">
-            <field name="name">member base tree</field>
+            <field name="name">member base t</field>
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
                 <tree string="">
                     <field name="new_coding"/>
-                    <field name="name" string="會員姓名"/>
+                    <field name="name"/>
                     <field name="address"/>
                      <field name="con_phone"/>
                     <field name="con_phone2"/>
