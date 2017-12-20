@@ -59,9 +59,6 @@
                                     <field name="pay_date"/>
                                 </group>
                             </page>
-                            <page string="顧問歷史捐款">
-                                    <field name="member_history_id"/>
-                            </page>
                         </notebook>
                     </sheet>
                 </form>
