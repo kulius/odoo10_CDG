@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import time
+import time ,datetime
 import psycopg2
 
 from odoo import models, fields, api
@@ -75,6 +75,7 @@ class NormalP(models.Model):
     hire_date = fields.Date(string='雇用日期')
     merge_report = fields.Boolean(string='年收據合併', help='將捐款者的收據整合進該住址')
 
+
     # 來判斷你是不是老大
     parent = fields.Many2one(comodel_name='normal.p', string='戶長', ondelete='cascade')
     donate_family1 = fields.One2many(comodel_name='normal.p', inverse_name='parent', string='團員眷屬')
@@ -82,13 +83,13 @@ class NormalP(models.Model):
     donate_history_ids = fields.One2many(comodel_name='donate.order', inverse_name='donate_member')
     member_history_id = fields.One2many(comodel_name='donate.order', inverse_name ='donate_member')
     consultant_history_id = fields.One2many(comodel_name='donate.order', inverse_name='donate_member')
+    member_pay_history = fields.One2many(comodel_name='member.fee', inverse_name='fee_member')
 
     sequence = fields.Integer(string='排序')
     is_donate = fields.Boolean(string='是否捐助', default=True)
     is_merge = fields.Boolean(string='是否合併收據', default=True)
 
     donate_family_list = fields.Char(string='眷屬列表', compute='compute_faamily_list')
-
     active = fields.Boolean(default=True)
 
     def action_chang_donater_wizard(self):
@@ -357,6 +358,13 @@ class NormalP(models.Model):
              " SELECT 顧問編號, 姓名, 手機, 電話一, 電話二, 戶籍郵遞區號, 戶籍通訊地址, 郵遞區號, 通訊地址,case when 聘顧日期='' then NULL else cast(聘顧日期 as date) end as 聘顧日期, 備註, 收費員編號, case when 收據寄送='N' then FALSE else TRUE end as 收據寄送, case when 報表寄送='N' then FALSE else TRUE end as 報表寄送, case when 感謝狀寄送='N' then FALSE else TRUE end as 感謝狀寄送, 自訂排序, b.id FROM 顧問檔 a"\
              " INNER JOIN normal_p b on a.姓名=b.name and a.戶籍通訊地址=b.con_addr"
         self._cr.execute(sql)
+        return True
+    def start_consultant_batch(self, year):
+        pay_year=0
+        lines = self.env['member.fee'].search([])
+        for line in lines:
+            if len(self.year)==3 and line.year==self.year:
+                self.should_pay = line.fee_payable
         return True
 #
 # class DonateFamily(models.Model):

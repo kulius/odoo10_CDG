@@ -22,6 +22,8 @@ class MemberFee(models.Model):
     fee_member = fields.Many2one(comodel_name='normal.p', string='關聯的捐款人')
     member_data_ids = fields.Many2one(comodel_name='member.data', string='關聯的轉檔資料')
 
+
+
     def data_input_form_DB(self):
         data = self.env['base.external.dbsource'].search([])
         lines = data.execute('SELECT * FROM 會員收費檔')
