@@ -12,6 +12,26 @@
                 </tree>
             </field>
         </record>
+        <record id="member_batch_form" model="ir.ui.view">
+            <field name="name">member batch f</field>
+            <field name="model">normal.p</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button name="start_mamber_batch" type="object" string="執行" colspan="1"/>
+                        <button name="hahhaha" type="object" string="刪除" colspan="2"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <font style="display:block" color="red">請確認會員資料及會費設定是否正確，若該年度已產生後，系統將不在重新產生!!</font>
+                            <group>
+                                   <field name="year" string="會員費產生年度" placeholder="年度"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
         <record id="consultant_batch_form" model="ir.ui.view">
             <field name="name">consultant batch f</field>
             <field name="model">normal.p</field>
@@ -23,7 +43,7 @@
                     </header>
                     <sheet>
                         <group>
-                            <font style="display:block" color="red">請確認會員資料及會費設定是否正確，若該年度已產生後，系統將不在重新產生!!</font>
+                            <font style="display:block" color="red">請確認顧問資料及顧問費設定是否正確，若該年度已產生後，系統將不在重新產生!!</font>
                             <group>
                                    <field name="year" string="顧問費產生年度" placeholder="年度"/>
                             </group>
@@ -39,6 +59,23 @@
             <field name="view_mode">form</field>
             <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'form', 'view_id': ref('consultant_batch_form')}),
+            ]"/>
+            <field name="help" type="html">
+
+                <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+                </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+        <record id="member_batch_action" model="ir.actions.act_window">
+            <field name="name">會員批次繳費</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">normal.p</field>
+            <field name="view_mode">form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('member_batch_form')}),
             ]"/>
             <field name="help" type="html">
 

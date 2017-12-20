@@ -358,13 +358,30 @@ class NormalP(models.Model):
              " INNER JOIN normal_p b on a.姓名=b.name and a.戶籍通訊地址=b.con_addr"
         self._cr.execute(sql)
         return True
-    def start_consultant_batch(self, year):
-        pay_year=0
-        lines = self.env['member.fee'].search([])
-        for line in lines:
-            if len(self.year)==3 and line.year==self.year:
-                self.should_pay = line.fee_payable
+    def start_mamber_batch(self):
+        data = self.env['member_only.fee'].search([])
+        data.create({
+            'member_id':'00076',
+            'member_note_id':0,
+            'year':self.year,
+            'fee_id':'F120100081',
+            'fee_payable':1200,
+            'fee_date':'2017-12-20',
+            'clerk_id':150,
+        })
         return True
+    def start_consultant_batch(self):
+        data = self.env['consultant.fee'].search([])
+        data.create({
+            'consultant_id':'00072',
+            'year':self.year,
+            'fee_id':'F1201000xx',
+            'fee_payable':10000,
+            'fee_date':'2017-12-20',
+            'clerk_id':150,
+        })
+        return True
+
 #
 # class DonateFamily(models.Model):
 #     _name = 'donate.family'

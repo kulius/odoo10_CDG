@@ -120,7 +120,7 @@
          <menuitem id="member_batch_menu"
                   name="會員費產生"
                   parent="member_manage_categ"
-                  action="consultant_batch_action"
+                  action="member_batch_action"
                   sequence="3"/>
         <!--<menuitem id="member_time_product"-->
                   <!--name="會員批次產生作業"-->
