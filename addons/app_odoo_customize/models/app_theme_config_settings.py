@@ -31,6 +31,24 @@ class AppThemeConfigSettings(models.TransientModel):
     app_account_title = fields.Char('My Odoo.com Account Title')
     app_account_url = fields.Char('My Odoo.com Account Url')
 
+    Basic_donations = fields.Char(string="基本捐助款")
+    Annual_membership_fee = fields.Char(string="會員年費")
+    Annual_consultants_fee = fields.Char(string="顧問年費")
+    coffin_amount = fields.Char(string="施棺滿足額")
+
+    def save_setting(self):
+        basic_setting = self.env['ir.config_parameter'].search([])
+        for line in basic_setting:
+            if line.key == 'coffin_amount':
+                line.value = self.coffin_amount
+            if line.key == 'Basic_donations':
+                line.value = self.Basic_donations
+            if line.key == 'Annual_membership_fee':
+                line.value = self.Annual_membership_fee
+            if line.key == 'Annual_consultants_fee':
+                line.value = self.Annual_consultants_fee
+        return True
+
     @api.model
     def get_default_all(self, fields):
         ir_config = self.env['ir.config_parameter']
@@ -54,6 +72,11 @@ class AppThemeConfigSettings(models.TransientModel):
         app_account_title = ir_config.get_param('app_account_title', default='My Online Account')
         app_account_url = ir_config.get_param('app_account_url', default='http://www.sunpop.cn/my-account/')
 
+        Basic_donations = ir_config.get_param('Basic_donations', default='100')
+        Annual_membership_fee = ir_config.get_param('Annual_membership_fee', default='1200')
+        Annual_consultants_fee = ir_config.get_param('Annual_consultants_fee', default='10000')
+        coffin_amount = ir_config.get_param('coffin_amount', default='30000')
+
         return dict(
             app_system_name=app_system_name,
             app_show_lang=app_show_lang,
@@ -69,7 +92,11 @@ class AppThemeConfigSettings(models.TransientModel):
             app_documentation_dev_url=app_documentation_dev_url,
             app_support_url=app_support_url,
             app_account_title=app_account_title,
-            app_account_url=app_account_url
+            app_account_url=app_account_url,
+            Basic_donations=Basic_donations,
+            Annual_membership_fee = Annual_membership_fee,
+            Annual_consultants_fee= Annual_consultants_fee,
+            coffin_amount = coffin_amount,
         )
 
     @api.multi
@@ -95,6 +122,10 @@ class AppThemeConfigSettings(models.TransientModel):
         ir_config.set_param("app_account_title", self.app_account_title or "My Online Account")
         ir_config.set_param("app_account_url", self.app_account_url or "http://www.sunpop.cn/my-account/")
 
+        ir_config.set_param("Basic_donations",self.Basic_donations or '100')
+        ir_config.set_param("Annual_membership_fee",self.Annual_membership_fee or '1200')
+        ir_config.set_param("Annual_consultants_fee",self.Annual_consultants_fee or '10000')
+        ir_config.set_param("coffin_amount",self.coffin_amount or '30000')
         return True
 
     @api.multi

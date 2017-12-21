@@ -63,5 +63,21 @@
             <field name="key">app_account_url</field>
             <field name="value">http://www.sunpop.cn/my-account</field>
         </record>
+        <record id="Basic_donations" model="ir.config_parameter">
+            <field name="key">Basic_donations</field>
+            <field name="value">100</field>
+        </record>
+        <record id="Annual_membership_fee" model="ir.config_parameter">
+            <field name="key">Annual_membership_fee</field>
+            <field name="value">1200</field>
+        </record>
+        <record id="Annual_consultants_fee" model="ir.config_parameter">
+            <field name="key">Annual_consultants_fee</field>
+            <field name="value">10000</field>
+        </record>
+        <record id="coffin_amount" model="ir.config_parameter">
+            <field name="key">coffin_amount</field>
+            <field name="value">30000</field>
+        </record>
     </data>
 </openerp>

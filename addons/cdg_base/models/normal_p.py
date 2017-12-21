@@ -361,22 +361,25 @@ class NormalP(models.Model):
         self._cr.execute(sql)
         return True
     def start_mamber_batch(self):
-        basic_setting = self.env['basic.setting'].search([])
-
-        print(basic_setting.coffin_amount)
-        print(basic_setting.Basic_donations)
-        print(basic_setting.Annual_membership_fee)
-        print(basic_setting.Annual_consultants_fee)
-
-        data = self.env['associatemember.fee'].search([])
-        data.create({
-            'year':self.year,
-            'fee_code':'F120100081',
-            'fee_payable':1200,
-            'fee_date':'2017-12-20',
-            'clerk_id':150,
-            'normal_p_id':754514
-        })
+        basic_setting = self.env['ir.config_parameter'].search([])
+        for line in basic_setting:
+            if line.key == 'coffin_amount':
+                print(line.value)
+            if line.key == 'Basic_donations':
+                print(line.value)
+            if line.key == 'Annual_membership_fee':
+                print(line.value)
+            if line.key == 'Annual_consultants_fee':
+                print(line.value)
+        # data = self.env['associatemember.fee'].search([])
+        # data.create({
+        #     'year':self.year,
+        #     'fee_code':'F120100081',
+        #     'fee_payable':1200,
+        #     'fee_date':'2017-12-20',
+        #     'clerk_id':150,
+        #     'normal_p_id':754514
+        # })
         return True
     def start_consultant_batch(self):
         data = self.env['consultant.fee'].search([])

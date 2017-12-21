@@ -84,6 +84,19 @@
                             <field name="app_account_url"/>
                         </div>
                     </group>
+                    <group string="捐款及會費基本設定">
+                        <div class="col-md-12">
+                            <group col="4">
+                                <field name="Basic_donations"/>
+                                <field name="Annual_membership_fee"/>
+                                <field name="Annual_consultants_fee"/>
+                                <field name="coffin_amount"/>
+                            </group>
+                            <group col="4">
+                                <button string="儲存設定" type="object" name="save_setting" class="oe_highlight"/>
+                            </group>
+                        </div>
+                    </group>
                     <group string="Data Clearing (Be careful to do that!)">
                         <label string="Sales"/>
                         <div>

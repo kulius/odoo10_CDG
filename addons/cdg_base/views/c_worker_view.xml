@@ -74,23 +74,6 @@
             </field>
         </record>
 
-        <record id="fee_basic_setting_action" model="ir.actions.act_window">
-            <field name="name">基本設定檔</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">basic.setting</field>
-            <field name="view_mode">form</field>
-            <field name="view_ids" eval="[(5, 0, 0),(0, 0, {'view_mode': 'form', 'view_id': ref('fee_basic_setting_form')}),]"/>
-            <field name="domain">[]</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    <!-- Add Text Here -->
-                </p>
-                <p>
-                <!-- More details about what a user can do with this object will be OK -->
-                </p>
-            </field>
-        </record>
-
         <record id="fee_basic_setting_tree" model="ir.ui.view">
             <field name="name">basic setting t</field>
             <field name="model">basic.setting</field>
@@ -117,6 +100,23 @@
                         </group>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+         <record id="fee_basic_setting_action" model="ir.actions.act_window">
+            <field name="name">基本設定檔</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">basic.setting</field>
+            <field name="view_mode">form</field>
+            <field name="view_ids" eval="[(5, 0, 0),(0, 0, {'view_mode': 'form', 'view_id': ref('fee_basic_setting_form')}),]"/>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                <!-- More details about what a user can do with this object will be OK -->
+                </p>
             </field>
         </record>
 

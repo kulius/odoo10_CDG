@@ -9,3 +9,4 @@ class CWorker(models.Model):
     Annual_membership_fee = fields.Integer(string="會員年費", default=1200)
     Annual_consultants_fee = fields.Integer(string="顧問年費", default=10000)
     coffin_amount = fields.Integer(string="施棺滿足額", default=30000)
+
