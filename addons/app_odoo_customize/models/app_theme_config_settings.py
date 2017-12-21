@@ -53,6 +53,7 @@ class AppThemeConfigSettings(models.TransientModel):
         app_support_url = ir_config.get_param('app_support_url', default='http://www.sunpop.cn/trial/')
         app_account_title = ir_config.get_param('app_account_title', default='My Online Account')
         app_account_url = ir_config.get_param('app_account_url', default='http://www.sunpop.cn/my-account/')
+
         return dict(
             app_system_name=app_system_name,
             app_show_lang=app_show_lang,

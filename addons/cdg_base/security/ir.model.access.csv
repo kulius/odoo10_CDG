@@ -23,5 +23,5 @@ access_hand_checking,access_hand_checking,model_hand_checking,cdg_base.cdg_emplo
 access_coffin_base,access_coffin_base,model_coffin_base,cdg_base.cdg_employee,1,1,1,1
 access_people_type,access_people_type,model_people_type,cdg_base.cdg_employee,1,1,1,1
 access_consultant_fee,access_consultant_fee,model_consultant_fee,cdg_base.cdg_employee,1,1,1,1
-access_member_only_fee,access_member_only_fee,model_member_only_fee,cdg_base.cdg_employee,1,1,1,1
+access_associatemember_fee,accessassociatemember_fee,model_associatemember_fee,cdg_base.cdg_employee,1,1,1,1
 

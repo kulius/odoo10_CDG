@@ -76,14 +76,13 @@ class NormalP(models.Model):
     merge_report = fields.Boolean(string='年收據合併', help='將捐款者的收據整合進該住址')
 
 
-    # 來判斷你是不是老大
+    #團員檔及團員眷屬檔設定戶長之功能
     parent = fields.Many2one(comodel_name='normal.p', string='戶長', ondelete='cascade')
     donate_family1 = fields.One2many(comodel_name='normal.p', inverse_name='parent', string='團員眷屬')
+    # 來判斷你是不是老大
     member_data_ids = fields.Many2one(comodel_name='member.data', string='關聯的顧問會員檔')
     donate_history_ids = fields.One2many(comodel_name='donate.order', inverse_name='donate_member')
-
-
-
+    #會員收費檔及顧問檔收費檔關聯
     member_pay_history = fields.One2many(comodel_name='associatemember.fee', inverse_name='normal_p_id')
     consultant_pay_history = fields.One2many(comodel_name='consultant.fee', inverse_name='normal_p_id')
 
@@ -362,9 +361,15 @@ class NormalP(models.Model):
         self._cr.execute(sql)
         return True
     def start_mamber_batch(self):
+        basic_setting = self.env['app.theme.config.settings'].search([])
+
+        print(basic_setting.coffin_amount)
+        print(basic_setting.Basic_donations)
+        print(basic_setting.Annual_membership_fee)
+        print(basic_setting.Annual_consultants_fee)
+
         data = self.env['associatemember.fee'].search([])
         data.create({
-
             'year':self.year,
             'fee_code':'F120100081',
             'fee_payable':1200,

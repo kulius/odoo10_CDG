@@ -34,6 +34,11 @@ class CWorker(models.Model):
     member_cash = fields.One2many(comodel_name='normal.p',inverse_name='cashier_name',string='會員繳費名冊')
     consultant_cash = fields.Many2many(comodel_name='normal.p',string='顧問繳費名冊')
 
+    Basic_donations = fields.Integer(string="基本捐助款", default=100)
+    Annual_membership_fee = fields.Integer(string="會員年費", default=1200)
+    Annual_consultants_fee = fields.Integer(string="顧問年費", default=10000)
+    coffin_amount = fields.Integer(string="施棺滿足額", default=30000)
+
     def data_input_from_database(self):
         data = self.env['base.external.dbsource'].search([])
         lines = data.execute('SELECT * FROM 員工檔')

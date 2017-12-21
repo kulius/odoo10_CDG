@@ -74,5 +74,50 @@
             </field>
         </record>
 
+        <record id="fee_basic_setting_action" model="ir.actions.act_window">
+            <field name="name">基本設定檔</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">basic.setting</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <record id="fee_basic_setting_tree" model="ir.ui.view">
+            <field name="name">basic setting t</field>
+            <field name="model">basic.setting</field>
+            <field name="arch" type="xml">
+                <tree string="">
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="fee_basic_setting_form" model="ir.ui.view">
+            <field name="name">basic setting f</field>
+            <field name="model">basic.setting</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button string="儲存設定" name="fee_basic_setting" type="object"/>
+                    </header>
+                    <sheet>
+                        <group col="6">
+                            <field name="w_id"/>
+                            <field name="name"/>
+                            <field name="create_date1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
     </data>
 </odoo>

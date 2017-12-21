@@ -186,7 +186,6 @@
             <field name="arch" type="xml">
                 <pivot string="收據分析表">
                     <field name="key_in_user" type="row"/>
-                    <field name="print_user" type="row"/>
                     <field name="sreceipt_number" type="measure"/>
                     <field name="print_count" type="measure"/>
                 </pivot>
