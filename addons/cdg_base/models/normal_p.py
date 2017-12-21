@@ -74,8 +74,6 @@ class NormalP(models.Model):
     member_type = fields.Selection(selection=[(1, '基本會員'), (2, '贊助會員')], string='會員種類')
     hire_date = fields.Date(string='雇用日期')
     merge_report = fields.Boolean(string='年收據合併', help='將捐款者的收據整合進該住址')
-
-
     #團員檔及團員眷屬檔設定戶長之功能
     parent = fields.Many2one(comodel_name='normal.p', string='戶長', ondelete='cascade')
     donate_family1 = fields.One2many(comodel_name='normal.p', inverse_name='parent', string='團員眷屬')
@@ -362,15 +360,14 @@ class NormalP(models.Model):
         return True
     def start_mamber_batch(self):
         basic_setting = self.env['ir.config_parameter'].search([])
+        Annual_membership_fee=0
+        Annual_consultants_fee=0
         for line in basic_setting:
-            if line.key == 'coffin_amount':
-                print(line.value)
-            if line.key == 'Basic_donations':
-                print(line.value)
             if line.key == 'Annual_membership_fee':
-                print(line.value)
+                Annual_membership_fee = int(line.value)
             if line.key == 'Annual_consultants_fee':
-                print(line.value)
+                Annual_consultants_fee = int(line.value)
+
         # data = self.env['associatemember.fee'].search([])
         # data.create({
         #     'year':self.year,
