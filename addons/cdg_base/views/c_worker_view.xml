@@ -110,9 +110,7 @@
                     </header>
                     <sheet>
                         <group col="6">
-                            <field name="w_id"/>
-                            <field name="name"/>
-                            <field name="create_date1"/>
+
                         </group>
                     </sheet>
                 </form>
