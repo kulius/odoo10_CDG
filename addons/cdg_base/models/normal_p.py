@@ -361,7 +361,7 @@ class NormalP(models.Model):
         self._cr.execute(sql)
         return True
     def start_mamber_batch(self):
-        basic_setting = self.env['app.theme.config.settings'].search([])
+        basic_setting = self.env['basic.setting'].search([])
 
         print(basic_setting.coffin_amount)
         print(basic_setting.Basic_donations)

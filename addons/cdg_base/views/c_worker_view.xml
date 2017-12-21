@@ -106,7 +106,7 @@
             <field name="arch" type="xml">
                 <form string="捐款及會費基本設定">
                     <header>
-                        <button string="儲存設定" name="fee_basic_setting" type="object"/>
+                        <!--<button string="儲存設定" name="fee_basic_setting" type="object"/>-->
                     </header>
                     <sheet>
                         <group col="4">
