@@ -35,7 +35,7 @@
         <menuitem id="fee_basic_setting"
                   name="捐款及年費設定"
                   parent="charity_base_categ"
-                  action=""
+                  action="fee_basic_setting_action"
                   sequence="4"/>
         <menuitem id="first_root" name="捐款者管理" sequence="2"/>
         <menuitem id="first_categ" name="捐款者管理" parent="first_root" sequence="1"/>

@@ -94,7 +94,7 @@
             <field name="name">basic setting t</field>
             <field name="model">basic.setting</field>
             <field name="arch" type="xml">
-                <tree string="">
+                <tree string="捐款及會費基本設定">
 
                 </tree>
             </field>
@@ -104,7 +104,7 @@
             <field name="name">basic setting f</field>
             <field name="model">basic.setting</field>
             <field name="arch" type="xml">
-                <form string="">
+                <form string="捐款及會費基本設定">
                     <header>
                         <button string="儲存設定" name="fee_basic_setting" type="object"/>
                     </header>
