@@ -55,7 +55,7 @@ class DonateSingle(models.Model):
     report_price_big = fields.Char(string='報表用大寫金額')
     report_donate = fields.Char(string='報表用捐款日期')
     donate_date = fields.Date('捐款日期',default=lambda self: fields.date.today())
-    sreceipt_number = fields.Integer(string='收據筆數', compute='compute_sreceipt', store=True)
+    sreceipt_number = fields.Integer(string='收據筆數', compute='compute_total', store=True)
     print_count = fields.Integer(string='列印筆數', compute='compute_print',store=True)
     print_date = fields.Date('列印日期')
 
@@ -224,15 +224,9 @@ class DonateSingle(models.Model):
     def compute_total(self):
         for line in self:
             for row in line.donate_list:
+                line.sreceipt_number += 1
                 if row.donate_member.is_donate == True:
                     line.donate_total += row.donate
-
-    @api.depends('donate_list')
-    def compute_sreceipt(self):
-        for line in self:
-            for row in line.donate_list:
-                if line.receipt_send == True:
-                    line.sreceipt_number += 1
 
     def button_to_cnacel_donate(self):
         if self.state == 3:

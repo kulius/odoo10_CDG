@@ -14,3 +14,4 @@ from . import coffin_donation
 from . import hand_checking
 from . import consultant_fee_only
 from . import member_fee_only
+from . import basic_setting
