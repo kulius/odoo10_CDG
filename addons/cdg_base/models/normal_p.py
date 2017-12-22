@@ -83,6 +83,8 @@ class NormalP(models.Model):
     #會員收費檔及顧問檔收費檔關聯
     member_pay_history = fields.One2many(comodel_name='associatemember.fee', inverse_name='normal_p_id')
     consultant_pay_history = fields.One2many(comodel_name='consultant.fee', inverse_name='normal_p_id')
+    member_id = fields.Char(string='會員編號')
+    consultant_id = fields.Char(string='顧問編號')
 
     sequence = fields.Integer(string='排序')
     is_donate = fields.Boolean(string='是否捐助', default=True)
@@ -347,47 +349,79 @@ class NormalP(models.Model):
             return False
 
     def set_consultant(self):
-        sql =" INSERT INTO member_data(member_id,name,birthday,user_id,cellphone,phone1,phone2,reg_zip_code,reg_address,conn_zip_code,conn_address,description,clerk_id,rec_send,print_note,self_order,normal_p_id, member_type) "\
-             " SELECT 會員編號, 姓名, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期, 身份證號, 手機, 電話一, 電話二, 戶籍郵遞區號, 戶籍通訊地址, 郵遞區號, 通訊地址, 備註, 收費員編號, case when 收據寄送='N' then FALSE else TRUE end as 收據寄送, case when 名冊列印='N' then FALSE else TRUE end as 名冊列印, 自訂排序, b.id, 會員種類編號  FROM 會員檔 a"\
-             " INNER JOIN normal_p b on a.姓名=b.name and a.戶籍通訊地址=b.con_addr"
+        sql = "UPDATE normal_p SET consultant_id = a.顧問編號 FROM 顧問檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
         self._cr.execute(sql)
+        sql = ''
+        sql = "SELECT DISTINCT on (consultant_id) * FROM normal_p WHERE consultant_id <>'' and con_addr<>'' "
+        self._cr.execute(sql)
+        dict = self._cr.dictfetchall()  #
+        sql = ''
+        sql = "INSERT INTO consultant_fee(consultant_id,year,fee_code,fee_payable,fee_date,clerk_id) " \
+              " SELECT 顧問編號,年度,收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 日期,收費員編號 from 顧問收費檔 "
+        self._cr.execute(sql)  #
+        datas = self.env['consultant.fee'].search([])
+        for i in range(len(dict)):
+            for data in datas:
+                if data.consultant_id == dict[i]['consultant_id'] and data.consultant_id != '':
+                    data.normal_p_id = dict[i]['id']
         return True
+
     def set_member(self):
-        sql ="INSERT INTO member_data(adviser_id,name,cellphone,phone1,phone2,reg_zip_code,reg_address,conn_zip_code,conn_address,advise_date,description,clerk_id,rec_send,report_send,thanks_send,self_order,normal_p_id) "\
-             " SELECT 顧問編號, 姓名, 手機, 電話一, 電話二, 戶籍郵遞區號, 戶籍通訊地址, 郵遞區號, 通訊地址,case when 聘顧日期='' then NULL else cast(聘顧日期 as date) end as 聘顧日期, 備註, 收費員編號, case when 收據寄送='N' then FALSE else TRUE end as 收據寄送, case when 報表寄送='N' then FALSE else TRUE end as 報表寄送, case when 感謝狀寄送='N' then FALSE else TRUE end as 感謝狀寄送, 自訂排序, b.id FROM 顧問檔 a"\
-             " INNER JOIN normal_p b on a.姓名=b.name and a.戶籍通訊地址=b.con_addr"
+        sql ="UPDATE normal_p SET member_id = a.會員編號 FROM 會員檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
         self._cr.execute(sql)
+        sql = ''
+        sql="SELECT DISTINCT on (member_id) * FROM normal_p WHERE member_id <>'' and con_addr<>'' "
+        self._cr.execute(sql)
+        dict = self._cr.dictfetchall() #6940
+        sql = ''
+        sql = "INSERT INTO associatemember_fee(member_id,member_note_code,year,fee_code,fee_payable,fee_date,clerk_id) " \
+              " SELECT 會員編號, 會員名冊編號,年度,收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 日期,收費員編號 from 會員收費檔 "
+        self._cr.execute(sql) #58000
+        datas = self.env['associatemember.fee'].search([],limit=100)
+        for i in range(len(dict)):
+            for data in datas:
+                if data.member_id == dict[i]['member_id'] and data.member_id != '' :
+                    data.normal_p_id=dict[i]['id']
         return True
+
     def start_mamber_batch(self):
         basic_setting = self.env['ir.config_parameter'].search([])
         Annual_membership_fee=0
-        Annual_consultants_fee=0
         for line in basic_setting:
             if line.key == 'Annual_membership_fee':
                 Annual_membership_fee = int(line.value)
+        if len(self.year) == 4:
+            self.year=str(int(self.year)-1911)
+
+        sql = "SELECT DISTINCT on (member_id) * FROM normal_p WHERE member_id <>'' and con_addr<>'' "
+        self._cr.execute(sql)
+        dict = self._cr.dictfetchall()
+        for i in range(len(dict)):
+            self.env['associatemember.fee'].create({
+                'year': self.year,
+                'fee_payable': Annual_membership_fee,
+                'normal_p_id': dict[i]['id']
+            })
+        return True
+
+    def start_consultant_batch(self):
+        basic_setting = self.env['ir.config_parameter'].search([])
+        Annual_consultants_fee = 0
+        for line in basic_setting:
             if line.key == 'Annual_consultants_fee':
                 Annual_consultants_fee = int(line.value)
+        if len(self.year) == 4:
+            self.year = str(int(self.year) - 1911)
 
-        # data = self.env['associatemember.fee'].search([])
-        # data.create({
-        #     'year':self.year,
-        #     'fee_code':'F120100081',
-        #     'fee_payable':1200,
-        #     'fee_date':'2017-12-20',
-        #     'clerk_id':150,
-        #     'normal_p_id':754514
-        # })
-        return True
-    def start_consultant_batch(self):
-        data = self.env['consultant.fee'].search([])
-        data.create({
-            'year':self.year,
-            'fee_code':'F1201000xx',
-            'fee_payable':10000,
-            'fee_date':'2017-12-20',
-            'clerk_id':150,
-            'normal_p_id': 761747
-        })
+        sql = "SELECT DISTINCT on (consultant_id) * FROM normal_p WHERE consultant_id <>'' and con_addr<>'' "
+        self._cr.execute(sql)
+        dict = self._cr.dictfetchall()
+        for i in range(len(dict)):
+            self.env['consultant.fee'].create({
+                'year':self.year,
+                'fee_payable':Annual_consultants_fee,
+                'normal_p_id': dict[i]['id']
+            })
         return True
 
 #
