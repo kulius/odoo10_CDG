@@ -465,19 +465,14 @@ class AppThemeConfigSettings(models.TransientModel):
               " ) as aaa"\
               " LIMIT 1000"
         self._cr.execute(sql)
-
         return True
 
     def set_leader(self):
         sql = "UPDATE normal_p SET parent = a.id FROM normal_p a WHERE a.w_id = normal_p.w_id and a.number='1' "
         self._cr.execute(sql)
-
-
         return True
 
     def receipt_transfer(self):
-
-        sql = ''
         sql = " INSERT INTO donate_order(paid_id,donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,report_year,clerk,db_chang_date) select 收費編號,捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,cast(捐款日期 as DATE ),case when 收據年度開立 = 'N' then FALSE else TRUE end as report_year,收費員編號, cast(異動日期 as Date) from 捐款檔 where 團員編號  in (select w_id from normal_p)"
         self._cr.execute(sql)
         return True
