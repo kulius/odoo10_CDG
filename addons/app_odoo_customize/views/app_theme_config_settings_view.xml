@@ -159,6 +159,10 @@
                             |
                             <button string="設定捐款者" type="object" name="set_donor" class="oe_highlight"/>
                         </div>
+                        <label string="員工檔"/>
+                        <div>
+                            <button string="員工檔轉檔" type="object" name="set_worker" class="oe_highlight"/>
+                        </div>
                     </group>
                 </form>
             </field>

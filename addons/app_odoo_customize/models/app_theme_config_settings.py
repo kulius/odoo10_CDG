@@ -481,3 +481,32 @@ class AppThemeConfigSettings(models.TransientModel):
         sql = 'update donate_order set donate_member = a.id from normal_p a where a.w_id = donate_order.donate_w_id and  a.number = donate_order.donate_w_id_number '
         self._cr.execute(sql)
         return True
+
+    def set_worker(self):
+        sql = "INSERT INTO worker_data(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
+              "SELECT 職稱, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期,性別, 電話二, 身份證號,case when 離職日期='' then NULL else cast(離職日期 as date) end as 離職日期, 員工編號, 通訊地址,備註,手機,姓名, 電話一,最高學歷,case when 到職日期='' then NULL else cast(到職日期 as date) end as 到職日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 員工檔"
+        self._cr.execute(sql)
+        employee_data = self.env['worker.data'].search([])
+        for line in employee_data:
+            self.env['res.users'].create({
+                'login': line.w_id,
+                'password':line.w_id,
+                'name':line.name,
+                'now_job': line.now_job,
+                'birth': line.birth,
+                'sex': line.sex,
+                'con_phone2': line.con_phone2,
+                'self_iden': line.self_iden,
+                'lev_date': line.lev_date,
+                'w_id': line.w_id,
+                'email': line.email,
+                'con_addr': line.con_addr,
+                'ps': line.ps,
+                'cellphone': line.cellphone,
+                'name': line.name,
+                'con_phone': line.con_phone,
+                'highest_stu': line.highest_stu,
+                'come_date': line.come_date,
+                'db_chang_date': line.db_chang_date,
+                'job_type': line.job_type
+            })
