@@ -204,7 +204,12 @@
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
                 <search>
+                    <field name="name"/>
                     <field name="cashier"/>
+                    <field string="基本會員" name="type" filter_domain="[('type.id','=',2 )]"/>
+                    <field string="贊助會員" name="type" filter_domain="[('type.id','=',3 )]"/>
+                    <filter string="基本會員" name="type" domain="[('type.id','=',2 )]"/>
+                    <filter string="贊助會員" name="type" domain="[('type.id','=',3 )]"/>
                 </search>
             </field>
         </record>
