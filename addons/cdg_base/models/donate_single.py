@@ -56,7 +56,7 @@ class DonateSingle(models.Model):
     report_donate = fields.Char(string='報表用捐款日期')
     donate_date = fields.Date('捐款日期',default=lambda self: fields.date.today())
     sreceipt_number = fields.Integer(string='收據筆數', compute='compute_total', store=True)
-    print_count = fields.Integer(string='列印筆數', compute='compute_print',store=True)
+    print_count = fields.Integer(string='列印筆數',store=True)
     print_date = fields.Date('列印日期')
 
     def print_check(self,ids):
