@@ -18,7 +18,7 @@
             <field name="arch" type="xml">
                 <form string="">
                     <header>
-                        <button name="start_mamber_batch" type="object" string="執行" colspan="1"/>
+                        <button name="start_member_batch" type="object" string="執行" colspan="1"/>
                         <button name="hahhaha" type="object" string="刪除" colspan="2"/>
                     </header>
                     <sheet>

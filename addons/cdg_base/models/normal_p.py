@@ -384,7 +384,7 @@ class NormalP(models.Model):
                     data.normal_p_id=dict[i]['id']
         return True
 
-    def start_mamber_batch(self):
+    def start_member_batch(self):
         basic_setting = self.env['ir.config_parameter'].search([])
         Annual_membership_fee=0
         for line in basic_setting:
