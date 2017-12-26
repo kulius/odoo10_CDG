@@ -163,6 +163,10 @@
                         <div>
                             <button string="員工檔轉檔" type="object" name="set_worker" class="oe_highlight"/>
                         </div>
+                        <label string="施棺檔"/>
+                        <div>
+                            <button string="施棺檔轉檔" type="object" name="set_coffin_id" class="oe_highlight"/>
+                        </div>
                     </group>
                 </form>
             </field>

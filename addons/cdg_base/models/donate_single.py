@@ -59,6 +59,23 @@ class DonateSingle(models.Model):
     print_count = fields.Integer(string='列印筆數',store=True)
     print_date = fields.Date('列印日期')
 
+    def get_coffin_donate(self,ids):
+        res = []
+        for line in ids:
+            res.append([4, line])
+        wizard_data = self.env['coffin.base'].create({
+            'get_coffin_donate': res
+        })
+
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'coffin.base',
+            'name': '施棺捐款',
+            'view_mode': 'form',
+            'res_id': wizard_data.id,
+            'target': 'new',
+        }
+
     def print_check(self,ids):
         res = []
         for line in ids:

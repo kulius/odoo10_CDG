@@ -510,3 +510,8 @@ class AppThemeConfigSettings(models.TransientModel):
                 'db_chang_date': line.db_chang_date,
                 'job_type': line.job_type
             })
+
+    def set_coffin_id(self):
+        sql = 'update coffin_donation set coffin_donation_id = a.id from coffin_base a where a.coffin_id = coffin_donation.coffin_id '
+        self._cr.execute(sql)
+        return True
