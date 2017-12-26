@@ -5,7 +5,7 @@ class CoffinDonation(models.Model):
     _name = 'coffin.donation'
 
     name = fields.Char()
-    new_coffin_id = fields.Char(string='新施棺編號編號')
+    new_coffin_ic = fields.Char(string='新施棺編號編號')
     new_donate_id = fields.Char(string='新捐款編號')
     coffin_id = fields.Char(string='施棺編號')
     donate_id = fields.Char(string='捐款編號')

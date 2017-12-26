@@ -5,7 +5,7 @@
         <field name="name">coffin base t</field>
         <field name="model">coffin.base</field>
         <field name="arch" type="xml">
-            <tree string="">
+            <tree>
                 <field name="coffin_id"/>
                 <field name="donate_type"/>
                 <field name="coffin_date_group"/>
@@ -21,22 +21,24 @@
             <field name="name">coffin base f</field>
             <field name="model">coffin.base</field>
             <field name="arch" type="xml">
-                <form string="">
+                <form>
                     <header>
                         <button string="施棺檔匯入" name="data_input_coffin" type="object"/>
                     </header>
                     <sheet>
-                            <group col="6">
-                                <field name="coffin_id"/>
-                                <field name="donate_type"/>
-                                <field name="create_date"/>
+                            <group col="7" name="文字">
+                                <field name="coffin_id" colspan="2"/>
+                                <field name="donate_type" colspan="2"/>
+                                <field name="create_date" colspan="3"/>
                             </group>
-                            <group col="7">
-                                <field name="coffin_date_year" string="施棺期別"/>
-                                <field name="coffin_date_group" nolabel="1"/>
+
+                             <group col="7">
+                                <field name="coffin_date_year" string="施棺期別"></field>
+                                 <field name="coffin_date_group" nolabel="1"/>
                                 <field name="donate_price"/>
                                 <field name="finish"/>
                             </group>
+
                         <notebook>
                             <page string="施棺資料">
                                 <group col="4">
@@ -48,9 +50,9 @@
                                     <field name="con_phone2"/>
                                     <field name="cellphone"/>
                                 </group>
-                                <group col="3">
+                                <group col="6">
                                     <field name="zip_code" string="通訊地址"/>
-                                    <field name="con_addr" nolabel="1"/>
+                                    <field name="con_addr" nolabel="1" colspan="4"/>
                                 </group>
                                 <group col="2">
                                     <field name="donater_ps" string="捐款者備註"/>
@@ -61,6 +63,9 @@
 
                             </page>
                             <page string="捐助資料">
+                                <div class="oe_button_box" name="button_box">
+                                   <button string="新增施棺檔" name="add_coffin_file" class="oe_stat_button" icon="fa-plus" type="object"/>
+                                </div>
                                 <field name="batch_donate"/>
                             </page>
                         </notebook>

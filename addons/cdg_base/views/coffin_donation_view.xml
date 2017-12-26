@@ -25,6 +25,7 @@
                 </tree>
             </field>
         </record>
+
         <record id="coffin_donation_form" model="ir.ui.view">
             <field name="name">coffin donation form</field>
             <field name="model">coffin.donation</field>

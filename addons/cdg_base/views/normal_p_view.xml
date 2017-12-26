@@ -8,7 +8,6 @@
             <field name="arch" type="xml">
                 <tree string="">
                     <field name="new_coding"/>
-                    <field name="w_id"/>
                     <field name="number"/>
                     <field name="name"/>
                     <field name="con_phone"/>
@@ -69,13 +68,13 @@
                                             <field name="con_phone"/>
                                             <field name="con_phone2"/>
                                         </group>
-                                        <group col="6">
-                                            <field name="zip_code" colspan="2"/>
-                                            <field name="con_addr" colspan="4"/>
+                                        <group col="7">
+                                            <field name="zip_code" colspan="2" string="聯絡地址"/>
+                                            <field name="con_addr" colspan="5" nolabel="1"/>
                                         </group>
-                                        <group col="6">
-                                            <field name="zip_code" colspan="2"/>
-                                            <field name="rec_addr" colspan="4"/>
+                                        <group col="7">
+                                            <field name="zip_code" colspan="2" string="收據地址"/>
+                                            <field name="rec_addr" colspan="5" nolabel="1"/>
                                         </group>
                                         <group col="6">
                                             <field name="donate_family_list" colspan="6"/>
@@ -86,19 +85,22 @@
                                     </div>
                                 </page>
                                 <page string="團員眷屬">
+                                    <div class="oe_button_box" name="button_box">
+                                        <button string="按鈕一" name="button1" type="object" class="oe_stat_button"/>
+                                        <button string="按鈕二" name="button2" type="object" class="oe_stat_button"/>
+                                    </div>
                                     <field name="donate_family1" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form'}">
                                         <tree>
-                                            <field name="sequence" widget="handle"/>
-                                            <field name="w_id"/>
-                                            <field name="number"/>
                                             <field name="new_coding"/>
                                             <field name="name"/>
                                             <field name="is_donate"/>
                                             <field name="is_merge"/>
+                                            <field name="rec_addr"/>
                                             <button name="toggle_donate" string="捐助變更" type="object"/>
                                             <button name="toggle_merge" string="合併變更" type="object"/>
                                         </tree>
                                     </field>
+
                                 </page>
                                 <page string="約定轉帳眷屬">
 
@@ -143,9 +145,7 @@
                 <search>
                     <field name="name"/>
                     <field name="new_coding"/>
-                    <field name="w_id"/>
                     <field name="con_addr"/>
-                    <field name="number"/>
                     <filter string="戶長" name="top_of_home" domain="[('donate_family1','!=', False)]" />
                 </search>
             </field>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="" model="ir.ui.view">
+            <field name="name">coffin Tree</field>
+            <field name="model">new.coffin</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="order_ids"/>
+                </tree>
+            </field>
+        </record>
+
+
+    <act_window id="new_coffin_action" name="新增施棺檔" res_model="new.coffin"
+                    view_mode="tree" target="new" multi="False"/>
+    </data>
+</odoo>

@@ -14,6 +14,7 @@
 
         'report/paper.xml',
         'wizard/wizard_batch.xml',
+        'wizard/new_coffin.xml',
         'views/hand_checking_view.xml',
         'views/coffin_donation_view.xml',
         'views/coffin_base_view.xml',

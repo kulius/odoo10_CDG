@@ -18,7 +18,7 @@ class DonateSingle(models.Model):
     name = fields.Char(string='姓名', compute='set_donate_name',store=True)
     self_iden = fields.Char(string='身分證字號', compute='set_donate_name', store=True)
     cellphone = fields.Char(string='手機', compute='set_donate_name', store=True)
-    con_phone = fields.Char(string='連絡電話', compute='set_donate_name', store=True)
+    con_phone = fields.Char(string='聯絡電話', compute='set_donate_name', store=True)
     zip_code = fields.Char(string='郵遞區號', compute='set_donate_name', store=True)
     con_addr = fields.Char(string='聯絡地址', compute='set_donate_name', store=True)
 

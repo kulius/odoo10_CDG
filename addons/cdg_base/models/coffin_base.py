@@ -50,6 +50,14 @@ class CoffinBase(models.Model):
                 'coffin_date_year':line[u'年度'],
                 'coffin_date_group':line[u'期別'],
             })
+    def add_coffin_file(self):
+        wizard_data = self.env['new.coffin'].create({
+            'order_ids': self.coffin_id
+        })
+
+        action = self.env.ref('cdg_base.new_coffin_action').read()[0]
+        action['res_id'] = wizard_data.id
+        return True;
 
     def check_db_date(self, date):
         if date:
@@ -64,12 +72,12 @@ class CoffinBase(models.Model):
         if bool == 'Y':
             return True
         elif bool == 'N':
-            return  False
+            return False
 
     def check(self,date_check):
         if date_check:
             return date_check
         else:
-            return  None
+            return None
 
 
