@@ -15,3 +15,5 @@ from . import hand_checking
 from . import consultant_fee_only
 from . import member_fee_only
 from . import worker_data
+from . import consultant_source
+from . import member_source

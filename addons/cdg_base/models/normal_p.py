@@ -15,7 +15,7 @@ class NormalP(models.Model):
     _name = 'normal.p'
     _order = 'sequence,id'
 
-    new_coding = fields.Char(string='新編捐款者編號')
+    new_coding = fields.Char(string='捐款者編號')
     special_tag = fields.Boolean(string='眷屬檔沒有的團員')
     w_id = fields.Char(string='舊團員編號')
     number = fields.Char(string='序號')

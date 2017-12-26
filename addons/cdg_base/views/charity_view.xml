@@ -108,9 +108,9 @@
         <menuitem id="member_manage_root" name="會員管理" sequence="3"/>
         <menuitem id="member_manage_categ" name="會員管理" parent="member_manage_root" sequence="1"/>
         <menuitem id="member_base"
-                  name="會員基本資料作業"
+                  name="會員基本資料"
                   parent="member_manage_categ"
-                  action="member_base_action"
+                  action="member_source_action"
                   sequence="1"/>
         <menuitem id="member_fee_menu"
                   name="會員費用"
@@ -165,9 +165,9 @@
         <menuitem id="consultant_manage_root" name="顧問管理" sequence="4"/>
         <menuitem id="consultant_manage_categ" name="顧問管理" parent="consultant_manage_root" sequence="1"/>
         <menuitem id="consultant_base"
-                  name="顧問基本資料作業"
+                  name="顧問基本資料"
                   parent="consultant_manage_categ"
-                  action="consultant_base_action"
+                  action="consultant_source_action"
                   sequence="0"/>
         <menuitem id="consultant_fee_menu"
                   name="顧問費用"
@@ -197,7 +197,7 @@
         <menuitem id="coffin_manage_root" name="施棺管理" sequence=""/>
         <menuitem id="coffin_manage_root_categ" name="施棺管理" parent="coffin_manage_root" sequence="1"/>
         <menuitem id="coffin_base"
-                  name="施棺基本資料作業"
+                  name="施棺基本資料"
                   parent="coffin_manage_root_categ"
                   action="coffin_base_action"
                   sequence=""/>
