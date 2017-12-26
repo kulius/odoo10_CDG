@@ -15,7 +15,6 @@ class CoffinDonation(models.Model):
 
     @api.depends('get_coffin_donate')
     def set_donate_name(self):
-
         for line in self:
             normal_p = line.get_coffin_donate
             line.donate_id = normal_p.donate_id
