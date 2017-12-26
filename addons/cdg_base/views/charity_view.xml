@@ -39,11 +39,11 @@
                   parent="first_categ"
                   action="normal_p_action"
                   sequence="1"/>
-        <menuitem id="people_type_view"
+        <!--<menuitem id="people_type_view"
                   name="捐款者分類"
                   parent="first_categ"
                   action="people_type_action"
-                  sequence="2"/>
+                  sequence="2"/> -->
         <menuitem id="colloter_menu"
                   name="收費員批次捐款"
                   parent="first_categ"
