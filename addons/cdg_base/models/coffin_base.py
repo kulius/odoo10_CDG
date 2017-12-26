@@ -22,10 +22,8 @@ class CoffinBase(models.Model):
     ps = fields.Text(string='備註')
     donate_price = fields.Char(string='累積金額')
     finish = fields.Boolean(string='是否結案')
-    batch_donate = fields.Many2many(comodel_name='coffin.donation',string='批次指定捐款')
+    batch_donate = fields.One2many(comodel_name='coffin.donation',inverse_name='coffin_donation_id',string='捐助資料')
     create_date = fields.Date(string='建檔日期')
-
-
 
     def data_input_coffin(self):
         data = self.env['base.external.dbsource'].search([])
@@ -79,5 +77,4 @@ class CoffinBase(models.Model):
             return date_check
         else:
             return None
-
 
