@@ -33,10 +33,10 @@
                             </group>
 
                              <group col="7">
-                                <field name="coffin_date_year" string="施棺期別"></field>
-                                 <field name="coffin_date_group" nolabel="1"/>
                                 <field name="donate_price"/>
                                 <field name="finish"/>
+                                 <field name="coffin_date_year" string="施棺期別"></field>
+                                 <field name="coffin_date_group" nolabel="1"/>
                             </group>
 
                         <notebook>
