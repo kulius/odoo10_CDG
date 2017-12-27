@@ -116,7 +116,7 @@
         <menuitem id="member_base"
                   name="會員基本資料"
                   parent="member_manage_categ"
-                  action="member_source_action"
+                  action="member_base_action"
                   sequence="1"/>
         <menuitem id="member_fee_menu"
                   name="會員費用"
@@ -173,7 +173,7 @@
         <menuitem id="consultant_base"
                   name="顧問基本資料"
                   parent="consultant_manage_categ"
-                  action="consultant_source_action"
+                  action="consultant_base_action"
                   sequence="0"/>
         <menuitem id="consultant_fee_menu"
                   name="顧問費用"
@@ -237,7 +237,7 @@
         <menuitem id="hand_reciept_manage"
                   name="手開簿管理作業"
                   parent="cashier_manage_categ"
-                  action="hand_checking_action"
+                  action="hand_book_act"
                   sequence=""/>
         <menuitem id="donate_list"
                   name="收費名冊"

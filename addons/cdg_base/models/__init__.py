@@ -17,3 +17,4 @@ from . import member_fee_only
 from . import worker_data
 from . import consultant_source
 from . import member_source
+from . import hand_book

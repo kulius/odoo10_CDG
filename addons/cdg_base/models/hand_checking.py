@@ -13,7 +13,7 @@ class HandChecking(models.Model):
     back_account = fields.Char(string='回收金額')
     create_date1 = fields.Date(string='建檔日期')
     key_total_account = fields.Char(string='鍵入總金額')
-    key_in_total = fields.One2many(comodel_name='hand.book',inverse_name='hand_book',string='鍵入總筆數')
+   # key_in_total = fields.One2many(comodel_name='hand.book',inverse_name='hand_book',string='鍵入總筆數')
     change_date = fields.Date(string='異動日期')
 
     take_money = fields.Char(string='已收金額')
@@ -41,13 +41,13 @@ class HandChecking(models.Model):
         else:
             return  None
 
-class HandBook(models.Model):
-    _name = 'hand.book'
+#class HandBook(models.Model):
+#    _name = 'hand.book'
 
-    donate_id = fields.Char(string='捐款編號')
-    name = fields.Char(string='捐款人姓名')
-    donate_money = fields.Char(string='捐款總額')
-    donate_date = fields.Date(string='捐款日期')
-    donate_type = fields.Selection(selection=[(1,'造橋'),(2,'補路'),(3,'施棺'),(4,'窮困扶助'),(5,'不指定')],string='捐款項目')
-    ps = fields.Text(string='備註')
-    hand_book = fields.Many2one(comodel_name='hand.checking',string='屬於哪本簿子')
+#    donate_id = fields.Char(string='捐款編號')
+#    name = fields.Char(string='捐款人姓名')
+#    donate_money = fields.Char(string='捐款總額')
+#    donate_date = fields.Date(string='捐款日期')
+#    donate_type = fields.Selection(selection=[(1,'造橋'),(2,'補路'),(3,'施棺'),(4,'窮困扶助'),(5,'不指定')],string='捐款項目')
+#    ps = fields.Text(string='備註')
+#    hand_book = fields.Many2one(comodel_name='hand.checking',string='屬於哪本簿子')

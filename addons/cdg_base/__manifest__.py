@@ -30,6 +30,7 @@
         'views/member_data_view.xml',
         'views/consultant_batch_view.xml',
         'views/member_fee_view.xml',
+        'views/hand_book_view.xml',
         'views/consultant_fee_only_view.xml',
         'views/consultant_source_view.xml',
         'views/member_fee_only_view.xml',

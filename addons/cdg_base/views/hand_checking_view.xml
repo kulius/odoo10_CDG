@@ -26,7 +26,7 @@
                     <field name="back_date"/>
                     <field name="back_account"/>
                     <field name="key_total_account"/>
-                    <field name="key_in_total"/>
+                 <!--   <field name="key_in_total"/> -->
                 </tree>
             </field>
         </record>
@@ -50,7 +50,7 @@
                                     <field name="own_date"/>
                                     <field name="back_date"/>
                                     <field name="take_money"/>
-                                    <field name="key_total_account"/>
+                                  <!--  <field name="key_total_account"/> -->
                                     <field name="change_date"/>
                                 </group>
                                 <group>
@@ -59,7 +59,7 @@
                             </page>
                             <page string="簿冊收費清單">
                                 <group>
-                                    <field name="key_in_total"/>
+                                   <!-- <field name="key_in_total" nolabel="1"/> -->
                                 </group>
                             </page>
                         </notebook>

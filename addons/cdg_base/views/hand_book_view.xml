@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+      <record id="hand_book_tree" model="ir.ui.view">
+          <field name="name">hand book tree</field>
+          <field name="model">hand.book</field>
+          <field name="arch" type="xml">
+              <tree>
+                  <field name="book_code"/>
+                  <field name="name"/>
+                  <field name="take_date"/>
+                  <field name="recycle_date"/>
+                  <field name="recycle_money"/>
+                  <field name="key_in_total_money"/>
+                  <field name="recycle_num"/>
+                  <field name="build_date"/>
+              </tree>
+          </field>
+      </record>
+
+      <record id="hand_book_form" model="ir.ui.view">
+          <field name="name">hand book form</field>
+          <field name="model">hand.book</field>
+          <field name="arch" type="xml">
+              <form>
+                  <sheet>
+                      <group col="7">
+                          <field name="book_code" colspan="2"/>
+                          <field name="name" colspan="2"/>
+                          <field name="take_date" colspan="3"/>
+                      </group>
+                      <notebook>
+                          <page string="領取資料">
+                              <group col="4">
+                                  <field name="take_date"/>
+                                  <field name="recycle_date"/>
+                                  <field name="recycle_money"/>
+                                  <field name="key_in_total_money"/>
+                                  <field name="ps"/>
+                              </group>
+                          </page>
+                          <page string="簿冊收費清單">
+                              <group>
+                                <field name="onate_order_id" nolabel="1"/>
+                              </group>
+                          </page>
+                      </notebook>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+        <act_window id="hand_book_act" name="手開簿冊管理" res_model="hand.book" view_mode="tree,form"/>
+
+    </data>
+</odoo>
