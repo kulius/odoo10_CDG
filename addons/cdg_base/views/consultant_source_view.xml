@@ -46,9 +46,6 @@
                                 <field name="ps" string="備註"/>
                               </group>
                               <span STYLE='FONT-SIZE:25PX'>其他資料</span>
-                              <group col="4">
-                                <field name="type" widget="many2many_tags"/>
-                              </group>
                               <group col="7">
                                 <field name="hire_date" colspan="3"/>
                                 <field name="cashier_code" colspan="2"/>

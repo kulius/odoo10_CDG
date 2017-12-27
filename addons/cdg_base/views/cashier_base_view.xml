@@ -5,7 +5,7 @@
             <field name="name">cashier base t</field>
             <field name="model">c.worker</field>
             <field name="arch" type="xml">
-                <tree string="">
+                <tree>
                     <field name="w_id"/>
                     <field name="name"/>
                     <field name="con_phone"/>
@@ -19,15 +19,15 @@
             <field name="name">cashier base f</field>
             <field name="model">c.worker</field>
             <field name="arch" type="xml">
-                <form string="">
+                <form>
                     <header>
                         <button string="匯入收費員檔" name="data_input_cashier" type="object"/>
                     </header>
                     <sheet>
-                        <group col="6">
-                                <field name="w_id" string="收費員編號"/>
-                                 <field name="name" string="收費員姓名"/>
-                                 <field name="create_date"/>
+                        <group col="7">
+                                <field name="w_id" string="收費員編號" colspan="2"/>
+                                 <field name="name" string="收費員姓名"  colspan="2"/>
+                                 <field name="create_date" string="建檔日期" colspan="3"/>
                                 <!--<field name="db_chang_date"/>-->
                         </group>
                         <notebook>
@@ -49,17 +49,17 @@
                             </page>
                             <page string="捐款者收費名冊">
                                 <group>
-                                    <field name="normal_cash"/>
+                                    <field name="normal_cash" nolabel="1"/>
                                 </group>
                             </page>
                             <page string="會員收費名冊">
                                 <group>
-                                    <field name="member_cash"/>
+                                    <field name="member_cash" nolabel="1"/>
                                 </group>
                             </page>
                             <page string="顧問收費名冊">
                                 <group>
-                                    <field name="consultant_cash"/>
+                                    <field name="consultant_cash" nolabel="1"/>
                                 </group>
                             </page>
                         </notebook>

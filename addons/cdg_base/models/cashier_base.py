@@ -7,7 +7,7 @@ class CashierBase(models.Model):
 
     c_id = fields.Char(string='收費員編號')
     name = fields.Char(string='收費員姓名')
-    create_date = fields.Date(string='建檔日期')
+    build_date = fields.Date(string='建檔日期')
 
     self_iden = fields.Char(string='身分證字號')
     con_phone = fields.Char(string='聯絡電話(一)')
