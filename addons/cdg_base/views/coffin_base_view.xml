@@ -64,7 +64,7 @@
                             </page>
                             <page string="捐助資料">
                                 <div class="oe_button_box" name="button_box">
-                                   <button string="新增施棺檔" name="add_coffin_file" class="oe_stat_button" icon="fa-plus" type="object"/>
+                                    <button string="產生捐款明細" name="add_coffin_file" class="oe_stat_button" icon="fa-plus" type="object"/>
                                 </div>
                                 <field name="batch_donate"/>
                             </page>

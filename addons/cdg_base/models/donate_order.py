@@ -59,7 +59,13 @@ class DonateOrder(models.Model):
     #     self.p_type = self.name.type.name
     #     self.donate_w_id = self.name.w_id.id
 
-
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record.donate_id
+            result.append((record.id, name))
+        return result
 
     def data_input_from_database(self):
         data = self.env['base.external.dbsource'].search([])

@@ -13,7 +13,7 @@
         </record>
 
 
-    <act_window id="new_coffin_action" name="新增施棺檔" res_model="new.coffin"
+    <act_window id="new_coffin_action" name="產生施棺捐款明細" res_model="new.coffin"
                     view_mode="tree" target="new" multi="False"/>
     </data>
 </odoo>

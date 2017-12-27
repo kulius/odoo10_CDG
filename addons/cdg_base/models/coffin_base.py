@@ -20,10 +20,47 @@ class CoffinBase(models.Model):
     con_addr = fields.Char(string='通訊地址')
     donater_ps = fields.Text(string='捐款者備註')
     ps = fields.Text(string='備註')
-    donate_price = fields.Char(string='累積金額')
+    donate_price = fields.Char(string='累積金額',store=True)
     finish = fields.Boolean(string='是否結案')
     batch_donate = fields.One2many(comodel_name='coffin.donation',inverse_name='coffin_donation_id',string='捐助資料')
     create_date = fields.Date(string='建檔日期')
+
+    def add_coffin_file(self):
+        lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0),('donate_type', '=', '03')])
+        flag = False
+        for line in lines:
+            if int(self.donate_price) == 30000:
+                flag = True
+
+            if (int(self.donate_price) + int(line.donate)) <= 30000 and flag == False:
+                self.write({
+                    'batch_donate': [(0, 0, {
+                        'donate_id': line.donate_id,
+                        'donate_price': line.donate,
+                        'coffin_id': self.coffin_id,
+                    })]
+                })
+                self.donate_price = int(self.donate_price) + line.donate
+
+            if (int(self.donate_price) + int(line.donate)) > 30000 and flag == False:
+                difference = (int(self.donate_price) + int(line.donate)) - 30000
+                self.donate_price = int(self.donate_price) + (line.donate - difference)
+                donate_difference = line.donate - difference
+                self.write({
+                    'batch_donate': [(0, 0, {
+                        'donate_id': line.donate_id,
+                        'donate_price': donate_difference,
+                        'coffin_id': self.coffin_id
+                    })]
+                })
+                flag = True
+        return True;
+
+    #@api.depends('batch_donate')
+    def compute_total(self):
+        for line in self:
+            for row in line.batch_donate:
+                line.donate_price = int(line.donate_price) + int(row.donate_price)
 
     def data_input_coffin(self):
         data = self.env['base.external.dbsource'].search([])
@@ -48,14 +85,6 @@ class CoffinBase(models.Model):
                 'coffin_date_year':line[u'年度'],
                 'coffin_date_group':line[u'期別'],
             })
-    def add_coffin_file(self):
-        wizard_data = self.env['new.coffin'].create({
-            'order_ids': self.coffin_id
-        })
-
-        action = self.env.ref('cdg_base.new_coffin_action').read()[0]
-        action['res_id'] = wizard_data.id
-        return True;
 
     def check_db_date(self, date):
         if date:
