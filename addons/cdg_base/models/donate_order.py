@@ -49,6 +49,8 @@ class DonateOrder(models.Model):
     bank = fields.Boolean(string='銀行轉帳')
     address = fields.Char(string='住址')
     city = fields.Char(string='市區')
+    used_amount = fields.Integer(string='已用金額')
+
 
     report_big = fields.Char()
     report_price = fields.Integer()
