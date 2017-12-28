@@ -47,7 +47,7 @@
                             <field name="type" widget="many2many_tags"/>
                             <field name="parent" options="{'create':false ,'create_edit':false}"
                                    context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
-                            <field name="cashier"/>
+                            <field name="cashier" context="{'form_view_ref' : 'cdg_base.cashier_base_form'}" />
                             <field name="report_send"/>
                             <field name="rec_send"/>
                             <field name="merge_report"/>

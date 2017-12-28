@@ -52,16 +52,16 @@
                                     <field name="normal_cash" nolabel="1"/>
                                 </group>
                             </page>
-                            <page string="會員收費名冊">
-                                <group>
-                                    <field name="member_cash" nolabel="1"/>
-                                </group>
-                            </page>
-                            <page string="顧問收費名冊">
-                                <group>
-                                    <field name="consultant_cash" nolabel="1"/>
-                                </group>
-                            </page>
+                            <!--<page string="會員收費名冊">-->
+                                <!--<group>-->
+                                    <!--<field name="member_cash" nolabel="1"/>-->
+                                <!--</group>-->
+                            <!--</page>-->
+                            <!--<page string="顧問收費名冊">-->
+                                <!--<group>-->
+                                    <!--<field name="consultant_cash" nolabel="1"/>-->
+                                <!--</group>-->
+                            <!--</page>-->
                         </notebook>
                     </sheet>
                 </form>
