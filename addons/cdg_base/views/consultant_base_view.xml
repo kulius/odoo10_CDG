@@ -41,7 +41,7 @@
                                 <span STYLE='FONT-SIZE:25PX'>其他資料</span>
                                 <group col="4">
                                     <field name="hire_date"/>
-                                    <field name="cashier_name"/>
+                                    <field name="cashier" context="{'form_view_ref' : 'cdg_base.cashier_base_form'}"/>
                                     <field name="rec_send"/>
                                     <field name="self"/>
                                     <field name="report_send"/>

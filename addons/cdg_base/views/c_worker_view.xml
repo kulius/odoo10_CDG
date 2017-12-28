@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="c_worker_action" model="ir.actions.act_window">
-            <field name="name">員工基本資料</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">c.worker</field>
-            <field name="view_mode">tree,form</field>
-            <field name="domain">[('job_type','=','1')]</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    <!-- Add Text Here -->
-                </p>
-                <p>
-                <!-- More details about what a user can do with this object will be OK -->
-                </p>
-            </field>
-        </record>
-
         <record id="c_worker_tree" model="ir.ui.view">
             <field name="name">c worker t</field>
             <field name="model">c.worker</field>
@@ -73,5 +57,23 @@
                 </form>
             </field>
         </record>
+
+          <record id="c_worker_action" model="ir.actions.act_window">
+            <field name="name">員工基本資料</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">c.worker</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+
     </data>
 </odoo>

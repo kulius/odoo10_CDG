@@ -67,6 +67,7 @@
                 </form>
             </field>
         </record>
+
         <record id="cashier_base_action" model="ir.actions.act_window">
         <field name="name">收費員基本資料</field>
         <field name="type">ir.actions.act_window</field>
@@ -77,7 +78,7 @@
                    (0, 0, {'view_mode': 'tree', 'view_id': ref('cashier_base_tree')}),
                    (0, 0, {'view_mode': 'form', 'view_id': ref('cashier_base_form')}),
                    ]"/>
-            <field name="domain">[('job_type','=','2')]</field>
+            <field name="domain">[]</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
             <!-- Add Text Here -->
