@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-    <record id="coffin_base_tree" model="ir.ui.view">
-        <field name="name">coffin base t</field>
-        <field name="model">coffin.base</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="coffin_id"/>
-                <field name="donate_type"/>
-                <field name="coffin_date_group"/>
-                <field name="coffin_date"/>
-                <field name="user"/>
-                <field name="geter"/>
-                <field name="donate_price"/>
-                <field name="finish"/>
-            </tree>
-        </field>
-    </record>
+        <record id="coffin_base_tree" model="ir.ui.view">
+            <field name="name">coffin base t</field>
+            <field name="model">coffin.base</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="coffin_id"/>
+                    <field name="donate_type"/>
+                    <field name="coffin_date_group"/>
+                    <field name="coffin_date"/>
+                    <field name="user"/>
+                    <field name="geter"/>
+                    <field name="donate_price"/>
+                    <field name="finish"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="coffin_base_form" model="ir.ui.view">
             <field name="name">coffin base f</field>
             <field name="model">coffin.base</field>
@@ -25,19 +26,23 @@
                     <header>
                         <button string="施棺檔匯入" name="data_input_coffin" type="object"/>
                     </header>
-                    <sheet>
-                            <group col="7" name="文字">
-                                <field name="coffin_id" colspan="2"/>
-                                <field name="donate_type" colspan="2"/>
-                                <field name="create_date" colspan="3"/>
-                            </group>
 
-                             <group col="7">
-                                <field name="donate_price"/>
-                                <field name="finish"/>
-                                 <field name="coffin_date_year" string="施棺期別"></field>
-                                 <field name="coffin_date_group" nolabel="1"/>
-                            </group>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button string="產生捐助明細" name="add_coffin_file" class="oe_stat_button" icon="fa-plus" type="object"/>
+                        </div>
+                        <group col="7" name="文字">
+                            <field name="coffin_id" colspan="2"/>
+                            <field name="donate_type" colspan="2"/>
+                            <field name="create_date" colspan="3"/>
+                        </group>
+
+                        <group col="7">
+                            <field name="donate_price"/>
+                            <field name="finish"/>
+                            <field name="coffin_date_year" string="施棺期別"></field>
+                            <field name="coffin_date_group" nolabel="1"/>
+                        </group>
 
                         <notebook>
                             <page string="施棺資料">
@@ -63,9 +68,6 @@
 
                             </page>
                             <page string="捐助資料">
-                                <div class="oe_button_box" name="button_box">
-                                    <button string="產生捐款明細" name="add_coffin_file" class="oe_stat_button" icon="fa-plus" type="object"/>
-                                </div>
                                 <field name="batch_donate"/>
                             </page>
                         </notebook>
@@ -73,6 +75,7 @@
                 </form>
             </field>
         </record>
+
         <record id="coffin_base_action" model="ir.actions.act_window">
             <field name="name">施棺基本作業</field>
             <field name="type">ir.actions.act_window</field>
