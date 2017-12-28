@@ -28,9 +28,7 @@
                         <group col="6">
                                 <field name="w_id" string="會員編號"/>
                                 <field name="name" string="會員姓名"/>
-                                <field name="create_date"/>
-                            <field name="member_data_ids"/>
-                            <field name="type" widget="many2many_tags"/>
+                                <field name="create_date" string="創建日期"/>
                         </group>
                             <notebook>
                                 <page string="基本資料">
