@@ -68,7 +68,14 @@
 
                             </page>
                             <page string="捐助資料">
-                                <field name="batch_donate"/>
+                                <field name="batch_donate">
+                                    <tree editable="bottom">
+                                        <field name="coffin_id"/>
+                                        <field name="donate_order_id"/>
+                                        <field name="donate_price"/>
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>

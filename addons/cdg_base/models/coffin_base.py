@@ -21,20 +21,21 @@ class CoffinBase(models.Model):
     con_addr = fields.Char(string='通訊地址')
     donater_ps = fields.Text(string='捐款者備註')
     ps = fields.Text(string='備註')
-    donate_price = fields.Char(string='累積金額',store=True)
+    donate_price = fields.Char(string='累積金額')
     finish = fields.Boolean(string='是否結案')
     batch_donate = fields.One2many(comodel_name='coffin.donation',inverse_name='coffin_donation_id',string='捐助資料')
+    donate_order_id = fields.Many2one(comodel_name='donate.order', string='捐款編號', domain=[('donate_type', '=', '03')])
     create_date = fields.Date(string='建檔日期')
 
     def add_coffin_file(self):
-        lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0),('donate_type', '=', '03')])
+        lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0),('donate_type', '=', '03')], order='donate desc' )
         basic_setting = self.env['ir.config_parameter'].search([])
         coffin_amount = 0
         for line in basic_setting:
             if line.key == 'coffin_amount':
                 coffin_amount = int(line.value)
 
-        Cumulative_amount = coffin_amount - int(self.donate_price)
+        Cumulative_amount = coffin_amount - int(float(self.donate_price))
         flag = False
         if self.finish == True:
             raise ValidationError(u'已結案')
@@ -43,36 +44,19 @@ class CoffinBase(models.Model):
                 if int(self.donate_price) == Cumulative_amount:
                     flag = True
 
-                if (int(self.donate_price) + int(line.donate)) <= Cumulative_amount and flag == False:
+                if (int(float(self.donate_price)) + int(line.donate)) <= Cumulative_amount and flag == False:
                     self.write({
                         'batch_donate': [(0, 0, {
-                            'donate_id': line.donate_id,
-                            'donate_price': line.donate,
-                            'coffin_id': self.coffin_id,
-                            'name':line.donate_member.name
+                            'donate_order_id': line.id
                         })]
                     })
-                    self.donate_price = int(self.donate_price) + line.donate
-                    #line.used_amount = line.donate
+                    self.donate_price = int(float(self.donate_price)) + line.donate
 
-                if (int(self.donate_price) + int(line.donate)) > Cumulative_amount and flag == False:
-                    difference = (int(self.donate_price) + int(line.donate)) - Cumulative_amount
-                    self.donate_price = int(self.donate_price) + (line.donate - difference)
-                    donate_difference = line.donate - difference
-                    self.write({
-                        'batch_donate': [(0, 0, {
-                            'donate_id': line.donate_id,
-                            'donate_price': donate_difference,
-                            'coffin_id': self.coffin_id,
-                            'name': line.donate_member.name
-                        })]
-                    })
-                    #line.used_amount = line.donate_difference
-                    #self.finish = True
-                    flag = True
+            if int(float(self.donate_price)) != Cumulative_amount:
+                raise ValidationError(u'無法湊足3萬')
+
         return True;
 
-    #@api.depends('batch_donate')
     def compute_total(self):
         for line in self:
             for row in line.batch_donate:
@@ -122,4 +106,3 @@ class CoffinBase(models.Model):
             return date_check
         else:
             return None
-
