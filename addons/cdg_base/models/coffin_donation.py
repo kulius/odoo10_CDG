@@ -4,7 +4,7 @@ from odoo import models, fields, api
 class CoffinDonation(models.Model):
     _name = 'coffin.donation'
 
-    name = fields.Char()
+    name = fields.Char(string='捐款者姓名')
     new_coffin_ic = fields.Char(string='新施棺編號編號')
     new_donate_id = fields.Char(string='新捐款編號')
     coffin_id = fields.Char(string='施棺編號')

@@ -8,6 +8,7 @@
                 <search>
                     <field name="donate_id"/>
                     <field name="donate_w_id"/>
+                    <field name="donate_w_id"/>
                 </search>
             </field>
         </record>

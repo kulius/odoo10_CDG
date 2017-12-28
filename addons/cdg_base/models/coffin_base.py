@@ -49,6 +49,7 @@ class CoffinBase(models.Model):
                             'donate_id': line.donate_id,
                             'donate_price': line.donate,
                             'coffin_id': self.coffin_id,
+                            'name':line.donate_member.name
                         })]
                     })
                     self.donate_price = int(self.donate_price) + line.donate
@@ -62,7 +63,8 @@ class CoffinBase(models.Model):
                         'batch_donate': [(0, 0, {
                             'donate_id': line.donate_id,
                             'donate_price': donate_difference,
-                            'coffin_id': self.coffin_id
+                            'coffin_id': self.coffin_id,
+                            'name': line.donate_member.name
                         })]
                     })
                     #line.used_amount = line.donate_difference

@@ -24,12 +24,11 @@ class NormalP(models.Model):
     cellphone = fields.Char(string='手機')
     con_phone = fields.Char(string='連絡電話(一)')
     con_phone2 = fields.Char(string='連絡電話(二)')
-    zip_code = fields.Char(string='郵遞區號')
-    zip = fields.Char(string='郵遞區號')
+    zip_code = fields.Char(string='寄送郵遞區號')
+    zip = fields.Char(string='收據郵遞區號')
     key_in_user = fields.Many2one(comodel_name='c.worker', string='輸入人員', ondelete='cascade')
     db_chang_date = fields.Date(string='異動日期')
     build_date = fields.Date(string='建檔日期')
-
 
     email = fields.Char(string='Email')
     type = fields.Many2many(comodel_name='people.type', string='人員種類')
@@ -116,7 +115,6 @@ class NormalP(models.Model):
             res.append([4, line])
         wizard_data = self.env['wizard.batch'].create({
             'donate_line': res
-
         })
 
         return {
@@ -127,7 +125,6 @@ class NormalP(models.Model):
             'res_id': wizard_data.id,
             'target': 'new',
         }
-
 
     @api.depends('donate_family1.is_donate','donate_family1.is_merge')
     def compute_faamily_list(self):
