@@ -68,7 +68,7 @@
                                             <field name="con_addr" colspan="5" nolabel="1"/>
                                         </group>
                                         <group col="7">
-                                            <field name="zip_code" colspan="2" string="收據地址"/>
+                                            <field name="zip" colspan="2" string="收據地址"/>
                                             <field name="rec_addr" colspan="5" nolabel="1"/>
                                         </group>
                                         <group col="6">

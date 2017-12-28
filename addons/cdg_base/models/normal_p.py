@@ -25,7 +25,7 @@ class NormalP(models.Model):
     con_phone = fields.Char(string='連絡電話(一)')
     con_phone2 = fields.Char(string='連絡電話(二)')
     zip_code = fields.Char(string='郵遞區號')
-    zip = fields.Char()
+    zip = fields.Char(string='郵遞區號')
     key_in_user = fields.Many2one(comodel_name='c.worker', string='輸入人員', ondelete='cascade')
     db_chang_date = fields.Date(string='異動日期')
     build_date = fields.Date(string='建檔日期')
