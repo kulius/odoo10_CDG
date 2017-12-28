@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 class CoffinBase(models.Model):
     _name = 'coffin.base'
@@ -27,43 +28,46 @@ class CoffinBase(models.Model):
 
     def add_coffin_file(self):
         lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0),('donate_type', '=', '03')])
-        #lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0), ('donate_type', '=', '03'), ('state', '=', 1),('used_amount', '!=', 'donate')])
         basic_setting = self.env['ir.config_parameter'].search([])
         coffin_amount = 0
         for line in basic_setting:
             if line.key == 'coffin_amount':
                 coffin_amount = int(line.value)
 
-        Cumulative_amount = 30000 - int(self.donate_price)
+        Cumulative_amount = coffin_amount - int(self.donate_price)
         flag = False
-        for line in lines:
-            if int(self.donate_price) == Cumulative_amount:
-                flag = True
+        if self.finish == True:
+            raise ValidationError(u'已結案')
+        elif self.finish == False:
+            for line in lines:
+                if int(self.donate_price) == Cumulative_amount:
+                    flag = True
 
-            if (int(self.donate_price) + int(line.donate)) <= Cumulative_amount and flag == False:
-                self.write({
-                    'batch_donate': [(0, 0, {
-                        'donate_id': line.donate_id,
-                        'donate_price': line.donate,
-                        'coffin_id': self.coffin_id,
-                    })]
-                })
-                self.donate_price = int(self.donate_price) + line.donate
-                #line.used_amount = line.donate
+                if (int(self.donate_price) + int(line.donate)) <= Cumulative_amount and flag == False:
+                    self.write({
+                        'batch_donate': [(0, 0, {
+                            'donate_id': line.donate_id,
+                            'donate_price': line.donate,
+                            'coffin_id': self.coffin_id,
+                        })]
+                    })
+                    self.donate_price = int(self.donate_price) + line.donate
+                    #line.used_amount = line.donate
 
-            if (int(self.donate_price) + int(line.donate)) > Cumulative_amount and flag == False:
-                difference = (int(self.donate_price) + int(line.donate)) - Cumulative_amount
-                self.donate_price = int(self.donate_price) + (line.donate - difference)
-                donate_difference = line.donate - difference
-                self.write({
-                    'batch_donate': [(0, 0, {
-                        'donate_id': line.donate_id,
-                        'donate_price': donate_difference,
-                        'coffin_id': self.coffin_id
-                    })]
-                })
-                #line.used_amount = line.donate_difference
-                flag = True
+                if (int(self.donate_price) + int(line.donate)) > Cumulative_amount and flag == False:
+                    difference = (int(self.donate_price) + int(line.donate)) - Cumulative_amount
+                    self.donate_price = int(self.donate_price) + (line.donate - difference)
+                    donate_difference = line.donate - difference
+                    self.write({
+                        'batch_donate': [(0, 0, {
+                            'donate_id': line.donate_id,
+                            'donate_price': donate_difference,
+                            'coffin_id': self.coffin_id
+                        })]
+                    })
+                    #line.used_amount = line.donate_difference
+                    #self.finish = True
+                    flag = True
         return True;
 
     #@api.depends('batch_donate')
