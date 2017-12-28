@@ -167,6 +167,12 @@
                         <div>
                             <button string="施棺檔轉檔" type="object" name="set_coffin_id" class="oe_highlight"/>
                         </div>
+                        <label string="收費檔轉檔"/>
+                        <div>
+                            <button string="轉會員收費檔" type="object" name="set_member" class="oe_highlight"/>
+                            |
+                            <button string="轉顧問收費檔" type="object" name="set_consultant" class="oe_highlight"/>
+                        </div>
                     </group>
                 </form>
             </field>
