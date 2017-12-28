@@ -8,7 +8,15 @@
                 <search>
                     <field name="donate_id"/>
                     <field name="donate_w_id"/>
-                    <field name="donate_w_id"/>
+                    <field name="donate_member"/>
+
+                    <filter string="造橋" name="bridge" domain="[('donate_type','=','01')]"/>
+                    <filter string="補路" name="road" domain="[('donate_type','=','02')]"/>
+                    <filter string="施棺" name="coffin" domain="[('donate_type','=','03')]"/>
+                    <filter string="伙食費" name="food_costs" domain="[('donate_type','=','04')]"/>
+                    <filter string="貧困扶助" name="poor_help" domain="[('donate_type','=','05')]"/>
+                    <filter string="不指定" name="others" domain="[('donate_type','=','06')]"/>
+                    <filter string="其他工程" name="others" domain="[('donate_type','=','99')]"/>
                 </search>
             </field>
         </record>
