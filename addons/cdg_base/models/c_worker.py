@@ -30,11 +30,11 @@ class CWorker(models.Model):
     zip_code = fields.Char(string='郵遞區號')
     db_chang_date = fields.Date(string='異動日期')
 
-    normal_cash = fields.One2many(comodel_name='normal.p', inverse_name='cashier',string='捐款人繳費名冊')
+    normal_cash = fields.One2many(comodel_name='normal.p', inverse_name='cashier_name',string='捐款人繳費名冊')
   #  normal_cash1 = fields.One2many(comodel_name='normal.p', string='捐款人繳費名冊')
-  #   member_cash = fields.One2many(comodel_name='normal.p',inverse_name='cashier',string='會員繳費名冊')
-  #  consultant_cash1 = fields.One2many(comodel_name='normal.p', string='顧問繳費名冊')
-  #   consultant_cash = fields.One2many(comodel_name='normal.p',inverse_name='cashier',string='顧問繳費名冊')
+  #   member_cash = fields.One2many(comodel_name='normal.p',inverse_name='cashier_name',string='會員繳費名冊')
+  #   consultant_cash1 = fields.One2many(comodel_name='normal.p', string='顧問繳費名冊')
+  #   consultant_cash = fields.One2many(comodel_name='normal.p',inverse_name='cashier_name',string='顧問繳費名冊')
 
     Basic_donations = fields.Integer(string="基本捐助款", default=100)
     Annual_membership_fee = fields.Integer(string="會員年費", default=1200)

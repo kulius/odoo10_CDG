@@ -58,6 +58,8 @@
             </field>
         </record>
 
+
+
           <record id="c_worker_action" model="ir.actions.act_window">
             <field name="name">員工基本資料</field>
             <field name="type">ir.actions.act_window</field>

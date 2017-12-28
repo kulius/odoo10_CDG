@@ -12,7 +12,7 @@
                     <field name="con_phone"/>
                     <field name="con_addr"/>
                     <field name="donate_family_list"/>
-                    <field name="cashier"/>
+                    <field name="cashier_name"/>
                     <!-- 原始資料還有"收據寄送" "報表寄送" -->
                  <!--   <field name="type" widget="many2many_tags"/> -->
                 </tree>
@@ -28,8 +28,8 @@
                         <button string="轉眷屬檔" name="data_input_form_DB" type="object"/>
                         <button string="設定眷屬" name="set_parent" type="object"/>
                     <!--    <button string="轉會員顧問" name="input_member" type="object" /> -->
-                        <button string="轉顧問" name="set_consultant" type="object" />
-                        <button string="轉會員" name="set_member" type="object" />
+                        <button string="轉會員" name="input_member" type="object" />
+                        <button string="轉顧問" name="input_member" type="object" />
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -47,7 +47,7 @@
                             <field name="type" widget="many2many_tags"/>
                             <field name="parent" options="{'create':false ,'create_edit':false}"
                                    context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
-                            <field name="cashier" context="{'form_view_ref' : 'cdg_base.cashier_base_form'}" />
+                            <field name="cashier_name" context="{'form_view_ref' : 'cdg_base.cashier_base_form'}" />
                             <field name="report_send"/>
                             <field name="rec_send"/>
                             <field name="merge_report"/>

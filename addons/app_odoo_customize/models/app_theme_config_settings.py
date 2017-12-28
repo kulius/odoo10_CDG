@@ -515,3 +515,39 @@ class AppThemeConfigSettings(models.TransientModel):
         sql = 'update coffin_donation set coffin_donation_id = a.id from coffin_base a where a.coffin_id = coffin_donation.coffin_id '
         self._cr.execute(sql)
         return True
+
+    def set_consultant(self):
+        sql = "UPDATE normal_p SET consultant_id = a.顧問編號 FROM 顧問檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
+        self._cr.execute(sql)
+        sql = ''
+        sql = "SELECT DISTINCT on (consultant_id) * FROM normal_p WHERE consultant_id <>'' and con_addr<>'' "
+        self._cr.execute(sql)
+        dict = self._cr.dictfetchall()  #
+        sql = ''
+        sql = "INSERT INTO consultant_fee(consultant_id,year,fee_code,fee_payable,fee_date,clerk_id) " \
+              " SELECT 顧問編號,年度,收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 日期,收費員編號 from 顧問收費檔 "
+        self._cr.execute(sql)  #
+        datas = self.env['consultant.fee'].search([])
+        for i in range(len(dict)):
+            for data in datas:
+                if data.consultant_id == dict[i]['consultant_id'] and data.consultant_id != '':
+                    data.normal_p_id = dict[i]['id']
+        return True
+
+    def set_member(self):
+        sql = "UPDATE normal_p SET member_id = a.會員編號 FROM 會員檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
+        self._cr.execute(sql)
+        sql = ''
+        sql = "SELECT DISTINCT on (member_id) * FROM normal_p WHERE member_id <>'' and con_addr<>'' "
+        self._cr.execute(sql)
+        dict = self._cr.dictfetchall()  # 6940
+        sql = ''
+        sql = "INSERT INTO associatemember_fee(member_id,member_note_code,year,fee_code,fee_payable,fee_date,clerk_id) " \
+              " SELECT 會員編號, 會員名冊編號,年度,收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 日期,收費員編號 from 會員收費檔 "
+        self._cr.execute(sql)  # 58000
+        datas = self.env['associatemember.fee'].search([], limit=100)
+        for i in range(len(dict)):
+            for data in datas:
+                if data.member_id == dict[i]['member_id'] and data.member_id != '':
+                    data.normal_p_id = dict[i]['id']
+        return True
