@@ -32,7 +32,7 @@ class CWorker(models.Model):
 
     normal_cash = fields.One2many(comodel_name='normal.p', inverse_name='cashier_name',string='捐款人繳費名冊') # 無法下domain在裡面
   #  normal_cash1 = fields.One2many(comodel_name='normal.p', string='捐款人繳費名冊')
-  #   member_cash = fields.One2many(comodel_name='normal.p',inverse_name='cashier_name',string='會員繳費名冊')
+    #member_cash = fields.One2many(comodel_name='normal.p',inverse_name='cashier_member_name',string='會員繳費名冊')
   #   consultant_cash1 = fields.One2many(comodel_name='normal.p', string='顧問繳費名冊')
   #   consultant_cash = fields.One2many(comodel_name='normal.p',inverse_name='cashier_name',string='顧問繳費名冊')
 
@@ -40,6 +40,27 @@ class CWorker(models.Model):
     Annual_membership_fee = fields.Integer(string="會員年費", default=1200)
     Annual_consultants_fee = fields.Integer(string="顧問年費", default=10000)
     coffin_amount = fields.Integer(string="施棺滿足額", default=30000)
+
+    def donater_register(self):
+        action = self.env.ref('cdg_base.member_base_action').read()[0]
+        action['context'] ={} # remove default domain condition in search box
+        action['domain'] =[] # remove any value in search box
+        action['domain'] = [('type.id','=',1 ),('cashier_name','=',self.name)]
+        return action
+
+    def member_register(self):
+        action = self.env.ref('cdg_base.member_base_action').read()[0]
+        action['context'] ={} # remove default domain condition in search box
+        action['domain'] =[] # remove any value in search box
+        action['domain'] = ['|',('type.id','=',2 ),('type.id','=',3),('cashier_name','=',self.name)]
+        return action
+
+    def consultant_register(self):
+        action = self.env.ref('cdg_base.member_base_action').read()[0]
+        action['context'] = {}  # remove default domain condition in search box
+        action['domain'] = []  # remove any value in search box
+        action['domain'] = [('type.id', '=', 4),('cashier_name', '=', self.name)]
+        return action
 
     def data_input_from_database(self):
         data = self.env['base.external.dbsource'].search([])
