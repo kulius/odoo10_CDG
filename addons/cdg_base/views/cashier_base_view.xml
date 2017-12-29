@@ -49,7 +49,7 @@
                             </page>
                             <page string="捐款者收費名冊">
                                 <group>
-                                    <field name="normal_cash" nolabel="1"/> <!--關聯來的結果無法用domain影響 -->
+                                    <field name="normal_cash" nolabel="1" /> <!--關聯來的結果無法用domain影響 -->
                                 </group>
                             </page>
                             <!--<page string="會員收費名冊">-->

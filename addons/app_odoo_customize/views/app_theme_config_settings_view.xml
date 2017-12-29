@@ -173,6 +173,12 @@
                             |
                             <button string="轉顧問收費檔" type="object" name="set_consultant" class="oe_highlight"/>
                         </div>
+                         <label string="其他項目"/>
+                        <div>
+                            <button string="轉郵政區號" type="object" name="auto_zip_insert" class="oe_highlight"/>
+                            |
+
+                        </div>
                     </group>
                 </form>
             </field>

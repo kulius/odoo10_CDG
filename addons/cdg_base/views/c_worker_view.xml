@@ -26,27 +26,26 @@
                         <button string="匯入資料試試看" name="data_input_from_database" type="object"/>
                     </header>
                     <sheet>
-                        <group col="6">
-                            <field name="w_id"/>
-                            <field name="name"/>
-                            <field name="create_date1"/>
+                        <group col="7">
+                            <field name="w_id" colspan="2"/>
+                            <field name="name" colspan="2"/>
+                            <field name="create_date1" colspan="3"/>
                         </group>
                         <notebook>
                             <page string="基本資料">
                                 <group col="4">
                                     <field name="self_iden"/>
-                                    <field name="birth"/>
-                                    <field name="come_date"/>
-                                    <field name="con_phone"/>
-                                    <field name="cellphone"/>
                                     <field name="sex"/>
-                                    <field name="job_type"/>
+                                    <field name="birth"/>
                                     <field name="now_job"/>
-                                </group>
-                                <group col="4">
+                                    <field name="come_date"/>
                                     <field name="lev_date"/>
+                                    <field name="con_phone"/>
                                     <field name="con_phone2"/>
                                     <field name="highest_stu"/>
+                                    <field name="cellphone"/>
+                                </group>
+                                <group col="4">
                                     <field name="email"/>
                                     <field name="con_addr"/>
                                     <field name="ps"/>

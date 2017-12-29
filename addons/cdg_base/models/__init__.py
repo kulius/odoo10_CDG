@@ -18,3 +18,4 @@ from . import worker_data
 from . import consultant_source
 from . import member_source
 from . import hand_book
+from . import auto_donateid
