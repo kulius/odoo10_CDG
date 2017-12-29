@@ -47,6 +47,7 @@ class CoffinBase(models.Model):
         elif self.finish == False:
             for line in lines:
                 if int(self.donate_price) == Cumulative_amount: # 初始判斷累積金額是否已滿足施棺滿足額
+                    self.finish = True
                     flag = True
 
                 if int(line.donate) <= Cumulative_amount and flag == False: #判斷 目前的施棺捐款額是否小於等於施棺滿足額
@@ -59,6 +60,7 @@ class CoffinBase(models.Model):
                     Cumulative_amount = Cumulative_amount - line.donate # 施棺滿足額 減掉 捐款額
 
                 if Cumulative_amount == 0: # 達到施棺滿足額
+                    self.finish = True
                     flag = True
 
             if Cumulative_amount != 0: # 搜尋完所有的施棺捐款後, 仍然無法湊足施棺滿足額
