@@ -14,6 +14,7 @@
                 </tree>
             </field>
         </record>
+
         <record id="cashier_base_form" model="ir.ui.view">
             <field name="name">cashier base f</field>
             <field name="model">c.worker</field>
@@ -23,17 +24,16 @@
                         <button string="匯入收費員檔" name="data_input_cashier" type="object"/>
                     </header>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button string="捐款收費名冊" name="donater_register" class="oe_stat_button" icon="fa-list-alt" type="object"/>
+                            <button string="會員收費名冊" name="member_register" class="oe_stat_button" icon="fa-users" type="object"/>
+                            <button string="顧問收費名冊" name="consultant_register" class="oe_stat_button" icon="fa-user-md" type="object"/>
+                        </div>
                         <group col="7">
                                 <field name="w_id" string="收費員編號" colspan="2"/>
                                  <field name="name" string="收費員姓名"  colspan="2"/>
                                  <field name="create_date" string="建檔日期" colspan="3"/>
                         </group>
-                        <label string="收費檔名冊 : "/>
-                            <button string="捐款收費名冊" name="donater_register" class="oe_highlight" icon="fa-list-alt" type="object"/>
-                            |
-                            <button string="會員收費名冊" name="member_register" class="oe_highlight" icon="fa-users" type="object"/>
-                            |
-                            <button string="顧問收費名冊" name="consultant_register" class="oe_highlight" icon="fa-user-md" type="object"/>
                         <notebook>
                             <page string="基本資料">
                                 <group col="4">
@@ -67,8 +67,6 @@
                 </search>
             </field>
         </record>
-
-
 
         <record id="cashier_base_action" model="ir.actions.act_window">
         <field name="name">收費員基本資料</field>
