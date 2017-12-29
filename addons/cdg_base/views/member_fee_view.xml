@@ -10,7 +10,6 @@
                     <field name="fee_member"/>
                     <field name="member_id"/>
                     <field name="member_note_id"/>
-                    <field name="adviser_id"/>
                     <field name="fee_payable"/>
                     <field name="fee_date"/>
                 </tree>

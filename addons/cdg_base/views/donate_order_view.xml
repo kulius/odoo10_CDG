@@ -28,9 +28,7 @@
                 <tree string="">
                     <field name="state"/>
                     <field name="donate_id"/>
-                    <field name="paid_id"/>
                     <field name="donate_w_id"/>
-                    <field name="donate_w_id_number"/>
                     <field name="donate_member" />
                     <field name="con_phone"/>
                     <field name="donate"/>
