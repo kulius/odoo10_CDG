@@ -556,25 +556,22 @@ class AppThemeConfigSettings(models.TransientModel):
 
         sql = "INSERT INTO auto_donateid(zip) SELECT DISTINCT SUBSTRING(zip_code,1,3) FROM normal_p"
         self._cr.execute(sql)
-        sql = "INSERT INTO auto_donateid(zip) VALUES (0)"
+        sql = "INSERT INTO auto_donateid(zip) VALUES ('000')"
         self._cr.execute(sql)
-        data = self.env['normal.p'].search()
-        data2 = self.env['auto.donateid'].search()
+        data = self.env['auto.donateid'].search()
+        data2 = self.env['normal.p'].search()
+
 
         for i in data:
             for j in data2:
-                if i.zip_code == j.zip:
-                    j.area_number += 1
-                    i.auto_num = j.area_number
-                    i.auto_num = i.auto_num.zfill(5)
-                    i.new_coding = j.zip + i.auto_num
-                # elif i.zip_code == '' and j.zip == '000' :
-                #     j.area_number += 1
-                #     i.auto_num = j.area_number
-                #     j.zip = j.zip.zfill(3)
-                #     i.auto_num = i.auto_num.zfill(5)
-                #     i.new_coding = j.zip + i.auto_num
-                #     若郵政區號為NULL處理未完成
+                if i.zip_code == '':
+                    i.zip_code = "000"
+                    if i.zip_code == j.zip:
+                        j.area_number += 1
+                        i.auto_num = j.area_number
+                        i.auto_num = i.auto_num.zfill(5)
+                        i.new_coding = j.zip + i.auto_num
+
 
 
 
