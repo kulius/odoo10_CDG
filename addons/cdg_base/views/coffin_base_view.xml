@@ -29,7 +29,7 @@
 
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button string="產生捐助明細" name="add_coffin_file" class="oe_stat_button" icon="fa-plus" type="object"/>
+                            <button string="產生捐助明細" name="add_coffin_file" class="oe_stat_button" icon="fa-list-ol" type="object"/>
                         </div>
                         <group col="7" name="文字">
                             <field name="coffin_id" colspan="2"/>

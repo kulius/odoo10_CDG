@@ -35,6 +35,7 @@
                     <field name="con_phone"/>
                     <field name="donate"/>
                     <field name="donate_type"/>
+                    <field name="use_amount" colspan="1"/>
                     <field name="donate_date"/>
                 </tree>
             </field>
