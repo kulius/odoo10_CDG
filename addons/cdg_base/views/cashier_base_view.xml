@@ -31,11 +31,11 @@
                                 <!--<field name="db_chang_date"/>-->
                         </group>
                         <label string="收費檔名冊 : "/>
-                        <button string="捐款收費名冊" name="donater_register" class="oe_highlight" icon="fa-list-alt" type="object"/>
-                        |
-                        <button string="會員收費名冊" name="member_register" class="oe_highlight" icon="fa-users" type="object"/>
-                        |
-                        <button string="顧問收費名冊" name="consultant_register" class="oe_highlight" icon="fa-user-md" type="object"/>
+                            <button string="捐款收費名冊" name="donater_register" class="oe_highlight" icon="fa-list-alt" type="object"/>
+                            |
+                            <button string="會員收費名冊" name="member_register" class="oe_highlight" icon="fa-users" type="object"/>
+                            |
+                            <button string="顧問收費名冊" name="consultant_register" class="oe_highlight" icon="fa-user-md" type="object"/>
                         <notebook>
                             <page string="基本資料">
                                 <group col="4">
