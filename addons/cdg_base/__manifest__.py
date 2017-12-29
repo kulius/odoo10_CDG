@@ -42,6 +42,7 @@
 
         'wizard/chang_donate.xml',
         'wizard/print_check.xml',
+        'wizard/wizard_batch.xml',
         
         'security/group.xml',
         'security/ir.model.access.csv',

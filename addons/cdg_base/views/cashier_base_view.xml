@@ -11,7 +11,6 @@
                     <field name="con_phone"/>
                     <field name="cellphone"/>
                     <field name="con_addr"/>
-                    <!--<field nmae="db_chang_date"/>-->
                 </tree>
             </field>
         </record>
@@ -28,7 +27,6 @@
                                 <field name="w_id" string="收費員編號" colspan="2"/>
                                  <field name="name" string="收費員姓名"  colspan="2"/>
                                  <field name="create_date" string="建檔日期" colspan="3"/>
-                                <!--<field name="db_chang_date"/>-->
                         </group>
                         <label string="收費檔名冊 : "/>
                             <button string="捐款收費名冊" name="donater_register" class="oe_highlight" icon="fa-list-alt" type="object"/>
@@ -52,9 +50,7 @@
                                     <field name="con_addr" nolabel="1"/>
                                     <field name="ps"/>
                                 </group>
-
                             </page>
-
                         </notebook>
                     </sheet>
                 </form>
