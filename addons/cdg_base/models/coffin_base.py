@@ -28,7 +28,7 @@ class CoffinBase(models.Model):
     create_date = fields.Date(string='建檔日期')
 
     def add_coffin_file(self):
-        lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0),('donate_type', '=', '3')], order='donate desc') # 從捐款明細中, 搜尋所有施棺捐款的資料, 並依最大筆金額進行排序
+        lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0),('donate_type', '=', '3'),('use_amount','=',False)], order='donate desc') # 從捐款明細中, 搜尋所有施棺捐款的資料, 並依最大筆金額進行排序
         basic_setting = self.env['ir.config_parameter'].search([])
         coffin_amount = 0
         for line in basic_setting: # 讀取基本設定檔的施棺滿足額
@@ -56,6 +56,7 @@ class CoffinBase(models.Model):
                             'donate_order_id': line.id
                         })]
                     })
+                    line.use_amount = True # 確認已支用此筆施棺捐款金額
                     self.donate_price = int(float(self.donate_price)) + line.donate # 將捐款金額加入累積金額
                     Cumulative_amount = Cumulative_amount - line.donate # 施棺滿足額 減掉 捐款額
 

@@ -50,6 +50,7 @@ class DonateOrder(models.Model):
     address = fields.Char(string='住址')
     city = fields.Char(string='市區')
 
+    use_amount = fields.Boolean(string='施棺捐款是否已支用', default=False)
 
     report_big = fields.Char()
     report_price = fields.Integer()
