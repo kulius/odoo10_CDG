@@ -22,10 +22,10 @@
             <field name="arch" type="xml">
                 <form string="">
                     <sheet>
-                        <group col="9">
+                        <group col="7">
                             <field name="w_id" string="顧問編號" colspan="2"/>
                             <field name="name" string="顧問姓名" colspan="2"/>
-                            <field name="create_date" string="創建日期" colspan="5"/>
+                            <field name="build_date" string="創建日期" colspan="3"/>
                         </group>
                         <notebook>
                             <page string="基本資料">

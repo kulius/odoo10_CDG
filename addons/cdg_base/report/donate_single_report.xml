@@ -32,6 +32,24 @@
                 paperformat="paper_form_cdg"
         />
 
+        <!--<record id="action_print_check" model="ir.actions.server">-->
+            <!--<field name="name">補單確認</field>-->
+            <!--<field name="model_id" ref="model_donate_single"/>-->
+            <!--<field name="code">-->
+                <!--action =  object.print_check(context.get('active_ids', []))-->
+            <!--</field>-->
+        <!--</record>-->
+<!--&lt;!&ndash;object = normal_p &ndash;&gt;-->
+
+        <!--<record model="ir.values" id="ir_values_print_check_button">-->
+            <!--<field name="name">補單確認</field>-->
+            <!--<field name="key2">client_action_multi</field>-->
+            <!--<field name="value" eval="'ir.actions.server,%d'%action_print_check"/>-->
+            <!--<field name="key">action</field>-->
+            <!--<field name="object" eval="True"/>-->
+            <!--<field name="model">donate.single</field>-->
+        <!--</record>-->
+
         <template id="receipt_single_all_template">
             <t t-call="report.layout">
                 <t t-foreach="docs" t-as="data">

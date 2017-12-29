@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-import time ,datetime
+import datetime
 import psycopg2
 
+from datetime import datetime
 from odoo import models, fields, api
 
 # 一般人基本檔 團員 會員 收費員 顧問
@@ -28,7 +29,7 @@ class NormalP(models.Model):
     zip = fields.Char(string='收據郵遞區號')
     key_in_user = fields.Many2one(comodel_name='c.worker', string='輸入人員', ondelete='cascade')
     db_chang_date = fields.Date(string='異動日期')
-    build_date = fields.Date(string='建檔日期')
+    build_date = fields.Date(string='建檔日期', default=datetime.today())
 
     email = fields.Char(string='Email')
     type = fields.Many2many(comodel_name='people.type', string='人員種類')

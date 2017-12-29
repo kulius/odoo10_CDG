@@ -41,7 +41,6 @@
                             </button>
                         </div>
                         <group col="4">
-                            <field name="new_coding"/>
                             <field name="name"/>
                             <field name="build_date" string="創建日期"/>
                             <field name="type" widget="many2many_tags"/>
@@ -138,8 +137,10 @@
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="name"/>
                     <field name="new_coding"/>
+                    <field name="name"/>
+                    <field name="con_phone"/>
+                    <field name="cellphone"/>
                     <field name="con_addr"/>
                     <filter string="戶長" name="top_of_home" domain="[('donate_family1','!=', False)]" />
                 </search>
