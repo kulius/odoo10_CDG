@@ -78,11 +78,8 @@
                                     </tree>
                                 </field>
                                 <span STYLE='FONT-SIZE:25PX'>捐款方式</span>
-                                <group col="8">
-                                    <field name="cash"/>
-                                    <field name="mail"/>
-                                    <field name="credit_card"/>
-                                    <field name="bank"/>
+                                <group col="4">
+                                    <field name="payment_method"/>
                                     <field name="receipt_send"/>
                                     <field name="report_send"/>
                                     <field name="year_receipt_send"/>

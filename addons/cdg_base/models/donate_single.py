@@ -40,10 +40,8 @@ class DonateSingle(models.Model):
     coffin_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     poor_help_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     noassign_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    cash = fields.Boolean(string='現金', states={2: [('readonly', True)]})
-    mail = fields.Boolean(string='郵政劃撥', states={2: [('readonly', True)]})
-    credit_card = fields.Boolean(string='信用卡扣款', states={2: [('readonly', True)]})
-    bank = fields.Boolean(string='銀行轉帳', states={2: [('readonly', True)]})
+    payment_method = fields.Selection( [(1,'現金'),(2,'郵政劃撥'),(3,'信用卡扣款'),(4,'銀行轉帳')], '繳費方式')
+#    cash = fields.Boolean(string='現金', states={2: [('readonly', True)]})
     person_check = fields.Many2many(comodel_name="normal.p", string="捐款人名冊")
     family_check = fields.One2many(comodel_name='donate.family.line',inverse_name='parent_id', string='捐款人名冊', states={2: [('readonly', True)]})
     donate_list = fields.One2many(comodel_name='donate.order', inverse_name='donate_list_id', string='捐款明細', states={2: [('readonly', True)]})
@@ -117,6 +115,8 @@ class DonateSingle(models.Model):
         res_id = super(DonateSingle, self).create(vals)
         if res_id.donate_member.id is False:
             raise ValidationError(u'需要選取捐款人!')
+        elif res_id.payment_method is not 1 and res_id.payment_method is not 2 and res_id.payment_method is not 3 and res_id.payment_method is not 4:
+            raise ValidationError(u'支付方法至少選取一個')
         max = self.env['donate.order'].search([], order='paid_id desc', limit=1)
         donate_id = max.donate_id
         int_max = int(donate_id[1:]) + 1
