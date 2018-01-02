@@ -5,12 +5,13 @@
             <field name="name">donate single tree</field>
             <field name="model">donate.single</field>
             <field name="arch" type="xml">
-                <tree string="">
+                <tree>
                     <field name="state"/>
                     <field name="donate_id"/>
                     <field name="name"/>
                     <field name="donate_date" string="捐款日期"/>
                     <field name="donate_total"/>
+                    <field name="receipt_send"/>
                 </tree>
             </field>
         </record>

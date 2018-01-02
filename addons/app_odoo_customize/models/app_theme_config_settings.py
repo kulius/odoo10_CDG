@@ -561,7 +561,6 @@ class AppThemeConfigSettings(models.TransientModel):
         data = self.env['auto.donateid'].search()
         data2 = self.env['normal.p'].search()
 
-
         for i in data:
             for j in data2:
                 if i.zip_code == '':
