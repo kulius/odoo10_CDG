@@ -151,23 +151,30 @@
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
                 <form>
+                    <div class="col-md-12">
                     <group col="4">
-                            <field name="w_id"/>
-                            <field name="number"/>
-                            <field name="new_coding"/>
-                            <field name="name"/>
-                            <field name="ps"/>
-                            <field name="type" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}" />
-                            <field name="parent" options="{'no_quick_create': True, 'no_create_edit' : True}"
-                                   context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
-                            <field name="con_addr"/>
-
-                            <field name="merge_report"/>
-                            <field name="cashier" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                            <field name="is_donate"/>
-                            <field name="is_merge"/>
-                            <field name="donate_family_list"/>
+                        <field name="name"/>
+                        <field name="type" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                     </group>
+                    <group col="7">
+                        <field name="zip_code" colspan="2" string="聯絡地址"/>
+                        <field name="con_addr" colspan="5" nolabel="1"/>
+                    </group>
+                    <group col="6">
+                        <field name="merge_report"/>
+                        <field name="is_donate"/>
+                        <field name="is_merge"/>
+                    </group>
+                    <group>
+                        <field name="cashier" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        <field name="donate_family_list"/>
+                            <!--<field name="parent" options="{'no_quick_create': True, 'no_create_edit' : True}"-->
+                                   <!--context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>-->
+                    </group>
+                    <group>
+                        <field name="ps" />
+                    </group>
+                    </div>
                 </form>
             </field>
         </record>

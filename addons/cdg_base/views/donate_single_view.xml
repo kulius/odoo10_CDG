@@ -72,7 +72,7 @@
                                 <field name="family_check">
                                     <tree editable="bottom">
                                         <field name="family_new_coding"/>
-                                        <field name="donate_member" context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
+                                        <field name="donate_member" options="{'no_quick_create': True, 'no_create_edit' : True}" context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
                                         <field name="is_donate"/>
                                         <field name="is_merge"/>
                                     </tree>
