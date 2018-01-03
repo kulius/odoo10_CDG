@@ -50,9 +50,9 @@
                                     <field name="dealer"/>
                                     <field name="coffin_date"/>
                                     <field name="user"/>
-                                    <field name=""/>
+
                                     <field name="geter"/>
-                                    <field name=""/>
+
                                     <field name="con_phone"/>
                                     <field name="con_phone2"/>
                                     <field name="cellphone"/>
@@ -80,7 +80,9 @@
                                 </field>
                             </page>
                         </notebook>
+
                     </sheet>
+
                 </form>
             </field>
         </record>

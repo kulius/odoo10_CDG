@@ -400,6 +400,9 @@ class NormalP(models.Model):
                 'parent': max.id,
                 'w_id': max.id # 待處理
             })
+            if res_id.donate_family1:
+                pass
+
         elif res_id.parent.id and res_id.w_id is False:
             max = self.env['normal.p'].search([], order='id desc', limit=1)
             res_id.write({
