@@ -13,7 +13,7 @@ class DonateSingle(models.Model):
 
     paid_id = fields.Char(string='收費編號', readonly=True)
     donate_id = fields.Char(string='捐款編號', readonly=True)
-    donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者編號', domain=[('w_id', '!=', '')],
+    donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者', domain=[('w_id', '!=', '')],
                                     states={2: [('readonly', True)]})  # demo用
     name = fields.Char(string='姓名', compute='set_donate_name',store=True)
     self_iden = fields.Char(string='身分證字號', compute='set_donate_name', store=True)

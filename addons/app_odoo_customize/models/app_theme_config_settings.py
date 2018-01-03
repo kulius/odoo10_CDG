@@ -446,43 +446,67 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
 
-    def data_transfer(self):
-        sql = "INSERT INTO normal_p(w_id,number,name,cellphone,con_phone,con_phone2,zip_code,address,con_addr,habbit_donate,donate_cycle,rec_type,ps,cashier_code,rec_send,is_donate,report_send,thanks_send,bank_check"\
-              " ,prints_id,self_iden,bank_id,bank,bank_id2,account,prints_date,ps2)"\
-              " SELECT code,number,name,cellphone,phone1,phone2, zip,addr,addr,cast(donate_code as Integer),cycle,case when annual_receipt = 'N' then 1 else 2 end as annualreceipt"\
-              " ,ps,collector_code ,case when rec_send='N' then FALSE else TRUE end as rec_send"\
-              " ,case when is_donate='N' then FALSE else TRUE end as is_donate "\
-              " ,case when report_send='N' then FALSE else TRUE end as report_send ,case when thanks_send='N' then FALSE else TRUE end as thanks_send"\
-              " ,case when bank_check='N' then FALSE else TRUE end as bank_check"\
-              " ,check_num,p_id,bank_id,bankname,bank_id2,bankaccount,checkdate,transfer_note"\
-              " from (SELECT 團員編號 AS code, '1' AS number, 姓名 AS name, 出生日期 AS birth, 手機 AS cellphone, 電話一 AS phone1, 電話二 AS phone2,郵遞區號 AS zip, 通訊地址 AS addr, 捐助種類編號 AS donate_code,捐助週期 AS cycle, 年收據 AS annual_receipt, 建檔日期 AS build_date, 備註 AS ps,收費員編號 AS collector_code, 收據寄送 AS rec_send,NULL AS is_donate, 自訂排序 AS sorting, 報表寄送 AS report_send, 感謝狀寄送 AS thanks_send, 銀行核印 AS bank_check, 核印批號 AS check_num, 身份證號 AS p_id, 扣款銀行代碼 AS bank_id, 扣款銀行 AS bankname, 扣款分行代碼 AS bank_id2, 扣款分行 AS bankname2, 銀行帳號 AS bankaccount, 核印日期 AS checkdate, 約定轉帳備註 AS transfer_note,輸入人員 AS key_in_user, 異動日期 AS db_chang_date"\
-              " FROM 團員檔"\
-              " where 郵遞區號='111'"\
-              " UNION"\
-              " SELECT 團員編號 AS code, 序號 AS number, 姓名 AS name, 出生日期 AS birth, 手機 AS cellphone, 電話一 AS phone1, 電話二 AS phone2, 郵遞區號 AS zip, 通訊地址 AS addr, 捐助種類編號 AS donate_code, NULL AS cycle, NULL AS annual_receipt , NULL AS build_date, NULL AS ps, NULL AS collector_code, 收據寄送 AS rec_send, 是否捐助 AS is_donate, 自訂排序 AS sorting , NULL AS report_send, NULL AS thanks_send, NULL AS bank_check, NULL AS check_num, NULL AS p_id, NULL AS bank_id, NULL AS bankname, NULL AS bank_id2, NULL AS bankname2, NULL AS bankaccount, NULL AS checkdate, NULL AS transfer_note,輸入人員 AS key_in_user, 異動日期 AS db_chang_date"\
-              " FROM 團員眷屬檔"\
-              " where 郵遞區號='111' and 序號 <> '1'"\
-              " ) as aaa"\
-              " LIMIT 1000"
+    def data_transfer(self): #轉團員檔及團員眷屬檔
+        # sql = "INSERT INTO normal_p(w_id,number,name,cellphone,con_phone,con_phone2,zip_code,address,con_addr,habbit_donate,donate_cycle,rec_type,ps,cashier_code,rec_send,is_donate,report_send,thanks_send,bank_check"\
+        #       " ,prints_id,self_iden,bank_id,bank,bank_id2,account,prints_date,ps2)"\
+        #       " SELECT code,number,name,cellphone,phone1,phone2, zip,addr,addr,cast(donate_code as Integer),cycle,case when annual_receipt = 'N' then 1 else 2 end as annualreceipt"\
+        #       " ,ps,collector_code ,case when rec_send='N' then FALSE else TRUE end as rec_send"\
+        #       " ,case when is_donate='N' then FALSE else TRUE end as is_donate "\
+        #       " ,case when report_send='N' then FALSE else TRUE end as report_send ,case when thanks_send='N' then FALSE else TRUE end as thanks_send"\
+        #       " ,case when bank_check='N' then FALSE else TRUE end as bank_check"\
+        #       " ,check_num,p_id,bank_id,bankname,bank_id2,bankaccount,checkdate,transfer_note"\
+        #       " from (SELECT 團員編號 AS code, '1' AS number, 姓名 AS name, 出生日期 AS birth, 手機 AS cellphone, 電話一 AS phone1, 電話二 AS phone2,郵遞區號 AS zip, 通訊地址 AS addr, 捐助種類編號 AS donate_code,捐助週期 AS cycle, 年收據 AS annual_receipt, 建檔日期 AS build_date, 備註 AS ps,收費員編號 AS collector_code, 收據寄送 AS rec_send,NULL AS is_donate, 自訂排序 AS sorting, 報表寄送 AS report_send, 感謝狀寄送 AS thanks_send, 銀行核印 AS bank_check, 核印批號 AS check_num, 身份證號 AS p_id, 扣款銀行代碼 AS bank_id, 扣款銀行 AS bankname, 扣款分行代碼 AS bank_id2, 扣款分行 AS bankname2, 銀行帳號 AS bankaccount, 核印日期 AS checkdate, 約定轉帳備註 AS transfer_note,輸入人員 AS key_in_user, 異動日期 AS db_chang_date"\
+        #       " FROM 團員檔"\
+        #       " where 郵遞區號='111'"\
+        #       " UNION"\
+        #       " SELECT 團員編號 AS code, 序號 AS number, 姓名 AS name, 出生日期 AS birth, 手機 AS cellphone, 電話一 AS phone1, 電話二 AS phone2, 郵遞區號 AS zip, 通訊地址 AS addr, 捐助種類編號 AS donate_code, NULL AS cycle, NULL AS annual_receipt , NULL AS build_date, NULL AS ps, NULL AS collector_code, 收據寄送 AS rec_send, 是否捐助 AS is_donate, 自訂排序 AS sorting , NULL AS report_send, NULL AS thanks_send, NULL AS bank_check, NULL AS check_num, NULL AS p_id, NULL AS bank_id, NULL AS bankname, NULL AS bank_id2, NULL AS bankname2, NULL AS bankaccount, NULL AS checkdate, NULL AS transfer_note,輸入人員 AS key_in_user, 異動日期 AS db_chang_date"\
+        #       " FROM 團員眷屬檔"\
+        #       " where 郵遞區號='111' and 序號 <> '1'"\
+        #       " ) as aaa"\
+        #       " LIMIT 1000"
+
+        # 轉團員眷屬檔
+        sql = "INSERT INTO normal_p(w_id, number, name, cellphone, con_phone, con_phone2, zip_code, con_addr, habbit_donate, rec_send, is_donate, temp_key_in_user, db_chang_date)"\
+              " SELECT 團員編號, 序號, 姓名, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, cast(捐助種類編號 as Integer), case when 收據寄送='N' then FALSE else TRUE end as 收據寄送, case when 是否捐助='N' then FALSE else TRUE end as 是否捐助, 輸入人員, case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 團員眷屬檔"
         self._cr.execute(sql)
+
+        #轉入不在眷屬檔，在團員檔的資料，共7769筆
+        sql = ''
+        sql = "INSERT INTO normal_p(w_id, name) "\
+              " SELECT 團員編號, 姓名 FROM 團員檔"\
+              " EXCEPT "\
+              " SELECT 團員編號, 姓名 FROM 團員眷屬檔"
+        self._cr.execute(sql)
+
+        # 團員檔的資料比較齊全，因此把團員檔的資料寫入normal.p
+        sql = ''
+        sql = "UPDATE normal_p " \
+              " SET cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, donate_cycle = cast(a.捐助週期 as Integer), zip_code =  a.郵遞區號, con_addr = a.通訊地址, " \
+              " merge_report = case when a.年收據='N' then FALSE else TRUE end, ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, report_send = case when a.報表寄送='N' then FALSE else TRUE end," \
+              " thanks_send = case when a.感謝狀寄送='N' then FALSE else TRUE end, prints = case when a.銀行核印='N' then FALSE else TRUE end, prints_id = a.核印批號, self_iden = a.身份證號, bank_id = a.扣款銀行代碼, bank = a.扣款銀行," \
+              " bank_id2 = a.扣款分行代碼, bank2 = a.扣款分行, account = a.銀行帳號, prints_date = a.核印日期," \
+              " ps2 = a.約定轉帳備註, temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end" \
+              " FROM 團員檔 a WHERE a.團員編號 = normal_p.w_id and a.姓名 = normal_p.name"
+        self._cr.execute(sql)
+        # 全資料共768394筆
         return True
 
-    def set_leader(self):
+    def set_leader(self): #設定戶長
         sql = "UPDATE normal_p SET parent = a.id FROM normal_p a WHERE a.w_id = normal_p.w_id and a.number='1' "
         self._cr.execute(sql)
         return True
 
-    def receipt_transfer(self):
+    def receipt_transfer(self): #轉捐款檔
         sql = " INSERT INTO donate_order(paid_id,donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,report_year,clerk,db_chang_date) select 收費編號,捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,cast(捐款日期 as DATE ),case when 收據年度開立 = 'N' then FALSE else TRUE end as report_year,收費員編號, cast(異動日期 as Date) from 捐款檔 where 團員編號  in (select w_id from normal_p)"
         self._cr.execute(sql)
         return True
 
-    def set_donor(self):
+    def set_donor(self): #normal.p 關聯捐款檔
         sql = 'update donate_order set donate_member = a.id from normal_p a where a.w_id = donate_order.donate_w_id and  a.number = donate_order.donate_w_id_number '
         self._cr.execute(sql)
         return True
 
-    def set_worker(self):
+    def set_worker(self): #員工檔轉進 res.users
         sql = "INSERT INTO worker_data(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
               "SELECT 職稱, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期,性別, 電話二, 身份證號,case when 離職日期='' then NULL else cast(離職日期 as date) end as 離職日期, 員工編號, 通訊地址,備註,手機,姓名, 電話一,最高學歷,case when 到職日期='' then NULL else cast(到職日期 as date) end as 到職日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 員工檔"
         self._cr.execute(sql)
@@ -511,12 +535,12 @@ class AppThemeConfigSettings(models.TransientModel):
                 'job_type': line.job_type
             })
 
-    def set_coffin_id(self):
+    def set_coffin_id(self): #施棺明細關聯施棺檔
         sql = 'update coffin_donation set coffin_donation_id = a.id from coffin_base a where a.coffin_id = coffin_donation.coffin_id '
         self._cr.execute(sql)
         return True
 
-    def set_consultant(self):
+    def set_consultant(self): #顧問收費檔轉檔
         sql = "UPDATE normal_p SET consultant_id = a.顧問編號 FROM 顧問檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
         self._cr.execute(sql)
         sql = ''
@@ -534,7 +558,7 @@ class AppThemeConfigSettings(models.TransientModel):
                     data.normal_p_id = dict[i]['id']
         return True
 
-    def set_member(self):
+    def set_member(self): #會員收費檔轉檔
         sql = "UPDATE normal_p SET member_id = a.會員編號 FROM 會員檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
         self._cr.execute(sql)
         sql = ''
@@ -552,7 +576,7 @@ class AppThemeConfigSettings(models.TransientModel):
                     data.normal_p_id = dict[i]['id']
         return True
 
-    def auto_zip_insert(self):
+    def auto_zip_insert(self): #自動產生編號
 
         sql = "INSERT INTO auto_donateid(zip) SELECT DISTINCT SUBSTRING(zip_code,1,3) FROM normal_p"
         self._cr.execute(sql)

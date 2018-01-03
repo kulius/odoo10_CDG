@@ -27,7 +27,8 @@ class NormalP(models.Model):
     con_phone2 = fields.Char(string='連絡電話(二)')
     zip_code = fields.Char(string='寄送郵遞區號')
     zip = fields.Char(string='收據郵遞區號')
-    key_in_user = fields.Many2one(comodel_name='c.worker', string='輸入人員', ondelete='cascade')
+    key_in_user = fields.Many2one(comodel_name='c.worker', string='輸入人員', ondelete='cascade') #記得要改預設使用者
+    temp_key_in_user = fields.Char(string='輸入人員_temp')
     db_chang_date = fields.Date(string='異動日期')
     build_date = fields.Date(string='建檔日期', default=datetime.today())
 
@@ -46,6 +47,7 @@ class NormalP(models.Model):
     habbit_donate = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (04, '伙食費'), (05, '貧困扶助'),(06, '不指定'), (99, '其他工程')],
                                      string='喜好捐款')
     cashier_name = fields.Many2one(comodel_name='c.worker', string='收費員姓名', domain="[('job_type', '=', '2'), ]", ondelete='cascade')
+    temp_cashier_name = fields.Char(string='收費員姓名_temp')
     donate_cycle = fields.Selection(selection=[('03', '季繳'), ('06', '半年繳'), ('12', '年繳')], string='捐助週期')
     rec_type = fields.Selection(selection=[(1, '正常'), (2, '年收據')], string='收據狀態')
     rec_send = fields.Boolean(string='收據寄送')
@@ -69,14 +71,15 @@ class NormalP(models.Model):
     year = fields.Char(string='繳費年度')
     should_pay = fields.Integer(string='應繳金額')
     cashier = fields.Many2one(comodel_name='c.worker', string='收費員')
+    temp_cashier = fields.Char(string='收費員_temp')
     pay_date = fields.Date(string='收費日期')
     booklist = fields.Boolean(string='名冊列印')
     member_type = fields.Selection(selection=[(1, '基本會員'), (2, '贊助會員')], string='會員種類')
     hire_date = fields.Date(string='雇用日期')
     merge_report = fields.Boolean(string='年收據合併', help='將捐款者的收據整合進該住址')
     #團員檔及團員眷屬檔設定戶長之功能
-    parent = fields.Many2one(comodel_name='normal.p', string='戶長', ondelete='cascade')
-    donate_family1 = fields.One2many(comodel_name='normal.p', inverse_name='parent', string='團員眷屬')
+    parent = fields.Many2one(comodel_name='normal.p', string='戶長', ondelete='cascade',)
+    donate_family1 = fields.One2many(comodel_name='normal.p', inverse_name='parent', string='團員眷屬' )
     # 來判斷你是不是老大
     member_data_ids = fields.Many2one(comodel_name='member.data', string='關聯的顧問會員檔')
     donate_history_ids = fields.One2many(comodel_name='donate.order', inverse_name='donate_member')
@@ -387,6 +390,17 @@ class NormalP(models.Model):
                 'normal_p_id': dict[i]['id']
             })
         return True
+
+    @api.model
+    def create(self, vals):
+        res_id = super(NormalP, self).create(vals)
+        if res_id.parent.id is False:
+            max = self.env['normal.p'].search([], order='id desc', limit=1)
+            res_id.write({
+                'parent': max.id,
+                'w_id': max.id # 待處理
+            })
+        return res_id
 
 #
 # class DonateFamily(models.Model):

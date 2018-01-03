@@ -42,11 +42,10 @@
                         </div>
                         <group col="4">
                             <field name="name"/>
-                            <field name="build_date" string="創建日期"/>
-                            <field name="type" widget="many2many_tags"/>
-                            <field name="parent" options="{'create':false ,'create_edit':false}"
+                            <field name="type" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                            <field name="parent" options="{'no_quick_create': True, 'no_create_edit' : True}"
                                    context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
-                            <field name="cashier_name" context="{'form_view_ref' : 'cdg_base.cashier_base_form'}" />
+                            <field name="cashier_name" options="{'no_quick_create': True, 'no_create_edit' : True}" context="{'form_view_ref' : 'cdg_base.cashier_base_form'}" />
                             <field name="report_send"/>
                             <field name="rec_send"/>
                             <field name="merge_report"/>
@@ -158,15 +157,13 @@
                             <field name="new_coding"/>
                             <field name="name"/>
                             <field name="ps"/>
-                            <field name="type" widget="many2many_tags"/>
-                            <field name="parent" options="{'create':false ,'create_edit':false}"
-                                   context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>/>
-                            <field name="key_in_user"/>
-                            <field name="db_chang_date"/>
+                            <field name="type" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}" />
+                            <field name="parent" options="{'no_quick_create': True, 'no_create_edit' : True}"
+                                   context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
                             <field name="con_addr"/>
 
                             <field name="merge_report"/>
-                            <field name="cashier"/>
+                            <field name="cashier" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                             <field name="is_donate"/>
                             <field name="is_merge"/>
                             <field name="donate_family_list"/>
@@ -204,6 +201,7 @@
                     <field name="cashier"/>
                     <field string="基本會員" name="type" filter_domain="[('type.id','=',2 )]"/>
                     <field string="贊助會員" name="type" filter_domain="[('type.id','=',3 )]"/>
+
                     <filter string="基本會員" name="type" domain="[('type.id','=',2 )]"/>
                     <filter string="贊助會員" name="type" domain="[('type.id','=',3 )]"/>
                 </search>
