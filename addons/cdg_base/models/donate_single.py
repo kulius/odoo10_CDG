@@ -118,12 +118,14 @@ class DonateSingle(models.Model):
         elif res_id.payment_method is not 1 and res_id.payment_method is not 2 and res_id.payment_method is not 3 and res_id.payment_method is not 4:
             raise ValidationError(u'支付方法至少選取一個')
         max = self.env['donate.order'].search([], order='paid_id desc', limit=1)
-
         donate_id = max.donate_id
         int_max = int(donate_id[1:]) + 1
         res_id.write({
-            'donate_id': 'A' + str(int_max)
+            'donate_id': 'A' + str(int_max),
         })
+        res_id.donate_member.rec_send = res_id.receipt_send #收據寄送
+        res_id.donate_member.report_send = res_id.report_send #報表寄送
+        res_id.donate_member.year_receipt_send = res_id.merge_report #年收據合併
         return res_id
 
     @api.onchange('history_donate_flag')
