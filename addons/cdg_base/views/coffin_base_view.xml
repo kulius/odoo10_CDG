@@ -47,10 +47,12 @@
                         <notebook>
                             <page string="施棺資料">
                                 <group col="4">
-                                    <field name="user"/>
-                                    <field name="coffin_date"/>
-                                    <field name="geter"/>
                                     <field name="dealer"/>
+                                    <field name="coffin_date"/>
+                                    <field name="user"/>
+                                    <field name=""/>
+                                    <field name="geter"/>
+                                    <field name=""/>
                                     <field name="con_phone"/>
                                     <field name="con_phone2"/>
                                     <field name="cellphone"/>
@@ -80,6 +82,20 @@
                         </notebook>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+        <record id="coffin_base_search" model="ir.ui.view">
+            <field name="name">coffin base search</field>
+            <field name="model">coffin.base</field>
+            <field name="arch" type="xml">
+                <search>
+                  <field name="dealer"/>
+                  <field name="user"/>
+                  <field name="geter"/>
+
+                  <field name="coffin_date"/>
+                </search>
             </field>
         </record>
 
