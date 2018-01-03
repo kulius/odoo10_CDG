@@ -125,7 +125,7 @@ class DonateSingle(models.Model):
         })
         res_id.donate_member.rec_send = res_id.receipt_send #收據寄送
         res_id.donate_member.report_send = res_id.report_send #報表寄送
-        res_id.donate_member.year_receipt_send = res_id.merge_report #年收據合併
+        res_id.donate_member.merge_report = res_id.year_receipt_send #年收據合併
         return res_id
 
     @api.onchange('history_donate_flag')
