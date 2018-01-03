@@ -400,6 +400,12 @@ class NormalP(models.Model):
                 'parent': max.id,
                 'w_id': max.id # 待處理
             })
+        elif res_id.parent.id and res_id.w_id is False:
+            max = self.env['normal.p'].search([], order='id desc', limit=1)
+            res_id.write({
+                'w_id': res_id.parent.id  # 待處理
+            })
+
         return res_id
 
 #
