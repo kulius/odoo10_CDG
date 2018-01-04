@@ -211,16 +211,14 @@ class DonateSingle(models.Model):
 
     @api.onchange('donate_member')
     def show_family(self):
-        if self.donate_member.w_id != '' and self.donate_member.id > 0:
-            member = self.env['normal.p'].search([('w_id', '=', self.donate_member.w_id)])
-            r = []
-            for line in member:
-                r.append([0, 0, {
-                    'donate_member': line.id
-                }])
-            self.update({
-                'family_check': r
-            })
+        r = []
+        for line in self.donate_member.parent.donate_family1:
+            r.append([0, 0, {
+                'donate_member': line.id
+            }])
+        self.update({
+            'family_check': r
+        })
 
     @api.depends('donate_list')
     def compute_total(self):
@@ -330,9 +328,8 @@ class DonateSingle(models.Model):
         })
 
     def parent_list_creat(self):
-        member = self.env['normal.p'].search([('w_id', '=', self.donate_member.w_id)])
         r = []
-        for line in member:
+        for line in self.donate_member.parent.donate_family1:
             exist = False
             for family_line in self.family_check:
                 if family_line.donate_member.id == line.id:

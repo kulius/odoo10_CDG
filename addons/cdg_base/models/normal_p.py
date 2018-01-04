@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
+from odoo.exceptions import ValidationError
 import psycopg2
 
 from datetime import datetime
@@ -394,21 +395,39 @@ class NormalP(models.Model):
     @api.model
     def create(self, vals):
         res_id = super(NormalP, self).create(vals)
-        if res_id.parent.id is False:
-            max = self.env['normal.p'].search([], order='id desc', limit=1)
-            res_id.write({
-                'parent': max.id,
-                'w_id': max.id # 待處理
+        if res_id.zip_code is False: #使用者如果沒有填寄送地址郵遞區號, 則編碼前3碼為 '000'
+            compute_code = self.env['auto.donateid'].search([('zip','=','000')])
+            res_id.new_coding = '000' + str(compute_code.area_number).zfill(5) #取出當前 zip = '000' 的累積人數
+            compute_code.write({
+                'area_number': compute_code.area_number + 1 # zip = '000' 的累積人數+1
             })
-            if res_id.donate_family1:
-                pass
+        elif res_id.zip_code and len(res_id.zip_code) < 3: # 使用者有輸入寄送地址的郵遞區號但不足3碼
+            raise ValidationError(u'寄送地址的郵遞區號填寫錯誤，請至少填3碼的郵遞區號!')
+        elif res_id.zip_code and len(res_id.zip_code) >= 3: # 使用者可以填3+2郵遞區號, 但是少要填3碼的郵遞區號
+            compute_code = self.env['auto.donateid'].search([('zip', '=', res_id.zip_code[0:3])]) # 搜尋計數器裡符合使用者填入郵遞區號的資料
+            if compute_code.zip: # 在計數器裡有找到該郵遞區號
+                res_id.new_coding = res_id.zip_code[0:3] + str(compute_code.area_number).zfill(5)
+                compute_code.write({
+                    'area_number': compute_code.area_number + 1
+                })
+            elif compute_code.zip is False: # 在計數器裡沒有找到該郵遞區號
+                res_id.new_coding = res_id.zip_code[0:3] + str('1').zfill(5) # 代表此捐款者為該郵遞區號捐款的第一人
+                self.env['auto.donateid'].create({
+                    'zip': res_id.zip_code[0:3], # 在計數器裡創建該郵遞區號的資料
+                    'area_number': 2 # 將累積人數設定為2, 以便下一位捐款者可以依此來編號
+                })
 
-        elif res_id.parent.id and res_id.w_id is False:
-            max = self.env['normal.p'].search([], order='id desc', limit=1)
+        if res_id.parent.id is False: # 如果新建的捐款者資料沒有選定戶長是誰, 那麼就由系統自動將該使用者設為戶長
             res_id.write({
-                'w_id': res_id.parent.id  # 待處理
+                'parent': res_id.id,
+                'new_coding': res_id.new_coding # 給予捐款者編號
             })
-
+        elif res_id.parent.id: # 如果有選定戶長
+            old_member_code = self.env['normal.p'].search([('id','=',res_id.parent.id)]) # 搜尋該戶長的資料
+            if old_member_code.w_id: # 如果該戶長有w_id, 則將捐款者的w_id 設為與戶長相同的w_id
+                res_id.write({
+                    'w_id': old_member_code.w_id
+                })
         return res_id
 
 #
