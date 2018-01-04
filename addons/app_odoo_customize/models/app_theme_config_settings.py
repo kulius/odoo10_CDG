@@ -578,22 +578,22 @@ class AppThemeConfigSettings(models.TransientModel):
 
     def auto_zip_insert(self): #自動產生編號
 
-        sql = "INSERT INTO auto_donateid(zip) SELECT DISTINCT SUBSTRING(zip_code,1,3) FROM normal_p"
-        self._cr.execute(sql)
-        sql = "INSERT INTO auto_donateid(zip) VALUES ('000')"
-        self._cr.execute(sql)
-        data = self.env['auto.donateid'].search()
-        data2 = self.env['normal.p'].search()
+        # sql = "INSERT INTO auto_donateid(zip) SELECT DISTINCT SUBSTRING(zip_code,1,3) FROM normal_p"
+        # self._cr.execute(sql)
+        # sql = "INSERT INTO auto_donateid(zip) VALUES ('000')"
+        # self._cr.execute(sql)
+        data = self.env['auto.donateid'].search([])
+        data2 = self.env['normal.p'].search([()])
 
         for i in data:
             for j in data2:
-                if i.zip_code == '':
-                    i.zip_code = "000"
-                    if i.zip_code == j.zip:
-                        j.area_number += 1
-                        i.auto_num = j.area_number
-                        i.auto_num = i.auto_num.zfill(5)
-                        i.new_coding = j.zip + i.auto_num
+                if j.zip_code == '':
+                    j.zip_code = "000"
+                if j.zip_code == i.zip:
+                    i.area_number += 1
+                    j.auto_num = i.area_number
+                    j.auto_num = j.auto_num.zfill(5)
+                    j.new_coding = i.zip + j.auto_num
 
 
 

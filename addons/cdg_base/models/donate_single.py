@@ -123,9 +123,10 @@ class DonateSingle(models.Model):
         res_id.write({
             'donate_id': 'A' + str(int_max),
         })
-        res_id.donate_member.rec_send = res_id.receipt_send #收據寄送
+        #donate_single(Create保存).donate_member(normal.p的資料).(欄位) = donate_single.(欄位)
+        res_id.donate_member.rec_send = res_id.receipt_send #收據寄送1
         res_id.donate_member.report_send = res_id.report_send #報表寄送
-        res_id.donate_member.merge_report = res_id.year_receipt_send #年收據合併
+        res_id.donate_member.merge_report = res_id.year_receipt_send #年收據合併 開始捐款(年收據寄送)
         return res_id
 
     @api.onchange('history_donate_flag')
