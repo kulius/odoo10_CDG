@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <tree string="">
                     <field name="new_coding"/>
+                    <field name="w_id"/>
                     <field name="name"/>
                     <field name="con_phone"/>
                     <field name="con_addr"/>
@@ -137,6 +138,7 @@
             <field name="arch" type="xml">
                 <search>
                     <field name="new_coding"/>
+                    <field name="w_id"/>
                     <field name="name"/>
                     <field name="con_phone"/>
                     <field name="cellphone"/>

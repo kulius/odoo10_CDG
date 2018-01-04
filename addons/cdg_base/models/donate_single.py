@@ -8,13 +8,14 @@ _logger = logging.getLogger(__name__)
 
 class DonateSingle(models.Model):
     _name = 'donate.single'
-
     # name = fields.Many2one(comodel_name='normal.p',string='姓名')
 
     paid_id = fields.Char(string='收費編號', readonly=True)
     donate_id = fields.Char(string='捐款編號', readonly=True)
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者', domain=[('w_id', '!=', '')],
                                     states={2: [('readonly', True)]})  # demo用
+    donate_member_w_id = fields.Char('舊團員編號',related='donate_member.w_id') # search用
+    donate_member_new_coding = fields.Char('新捐款者編號',related='donate_member.new_coding')  # search用
     name = fields.Char(string='姓名', compute='set_donate_name',store=True)
     self_iden = fields.Char(string='身分證字號', compute='set_donate_name', store=True)
     cellphone = fields.Char(string='手機', compute='set_donate_name', store=True)
@@ -128,6 +129,15 @@ class DonateSingle(models.Model):
         res_id.donate_member.report_send = res_id.report_send #報表寄送
         res_id.donate_member.merge_report = res_id.year_receipt_send #年收據合併 開始捐款(年收據寄送)
         return res_id
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|', ('donate_member_w_id', operator, name), '|', ('donate_member_new_coding', operator, name)]
+        banks = self.search(domain + args, limit=limit)
+        return banks.name_get()
 
     @api.onchange('history_donate_flag')
     def get_history_donate(self):

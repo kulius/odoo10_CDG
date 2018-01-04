@@ -172,7 +172,7 @@ class NormalP(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            name = "{%s} %s" % (record.new_coding, record.name)
+            name = "{%s} %s {%s}" % (record.new_coding, record.name, record.w_id)
             result.append((record.id, name))
         return result
 
