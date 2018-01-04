@@ -365,6 +365,9 @@ class DonateSingle(models.Model):
             line.self_iden = normal_p.self_iden
             line.zip_code = normal_p.zip_code
             line.con_addr = normal_p.con_addr
+            line.receipt_send = normal_p.rec_send
+            line.report_send = normal_p.report_send
+            line.year_receipt_send = normal_p.merge_report
 
 
 class DonateSingleLine(models.Model):
