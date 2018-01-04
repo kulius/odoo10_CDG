@@ -24,7 +24,7 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button string="施棺檔匯入" name="data_input_coffin" type="object"/>
+                        <!--<button string="施棺檔匯入" name="data_input_coffin" type="object"/>-->
                     </header>
 
                     <sheet>
@@ -32,16 +32,13 @@
                             <button string="產生捐助明細" name="add_coffin_file" class="oe_stat_button" icon="fa-list-ol" type="object"/>
                         </div>
                         <group col="7" name="文字">
-                            <field name="coffin_id" colspan="2"/>
-                            <field name="donate_type" colspan="2"/>
-                            <field name="create_date" colspan="3"/>
-                        </group>
-
-                        <group col="7">
-                            <field name="donate_price"/>
-                            <field name="finish"/>
+                            <field name="coffin_id"/>
+                            <field name="donate_type"/>
                             <field name="coffin_date_year" string="施棺期別"></field>
                             <field name="coffin_date_group" nolabel="1"/>
+                            <field name="donate_apply_price"/>
+                            <field name="donate_price"/>
+                            <field name="finish"/>
                         </group>
 
                         <notebook>
@@ -50,15 +47,18 @@
                                     <field name="dealer"/>
                                     <field name="coffin_date"/>
                                     <field name="user"/>
-
+                                    <field name="user_iden"/>
                                     <field name="geter"/>
-
+                                    <field name="geter_iden"/>
+                                    <field name="cellphone"/>
+                                    <field name="bank_account"/>
                                     <field name="con_phone"/>
                                     <field name="con_phone2"/>
-                                    <field name="cellphone"/>
                                 </group>
                                 <group col="6">
-                                    <field name="zip_code" string="通訊地址"/>
+                                    <field name="zip_code2" string="亡者地址"/>
+                                    <field name="dead_addr" nolabel="1" colspan="4"/>
+                                    <field name="zip_code" string="領款者地址"/>
                                     <field name="con_addr" nolabel="1" colspan="4"/>
                                 </group>
                                 <group col="2">
