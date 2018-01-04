@@ -44,10 +44,12 @@ class DonateOrder(models.Model):
     coffin_money = fields.Integer(string='$')
     poor_help_money = fields.Integer(string='$')
     others_money = fields.Integer(string='$')
+    payment_method = fields.Integer(string='捐款方式')
     cash = fields.Boolean(string='現金')
     mail = fields.Boolean(string='郵政劃撥')
     credit_card = fields.Boolean(string='信用卡扣款')
     bank = fields.Boolean(string='銀行轉帳')
+
     address = fields.Char(string='住址')
     city = fields.Char(string='市區')
 

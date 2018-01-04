@@ -94,7 +94,7 @@ class NormalP(models.Model):
     is_donate = fields.Boolean(string='是否捐助', default=True)
     is_merge = fields.Boolean(string='是否合併收據', default=True)
 
-    donate_family_list = fields.Char(string='眷屬列表', compute='compute_faamily_list',store=True)
+    donate_family_list = fields.Char(string='眷屬列表', compute='compute_faamily_list')
     active = fields.Boolean(default=True)
     auto_num = fields.Char('自動地區編號')
     def action_chang_donater_wizard(self):

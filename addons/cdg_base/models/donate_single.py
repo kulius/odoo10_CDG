@@ -338,6 +338,7 @@ class DonateSingle(models.Model):
                 'donate': money,
                 'donate_date': datetime.date.today(),
                 'self_id': member_id.self_iden,
+                'payment_method': int(self.payment_method)
             })]
         })
 
