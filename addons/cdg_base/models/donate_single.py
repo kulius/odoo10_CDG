@@ -57,6 +57,8 @@ class DonateSingle(models.Model):
     sreceipt_number = fields.Integer(string='收據筆數', compute='compute_total', store=True)
     print_count = fields.Integer(string='列印筆數',store=True)
     print_date = fields.Date('列印日期')
+    donate_family_list = fields.Char(string='眷屬列表', store=True)
+
 
     def print_check(self,ids):
         res = []
@@ -128,7 +130,9 @@ class DonateSingle(models.Model):
         res_id.donate_member.rec_send = res_id.receipt_send #收據寄送1
         res_id.donate_member.report_send = res_id.report_send #報表寄送
         res_id.donate_member.merge_report = res_id.year_receipt_send #年收據合併 開始捐款(年收據寄送)
+        self.add_to_list_create(res_id)
         return res_id
+
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):

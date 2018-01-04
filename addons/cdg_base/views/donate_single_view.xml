@@ -11,6 +11,7 @@
                     <field name="donate_member"/>
                     <field name="name"/>
                     <field name="donate_date" string="捐款日期"/>
+                    <field name="donate_family_list"/>
                     <field name="donate_total"/>
                     <field name="receipt_send"/>
                 </tree>
