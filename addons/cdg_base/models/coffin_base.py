@@ -17,6 +17,7 @@ class CoffinBase(models.Model):
     geter = fields.Char(string='領款者')
     geter_iden = fields.Char('領款者身份證字號')
     dealer = fields.Char(string='處理者')
+    donor = fields.Char('捐款者')
     con_phone = fields.Char(string='聯絡電話(一)')
     con_phone2 = fields.Char(string='聯絡電話(二)')
     cellphone = fields.Char(string='手機')
@@ -36,6 +37,7 @@ class CoffinBase(models.Model):
     def add_coffin_file(self):
         lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0),('donate_type', '=', '3'),('use_amount','=',False)], order='donate desc') # 從捐款明細中, 搜尋所有施棺捐款的資料, 並依最大筆金額進行排序
         basic_setting = self.env['ir.config_parameter'].search([])
+        donate_number = 0 #紀錄捐款筆數
         coffin_amount = 0
         for line in basic_setting: # 讀取基本設定檔的施棺滿足額
             if line.key == 'coffin_amount':
@@ -57,6 +59,9 @@ class CoffinBase(models.Model):
                     flag = True
 
                 if int(line.donate) <= Cumulative_amount and flag == False: #判斷 目前的施棺捐款額是否小於等於施棺滿足額
+                    donate_number += 1
+                    if(donate_number>=6):
+                        self.donor = "眾善士"
                     self.write({
                         'batch_donate': [(0, 0, {
                             'donate_order_id': line.id
