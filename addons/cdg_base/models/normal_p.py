@@ -37,8 +37,8 @@ class NormalP(models.Model):
     type = fields.Many2many(comodel_name='people.type', string='人員種類')
     self_iden = fields.Char(string='身分證字號')
 
-    rec_addr = fields.Char(string='收據地址')
-    con_addr = fields.Char(string='寄送地址')
+    rec_addr = fields.Char(string='收據寄送地址')
+    con_addr = fields.Char(string='報表寄送地址')
 #    send_addr = fields.Char(string='寄送地址')
     address = fields.Char(string='通訊地址')
     sex = fields.Selection(selection=[(1, '男生'), (2, '女生')], string='性別')
