@@ -28,6 +28,7 @@ class DonateOrder(models.Model):
     self_id = fields.Char(string='身分證字號')
     clerk = fields.Char(string='收費員編號')
     key_in_user = fields.Many2one(comodel_name='c.worker', string='輸入人員')
+    temp_key_in_user = fields.Char(string='輸入人員')
     db_key_in_user = fields.Char(string='資料庫紀錄輸入人員')
     report_year = fields.Boolean(string='收據年度開立')
     db_chang_date = fields.Date(string='異動日期')

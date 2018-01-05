@@ -28,7 +28,7 @@ class NormalP(models.Model):
     con_phone2 = fields.Char(string='連絡電話(二)')
     zip_code = fields.Char(string='寄送郵遞區號')
     zip = fields.Char(string='收據郵遞區號')
-    key_in_user = fields.Many2one(comodel_name='c.worker', string='輸入人員', ondelete='cascade') #記得要改預設使用者
+    key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
     db_chang_date = fields.Date(string='異動日期')
     build_date = fields.Date(string='建檔日期', default=datetime.today())
@@ -172,7 +172,7 @@ class NormalP(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            name = "{%s} %s {%s}" % (record.new_coding, record.name, record.w_id)
+            name = "{%s} %s" % (record.new_coding, record.name)
             result.append((record.id, name))
         return result
 

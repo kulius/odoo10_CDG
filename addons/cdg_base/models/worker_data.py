@@ -25,6 +25,7 @@ class workerdata(models.Model):
     ps = fields.Text(string='備註')
     db_chang_date = fields.Date(string='異動日期')
 
+
 class workerdata_2(models.Model):
     _name = 'worker.data'
 

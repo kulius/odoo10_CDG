@@ -465,9 +465,9 @@ class AppThemeConfigSettings(models.TransientModel):
         #       " ) as aaa"\
         #       " LIMIT 1000"
 
-        # 轉團員眷屬檔
-        sql = "INSERT INTO normal_p(w_id, number, name, cellphone, con_phone, con_phone2, zip_code, con_addr, habbit_donate, rec_send, is_donate, temp_key_in_user, db_chang_date)"\
-              " SELECT 團員編號, 序號, 姓名, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, cast(捐助種類編號 as Integer), case when 收據寄送='N' then FALSE else TRUE end as 收據寄送, case when 是否捐助='N' then FALSE else TRUE end as 是否捐助, 輸入人員, case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 團員眷屬檔"
+        # 轉團員眷屬檔, 其中團員編號為空的資料共334筆未轉入
+        sql = "INSERT INTO normal_p(w_id, number, name, cellphone, con_phone, con_phone2, zip, rec_addr, habbit_donate, rec_send, is_donate, temp_key_in_user, db_chang_date) "\
+              " SELECT 團員編號, 序號, 姓名, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, cast(捐助種類編號 as Integer), case when 收據寄送='N' then FALSE else TRUE end as 收據寄送, case when 是否捐助='N' then FALSE else TRUE end as 是否捐助, 輸入人員, case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 團員眷屬檔 WHERE 團員編號 <>'' "
         self._cr.execute(sql)
 
         #轉入不在眷屬檔，在團員檔的資料，共7769筆
@@ -481,36 +481,38 @@ class AppThemeConfigSettings(models.TransientModel):
         # 團員檔的資料比較齊全，因此把團員檔的資料寫入normal.p
         sql = ''
         sql = "UPDATE normal_p " \
-              " SET cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, donate_cycle = cast(a.捐助週期 as Integer), zip_code =  a.郵遞區號, con_addr = a.通訊地址, " \
+              " SET cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, donate_cycle = cast(a.捐助週期 as Integer), zip_code = a.郵遞區號, con_addr = a.通訊地址, " \
               " merge_report = case when a.年收據='N' then FALSE else TRUE end, ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, report_send = case when a.報表寄送='N' then FALSE else TRUE end," \
               " thanks_send = case when a.感謝狀寄送='N' then FALSE else TRUE end, prints = case when a.銀行核印='N' then FALSE else TRUE end, prints_id = a.核印批號, self_iden = a.身份證號, bank_id = a.扣款銀行代碼, bank = a.扣款銀行," \
               " bank_id2 = a.扣款分行代碼, bank2 = a.扣款分行, account = a.銀行帳號, prints_date = a.核印日期," \
               " ps2 = a.約定轉帳備註, temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end" \
               " FROM 團員檔 a WHERE a.團員編號 = normal_p.w_id and a.姓名 = normal_p.name"
-        self._cr.execute(sql)
-        # 全資料共768394筆
+        self._cr.execute(sql) # 全資料共768060筆
+        sql = ''
+        sql = "UPDATE normal_p  SET active = TRUE"
+        self._cr.execute(sql) # 把所有捐款者資料的active設為TRUE, 不然捐款者基本資料會什麼都看不見
         return True
 
-    def set_leader(self): #設定戶長
+    def set_leader(self): # 設定戶長
         sql = "UPDATE normal_p SET parent = a.id FROM normal_p a WHERE a.w_id = normal_p.w_id and a.number='1' "
         self._cr.execute(sql)
         return True
 
-    def receipt_transfer(self): #轉捐款檔
-        sql = " INSERT INTO donate_order(paid_id,donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,report_year,clerk,db_chang_date) select 收費編號,捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,cast(捐款日期 as DATE ),case when 收據年度開立 = 'N' then FALSE else TRUE end as report_year,收費員編號, cast(異動日期 as Date) from 捐款檔 where 團員編號  in (select w_id from normal_p)"
-        self._cr.execute(sql)
+    def receipt_transfer(self): # 轉捐款檔
+        sql = " INSERT INTO donate_order(paid_id,donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,report_year,clerk,db_chang_date, temp_key_in_user ) select 收費編號,捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,case when 捐款日期='' then NULL WHEN 捐款日期='.' THEN NULL else cast(捐款日期 as date) end as 捐款日期,case when 收據年度開立 = 'N' then FALSE else TRUE end as report_year,收費員編號, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期, 輸入人員 from 捐款檔 where 團員編號  in (select w_id from normal_p)"
+        self._cr.execute(sql) # 捐款檔 共2795797筆 花費約56秒, 序號為空的捐款編號有9筆 團員編號皆是E1204971
         return True
 
-    def set_donor(self): #normal.p 關聯捐款檔
-        sql = 'update donate_order set donate_member = a.id from normal_p a where a.w_id = donate_order.donate_w_id and  a.number = donate_order.donate_w_id_number '
-        self._cr.execute(sql)
+    def set_donor(self): # normal.p 關聯捐款檔
+        sql = " UPDATE donate_order SET donate_member = a.id FROM normal_p a WHERE a.w_id = donate_order.donate_w_id AND a.number = donate_order.donate_w_id_number AND donate_order.donate_w_id_number <> '' "
+        self._cr.execute(sql) # 關聯資料共 2795759 筆 花費約352秒, 除序號為空的9筆資料以外, 仍差 29 筆資料(donate_member is None)
         return True
 
     def set_worker(self): #員工檔轉進 res.users
-        sql = "INSERT INTO worker_data(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
-              "SELECT 職稱, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期,性別, 電話二, 身份證號,case when 離職日期='' then NULL else cast(離職日期 as date) end as 離職日期, 員工編號, 通訊地址,備註,手機,姓名, 電話一,最高學歷,case when 到職日期='' then NULL else cast(到職日期 as date) end as 到職日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 員工檔"
+        sql = "INSERT INTO c_worker(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
+              " SELECT 職稱, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期,性別, 電話二, 身份證號,case when 離職日期='' then NULL else cast(離職日期 as date) end as 離職日期, 員工編號, 通訊地址,備註,手機,姓名, 電話一,最高學歷,case when 到職日期='' then NULL else cast(到職日期 as date) end as 到職日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 員工檔"
         self._cr.execute(sql)
-        employee_data = self.env['worker.data'].search([])
+        employee_data = self.env['c.worker'].search([])
         for line in employee_data:
             self.env['res.users'].create({
                 'login': line.w_id,
@@ -534,6 +536,30 @@ class AppThemeConfigSettings(models.TransientModel):
                 'db_chang_date': line.db_chang_date,
                 'job_type': line.job_type
             })
+
+    def set_worker_associated(self):  # normal_p 關聯 res.users
+        sql = " UPDATE normal_p set key_in_user = a.id from res_users a where a.login = normal_p.temp_key_in_user"
+        self._cr.execute(sql) # 關聯資料共 708306 筆,  共59754筆資料未關聯到, 其中 59753筆 輸入人員欄位有資料, 但其輸入人員已不在現職的員工名單之中, 剩下的1筆資料是原本輸入人員欄位就是空值
+        return True
+
+    def set_coffin_data(self): # 施棺檔轉入 coffin_base 共 14256筆, 花費0.21秒
+        sql = "INSERT INTO coffin_base(coffin_id, donate_type, create_date, donate_price, finish, \"user\", coffin_date_year, coffin_date_group, coffin_date, geter, dealer, cellphone, con_phone, con_phone2, zip_code, con_addr, donater_ps, ps, temp_key_in_user, db_chang_date) " \
+              " SELECT 施棺編號, 捐助方式, case when 建檔日期='' then NULL WHEN 建檔日期='.' THEN NULL else cast(建檔日期 as date) end as 建檔日期, CAST(已捐總額 AS INTEGER), case when 結案='N' then FALSE else TRUE end as 結案, 受施者, 年度, case when 期別='' then NULL else CAST(期別 AS INTEGER) end as 期別, case when 施棺日期='' then NULL WHEN 施棺日期='.' THEN NULL else cast(施棺日期 as date) end as 施棺日期, 領款人, 處理者, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, 捐款者備註, 備註, 輸入人員, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期 FROM 施棺檔"
+        self._cr.execute(sql)
+        # 施棺編號 00236 之施棺日期為 2009-06-31, 修改為2009-06-30
+        # 施棺編號 01944, 01945, 01946, 01947 之施棺日期為 2010-80-27, 修改為2010-08-27
+        return True
+
+    def set_coffin_donate(self): # 施棺捐款檔轉入 coffin_donation 共166158筆, 花費 1.3秒
+        sql = "INSERT INTO coffin_donation(coffin_id, donate_id, donate_price)" \
+              " SELECT 施棺編號, 捐款編號, CAST(捐款金額 AS INTEGER) FROM 施棺捐款檔"
+        self._cr.execute(sql)
+        return True
+
+    def set_donate_single(self): # 捐款檔篩選捐款編號作為唯一值, 以便做關聯
+        sql = ""
+        self._cr.execute(sql)
+        return True
 
     def set_coffin_id(self): #施棺明細關聯施棺檔
         sql = 'update coffin_donation set coffin_donation_id = a.id from coffin_base a where a.coffin_id = coffin_donation.coffin_id '

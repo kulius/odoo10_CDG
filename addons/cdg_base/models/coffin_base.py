@@ -27,12 +27,16 @@ class CoffinBase(models.Model):
     dead_addr = fields.Char('亡者地址')
     donater_ps = fields.Text(string='捐款者備註')
     ps = fields.Text(string='備註')
-    donate_price = fields.Char(string='累積金額')
-    donate_apply_price = fields.Char('申請金額')
+    donate_price = fields.Integer(string='累積金額')
+    donate_apply_price = fields.Integer('申請金額')
     finish = fields.Boolean(string='是否結案')
     batch_donate = fields.One2many(comodel_name='coffin.donation',inverse_name='coffin_donation_id',string='捐助資料')
     donate_order_id = fields.Many2one(comodel_name='donate.order', string='捐款編號', domain=[('donate_type', '=', '3')])
     create_date = fields.Date(string='建檔日期')
+    db_chang_date = fields.Date(string='異動日期')
+
+    key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
+    temp_key_in_user = fields.Char(string='輸入人員_temp')
 
     def add_coffin_file(self):
         lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0),('donate_type', '=', '3'),('use_amount','=',False)], order='donate desc') # 從捐款明細中, 搜尋所有施棺捐款的資料, 並依最大筆金額進行排序
