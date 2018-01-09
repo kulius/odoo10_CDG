@@ -46,7 +46,7 @@ class DonateSingle(models.Model):
     payment_method = fields.Selection( [(1,'現金'),(2,'郵政劃撥'),(3,'信用卡扣款'),(4,'銀行轉帳')], string='繳費方式')
 #    cash = fields.Boolean(string='現金', states={2: [('readonly', True)]})
     person_check = fields.Many2many(comodel_name="normal.p", string="捐款人名冊")
-    family_check = fields.One2many(comodel_name='donate.family',inverse_name='parent_id', string='捐款人名冊', states={2: [('readonly', True)]})
+    family_check = fields.One2many(comodel_name='donate.family.line',inverse_name='parent_id', string='捐款人名冊', states={2: [('readonly', True)]})
     donate_list = fields.One2many(comodel_name='donate.order', inverse_name='donate_list_id', string='捐款明細', states={2: [('readonly', True)]})
     work_id = fields.Many2one(comodel_name='c.worker', string='收費員', states={2: [('readonly', True)]})
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]}, default=lambda self: self.env.uid)
@@ -414,7 +414,7 @@ class DonateSingle(models.Model):
 
 
 class DonateSingleLine(models.Model):
-    _name = 'donate.family'
+    _name = 'donate.family.line'
 
     parent_id = fields.Many2one(comodel_name='donate.single')
     family_new_coding = fields.Char(string='捐款者編號',related='donate_member.new_coding', readonly=True)

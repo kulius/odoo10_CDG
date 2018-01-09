@@ -35,17 +35,17 @@
             </field>
         </record>
         <record id="coffin_donation_action" model="ir.actions.act_window">
-        <field name="name">施棺捐款表</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">coffin.donation</field>
-        <field name="view_mode">tree,form</field>
-        <field name="help" type="html">
-          <p class="oe_view_nocontent_create">
-            <!-- Add Text Here -->
-          </p><p>
-            <!-- More details about what a user can do with this object will be OK -->
-          </p>
-        </field>
-    </record>
+            <field name="name">施棺捐款表</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">coffin.donation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
     </data>
 </odoo>

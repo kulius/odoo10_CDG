@@ -486,6 +486,10 @@ class AppThemeConfigSettings(models.TransientModel):
               " ps2 = a.約定轉帳備註, temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end" \
               " FROM 團員檔 a WHERE a.團員編號 = normal_p.w_id and a.姓名 = normal_p.name"
         self._cr.execute(sql) # 全資料共768060筆
+        sql = "SELECT id,'AAA' || LPAD(CAST(row_number() OVER() AS VARCHAR),6,'0') AS new_coding into temp FROM normal_p"
+        self._cr.execute(sql)
+        sql = "UPDATE normal_p  SET new_coding = b.new_coding FROM temp b WHERE normal_p.id =b.id"
+        self._cr.execute(sql)
         return True
 
     def set_leader(self): # 設定戶長
@@ -616,8 +620,9 @@ class AppThemeConfigSettings(models.TransientModel):
         sql = "INSERT INTO associatemember_fee(member_id,member_note_code,year,fee_code,fee_payable,fee_date,clerk_id) " \
               " SELECT 會員編號, 會員名冊編號,年度,收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 日期,收費員編號 from 會員收費檔 "
         self._cr.execute(sql)  # 會員收費檔 58097筆資料, 花費  0.427 秒
-        sql = "SELECT DISTINCT on (member_id) * into member_temp FROM normal_p WHERE member_id <>'' " \
-              " UPDATE associatemember_fee SET normal_p_id = b.id FROM member_temp b WHERE associatemember_fee.member_id = b.member_id"
+        sql = "SELECT DISTINCT on (member_id) * into member_temp FROM normal_p WHERE member_id <>'' "
+        self._cr.execute(sql)
+        sql = " UPDATE associatemember_fee SET normal_p_id = b.id FROM member_temp b WHERE associatemember_fee.member_id = b.member_id"
         self._cr.execute(sql)  # 篩選不重複資料的7241筆資料寫入臨時創建的資料表中, 並與normal.p進行關聯共57893筆資料, 花費 0.83 秒, 共204筆資料未關聯到 (會員編號在normal_p沒有找到, 會員檔也沒有找到)
         return True
 
