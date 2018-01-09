@@ -512,7 +512,10 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
     def set_worker(self): #員工檔轉進 res.users
-        sql = "INSERT INTO c_worker(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
+        sql = "INSERT INTO worker_data(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
+              " SELECT 職稱, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期,性別, 電話二, 身份證號,case when 離職日期='' then NULL else cast(離職日期 as date) end as 離職日期, 員工編號, 通訊地址,備註,手機,姓名, 電話一,最高學歷,case when 到職日期='' then NULL else cast(到職日期 as date) end as 到職日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 員工檔"
+        self._cr.execute(sql)
+        sql = "INSERT INTO c.worker(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
               " SELECT 職稱, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期,性別, 電話二, 身份證號,case when 離職日期='' then NULL else cast(離職日期 as date) end as 離職日期, 員工編號, 通訊地址,備註,手機,姓名, 電話一,最高學歷,case when 到職日期='' then NULL else cast(到職日期 as date) end as 到職日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 員工檔"
         self._cr.execute(sql)
         employee_data = self.env['worker.data'].search([])
