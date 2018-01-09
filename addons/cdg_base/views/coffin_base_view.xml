@@ -58,7 +58,7 @@
                                     <field name="con_phone2"/>
                                 </group>
                                 <group col="6">
-                                    <field name="zip_code2" string="亡者地址"/>
+                                    <field name="zip_code2" string="弔祭地址"/>
                                     <field name="dead_addr" nolabel="1" colspan="4"/>
                                     <field name="zip_code" string="領款者地址"/>
                                     <field name="con_addr" nolabel="1" colspan="4"/>

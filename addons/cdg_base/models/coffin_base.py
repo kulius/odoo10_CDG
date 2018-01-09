@@ -22,9 +22,9 @@ class CoffinBase(models.Model):
     con_phone2 = fields.Char(string='聯絡電話(二)')
     cellphone = fields.Char(string='手機')
     zip_code = fields.Char(string='郵遞區號') # 領款者地址 原通訊地址
-    zip_code2 = fields.Char('郵遞區號') #亡者地址
+    zip_code2 = fields.Char('郵遞區號') #弔祭地址
     con_addr = fields.Char(string='領款者地址') #原通訊地址
-    dead_addr = fields.Char('亡者地址')
+    dead_addr = fields.Char('弔祭地址')
     donater_ps = fields.Text(string='捐款者備註')
     ps = fields.Text(string='備註')
     donate_price = fields.Integer(string='累積金額')
