@@ -13,6 +13,7 @@
                     <field name="user"/>
                     <field name="geter"/>
                     <field name="donor"/>
+                    <field name="donate_apply_price"/>
                     <field name="donate_price"/>
                     <field name="finish"/>
                 </tree>

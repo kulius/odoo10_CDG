@@ -22,7 +22,7 @@
             <field name="name">donate single form</field>
             <field name="model">donate.single</field>
             <field name="arch" type="xml">
-                <form string="">
+                <form>
                     <header>
                         <button name="button_to_cnacel_donate" string="作廢" type="object" class="oe_highlight"/>
                         <field name="state" widget="statusbar" statusbar_visible="1,2,3"/>
@@ -97,14 +97,13 @@
                             <page string="捐款記錄明細">
                                 <field name="donate_list">
                                     <tree>
-                                        <field name="state"/>
+                                        <field name="state" />
                                         <field name="donate_id"/>
                                         <field name="paid_id"/>
                                         <field name="donate_member"/>
                                         <field name="donate_type"/>
                                         <field name="donate"/>
                                     </tree>
-
                                 </field>
                             </page>
                         </notebook>

@@ -43,25 +43,25 @@ class DonateSingle(models.Model):
     coffin_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     poor_help_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     noassign_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    payment_method = fields.Selection( [(1,'現金'),(2,'郵政劃撥'),(3,'信用卡扣款'),(4,'銀行轉帳')], '繳費方式')
+    payment_method = fields.Selection( [(1,'現金'),(2,'郵政劃撥'),(3,'信用卡扣款'),(4,'銀行轉帳')], string='繳費方式')
 #    cash = fields.Boolean(string='現金', states={2: [('readonly', True)]})
     person_check = fields.Many2many(comodel_name="normal.p", string="捐款人名冊")
-    family_check = fields.One2many(comodel_name='donate.family.line',inverse_name='parent_id', string='捐款人名冊', states={2: [('readonly', True)]})
+    family_check = fields.One2many(comodel_name='donate.family',inverse_name='parent_id', string='捐款人名冊', states={2: [('readonly', True)]})
     donate_list = fields.One2many(comodel_name='donate.order', inverse_name='donate_list_id', string='捐款明細', states={2: [('readonly', True)]})
     work_id = fields.Many2one(comodel_name='c.worker', string='收費員', states={2: [('readonly', True)]})
-    key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]}, default=lambda self: self.env.user)
+    key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]}, default=lambda self: self.env.uid)
     print_user = fields.Many2one(comodel_name='res.users', string='列印人員', states={2: [('readonly', True)]})
 
 
     history_donate_flag = fields.Boolean(string='是否上次捐款')
+#    history_payment_method = fields.Boolean('是否上次捐款方式')
     report_price_big = fields.Char(string='報表用大寫金額')
     report_donate = fields.Char(string='報表用捐款日期')
     donate_date = fields.Date('捐款日期',default=lambda self: fields.date.today())
     sreceipt_number = fields.Integer(string='收據筆數', compute='compute_total', store=True)
     print_count = fields.Integer(string='列印筆數',store=True)
     print_date = fields.Date('列印日期')
-    donate_family_list = fields.Char(string='眷屬列表', store=True)
-
+    donate_family_list = fields.Char('眷屬列表', store=True,compute='compute_family_list')
 
     def print_check(self,ids):
         res = []
@@ -135,6 +135,11 @@ class DonateSingle(models.Model):
         res_id.donate_member.merge_report = res_id.year_receipt_send #年收據合併 開始捐款(年收據寄送)
 
         self.add_to_list_create(res_id)
+        self.compute_family_list_create(res_id)
+
+        user = self.env['res.users'].search([('login', '=', self.env.user.login)])
+        user.payment_method = res_id.payment_method
+
         return res_id
 
 
@@ -147,8 +152,17 @@ class DonateSingle(models.Model):
         banks = self.search(domain + args, limit=limit)
         return banks.name_get()
 
+    # @api.onchange('history_payment_method')
+    # def get_history_payment_method(self):
+    #     if(self.history_payment_method == True):
+    #       last_order = self.env['donate.single'].search([('create_uid', '=', self.env.user.id)])[-1]
+    #       self.update({
+    #         'payment_method': last_order.payment_method
+    #      })
+
     @api.onchange('history_donate_flag')
     def get_history_donate(self):
+
         if self.history_donate_flag is True:
             max_paid = 0
             max = None
@@ -226,7 +240,6 @@ class DonateSingle(models.Model):
         else:
             self.noassign = False
 
-
     @api.onchange('donate_member')
     def show_family(self):
         r = []
@@ -237,6 +250,8 @@ class DonateSingle(models.Model):
         self.update({
             'family_check': r
         })
+        user = self.env['res.users'].search([('login', '=', self.env.user.login)])
+        self.payment_method = user.payment_method
 
     @api.depends('donate_list')
     def compute_total(self):
@@ -245,6 +260,26 @@ class DonateSingle(models.Model):
                 line.sreceipt_number += 1
                 if row.donate_member.is_donate == True:
                     line.donate_total += row.donate
+
+
+
+    @api.depends('family_check')
+    def compute_family_list(self):
+        str = ''
+        for line in self:
+            for row in line.family_check:
+                if (row.is_donate == True):
+                    str += row.donate_member.name + ', '
+        self.donate_family_list = str
+
+    def compute_family_list_create(self, record):
+        str = ''
+        for line in record.family_check:
+            if(line.is_donate == True):
+                str += line.donate_member.name + ', '
+        record.write({
+            'donate_family_list' : str
+        })
 
     def button_to_cnacel_donate(self):
         if self.state == 3:
@@ -380,7 +415,7 @@ class DonateSingle(models.Model):
 
 
 class DonateSingleLine(models.Model):
-    _name = 'donate.family.line'
+    _name = 'donate.family'
 
     parent_id = fields.Many2one(comodel_name='donate.single')
     family_new_coding = fields.Char(string='捐款者編號',related='donate_member.new_coding', readonly=True)

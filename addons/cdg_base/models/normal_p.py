@@ -97,6 +97,7 @@ class NormalP(models.Model):
     donate_family_list = fields.Char(string='眷屬列表', compute='compute_faamily_list')
     active = fields.Boolean(default=True)
     auto_num = fields.Char('自動地區編號')
+
     def action_chang_donater_wizard(self):
 
         wizard_data = self.env['chang.donater'].create({

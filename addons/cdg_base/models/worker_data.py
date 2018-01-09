@@ -24,6 +24,7 @@ class workerdata(models.Model):
     highest_stu = fields.Char(string='最高學歷')
     ps = fields.Text(string='備註')
     db_chang_date = fields.Date(string='異動日期')
+    payment_method = fields.Integer('捐款方式')
 
 class workerdata_2(models.Model):
     _name = 'worker.data'
