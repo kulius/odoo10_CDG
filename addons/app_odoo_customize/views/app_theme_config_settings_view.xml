@@ -149,53 +149,53 @@
                     <group string="odoo客製化">
                         <label string="團員檔"/>
                         <div>
-                            <button string="轉檔" type="object" name="data_transfer" class="oe_highlight"/>
+                            <button string="1.轉檔" type="object" name="data_transfer" class="oe_highlight"/>
                             |
-                            <button string="設戶長" type="object" name="set_leader" class="oe_highlight"/>
+                            <button string="2.設戶長" type="object" name="set_leader" class="oe_highlight"/>
                         </div>
                         <label string="捐款檔"/>
                         <div>
-                            <button string="捐款檔轉檔" type="object" name="receipt_transfer" class="oe_highlight"/>
+                            <button string="3.捐款檔轉檔" type="object" name="receipt_transfer" class="oe_highlight"/>
                             |
-                            <button string="設定捐款者" type="object" name="set_donor" class="oe_highlight"/>
+                            <button string="4.設定捐款者" type="object" name="set_donor" class="oe_highlight"/>
                         </div>
                         <label string="員工檔"/>
                         <div>
-                            <button string="員工檔轉檔" type="object" name="set_worker" class="oe_highlight"/>
+                            <button string="5.員工檔轉檔" type="object" name="set_worker" class="oe_highlight"/>
                             |
-                            <button string="員工檔關聯捐款者檔" type="object" name="set_worker_associated" class="oe_highlight"/>
+                            <button string="6.員工檔關聯捐款者檔" type="object" name="set_worker_associated" class="oe_highlight"/>
                         </div>
                         <label string="施棺檔"/>
                         <div>
-                            <button string="施棺檔轉檔" type="object" name="set_coffin_data" class="oe_highlight"/>
+                            <button string="7.施棺檔轉檔" type="object" name="set_coffin_data" class="oe_highlight"/>
                             |
-                            <button string="施棺捐款檔轉檔" type="object" name="set_coffin_donate" class="oe_highlight"/>
+                            <button string="8.施棺捐款檔轉檔" type="object" name="set_coffin_donate" class="oe_highlight"/>
                             |
-                            <button string="施棺明細關聯施棺" type="object" name="set_coffin_id" class="oe_highlight"/>
+                            <button string="11.施棺明細關聯施棺" type="object" name="set_coffin_id" class="oe_highlight"/>
                         </div>
                         <label string="捐款檔設定"/>
                         <div>
-                            <button string="捐款檔設定" type="object" name="set_donate_single" class="oe_highlight"/>
+                            <button string="9.捐款檔設定" type="object" name="set_donate_single" class="oe_highlight"/>
                             |
-                            <button string="捐款檔關聯明細" type="object" name="set_donate_single_associated" class="oe_highlight"/>
+                            <button string="10.捐款檔關聯明細" type="object" name="set_donate_single_associated" class="oe_highlight"/>
                             |
-                            <button string="施棺檔關聯捐款檔" type="object" name="set_coffin_donate_single_associated" class="oe_highlight"/>
+                            <button string="12.施棺檔關聯捐款檔" type="object" name="set_coffin_donate_single_associated" class="oe_highlight"/>
                         </div>
                          <label string="顧問及會員轉檔"/>
                         <div>
-                            <button string="顧問檔轉檔" type="object" name="set_consultant_data" class="oe_highlight"/>
+                            <button string="13.顧問檔轉檔" type="object" name="set_consultant_data" class="oe_highlight"/>
                             |
-                            <button string="會員檔轉檔" type="object" name="set_member_data" class="oe_highlight"/>
+                            <button string="14.會員檔轉檔" type="object" name="set_member_data" class="oe_highlight"/>
                         </div>
                         <label string="收費檔轉檔"/>
                         <div>
-                            <button string="轉會員收費檔" type="object" name="set_member" class="oe_highlight"/>
+                            <button string="16.轉會員收費檔" type="object" name="set_member" class="oe_highlight"/>
                             |
-                            <button string="轉顧問收費檔" type="object" name="set_consultant" class="oe_highlight"/>
+                            <button string="15.轉顧問收費檔" type="object" name="set_consultant" class="oe_highlight"/>
                         </div>
                         <label string="資料設定"/>
                         <div>
-                            <button string="Active Data" type="object" name="active_data" class="oe_highlight"/>
+                            <button string="17.Active Data" type="object" name="active_data" class="oe_highlight"/>
                         </div>
                          <label string="其他項目"/>
                         <div>
