@@ -74,7 +74,7 @@
                                 <field name="batch_donate">
                                     <tree editable="bottom">
                                         <field name="coffin_id"/>
-                                        <field name="donate_order_id"/>
+                                        <field name="donate_single_id"/>
                                         <field name="donate_price"/>
                                         <field name="name"/>
                                     </tree>

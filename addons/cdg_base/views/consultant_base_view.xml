@@ -70,7 +70,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">normal.p</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('type.id','=',4 )]</field>
+            <field name="domain">[('consultant_id','!=', '')]</field>
             <field name="view_ids"
                    eval="[(5, 0, 0),
                    (0, 0, {'view_mode': 'tree', 'view_id': ref('consultant_base_tree')}),

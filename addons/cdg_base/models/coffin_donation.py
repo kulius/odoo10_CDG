@@ -11,15 +11,17 @@ class CoffinDonation(models.Model):
     donate_price = fields.Integer(string='施棺捐款金額', compute='set_donate_name', store=True)
 
     coffin_donation_id = fields.Many2one(comodel_name='coffin.base')
-    donate_order_id = fields.Many2one(comodel_name='donate.order', string='捐款編號',domain=[('donate_type', '=', '03')])
+    donate_single_id = fields.Many2one(comodel_name='donate.single', string='捐款編號')
 
-    @api.depends('donate_order_id')
+    @api.depends('donate_single_id')
     def set_donate_name(self):
         for line in self:
-            donate_order = line.donate_order_id
-            line.donate_price = donate_order.donate
-            line.name = donate_order.donate_member.name
-            line.coffin_id = self.coffin_donation_id.coffin_id
+            donate_single = line.donate_single_id
+            for row in donate_single.donate_list:
+                if row.donate_type == 3:
+                    line.donate_price = row.donate
+                    line.name = row.donate_member.name
+                    line.coffin_id = self.coffin_donation_id.coffin_id
 
     def data_input_from_database(self):
         data = self.env['base.external.dbsource'].search([])

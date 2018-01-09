@@ -9,7 +9,6 @@ class ChangDonater(models.Model):
     from_target = fields.Many2one(comodel_name='normal.p', string='原始捐款人')
 
     def active_to_transfer(self):
-
         # 更新眷屬
         if self.from_target.donate_family1.ids:
             for line in self.from_target.donate_family1:

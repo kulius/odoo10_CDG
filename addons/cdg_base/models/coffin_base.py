@@ -31,7 +31,8 @@ class CoffinBase(models.Model):
     donate_apply_price = fields.Integer('申請金額')
     finish = fields.Boolean(string='是否結案')
     batch_donate = fields.One2many(comodel_name='coffin.donation',inverse_name='coffin_donation_id',string='捐助資料')
-    donate_order_id = fields.Many2one(comodel_name='donate.order', string='捐款編號', domain=[('donate_type', '=', '3')])
+
+    donate_single_id = fields.Many2one(comodel_name='donate.single', string='捐款編號')
     create_date = fields.Date(string='建檔日期')
     db_chang_date = fields.Date(string='異動日期')
 
@@ -68,7 +69,7 @@ class CoffinBase(models.Model):
                         self.donor = "眾善士"
                     self.write({
                         'batch_donate': [(0, 0, {
-                            'donate_order_id': line.id
+                            'donate_single_id': line.id
                         })]
                     })
                     line.use_amount = True # 確認已支用此筆施棺捐款金額

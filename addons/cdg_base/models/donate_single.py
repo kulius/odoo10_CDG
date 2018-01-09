@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class DonateSingle(models.Model):
     _name = 'donate.single'
+    _rec_name = 'donate_id'
     # name = fields.Many2one(comodel_name='normal.p',string='姓名')
 
     paid_id = fields.Char(string='收費編號', readonly=True)
@@ -27,6 +28,7 @@ class DonateSingle(models.Model):
                              string='狀態', default=1, index=True)
 
     donate_total = fields.Integer(string='捐款總額', compute='compute_total',store=True)
+    old_donate_total = fields.Integer(string='舊捐款總額')
 
     receipt_send = fields.Boolean(string='收據寄送')
     report_send = fields.Boolean(string='報表寄送')
@@ -49,6 +51,7 @@ class DonateSingle(models.Model):
     work_id = fields.Many2one(comodel_name='c.worker', string='收費員', states={2: [('readonly', True)]})
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]}, default=lambda self: self.env.user)
     print_user = fields.Many2one(comodel_name='res.users', string='列印人員', states={2: [('readonly', True)]})
+
 
     history_donate_flag = fields.Boolean(string='是否上次捐款')
     report_price_big = fields.Char(string='報表用大寫金額')
@@ -130,6 +133,7 @@ class DonateSingle(models.Model):
         res_id.donate_member.rec_send = res_id.receipt_send #收據寄送1
         res_id.donate_member.report_send = res_id.report_send #報表寄送
         res_id.donate_member.merge_report = res_id.year_receipt_send #年收據合併 開始捐款(年收據寄送)
+
         self.add_to_list_create(res_id)
         return res_id
 
