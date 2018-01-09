@@ -486,6 +486,8 @@ class AppThemeConfigSettings(models.TransientModel):
               " ps2 = a.約定轉帳備註, temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end" \
               " FROM 團員檔 a WHERE a.團員編號 = normal_p.w_id and a.姓名 = normal_p.name"
         self._cr.execute(sql) # 全資料共768060筆
+        sql = "UPDATE normal_p  SET active = TRUE"
+        self._cr.execute(sql)  # 把所有捐款者資料的active設為TRUE, 不然基本資料會什麼都看不見, 共768060筆 花費12.103秒
         sql = "SELECT id,'AAA' || LPAD(CAST(row_number() OVER() AS VARCHAR),6,'0') AS new_coding into temp FROM normal_p"
         self._cr.execute(sql)
         sql = "UPDATE normal_p  SET new_coding = b.new_coding FROM temp b WHERE normal_p.id =b.id"
@@ -510,7 +512,7 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
     def set_worker(self): #員工檔轉進 res.users
-        sql = "INSERT INTO worker_data(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
+        sql = "INSERT INTO c_worker(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
               " SELECT 職稱, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期,性別, 電話二, 身份證號,case when 離職日期='' then NULL else cast(離職日期 as date) end as 離職日期, 員工編號, 通訊地址,備註,手機,姓名, 電話一,最高學歷,case when 到職日期='' then NULL else cast(到職日期 as date) end as 到職日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 員工檔"
         self._cr.execute(sql)
         employee_data = self.env['worker.data'].search([])
@@ -546,6 +548,10 @@ class AppThemeConfigSettings(models.TransientModel):
     def set_coffin_data(self): # 施棺檔轉入 coffin_base 共 14256筆, 花費0.21秒
         sql = "INSERT INTO coffin_base(coffin_id, donate_type, create_date, donate_price, finish, \"user\", coffin_date_year, coffin_date_group, coffin_date, geter, dealer, cellphone, con_phone, con_phone2, zip_code, con_addr, donater_ps, ps, temp_key_in_user, db_chang_date) " \
               " SELECT 施棺編號, 捐助方式, case when 建檔日期='' then NULL WHEN 建檔日期='.' THEN NULL else cast(建檔日期 as date) end as 建檔日期, CAST(已捐總額 AS INTEGER), case when 結案='N' then FALSE else TRUE end as 結案, 受施者, 年度, case when 期別='' then NULL else CAST(期別 AS INTEGER) end as 期別, case when 施棺日期='' then NULL WHEN 施棺日期='.' THEN NULL else cast(施棺日期 as date) end as 施棺日期, 領款人, 處理者, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, 捐款者備註, 備註, 輸入人員, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期 FROM 施棺檔"
+        self._cr.execute(sql)
+        sql = "UPDATE 施棺檔 SET 施棺日期='2009-06-30' FROM 施棺檔 WHERE 施棺日期='2009-06-31' "
+        self._cr.execute(sql)
+        sql = "UPDATE 施棺檔 SET 施棺日期='2010-08-27' FROM 施棺檔 WHERE 施棺日期='2010-80-27' "
         self._cr.execute(sql)
         # 施棺編號 00236 之施棺日期為 2009-06-31, 修改為2009-06-30
         # 施棺編號 01944, 01945, 01946, 01947 之施棺日期為 2010-80-27  修改為2010-08-27
