@@ -115,7 +115,6 @@ class CoffinBase(models.Model):
         for line in lines:
             donate_number += 1
             if (donate_number < 6):
-                print('aaa')
                 self.donor += line.donate_member.name
             elif (donate_number >= 6):
                 self.donor = "眾善士"

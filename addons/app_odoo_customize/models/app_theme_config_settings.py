@@ -617,11 +617,11 @@ class AppThemeConfigSettings(models.TransientModel):
               " SELECT 會員編號, 會員名冊編號,年度,收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 日期,收費員編號 from 會員收費檔 "
         self._cr.execute(sql)  # 會員收費檔 58097筆資料, 花費  0.427 秒
         sql = "SELECT DISTINCT on (member_id) * into member_temp FROM normal_p WHERE member_id <>'' " \
-              " UPDATE associatemember_fee SET normal_p_id = b.id FROM temp1 b WHERE associatemember_fee.member_id = b.member_id"
+              " UPDATE associatemember_fee SET normal_p_id = b.id FROM member_temp b WHERE associatemember_fee.member_id = b.member_id"
         self._cr.execute(sql)  # 篩選不重複資料的7241筆資料寫入臨時創建的資料表中, 並與normal.p進行關聯共57893筆資料, 花費 0.83 秒, 共204筆資料未關聯到 (會員編號在normal_p沒有找到, 會員檔也沒有找到)
         return True
 
-    def active_data(self):  # 會員收費檔轉檔
+    def active_data(self):
         sql = "UPDATE normal_p  SET active = TRUE"
         self._cr.execute(sql)  # 把所有捐款者資料的active設為TRUE, 不然基本資料會什麼都看不見, 共772787筆 花費12.103秒
         sql = " UPDATE normal_p set key_in_user = a.id from res_users a where a.login = normal_p.temp_key_in_user"
