@@ -28,7 +28,7 @@ class CashierBase(models.Model):
         action = self.env.ref('cdg_base.normal_p_action').read()[0]
         action['context'] ={} # remove default domain condition in search box
         action['domain'] =[] # remove any value in search box
-        action['domain'] = ['&',('member_id','=',None),('consultant_id','=', None),('cashier_name','=',self.name)]
+        action['domain'] = [('cashier_name','=',self.name)]
         return action
 
     def member_register(self):
