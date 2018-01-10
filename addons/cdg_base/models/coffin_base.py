@@ -32,6 +32,7 @@ class CoffinBase(models.Model):
     donate_apply_price = fields.Integer('申請金額')
     finish = fields.Boolean(string='是否結案')
     batch_donate = fields.One2many(comodel_name='coffin.donation',inverse_name='coffin_donation_id',string='捐助資料')
+    old_batch_donate = fields.One2many(comodel_name='coffin.donation', inverse_name='old_coffin_donation_id', string='舊捐助資料')
 
     donate_single_id = fields.Many2one(comodel_name='donate.single', string='捐款編號')
     create_date = fields.Date(string='建檔日期')

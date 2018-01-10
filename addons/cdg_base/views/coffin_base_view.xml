@@ -81,6 +81,15 @@
                                     </tree>
                                 </field>
                             </page>
+                            <page string="舊捐助資料">
+                                <field name="old_batch_donate">
+                                    <tree>
+                                        <field name="coffin_id"/>
+                                        <field name="donate_id"/>
+                                        <field name="donate_price"/>
+                                    </tree>
+                                </field>
+                            </page>
                         </notebook>
 
                     </sheet>

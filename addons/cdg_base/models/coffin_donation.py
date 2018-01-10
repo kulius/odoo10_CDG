@@ -11,6 +11,7 @@ class CoffinDonation(models.Model):
     donate_price = fields.Integer(string='施棺捐款金額', compute='set_donate_name', store=True)
 
     coffin_donation_id = fields.Many2one(comodel_name='coffin.base')
+    old_coffin_donation_id = fields.Many2one(comodel_name='coffin.base')
     donate_single_id = fields.Many2one(comodel_name='donate.single', string='捐款編號')
     donate_order_id = fields.Many2one(comodel_name='donate.order', string='捐款編號' , domain=[('donate_type', '=', 3),('donate', '!=', 0)] )
 
@@ -21,6 +22,7 @@ class CoffinDonation(models.Model):
             line.donate_price = donate_order.donate
             line.name = donate_order.donate_member.name
             line.coffin_id = self.coffin_donation_id.coffin_id
+        return True
 
     def data_input_from_database(self):
         data = self.env['base.external.dbsource'].search([])
