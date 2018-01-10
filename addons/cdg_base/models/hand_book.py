@@ -16,5 +16,5 @@ class HandChecking(models.Model):
     build_date = fields.Date('建檔日期') #原始資料為Char
     ps = fields.Text('備註')
     onate_order_id  = fields.One2many(comodel_name='donate.order',inverse_name='donate_member')
-    key_in_user = fields.Many2one(comodel_name='c.worker',string='輸入人員', ondelete='cascade')
+    key_in_user = fields.Many2one(comodel_name='res.users',string='輸入人員', ondelete='cascade')
     db_chang_date = fields.Date(string='異動日期') #原始資料為Char

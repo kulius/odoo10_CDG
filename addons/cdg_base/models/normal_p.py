@@ -47,7 +47,7 @@ class NormalP(models.Model):
     ps = fields.Text(string='備註')
     habbit_donate = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (04, '伙食費'), (05, '貧困扶助'),(06, '不指定'), (99, '其他工程')],
                                      string='喜好捐款')
-    cashier_name = fields.Many2one(comodel_name='c.worker', string='收費員姓名', domain="[('job_type', '=', '2'), ]", ondelete='cascade')
+    cashier_name = fields.Many2one(comodel_name='cashier.base', string='收費員姓名', ondelete='cascade')
     temp_cashier_name = fields.Char(string='收費員姓名_temp')
     donate_cycle = fields.Selection(selection=[('03', '季繳'), ('06', '半年繳'), ('12', '年繳')], string='捐助週期')
     rec_type = fields.Selection(selection=[(1, '正常'), (2, '年收據')], string='收據狀態')
@@ -71,7 +71,7 @@ class NormalP(models.Model):
     member_list = fields.Char(string='會員名冊編號')
     year = fields.Char(string='繳費年度')
     should_pay = fields.Integer(string='應繳金額')
-    cashier = fields.Many2one(comodel_name='c.worker', string='收費員')
+    cashier = fields.Many2one(comodel_name='cashier.base', string='收費員')
     temp_cashier = fields.Char(string='收費員_temp')
     pay_date = fields.Date(string='收費日期')
     booklist = fields.Boolean(string='名冊列印')

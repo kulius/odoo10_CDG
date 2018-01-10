@@ -36,27 +36,6 @@ class CWorker(models.Model):
   #   consultant_cash1 = fields.One2many(comodel_name='normal.p', string='顧問繳費名冊')
   #   consultant_cash = fields.One2many(comodel_name='normal.p',inverse_name='cashier_name',string='顧問繳費名冊')
 
-    def donater_register(self):
-        action = self.env.ref('cdg_base.member_base_action').read()[0]
-        action['context'] ={} # remove default domain condition in search box
-        action['domain'] =[] # remove any value in search box
-        action['domain'] = [('type.id','=',1 ),('cashier_name','=',self.name)]
-        return action
-
-    def member_register(self):
-        action = self.env.ref('cdg_base.member_base_action').read()[0]
-        action['context'] ={} # remove default domain condition in search box
-        action['domain'] =[] # remove any value in search box
-        action['domain'] = ['|',('type.id','=',2 ),('type.id','=',3),('cashier_name','=',self.name)]
-        return action
-
-    def consultant_register(self):
-        action = self.env.ref('cdg_base.member_base_action').read()[0]
-        action['context'] = {}  # remove default domain condition in search box
-        action['domain'] = []  # remove any value in search box
-        action['domain'] = [('type.id', '=', 4),('cashier_name', '=', self.name)]
-        return action
-
     def data_input_from_database(self):
         data = self.env['base.external.dbsource'].search([])
         lines = data.execute('SELECT * FROM 員工檔')

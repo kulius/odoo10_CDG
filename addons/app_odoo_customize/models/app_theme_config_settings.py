@@ -635,11 +635,23 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 篩選不重複資料的7241筆資料寫入臨時創建的資料表中, 並與normal.p進行關聯共57893筆資料, 花費 0.83 秒, 共204筆資料未關聯到 (會員編號在normal_p沒有找到, 會員檔也沒有找到)
         return True
 
+    def set_cashier_data(self):
+        sql = "INSERT INTO cashier_base(c_id, name, self_iden, con_phone, con_phone2, cellphone, zip_code, con_addr, build_date, ps, temp_key_in_user, db_chang_date) "\
+              " SELECT 收費員編號, 姓名, 身份證號, 電話一, 電話二, 手機, 郵遞區號, 通訊地址, case when 建檔日期='' then NULL WHEN 建檔日期='.' THEN NULL else cast(建檔日期 as date) end as 建檔日期, 備註, 輸入人員, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期 from 收費員檔"
+        self._cr.execute(sql) # 收費員檔共輸入 1381 筆資料, 花費0.027秒
+        sql = " UPDATE cashier_base set key_in_user = a.id from res_users a where a.login = cashier_base.temp_key_in_user"
+        self._cr.execute(sql)  # 關聯資料共1370筆, 花費0.03秒,  未關聯資料共11筆
+        sql = " UPDATE normal_p set cashier_name = a.id from cashier_base a where a.c_id = normal_p.temp_cashier_name"
+        self._cr.execute(sql)  # 關聯資料共5554筆, 花費1.544秒,  未關聯資料共767231筆
+        return True
+
     def active_data(self):
         sql = "UPDATE normal_p  SET active = TRUE"
         self._cr.execute(sql)  # 把所有捐款者資料的active設為TRUE, 不然基本資料會什麼都看不見, 共772787筆 花費12.103秒
         sql = " UPDATE normal_p set key_in_user = a.id from res_users a where a.login = normal_p.temp_key_in_user"
         self._cr.execute(sql)  # 關聯資料共 712819 筆,  共59968 筆資料未關聯到, 判斷輸入人員已離職或temp_key_in_user為空值(1筆)
+        sql = " UPDATE normal_p set member_type = '2' where member_type = '99' "
+        self._cr.execute(sql) # 修改資料共6578 筆, 花費0.441秒
         return True
 
     def auto_zip_insert(self): #自動產生編號

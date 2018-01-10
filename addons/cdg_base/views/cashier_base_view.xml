@@ -3,10 +3,10 @@
     <data>
         <record id="cashier_base_tree" model="ir.ui.view">
             <field name="name">cashier base t</field>
-            <field name="model">c.worker</field>
+            <field name="model">cashier.base</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="w_id"/>
+                    <field name="c_id"/>
                     <field name="name"/>
                     <field name="con_phone"/>
                     <field name="cellphone"/>
@@ -17,7 +17,7 @@
 
         <record id="cashier_base_form" model="ir.ui.view">
             <field name="name">cashier base f</field>
-            <field name="model">c.worker</field>
+            <field name="model">cashier.base</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
@@ -30,7 +30,7 @@
                             <button string="顧問收費名冊" name="consultant_register" class="oe_stat_button" icon="fa-user-md" type="object"/>
                         </div>
                         <group col="7">
-                                <field name="w_id" string="收費員編號" colspan="2"/>
+                                <field name="c_id" string="收費員編號" colspan="2"/>
                                  <field name="name" string="收費員姓名"  colspan="2"/>
                                  <field name="create_date" string="建檔日期" colspan="3"/>
                         </group>
@@ -38,7 +38,7 @@
                             <page string="基本資料">
                                 <group col="4">
                                         <field name="self_iden"/>
-                                        <field name="job_type"/>
+
                                 </group>
                                 <group col="4">
                                     <field name="con_phone"/>
@@ -59,11 +59,11 @@
 
         <record id="cashier_base_search" model="ir.ui.view">
             <field name="name">cashier base</field>
-            <field name="model">c.worker</field>
+            <field name="model">cashier.base</field>
             <field name="arch" type="xml">
                 <search>
                   <field name="name"/>
-                  <field name="w_id"/>
+                  <field name="c_id"/>
                 </search>
             </field>
         </record>
@@ -71,14 +71,14 @@
         <record id="cashier_base_action" model="ir.actions.act_window">
         <field name="name">收費員基本資料</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">c.worker</field>
+        <field name="res_model">cashier.base</field>
         <field name="view_mode">tree,form</field>
                            <field name="view_ids"
                    eval="[(5, 0, 0),
                    (0, 0, {'view_mode': 'tree', 'view_id': ref('cashier_base_tree')}),
                    (0, 0, {'view_mode': 'form', 'view_id': ref('cashier_base_form')}),
                    ]"/>
-        <field name="domain">[('job_type','=','2')]</field>
+        <field name="domain">[]</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
             <!-- Add Text Here -->

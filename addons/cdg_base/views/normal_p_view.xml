@@ -46,7 +46,7 @@
                             <field name="type" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                             <field name="parent" options="{'no_quick_create': True, 'no_create_edit' : True}"
                                    context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
-                            <field name="cashier_name" options="{'no_quick_create': True, 'no_create_edit' : True}" context="{'form_view_ref' : 'cdg_base.cashier_base_form'}" />
+                            <field name="cashier_name" context="{'form_view_ref' : 'cdg_base.cashier_base_form'}" />
                             <field name="report_send"/>
                             <field name="rec_send"/>
                             <field name="merge_report"/>
@@ -206,11 +206,9 @@
                 <search>
                     <field name="name"/>
                     <field name="cashier"/>
-                    <field string="基本會員" name="type" filter_domain="[('type.id','=',2 )]"/>
-                    <field string="贊助會員" name="type" filter_domain="[('type.id','=',3 )]"/>
 
-                    <filter string="基本會員" name="type" domain="[('type.id','=',2 )]"/>
-                    <filter string="贊助會員" name="type" domain="[('type.id','=',3 )]"/>
+                    <filter string="基本會員" name="member_type" domain="[('member_type','=',1 )]"/>
+                    <filter string="贊助會員" name="member_type" domain="[('member_type','=',2 )]"/>
                 </search>
             </field>
         </record>
