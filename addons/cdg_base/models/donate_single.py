@@ -368,19 +368,35 @@ class DonateSingle(models.Model):
                 max_int = max_int + 1
 
     def save_donate_list(self, donate_type, paid_id, member_id, money):  # 將明細產生
-        self.write({
-            'donate_list': [(0, 0, {
-                'donate_id': self.donate_id,
-                'paid_id': str(paid_id),
-                'donate_member': member_id.id,
-                'donate_type': donate_type,
-                'donate': money,
-                'donate_date': datetime.date.today(),
-                'self_id': member_id.self_iden,
-                'payment_method': int(self.payment_method),
-                'is_staged':self.is_staged
-            })]
-        })
+        if donate_type == 3 and self.is_staged:
+            self.write({
+                    'donate_list': [(0, 0, {
+                    'donate_id': self.donate_id,
+                    'paid_id': str(paid_id),
+                    'donate_member': member_id.id,
+                    'donate_type': donate_type,
+                    'donate': money,
+                    'donate_date': datetime.date.today(),
+                    'self_id': member_id.self_iden,
+                    'payment_method': int(self.payment_method),
+                    'is_staged': self.is_staged
+                })]
+            })
+        else:
+            self.write({
+                        'donate_list': [(0, 0, {
+                        'donate_id': self.donate_id,
+                        'paid_id': str(paid_id),
+                        'donate_member': member_id.id,
+                        'donate_type': donate_type,
+                        'donate': money,
+                        'donate_date': datetime.date.today(),
+                        'self_id': member_id.self_iden,
+                        'payment_method': int(self.payment_method),
+                        'is_staged': False
+                })]
+            })
+
 
     def parent_list_creat(self):
         r = []
