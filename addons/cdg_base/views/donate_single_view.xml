@@ -62,14 +62,16 @@
                                 <group col="6">
                                     <field name="bridge"/>
                                     <field name="bridge_money" nolabel="1"/>
-                                    <field name="road"/>
-                                    <field name="road_money" nolabel="1"/>
-                                    <field name="coffin"/>
-                                    <field name="coffin_money" nolabel="1"/>
                                     <field name="poor_help" />
                                     <field name="poor_help_money" nolabel="1"/>
+                                    <field name="road"/>
+                                    <field name="road_money" nolabel="1"/>
                                     <field name="noassign" />
                                     <field name="noassign_money" nolabel="1"/>
+                                    <field name="coffin"/>
+                                    <field name="coffin_money" nolabel="1"/>
+                                    <field name="is_staged" attrs="{'invisible':[('coffin','!=',True)],'required':[('coffin','=',True)]}"/>
+
                                 </group>
                                 <field name="family_check">
                                     <tree editable="bottom">
