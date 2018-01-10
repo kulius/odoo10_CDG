@@ -587,7 +587,7 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql) # 關聯資料共166145筆, 花費2.5秒, 差13筆資料未關聯到, 因為沒有施棺編號
         return True
 
-    def set_coffin_donate_single_associated(self): # 施棺明細關聯donate_single
+    def set_coffin_donate_order_associated(self): # 施棺明細關聯donate_single
         sql = "UPDATE coffin_donation SET donate_single_id = a.id FROM donate_single a WHERE a.donate_id = coffin_donation.donate_id"
         self._cr.execute(sql) # 關聯資料共147996筆, 花費6.4秒
         return True

@@ -69,7 +69,7 @@ class DonateOrder(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            name = record.donate_id
+            name = "%s (%s)" % (record.donate_member.name, record.donate)
             result.append((record.id, name))
         return result
 
