@@ -10,7 +10,8 @@ class CoffinBase(models.Model):
     donate_type = fields.Selection(selection=[('Z','零捐'),('A','累積')],string='捐助方式')
     coffin_date = fields.Date(string='領款日期')
     coffin_date_year = fields.Char(string='年度')
-    coffin_date_group = fields.Selection([(1,'第一季'),(2,'第二季'),(3,'第三季'),(4,'第四季')],'期別')
+    coffin_date_group = fields.Selection([(1,'01'),(2,'02'),(2,'02'),(3,'03'),(4,'04'),(5,'05'),(6,'06'),(7,'07'),(8,'08'),(9,'09'),(10,'10'),(11,'11'),(12,'12')],'月份',default = 1)
+    coffin_season = fields.Char('期別')
     bank_account = fields.Char('匯款帳號')
     user = fields.Char(string='受施者')
     user_iden = fields.Char('受施者身份證字號')
@@ -107,18 +108,28 @@ class CoffinBase(models.Model):
                 'coffin_date_group':line[u'期別'],
             })
 
-    #眾善士顯示 但失敗
-    @api.onchange('batch_donate')
-    def get_donate_name(self):
-        lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0), ('donate_type', '=', '3'), ('use_amount', '=', False)],order='donate desc')  # 從捐款明細中, 搜尋所有施棺捐款的資料, 並依最大筆金額進行排序
-        donate_number = 0  # 紀錄捐款筆數
-        for line in lines:
-            donate_number += 1
-            if (donate_number < 6):
-                self.donor += line.donate_member.name
-            elif (donate_number >= 6):
-                self.donor = "眾善士"
+    #眾善士顯示目前由於是onchange 新增的時候會產生錯誤訊息
+    # @api.onchange('batch_donate')
+    # def get_donate_name(self):
+    #     lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0), ('donate_type', '=', '3'), ('use_amount', '=', False)],order='donate desc')  # 從捐款明細中, 搜尋所有施棺捐款的資料, 並依最大筆金額進行排序
+    #     donate_number = 0  # 紀錄捐款筆數
+    #     for line in lines:
+    #         donate_number += 1
+    #         if (donate_number < 6):
+    #             self.donor += line.donate_member.name
+    #         elif (donate_number >= 6):
+    #             self.donor = "眾善士"
 
+    @api.onchange('coffin_date_group')
+    def compute_coffin_season(self):
+        if(self.coffin_date_group == 1 or self.coffin_date_group == 2 or self.coffin_date_group == 3):
+            self.coffin_season = '01'
+        elif(self.coffin_date_group == 4 or self.coffin_date_group == 5 or self.coffin_date_group == 6):
+            self.coffin_season = '02'
+        elif (self.coffin_date_group == 7 or self.coffin_date_group == 8 or self.coffin_date_group == 9):
+            self.coffin_season = '03'
+        elif (self.coffin_date_group == 10 or self.coffin_date_group == 11 or self.coffin_date_group == 12):
+            self.coffin_season = '04'
 
     def check_db_date(self, date):
         if date:
