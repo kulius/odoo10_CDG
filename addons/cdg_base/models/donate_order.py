@@ -40,6 +40,7 @@ class DonateOrder(models.Model):
     coffin = fields.Boolean(string='施棺')
     poor_help = fields.Boolean(string='貧困扶助')
     others = fields.Boolean(string='不指定')
+    is_staged = fields.Boolean('是否分期')
     bridge_money = fields.Integer(string='$')
     road_money = fields.Integer(string='$')
     coffin_money = fields.Integer(string='$')

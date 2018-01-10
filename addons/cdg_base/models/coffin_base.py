@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+from datetime import datetime
 
 class CoffinBase(models.Model):
     _name = 'coffin.base'
@@ -8,7 +9,7 @@ class CoffinBase(models.Model):
     name = fields.Char()
     coffin_id = fields.Char(string="施棺編號")
     donate_type = fields.Selection(selection=[('Z','零捐'),('A','累積')],string='捐助方式')
-    coffin_date = fields.Date(string='領款日期')
+    coffin_date = fields.Date(string='領款日期',default=datetime.today())
     coffin_date_year = fields.Char(string='年度')
     coffin_date_group = fields.Selection([(1,'01'),(2,'02'),(2,'02'),(3,'03'),(4,'04'),(5,'05'),(6,'06'),(7,'07'),(8,'08'),(9,'09'),(10,'10'),(11,'11'),(12,'12')],'月份',default = 1)
     coffin_season = fields.Char('期別')
@@ -42,16 +43,17 @@ class CoffinBase(models.Model):
     temp_key_in_user = fields.Char(string='輸入人員_temp')
 
     def add_coffin_file(self):
-        lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0),('donate_type', '=', '3'),('use_amount','=',False)], order='donate desc') # 從捐款明細中, 搜尋所有施棺捐款的資料, 並依最大筆金額進行排序
+        lines = self.env['donate.order'].search([('donate_type', '=', '3'),('use_amount','=',False)]) # 從捐款明細中, 搜尋所有施棺捐款的資料, 並依最大筆金額進行排序
         basic_setting = self.env['ir.config_parameter'].search([])
         coffin_amount = 0
         for line in basic_setting: # 讀取基本設定檔的施棺滿足額
             if line.key == 'coffin_amount':
                 coffin_amount = int(line.value)
 
-        for line in self: # 從捐助資料表中, 計算目前的累積金額
-            for row in line.batch_donate:
-                line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))
+
+        # for line in self: # 從捐助資料表中, 計算目前的累積金額
+        #     for row in line.batch_donate:
+        #         line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))
 
         Cumulative_amount = coffin_amount - int(float(self.donate_price)) #計算已累積金額與施棺滿足額的差額
         flag = False
@@ -65,8 +67,6 @@ class CoffinBase(models.Model):
                     flag = True
 
                 if int(line.donate) <= Cumulative_amount and flag == False: #判斷 目前的施棺捐款額是否小於等於施棺滿足額
-
-
                     self.write({
                         'batch_donate': [(0, 0, {
                             'donate_single_id': line.id
@@ -75,14 +75,11 @@ class CoffinBase(models.Model):
                     line.use_amount = True # 確認已支用此筆施棺捐款金額
                     self.donate_price = int(float(self.donate_price)) + line.donate # 將捐款金額加入累積金額
                     Cumulative_amount = Cumulative_amount - line.donate # 施棺滿足額 減掉 捐款額
-
                 if Cumulative_amount == 0: # 達到施棺滿足額
                     self.finish = True
                     flag = True
-
             if Cumulative_amount != 0: # 搜尋完所有的施棺捐款後, 仍然無法湊足施棺滿足額
                 raise ValidationError(u'無法湊足施棺滿足額')
-
         return True;
 
     def data_input_coffin(self):

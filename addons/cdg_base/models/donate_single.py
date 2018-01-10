@@ -38,6 +38,7 @@ class DonateSingle(models.Model):
     coffin = fields.Boolean(string='施棺')
     poor_help = fields.Boolean(string='貧困扶助')
     noassign = fields.Boolean(string='不指定')
+    is_staged = fields.Boolean('是否分期')
     bridge_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     road_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     coffin_money = fields.Integer(string='$', states={2: [('readonly', True)]})
@@ -376,7 +377,8 @@ class DonateSingle(models.Model):
                 'donate': money,
                 'donate_date': datetime.date.today(),
                 'self_id': member_id.self_iden,
-                'payment_method': int(self.payment_method)
+                'payment_method': int(self.payment_method),
+                'is_staged':self.is_staged
             })]
         })
 
