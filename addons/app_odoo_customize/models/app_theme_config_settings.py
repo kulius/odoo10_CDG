@@ -594,6 +594,13 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 關聯資料共147996筆, 花費6.4秒
         return True
 
+    def compute_coffin_donate(self): # 計算 coffin_donation的捐款編號與donate_order的捐款編號相符者, 將 可用餘額(available_balance)設為 0 ; 不相符者則將可用餘額設為捐款金額(donate)
+        sql = "UPDATE donate_order SET available_balance = donate_order.donate"
+        self._cr.execute(sql)  # 計算資料共2881560筆, 花費98.004秒
+        sql = "UPDATE donate_order SET available_balance = 0 FROM coffin_donation a WHERE a.donate_id = donate_order.donate_id AND donate_order.donate_type = 3"
+        self._cr.execute(sql)  # 計算資料共275777筆, 花費16.711秒 ;  共281565筆資料施棺的捐款金額為 0
+        return True
+
     def set_consultant_data(self): # 轉顧問檔資料進normal.p, 顧問檔共142筆資料
         sql = "INSERT INTO normal_p(name , con_addr) SELECT 姓名, 戶籍通訊地址 FROM 顧問檔 EXCEPT SELECT name, con_addr FROM normal_p"
         self._cr.execute(sql) # 轉入顧問檔有資料但normal.p沒有資料的, 共有73筆資料
