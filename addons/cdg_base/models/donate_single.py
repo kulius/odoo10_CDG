@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class DonateSingle(models.Model):
     _name = 'donate.single'
+    _rec_name = 'donate_id'
 
     # name = fields.Many2one(comodel_name='normal.p',string='姓名')
 

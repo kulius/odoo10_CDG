@@ -179,7 +179,7 @@
                             |
                             <button string="10.捐款檔關聯捐款明細" type="object" name="set_donate_single_associated" class="oe_highlight"/>
                             |
-                            <button string="12.施棺檔關聯捐款檔" type="object" name="set_coffin_donate_order_associated" class="oe_highlight"/>
+                            <button string="12.施棺檔關聯捐款檔" type="object" name="set_coffin_donate_single_associated" class="oe_highlight"/>
                             |
                             <button string="19.計算可用餘額" type="object" name="compute_coffin_donate" class="oe_highlight"/>
                         </div>

@@ -32,15 +32,27 @@ class CoffinBase(models.Model):
     donate_price = fields.Integer(string='累積金額')
     donate_apply_price = fields.Integer('申請金額')
     finish = fields.Boolean(string='是否結案')
-    batch_donate = fields.One2many(comodel_name='coffin.donation',inverse_name='coffin_donation_id',string='捐助資料',compute='get_donate_name')
-    old_batch_donate = fields.One2many(comodel_name='coffin.donation', inverse_name='old_coffin_donation_id', string='舊捐助資料')
-
-    donate_single_id = fields.Many2one(comodel_name='donate.single', string='捐款編號')
+    batch_donate = fields.One2many(comodel_name='coffin.donation',inverse_name='coffin_donation_id',string='捐助資料')
+    old_batch_donate = fields.One2many(comodel_name='old.coffin.donation', inverse_name='old_coffin_donation_id', string='舊捐助資料')
     create_date = fields.Date(string='建檔日期')
     db_chang_date = fields.Date(string='異動日期')
 
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
+
+    def compute_old_data(self):
+        for i in self.search([]): # 搜尋 coffin_base 的每筆資料
+            r =[]
+            for line in i.old_batch_donate: # 撈出 coffin_base裡某一筆資料的舊捐助資料頁籤
+                for row in line.donate_single_id.donate_list: # 撈出舊捐助資料頁籤裡的捐款編號 donate_single_id
+                    order_ids ={
+                        'donate_order_id': row.id
+                    }
+                    r.append([0,0,order_ids])
+            i.write({
+                'batch_donate': r
+            })
+        return True
 
     def add_coffin_file(self):
         lines = self.env['donate.order'].search([('donate_type', '=', '3'),('use_amount','=',False)]) # 從捐款明細中, 搜尋所有施棺捐款的資料, 並依最大筆金額進行排序
@@ -106,20 +118,17 @@ class CoffinBase(models.Model):
                 'coffin_date_group':line[u'期別'],
             })
 
-    # #眾善士顯示目前由於是onchange 新增的時候會產生錯誤訊息
-    # @api.depends('batch_donate')
+    #眾善士顯示目前由於是onchange 新增的時候會產生錯誤訊息
+    # @api.onchange('batch_donate')
     # def get_donate_name(self):
     #     lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0), ('donate_type', '=', '3'), ('use_amount', '=', False)],order='donate desc')  # 從捐款明細中, 搜尋所有施棺捐款的資料, 並依最大筆金額進行排序
     #     donate_number = 0  # 紀錄捐款筆數
-    #     if (self.donater_ps != ''): #施棺捐款者備註為最高
-    #         self.donor = self.donater_ps
-    #     else:
-    #         for line in lines:
-    #             donate_number += 1
-    #             if (donate_number < 6):
-    #                 self.donor += line.donate_member.name
-    #             elif (donate_number >= 6):
-    #                 self.donor = "眾善士"
+    #     for line in lines:
+    #         donate_number += 1
+    #         if (donate_number < 6):
+    #             self.donor += line.donate_member.name
+    #         elif (donate_number >= 6):
+    #             self.donor = "眾善士"
 
     @api.onchange('coffin_date_group')
     def compute_coffin_season(self):
@@ -152,3 +161,14 @@ class CoffinBase(models.Model):
             return date_check
         else:
             return None
+
+
+class OldCoffinDonation(models.Model):
+    _name = 'old.coffin.donation'
+
+    coffin_id = fields.Char(string='施棺編號')
+    donate_id = fields.Char(string='捐款編號')
+    donate_price = fields.Integer(string='施棺捐款金額')
+
+    old_coffin_donation_id = fields.Many2one(comodel_name='coffin.base')
+    donate_single_id = fields.Many2one(comodel_name='donate.single', string='捐款編號')

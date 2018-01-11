@@ -560,10 +560,10 @@ class AppThemeConfigSettings(models.TransientModel):
         # 施棺編號 01944, 01945, 01946, 01947 之施棺日期為 2010-80-27  修改為2010-08-27
         return True
 
-    def set_coffin_donate(self): # 施棺捐款檔轉入 coffin_donation
-        sql = "INSERT INTO coffin_donation(coffin_id, donate_id, donate_price)" \
+    def set_coffin_donate(self): # 施棺捐款檔轉入 old_coffin_donation
+        sql = "INSERT INTO old_coffin_donation(coffin_id, donate_id, donate_price)" \
               " SELECT 施棺編號, 捐款編號, CAST(捐款金額 AS INTEGER) FROM 施棺捐款檔"
-        self._cr.execute(sql) # 施棺捐款檔轉入 coffin_donation 共166158筆, 花費 1.3秒
+        self._cr.execute(sql) # 施棺捐款檔轉入 old_coffin_donation 共166158筆, 花費 1.3秒
         return True
 
     def set_donate_single(self): # 捐款檔及捐款歷史檔篩選捐款編號作為唯一值, 以便做關聯
@@ -582,16 +582,14 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 資料共1101626筆, 花費18.343秒
         return True
 
-    def set_coffin_id(self): # 施棺明細關聯施棺檔
-        sql = "UPDATE coffin_donation SET coffin_donation_id = a.id FROM coffin_base a WHERE a.coffin_id = coffin_donation.coffin_id "
-        self._cr.execute(sql) # 關聯資料共166145筆, 花費2.5秒, 差13筆資料未關聯到, 因為沒有施棺編號
-        sql = "UPDATE coffin_donation SET old_coffin_donation_id = a.id FROM coffin_base a WHERE a.coffin_id = coffin_donation.coffin_id "
+    def set_coffin_id(self): # 舊施棺明細關聯施棺檔
+        sql = "UPDATE old_coffin_donation SET old_coffin_donation_id = a.id FROM coffin_base a WHERE a.coffin_id = old_coffin_donation.coffin_id"
         self._cr.execute(sql)  # 關聯資料共166145筆, 花費3.442秒, 差13筆資料未關聯到, 因為沒有施棺編號
         return True
 
-    def set_coffin_donate_order_associated(self): # 施棺明細關聯donate_order
-        sql = "UPDATE coffin_donation SET donate_order_id = a.id FROM donate_order a WHERE a.donate_id = coffin_donation.donate_id"
-        self._cr.execute(sql)  # 關聯資料共147996筆, 花費6.4秒
+    def set_coffin_donate_single_associated(self): # 舊施棺明細關聯donate_single
+        sql = "UPDATE old_coffin_donation SET donate_single_id = a.id FROM donate_single a WHERE a.donate_id = old_coffin_donation.donate_id"
+        self._cr.execute(sql)  # 關聯資料共148006筆, 花費7.215秒
         return True
 
     def compute_coffin_donate(self): # 計算 coffin_donation的捐款編號與donate_order的捐款編號相符者, 將 可用餘額(available_balance)設為 0 ; 不相符者則將可用餘額設為捐款金額(donate)

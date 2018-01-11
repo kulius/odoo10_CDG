@@ -6,8 +6,7 @@
             <field name="model">coffin.donation</field>
             <field name="arch" type="xml">
                 <tree string="">
-                    <field name="coffin_id"/>
-                    <field name="donate_id"/>
+                    <field name="donate_order_id"/>
                     <field name="donate_price"/>
                     <field name="name"/>
                 </tree>

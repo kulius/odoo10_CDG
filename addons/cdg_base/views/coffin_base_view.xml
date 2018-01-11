@@ -32,6 +32,7 @@
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button string="產生捐助明細" name="add_coffin_file" class="oe_stat_button" icon="fa-list-ol" type="object"/>
+                            <!--<button string="歷史捐助明細" name="compute_old_data" class="oe_stat_button" icon="fa-book" type="object"/>-->
                         </div>
                         <group col="7" name="文字">
                             <field name="coffin_id"/>
@@ -74,10 +75,8 @@
                             <page string="捐助資料">
                                 <field name="batch_donate">
                                     <tree editable="bottom">
-                                        <field name="coffin_id"/>
                                         <field name="donate_order_id"/>
                                         <field name="donate_price"/>
-                                        <field name="name"/>
                                     </tree>
                                 </field>
                             </page>
@@ -91,9 +90,7 @@
                                 </field>
                             </page>
                         </notebook>
-
                     </sheet>
-
                 </form>
             </field>
         </record>
