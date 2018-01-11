@@ -130,7 +130,7 @@ class DonateSingle(models.Model):
             'donate_id': 'A' + str(int_max),
         })
         self.add_to_list_create(res_id)
-        self.compute_family_list_create(res_id)
+        self.compute_family_list_create()
 
         #donate_single(Create保存).donate_member(normal.p的資料).(欄位) = donate_single.(欄位)
         donate_user = self.env['normal.p'].search([('id', '=', res_id.donate_member.id)])
@@ -281,14 +281,26 @@ class DonateSingle(models.Model):
                     str += " (%s %s %s )," % (row.donate_member.name,  u'其他工程',row.donate)
             self.donate_family_list= str
 
-    def compute_family_list_create(self, record):
+    # 新建立捐款在眷屬列表顯示個人姓名+捐款種類+捐款金額
+    def compute_family_list_create(self):
         str = ''
-        for line in record.family_check:
-            if(line.is_donate == True):
-                str += line.donate_member.name + ', '
-        record.write({
-            'donate_family_list' : str
-        })
+        for line in self:
+            for row in line.donate_list:
+                if row.donate_type == 1:
+                    str +=  " (%s %s %s )," % (row.donate_member.name, u'造橋',row.donate)
+                if row.donate_type == 2:
+                    str += " (%s %s %s )," % (row.donate_member.name,  u'補路',row.donate)
+                if row.donate_type == 3:
+                    str += " (%s %s %s )," % (row.donate_member.name,  u'施棺',row.donate)
+                if row.donate_type == 4:
+                    str += " (%s %s %s )," % (row.donate_member.name,  u'伙食費',row.donate)
+                if row.donate_type == 5:
+                    str += " (%s %s %s )," % (row.donate_member.name,  u'貧困扶助',row.donate)
+                if row.donate_type == 6:
+                    str += " (%s %s %s )," % (row.donate_member.name,  u'不指定',row.donate)
+                if row.donate_type == 99:
+                    str += " (%s %s %s )," % (row.donate_member.name,  u'其他工程',row.donate)
+            self.donate_family_list= str
 
     def button_to_cnacel_donate(self):
         if self.state == 3:

@@ -106,17 +106,20 @@ class CoffinBase(models.Model):
                 'coffin_date_group':line[u'期別'],
             })
 
-    #眾善士顯示目前由於是onchange 新增的時候會產生錯誤訊息
+    # #眾善士顯示目前由於是onchange 新增的時候會產生錯誤訊息
     # @api.onchange('batch_donate')
     # def get_donate_name(self):
     #     lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0), ('donate_type', '=', '3'), ('use_amount', '=', False)],order='donate desc')  # 從捐款明細中, 搜尋所有施棺捐款的資料, 並依最大筆金額進行排序
     #     donate_number = 0  # 紀錄捐款筆數
-    #     for line in lines:
-    #         donate_number += 1
-    #         if (donate_number < 6):
-    #             self.donor += line.donate_member.name
-    #         elif (donate_number >= 6):
-    #             self.donor = "眾善士"
+    #     if (self.donater_ps != ''): #施棺捐款者備註為最高
+    #         self.donor = self.donater_ps
+    #     else:
+    #         for line in lines:
+    #             donate_number += 1
+    #             if (donate_number < 6):
+    #                 self.donor += line.donate_member.name
+    #             elif (donate_number >= 6):
+    #                 self.donor = "眾善士"
 
     @api.onchange('coffin_date_group')
     def compute_coffin_season(self):
