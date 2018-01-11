@@ -75,9 +75,9 @@
                   action="receipt_analysis_action"
                   sequence="6"/>
         <menuitem id="receipt_analysis_menu"
-                  name="收據分析表"
-                 parent="first_categ"
-                  action="receipt_analysis_action"
+                  name="捐款退款"
+                  parent="first_categ"
+                  action="charity_view"
                   sequence="7"/>
 
         <!--<menuitem id="group_manage_root" name="團員管理" sequence=""/>
