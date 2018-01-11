@@ -19,7 +19,7 @@ class CoffinBase(models.Model):
     geter = fields.Char(string='領款者')
     geter_iden = fields.Char('領款者身份證字號')
     dealer = fields.Char(string='處理者')
-    donor = fields.Char('捐款者')
+    donor = fields.Char('捐款者', compute='get_donate_name')
     con_phone = fields.Char(string='聯絡電話(一)')
     con_phone2 = fields.Char(string='聯絡電話(二)')
     cellphone = fields.Char(string='手機')
@@ -118,17 +118,18 @@ class CoffinBase(models.Model):
                 'coffin_date_group':line[u'期別'],
             })
 
-    #眾善士顯示目前由於是onchange 新增的時候會產生錯誤訊息
-    # @api.onchange('batch_donate')
-    # def get_donate_name(self):
-    #     lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0), ('donate_type', '=', '3'), ('use_amount', '=', False)],order='donate desc')  # 從捐款明細中, 搜尋所有施棺捐款的資料, 並依最大筆金額進行排序
-    #     donate_number = 0  # 紀錄捐款筆數
-    #     for line in lines:
-    #         donate_number += 1
-    #         if (donate_number < 6):
-    #             self.donor += line.donate_member.name
-    #         elif (donate_number >= 6):
-    #             self.donor = "眾善士"
+    @api.onchange('batch_donate')
+    def get_donate_name(self):
+        donate_number = 0  # 紀錄捐款筆數
+        for i in self:
+            if i.donater_ps:
+                i.donor = i.donater_ps
+                for line in i.batch_donate:
+                    donate_number += 1
+                    if (donate_number <= 6):
+                        i.donor += line.donate_order_id.donate_member.name
+                    elif (donate_number > 6):
+                        i.donor = u"眾善士"
 
     @api.onchange('coffin_date_group')
     def compute_coffin_season(self):
