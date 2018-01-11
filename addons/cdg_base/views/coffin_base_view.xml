@@ -106,8 +106,11 @@
                   <field name="dealer"/>
                   <field name="user"/>
                   <field name="geter"/>
-
-                  <field name="coffin_date"/>
+                  <field name="dead_addr"/>
+                  <field name="con_addr"/>
+                  <field name="user_iden"/>
+                  <field name="geter_iden"/>
+                  <field string="領款日期" name="coffin_date" filter_domain="[('coffin_date', '=',self)]"/>
                 </search>
             </field>
         </record>

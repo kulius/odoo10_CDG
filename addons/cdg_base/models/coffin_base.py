@@ -97,7 +97,7 @@ class CoffinBase(models.Model):
                 'dealer':line[u'處理者'],
                 'zip_code':line[u'郵遞區號'],
                 'con_addr':line[u'通訊地址'],
-                'coffin_date':self.check(line[u'施棺日期']),
+                'coffin_date':self.check(line[u'領款日期']),
                 'create_date':self.check(line[u'建檔日期']),
                 'db_chang_date':self.check(line[u'異動日期']),
                 'finish':self.checkbool(line[u'結案']),
