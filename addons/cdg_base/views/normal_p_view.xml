@@ -50,6 +50,7 @@
                             <field name="report_send"/>
                             <field name="rec_send"/>
                             <field name="merge_report"/>
+                            <field name="is_staged"/>
                         </group>
                          <notebook>
                                 <page string="基本資料">
@@ -205,7 +206,7 @@
             <field name="arch" type="xml">
                 <search>
                     <field name="name"/>
-                    <field name="cashier"/>
+                    <field name="cashier_name"/>
 
                     <filter string="基本會員" name="member_type" domain="[('member_type','=',1 )]"/>
                     <filter string="贊助會員" name="member_type" domain="[('member_type','=',2 )]"/>
@@ -251,5 +252,6 @@
           </p>
         </field>
         </record>
+
     </data>
 </odoo>

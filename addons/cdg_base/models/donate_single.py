@@ -38,7 +38,6 @@ class DonateSingle(models.Model):
     coffin = fields.Boolean(string='施棺')
     poor_help = fields.Boolean(string='貧困扶助')
     noassign = fields.Boolean(string='不指定')
-    is_staged = fields.Boolean('是否分期')
     bridge_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     road_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     coffin_money = fields.Integer(string='$', states={2: [('readonly', True)]})

@@ -70,7 +70,6 @@
                                     <field name="noassign_money" nolabel="1"/>
                                     <field name="coffin"/>
                                     <field name="coffin_money" nolabel="1"/>
-                                    <field name="is_staged" attrs="{'invisible':[('coffin','!=',True)],'required':[('coffin','=',True)]}"/>
 
                                 </group>
                                 <field name="family_check">

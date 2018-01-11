@@ -93,6 +93,7 @@ class NormalP(models.Model):
     sequence = fields.Integer(string='排序')
     is_donate = fields.Boolean(string='是否捐助', default=True)
     is_merge = fields.Boolean(string='是否合併收據', default=True)
+    is_staged = fields.Boolean('是否分期')
 
     donate_family_list = fields.Char(string='眷屬列表', compute='compute_faamily_list')
     active = fields.Boolean(default=True)
