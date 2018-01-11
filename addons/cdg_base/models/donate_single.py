@@ -130,17 +130,17 @@ class DonateSingle(models.Model):
         res_id.write({
             'donate_id': 'A' + str(int_max),
         })
-        #donate_single(Create保存).donate_member(normal.p的資料).(欄位) = donate_single.(欄位)
-        res_id.donate_member.rec_send = res_id.receipt_send #收據寄送1
-        res_id.donate_member.report_send = res_id.report_send #報表寄送
-        res_id.donate_member.merge_report = res_id.year_receipt_send #年收據合併 開始捐款(年收據寄送)
-
         self.add_to_list_create(res_id)
         self.compute_family_list_create(res_id)
 
+        #donate_single(Create保存).donate_member(normal.p的資料).(欄位) = donate_single.(欄位)
+        donate_user = self.env['normal.p'].search([('id', '=', res_id.donate_member.id)])
+        donate_user.rec_send = res_id.receipt_send #收據寄送
+        donate_user.report_send = res_id.report_send #報表寄送
+        donate_user.merge_report = res_id.year_receipt_send #年收據合併 開始捐款(年收據寄送)
+
         user = self.env['res.users'].search([('login', '=', self.env.user.login)])
         user.payment_method = res_id.payment_method
-
         return res_id
 
     @api.model
@@ -261,16 +261,26 @@ class DonateSingle(models.Model):
                 if row.donate_member.is_donate == True:
                     line.donate_total += row.donate
 
-
-
-    @api.depends('family_check')
+    @api.depends('donate_list')
     def compute_family_list(self):
         str = ''
         for line in self:
-            for row in line.family_check:
-                if (row.is_donate == True):
-                    str += row.donate_member.name + ', '
-        self.donate_family_list = str
+            for row in line.donate_list:
+                if row.donate_type == 1:
+                    str +=  " (%s %s %s )," % (row.donate_member.name, u'造橋',row.donate)
+                if row.donate_type == 2:
+                    str += " (%s %s %s )," % (row.donate_member.name,  u'補路',row.donate)
+                if row.donate_type == 3:
+                    str += " (%s %s %s )," % (row.donate_member.name,  u'施棺',row.donate)
+                if row.donate_type == 4:
+                    str += " (%s %s %s )," % (row.donate_member.name,  u'伙食費',row.donate)
+                if row.donate_type == 5:
+                    str += " (%s %s %s )," % (row.donate_member.name,  u'貧困扶助',row.donate)
+                if row.donate_type == 6:
+                    str += " (%s %s %s )," % (row.donate_member.name,  u'不指定',row.donate)
+                if row.donate_type == 99:
+                    str += " (%s %s %s )," % (row.donate_member.name,  u'其他工程',row.donate)
+            self.donate_family_list= str
 
     def compute_family_list_create(self, record):
         str = ''
