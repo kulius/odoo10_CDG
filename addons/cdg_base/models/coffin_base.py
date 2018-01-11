@@ -51,7 +51,6 @@ class CoffinBase(models.Model):
                     line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))
                     if line.donate_price > 30000:
                         line.donate_price = 30000
-
         return True
 
     def compute_old_data(self):
@@ -100,11 +99,16 @@ class CoffinBase(models.Model):
                     line.use_amount = True # 確認已支用此筆施棺捐款金額
                     self.donate_price = int(float(self.donate_price)) + line.available_balance # 將捐款金額加入累積金額
                     Cumulative_amount = Cumulative_amount - line.available_balance # 施棺滿足額 減掉 捐款額
+                    line.available_balance = 0 # 該筆捐款金額歸 0
 
+                if int(line.available_balance) > Cumulative_amount and flag == False:
+                    line.available_balance = line.available_balance - Cumulative_amount
+                    Cumulative_amount = 0
 
                 if Cumulative_amount == 0: # 達到施棺滿足額
                     self.finish = True
                     flag = True
+
             if Cumulative_amount != 0: # 搜尋完所有的施棺捐款後, 仍然無法湊足施棺滿足額
                 raise ValidationError(u'無法湊足施棺滿足額')
         return True;
