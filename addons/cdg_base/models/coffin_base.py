@@ -29,7 +29,7 @@ class CoffinBase(models.Model):
     dead_addr = fields.Char('弔祭地址')
     donater_ps = fields.Text(string='捐款者備註')
     ps = fields.Text(string='備註')
-    donate_price = fields.Integer(string='累積金額')
+    donate_price = fields.Integer(string='累積金額' )
     donate_apply_price = fields.Integer('申請金額')
     finish = fields.Boolean(string='是否結案')
     batch_donate = fields.One2many(comodel_name='coffin.donation',inverse_name='coffin_donation_id',string='捐助資料')
@@ -40,6 +40,14 @@ class CoffinBase(models.Model):
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
 
+    def compute_money(self):
+        for line in self: # 從捐助資料表中, 計算目前的累積金額
+            for row in line.batch_donate:
+                line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))
+                if line.donate_price > 30000:
+                    line.donate_price = 30000
+
+        return True
     def compute_old_data(self):
         for i in self.search([]): # 搜尋 coffin_base 的每筆資料
             r =[]
@@ -55,12 +63,13 @@ class CoffinBase(models.Model):
         return True
 
     def add_coffin_file(self):
-        lines = self.env['donate.order'].search([('donate_type', '=', '3'),('use_amount','=',False)]) # 從捐款明細中, 搜尋所有施棺捐款的資料, 並依最大筆金額進行排序
+        lines = self.env['donate.order'].search(['|',('donate_type', '=', 3),('donate_type', '=', 6),('available_balance', '!=', 0)])
         basic_setting = self.env['ir.config_parameter'].search([])
         coffin_amount = 0
         for line in basic_setting: # 讀取基本設定檔的施棺滿足額
             if line.key == 'coffin_amount':
                 coffin_amount = int(line.value)
+                self.donate_apply_price = coffin_amount
 
 
         # for line in self: # 從捐助資料表中, 計算目前的累積金額
@@ -122,15 +131,17 @@ class CoffinBase(models.Model):
     def get_donate_name(self):
         for i in self:
             donate_number = 0  # 紀錄捐款筆數
+            str_build = ''
             if i.donater_ps:
-                i.donor = i.donater_ps
-            else:
+                str_build = i.donater_ps
+            elif i.batch_donate:
                 for line in i.batch_donate:
                     donate_number += 1
                     if (donate_number <= 6):
-                        i.donor += line.donate_order_id.donate_member.name
+                        str_build += line.donate_order_id.donate_member.name
                     elif (donate_number > 6):
-                        i.donor = u"眾善士"
+                        str_build = u"眾善士"
+            i.donor = str_build
 
     @api.onchange('coffin_date_group')
     def compute_coffin_season(self):
