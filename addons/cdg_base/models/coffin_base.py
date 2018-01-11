@@ -32,7 +32,7 @@ class CoffinBase(models.Model):
     donate_price = fields.Integer(string='累積金額')
     donate_apply_price = fields.Integer('申請金額')
     finish = fields.Boolean(string='是否結案')
-    batch_donate = fields.One2many(comodel_name='coffin.donation',inverse_name='coffin_donation_id',string='捐助資料')
+    batch_donate = fields.One2many(comodel_name='coffin.donation',inverse_name='coffin_donation_id',string='捐助資料',compute='get_donate_name')
     old_batch_donate = fields.One2many(comodel_name='coffin.donation', inverse_name='old_coffin_donation_id', string='舊捐助資料')
 
     donate_single_id = fields.Many2one(comodel_name='donate.single', string='捐款編號')
@@ -107,7 +107,7 @@ class CoffinBase(models.Model):
             })
 
     # #眾善士顯示目前由於是onchange 新增的時候會產生錯誤訊息
-    # @api.onchange('batch_donate')
+    # @api.depends('batch_donate')
     # def get_donate_name(self):
     #     lines = self.env['donate.order'].search([('donate_id', '!=', ''), ('donate', '!=', 0), ('donate_type', '=', '3'), ('use_amount', '=', False)],order='donate desc')  # 從捐款明細中, 搜尋所有施棺捐款的資料, 並依最大筆金額進行排序
     #     donate_number = 0  # 紀錄捐款筆數
