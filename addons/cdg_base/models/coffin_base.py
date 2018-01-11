@@ -120,10 +120,11 @@ class CoffinBase(models.Model):
 
     @api.onchange('batch_donate')
     def get_donate_name(self):
-        donate_number = 0  # 紀錄捐款筆數
         for i in self:
+            donate_number = 0  # 紀錄捐款筆數
             if i.donater_ps:
                 i.donor = i.donater_ps
+            else:
                 for line in i.batch_donate:
                     donate_number += 1
                     if (donate_number <= 6):
