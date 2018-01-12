@@ -34,9 +34,9 @@ class ReportDonateSingle(models.AbstractModel):
 
         return Report.render('cdg_base.receipt_single_all_template', docargs)
 
-    def convert(self,n):
+    def convert(self, n):
         units = ['', '萬', '億']
-        nums = ['零', '壹', '贰', '參', '肆', '伍', '陸', '柒', '捌', '玖']
+        nums = ['零', '壹', '貳', '參', '肆', '伍', '陸', '柒', '捌', '玖']
         decimal_label = ['角', '分']
         small_int_label = ['', '拾', '佰', '仟']
         int_part, decimal_part = str(int(n)), str(n - int(n))[2:]  # 分离整数和小数部分
@@ -82,7 +82,7 @@ class DonateSingleReport(models.Model):
 
     def convert(self, n):
         units = ['', '萬', '億']
-        nums = ['零', '壹', '贰', '參', '肆', '伍', '陸', '柒', '捌', '玖']
+        nums = ['零', '壹', '貳', '參', '肆', '伍', '陸', '柒', '捌', '玖']
         decimal_label = ['角', '分']
         small_int_label = ['', '拾', '佰', '仟']
         int_part, decimal_part = str(int(n)), str(n - int(n))[2:]  # 分离整数和小数部分
@@ -110,7 +110,7 @@ class ReportLine(models.Model):
 
     parent_id = fields.Many2one(comodel_name='donate.single.report')
     name = fields.Char(string='捐款姓名')
-    donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (05, '貧困扶助'),(06, '不指定')],
+    donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (05, '貧困扶助'), (06, '不指定')],
                                    string='捐款種類')
     donate_price = fields.Integer(string='捐款金額')
 
@@ -260,7 +260,6 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 row.print_user = self.env.uid
             elif flag == False and row.state == 2:
                 check_print = True
-
 
             for line in row.donate_list:
                 if line.donate_member == row.donate_member:

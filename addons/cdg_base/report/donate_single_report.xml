@@ -55,102 +55,103 @@
                 <t t-foreach="docs" t-as="data">
                     <div class="page">
                           <style type="text/css">
-                            .header_css{
-                            height: 40mm;
-
-                            }
+                              .header_css{
+                              height: 40mm;
+                              background-color: #fefbd8;
+                              }
                             .right_css{
                             height: 40mm;
-                            width: 57mm;                                                                                                                                       ZA
-
+                            width: 57mm;
                             float:right;
                             position:relative;
                             display: table;
-
+                              background-color: #80ced6;
                             }
                             .left_css{
                             height: 40mm;
                             width: 180mm;
-
                             float:left;
+                              background-color: #d5f4e6;
                             }
                             .top_css{
                             height: 20mm;
                             width: 57mm;
-
                             text-align:center;
                             font-size:26px;
                             display: table-cell;
                             vertical-align: bottom;
+                              background-color: #f18973;
                             }
                             .bottom_css{
                             height: 20mm;
                             width: 57mm;
-
                             text-align:center;
                             font-size:26px;
                             display: table-cell;
                             vertical-align: bottom;
+                              background-color:coral;
                             }
 
                             .detial_css{
-                            height: 65mm;
+                            height: 67mm;
+                              background-color:yellow;
 
                             }
                             .detial_middle{
                             width: 79mm;
-                            height: 65mm;
+                            height: 67mm;
                             margin-left:79mm;
-
+                              background-color:red;
                             }
 
                             .detial_one{
                             width: 79mm;
-                            height: 65mm;
+                            height: 67mm;
                             float:left;
-
+                              background-color:green;
                             }
 
                             .detial_two{
                             width: 79mm;
-                            height: 65mm;
+                            height: 67mm;
                             float:right;
+                              background-color:blue;
 
                             }
                             .total_css{
                             height: 13mm;
-
                             font-weight:bold;
                             font-size:26px;
+                              background-color:gray;
                             }
                             .total_right{
                             height: 13mm;
                             width: 82mm;
-
                             float:right;
+                              background-color:pink;
                             }
                             .total_right_money{
                             height: 13mm;
                             width: 52mm;
-
                             float:left;
+                              background-color:orange;
                             }
                             .total_right_person{
                             height: 13mm;
                             width: 30mm;
-
                             float:right;
+                              background-color:blue;
                             }
 
                             .total_left{
                             height: 13mm;
                             width: 155mm;
-
                             float:left;
+                              background-color:coral;
                             }
                             .useless{
-                            height: 54mm;
-
+                            height: 57mm;
+                              background-color:black;
                             }
 
                         </style>
@@ -285,6 +286,8 @@
                         </div>
 
                         <div class="useless"></div>
+                        <div class="oe_clear"/>
+
 
                           <div class="header_css">
                                     <div class="left_css">
