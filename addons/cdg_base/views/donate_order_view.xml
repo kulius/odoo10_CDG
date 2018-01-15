@@ -63,7 +63,6 @@
                                 <!--<field name="city"/>-->
                             <field name="donate_type"/>
                             <field name="self_id"/>
-                            <field name="is_staged" attrs="{'invisible':[('donate_type','!=',03)],'required':[('donate_type','=',03)]}"/>
                         </group>
                         <!--<span STYLE='FONT-SIZE:25PX'>捐款項目</span>-->
                         <!--<group col="4">-->

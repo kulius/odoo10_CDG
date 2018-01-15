@@ -138,7 +138,7 @@ class DonateSingle(models.Model):
         donate_user = self.env['normal.p'].search([('id', '=', res_id.donate_member.id)])
         donate_user.rec_send = res_id.receipt_send #收據寄送
         donate_user.report_send = res_id.report_send #報表寄送
-        donate_user.merge_report = res_id.year_receipt_send #年收據合併 開始捐款(年收據寄送)
+        donate_user.merge_report = res_id.year_receipt_send #年收據合併 開始捐款(年收據寄送) 已將年收據合併改為年收據寄送
 
         user = self.env['res.users'].search([('login', '=', self.env.user.login)])
         user.payment_method = res_id.payment_method
@@ -391,7 +391,7 @@ class DonateSingle(models.Model):
                 max_int = max_int + 1
 
     def save_donate_list(self, donate_type, paid_id, member_id, money):  # 將明細產生
-        if donate_type == 3 and self.is_staged:
+        if donate_type == 3:
             self.write({
                     'donate_list': [(0, 0, {
                     'donate_id': self.donate_id,
@@ -402,7 +402,6 @@ class DonateSingle(models.Model):
                     'donate_date': datetime.date.today(),
                     'self_id': member_id.self_iden,
                     'payment_method': int(self.payment_method),
-                    'is_staged': self.is_staged
                 })]
             })
         else:
@@ -416,7 +415,6 @@ class DonateSingle(models.Model):
                         'donate_date': datetime.date.today(),
                         'self_id': member_id.self_iden,
                         'payment_method': int(self.payment_method),
-                        'is_staged': False
                 })]
             })
 
