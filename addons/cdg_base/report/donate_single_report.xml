@@ -31,6 +31,31 @@
                 name="cdg_base.receipt_single_default"
                 paperformat="paper_form_cdg"
         />
+        <report id="print_check"
+                model="donate.single"
+                string="預設收據_補單確認"
+                report_type="qweb-pdf"
+                name="cdg_base.receipt_single_default"
+                paperformat="paper_form_cdg"
+        />
+
+        <record id="action_print_check" model="ir.actions.server">
+            <field name="name">補單確認</field>
+            <field name="model_id" ref="model_donate_single"/>
+            <field name="code">
+                action =  object.print_check(context.get('active_ids', []))
+            </field>
+        </record>
+<!--object = normal_p -->
+
+        <record model="ir.values" id="ir_values_print_check_button">
+            <field name="name">補單確認</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.server,%d'%action_print_check"/>
+            <field name="key">action</field>
+            <field name="object" eval="True"/>
+            <field name="model">donate.single</field>
+        </record>
 
         <!--<record id="action_print_check" model="ir.actions.server">-->
             <!--<field name="name">補單確認</field>-->

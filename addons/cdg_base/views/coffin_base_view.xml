@@ -7,7 +7,6 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="coffin_id"/>
-                    <field name="donate_type"/>
                     <field name="coffin_date_group"/>
                     <field name="coffin_date"/>
                     <field name="user"/>
@@ -36,7 +35,6 @@
                         </div>
                         <group col="7" name="文字">
                             <field name="coffin_id"/>
-                            <field name="donate_type"/>
                             <field name="coffin_date_year" string="施棺期別"></field>
                             <field name="coffin_date_group" nolabel="1"/>
                             <field name="donate_apply_price"/>

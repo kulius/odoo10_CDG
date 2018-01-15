@@ -148,7 +148,10 @@ class CoffinBase(models.Model):
                 for line in i.batch_donate:
                     donate_number += 1
                     if (donate_number <= 6):
-                        str_build += line.donate_order_id.donate_member.name
+                        if line.donate_order_id.donate_member.name is True:
+                          str_build += line.donate_order_id.donate_member.name
+                        else:
+                          continue
                     elif (donate_number > 6):
                         str_build = u"眾善士"
             i.donor = str_build

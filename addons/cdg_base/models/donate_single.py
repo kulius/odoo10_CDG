@@ -89,6 +89,7 @@ class DonateSingle(models.Model):
                 max_paid = int(line.paid_id)
                 max = line
 
+
         donate_group = self.env['donate.order'].search([('donate_id', '=', max.donate_id)])
         self.family_check.unlink()
         r = []
