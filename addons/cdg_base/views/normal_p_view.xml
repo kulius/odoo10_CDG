@@ -184,6 +184,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">normal.p</field>
         <field name="view_mode">tree,form</field>
+            <field name="limit">20</field>
             <field name="search_view_id" ref="normal_p_search"/>
             <field name="view_ids"
                    eval="[(5, 0, 0),

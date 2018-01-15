@@ -9,7 +9,6 @@
                 name="cdg_base.receipt_single_independent_template"
                 paperformat="paper_form_cdg"
         />
-
         <report id="receipt_single_all"
                 model="donate.single"
                 string="合併收據"
@@ -39,132 +38,17 @@
                 paperformat="paper_form_cdg"
         />
 
-        <!--<record id="action_print_check" model="ir.actions.server">-->
-            <!--<field name="name">補單確認</field>-->
-            <!--<field name="model_id" ref="model_donate_single"/>-->
-            <!--<field name="code">-->
-                <!--action =  object.print_check(context.get('active_ids', []))-->
-            <!--</field>-->
-        <!--</record>-->
-<!--&lt;!&ndash;object = normal_p &ndash;&gt;-->
-
-        <!--<record model="ir.values" id="ir_values_print_check_button">-->
-            <!--<field name="name">補單確認</field>-->
-            <!--<field name="key2">client_action_multi</field>-->
-            <!--<field name="value" eval="'ir.actions.server,%d'%action_print_check"/>-->
-            <!--<field name="key">action</field>-->
-            <!--<field name="object" eval="True"/>-->
-            <!--<field name="model">donate.single</field>-->
-        <!--</record>-->
-
+        <!--列印合整理完成-->
         <template id="receipt_single_all_template">
-            <t t-call="report.layout">
+            <t t-call="report.html_container">
                 <t t-foreach="docs" t-as="data">
                     <div class="page">
-                          <style type="text/css">
-                              .header_css{
-                              height: 40mm;
-                              background-color: #fefbd8;
-                              }
-                            .right_css{
-                            height: 40mm;
-                            width: 57mm;
-                            float:right;
-                            position:relative;
-                            display: table;
-                              background-color: #80ced6;
-                            }
-                            .left_css{
-                            height: 40mm;
-                            width: 180mm;
-                            float:left;
-                              background-color: #d5f4e6;
-                            }
-                            .top_css{
-                            height: 20mm;
-                            width: 57mm;
-                            text-align:center;
-                            font-size:26px;
-                            display: table-cell;
-                            vertical-align: bottom;
-                              background-color: #f18973;
-                            }
-                            .bottom_css{
-                            height: 20mm;
-                            width: 57mm;
-                            text-align:center;
-                            font-size:26px;
-                            display: table-cell;
-                            vertical-align: bottom;
-                              background-color:coral;
-                            }
+                        <!--加入自訂的css檔-->
+                        <link rel='stylesheet' href='/cdg_base/static/src/css/donate_single.css'/>
 
-                            .detial_css{
-                            height: 67mm;
-                              background-color:yellow;
-
-                            }
-                            .detial_middle{
-                            width: 79mm;
-                            height: 67mm;
-                            margin-left:79mm;
-                              background-color:red;
-                            }
-
-                            .detial_one{
-                            width: 79mm;
-                            height: 67mm;
-                            float:left;
-                              background-color:green;
-                            }
-
-                            .detial_two{
-                            width: 79mm;
-                            height: 67mm;
-                            float:right;
-                              background-color:blue;
-
-                            }
-                            .total_css{
-                            height: 13mm;
-                            font-weight:bold;
-                            font-size:26px;
-                              background-color:gray;
-                            }
-                            .total_right{
-                            height: 13mm;
-                            width: 82mm;
-                            float:right;
-                              background-color:pink;
-                            }
-                            .total_right_money{
-                            height: 13mm;
-                            width: 52mm;
-                            float:left;
-                              background-color:orange;
-                            }
-                            .total_right_person{
-                            height: 13mm;
-                            width: 30mm;
-                            float:right;
-                              background-color:blue;
-                            }
-
-                            .total_left{
-                            height: 13mm;
-                            width: 155mm;
-                            float:left;
-                              background-color:coral;
-                            }
-                            .useless{
-                            height: 57mm;
-                              background-color:black;
-                            }
-
-                        </style>
-
-                                <div class="header_css">
-                                    <div class="left_css">
+                        <!--收據上三欄-->
+                        <div class="header_css">
+                            <div class="left_css">
                                 <h2 style="margin-left:26%;">
                                     <t t-if="not data.donate_member.con_addr ">
                                         無
@@ -173,33 +57,33 @@
                                 </h2>
                                 <h2 style="margin-left:26%;"><t t-esc="data.donate_member.name"/></h2>
                                 <h2 style="margin-left:26%;"><t t-esc="data.donate_member.new_coding"/></h2>
-                                    </div>
-                                        <div class="right_css">
-                                            <div style="display: table-row;">
-                                                <div class="top_css"><span><t t-esc="data.donate_id"/></span></div>
-                                            </div>
-                                            <div class="bottom_css"><span><t t-esc="data.report_donate"/></span></div>
-
-
-                                        </div>
                             </div>
-                                <div class="detial_css">
-                                    <div class="detial_one">
-                                        <t t-set="foo" t-value="0"/>
-                                        <table  style="width:65mm;font-size:20px;margin-left:10mm;">
-                                        <tbody>
-                                            <t t-foreach="data.donate_list" t-as="key">
-                                                <t t-if="foo&lt;10">
-                                                    <tr>
+                            <div class="right_css">
+                                <div style="display: table-row;">
+                                    <div class="top_css"><span><t t-esc="data.donate_id"/></span></div>
+                                </div>
+                                <div class="bottom_css"><span><t t-esc="data.report_donate"/></span></div>
+                            </div>
+                        </div>
+
+                        <!--收據明細-->
+                        <div class="detial_css">
+                            <div class="detial_one">
+                                <t t-set="foo" t-value="0"/>
+                                <table  style="width:65mm;font-size:20px;margin-left:10mm;">
+                                    <tbody>
+                                        <t t-foreach="data.donate_list" t-as="key">
+                                            <t t-if="foo&lt;10">
+                                                <tr>
                                                     <td class="text-left">
-                                                        <span>
-                                                            <t t-esc="key.donate_member.name"/>
-                                                        </span>
+                                                    <span>
+                                                        <t t-esc="key.donate_member.name"/>
+                                                    </span>
                                                     </td>
                                                     <td class="text-left">
-                                                        <span>
-                                                            <t t-esc="dict(key.fields_get(allfields=['donate_type'])['donate_type']['selection'])[key.donate_type]"/>
-                                                        </span>
+                                                    <span>
+                                                        <t t-esc="dict(key.fields_get(allfields=['donate_type'])['donate_type']['selection'])[key.donate_type]"/>
+                                                    </span>
                                                     </td>
                                                     <td class="text-left">
                                                         <span>
@@ -212,14 +96,13 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    </div>
-                                     <t t-set="foo" t-value="0"/>
-                                     <div class="detial_two">
-                                        <table style="width:79mm;font-size:20px;">
-                                        <tbody>
-                                            <t t-foreach="data.donate_list" t-as="key">
-                                                  <t t-if="foo&gt;19">
-                                                     <t t-if="foo&lt;30">
+                            </div>
+                            <t t-set="foo" t-value="0"/>
+                            <div class="detial_two"><table style="width:79mm;font-size:20px;">
+                                <tbody>
+                                    <t t-foreach="data.donate_list" t-as="key">
+                                        <t t-if="foo&gt;19">
+                                            <t t-if="foo&lt;30">
                                                 <tr>
                                                     <td class="text-left">
                                                         <span>
@@ -237,19 +120,19 @@
                                                         </span>
                                                     </td>
                                                 </tr>
-                                                     </t>
-                                                 </t>
-                                                 <t t-set="foo" t-value="foo+1"/>
                                             </t>
-                                        </tbody>
-                                    </table>
-                                    </div>
-                                     <t t-set="foo" t-value="0"/>
-                                     <div class="detial_middle"> <table style="width:79mm;font-size:20px;">
-                                        <tbody>
-                                            <t t-foreach="data.donate_list" t-as="key">
-                                                 <t t-if="foo&gt;9">
-                                                     <t t-if="foo&lt;20">
+                                        </t>
+                                        <t t-set="foo" t-value="foo+1"/>
+                                    </t>
+                                </tbody>
+                            </table>
+                            </div>
+                            <t t-set="foo" t-value="0"/>
+                            <div class="detial_middle"> <table style="width:79mm;font-size:20px;">
+                                <tbody>
+                                    <t t-foreach="data.donate_list" t-as="key">
+                                        <t t-if="foo&gt;9">
+                                            <t t-if="foo&lt;20">
                                                 <tr>
                                                     <td class="text-left">
                                                         <span>
@@ -267,37 +150,42 @@
                                                         </span>
                                                     </td>
                                                 </tr>
+                                            </t>
+                                        </t>
+                                        <t t-set="foo" t-value="foo+1"/>
+                                    </t>
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
 
-                                                     </t>
-                                                 </t>
-                                                 <t t-set="foo" t-value="foo+1"/>
-                                            </t>
-                                        </tbody>
-                                    </table>
-                                    </div>
-                                </div>
+                        <!--收據總金額列-->
                         <div class="total_css">
                             <div class="total_left">
                                 <p style="margin-left:50%;">
-                                <t t-esc="data.report_price_big"/>
-                            </p>
+                                    <t t-esc="data.report_price_big"/>
+                                </p>
                             </div>
                             <div class="total_right">
                                 <div class="total_right_money"><t t-esc="data.donate_total"/></div>
                                 <div class="total_right_person"><t t-esc="data.work_id.name"/></div>
                             </div>
-
                         </div>
+
+                        <!--收據收費員列-->
                         <div class="total_css">
                             <div style="margin-left:78%;"><t t-esc="data.create_uid.name"/></div>
                         </div>
 
-                        <div class="useless"></div>
+                        <div class="useless"/>
                         <div class="oe_clear"/>
 
+                        <!--下半頁開始，跟上半頁一模一樣-->
 
-                          <div class="header_css">
-                                    <div class="left_css">
+
+                        <!--收據上三欄-->
+                        <div class="header_css">
+                            <div class="left_css">
                                 <h2 style="margin-left:26%;">
                                     <t t-if="not data.donate_member.con_addr ">
                                         無
@@ -306,33 +194,33 @@
                                 </h2>
                                 <h2 style="margin-left:26%;"><t t-esc="data.donate_member.name"/></h2>
                                 <h2 style="margin-left:26%;"><t t-esc="data.donate_member.new_coding"/></h2>
-                                    </div>
-                                        <div class="right_css">
-                                            <div style="display: table-row;">
-                                                <div class="top_css"><span><t t-esc="data.donate_id"/></span></div>
-                                            </div>
-                                            <div class="bottom_css"><span><t t-esc="data.report_donate"/></span></div>
-
-
-                                        </div>
                             </div>
-                                <div class="detial_css">
-                                    <div class="detial_one">
-                                        <t t-set="foo" t-value="0"/>
-                                        <table  style="width:65mm;font-size:20px;margin-left:10mm;">
-                                        <tbody>
-                                            <t t-foreach="data.donate_list" t-as="key">
-                                                <t t-if="foo&lt;10">
-                                                    <tr>
+                            <div class="right_css">
+                                <div style="display: table-row;">
+                                    <div class="top_css"><span><t t-esc="data.donate_id"/></span></div>
+                                </div>
+                                <div class="bottom_css"><span><t t-esc="data.report_donate"/></span></div>
+                            </div>
+                        </div>
+
+                        <!--收據明細-->
+                        <div class="detial_css">
+                            <div class="detial_one">
+                                <t t-set="foo" t-value="0"/>
+                                <table  style="width:65mm;font-size:20px;margin-left:10mm;">
+                                    <tbody>
+                                        <t t-foreach="data.donate_list" t-as="key">
+                                            <t t-if="foo&lt;10">
+                                                <tr>
                                                     <td class="text-left">
-                                                        <span>
-                                                            <t t-esc="key.donate_member.name"/>
-                                                        </span>
+                                                    <span>
+                                                        <t t-esc="key.donate_member.name"/>
+                                                    </span>
                                                     </td>
                                                     <td class="text-left">
-                                                        <span>
-                                                            <t t-esc="dict(key.fields_get(allfields=['donate_type'])['donate_type']['selection'])[key.donate_type]"/>
-                                                        </span>
+                                                    <span>
+                                                        <t t-esc="dict(key.fields_get(allfields=['donate_type'])['donate_type']['selection'])[key.donate_type]"/>
+                                                    </span>
                                                     </td>
                                                     <td class="text-left">
                                                         <span>
@@ -345,14 +233,13 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    </div>
-                                     <t t-set="foo" t-value="0"/>
-                                     <div class="detial_two">
-                                        <table style="width:79mm;font-size:20px;">
-                                        <tbody>
-                                            <t t-foreach="data.donate_list" t-as="key">
-                                                  <t t-if="foo&gt;19">
-                                                     <t t-if="foo&lt;30">
+                            </div>
+                            <t t-set="foo" t-value="0"/>
+                            <div class="detial_two"><table style="width:79mm;font-size:20px;">
+                                <tbody>
+                                    <t t-foreach="data.donate_list" t-as="key">
+                                        <t t-if="foo&gt;19">
+                                            <t t-if="foo&lt;30">
                                                 <tr>
                                                     <td class="text-left">
                                                         <span>
@@ -370,19 +257,19 @@
                                                         </span>
                                                     </td>
                                                 </tr>
-                                                     </t>
-                                                 </t>
-                                                 <t t-set="foo" t-value="foo+1"/>
                                             </t>
-                                        </tbody>
-                                    </table>
-                                    </div>
-                                     <t t-set="foo" t-value="0"/>
-                                     <div class="detial_middle"> <table style="width:79mm;font-size:20px;">
-                                        <tbody>
-                                            <t t-foreach="data.donate_list" t-as="key">
-                                                 <t t-if="foo&gt;9">
-                                                     <t t-if="foo&lt;20">
+                                        </t>
+                                        <t t-set="foo" t-value="foo+1"/>
+                                    </t>
+                                </tbody>
+                            </table>
+                            </div>
+                            <t t-set="foo" t-value="0"/>
+                            <div class="detial_middle"> <table style="width:79mm;font-size:20px;">
+                                <tbody>
+                                    <t t-foreach="data.donate_list" t-as="key">
+                                        <t t-if="foo&gt;9">
+                                            <t t-if="foo&lt;20">
                                                 <tr>
                                                     <td class="text-left">
                                                         <span>
@@ -400,30 +287,34 @@
                                                         </span>
                                                     </td>
                                                 </tr>
+                                            </t>
+                                        </t>
+                                        <t t-set="foo" t-value="foo+1"/>
+                                    </t>
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
 
-                                                     </t>
-                                                 </t>
-                                                 <t t-set="foo" t-value="foo+1"/>
-                                            </t>
-                                        </tbody>
-                                    </table>
-                                    </div>
-                                </div>
+                        <!--收據總金額列-->
                         <div class="total_css">
                             <div class="total_left">
                                 <p style="margin-left:50%;">
-                                <t t-esc="data.report_price_big"/>
-                            </p>
+                                    <t t-esc="data.report_price_big"/>
+                                </p>
                             </div>
                             <div class="total_right">
                                 <div class="total_right_money"><t t-esc="data.donate_total"/></div>
                                 <div class="total_right_person"><t t-esc="data.work_id.name"/></div>
                             </div>
-
                         </div>
+
+                        <!--收據收費員列-->
                         <div class="total_css">
                             <div style="margin-left:78%;"><t t-esc="data.create_uid.name"/></div>
                         </div>
+
+
 
                     </div>
                 </t>
