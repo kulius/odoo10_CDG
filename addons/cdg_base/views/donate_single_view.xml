@@ -205,7 +205,7 @@
 
         <record model="ir.values" id="ir_values_print_check_button">
             <field name="name">補單確認</field>
-            <field name="key2">client_action_multi</field>
+            <field name="key2">client_print_multi</field>
             <field name="value" eval="'ir.actions.server,%d'%action_print_check"/>
             <field name="key">action</field>
             <field name="object" eval="True"/>
