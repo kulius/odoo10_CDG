@@ -68,6 +68,7 @@ class CoffinBase(models.Model):
         return True
 
     def add_coffin_file(self):
+
         lines = self.env['donate.order'].search(['|',('donate_type', '=', 3),('donate_type', '=', 6),('available_balance', '!=', 0),('use_amount', '=', False)])
         if self.self.donate_apply_price == 0 : # 如果申請金額沒有填入特定的施棺滿足額, 則自動預設為基本設定檔的施棺滿足額
             basic_setting = self.env['ir.config_parameter'].search([])

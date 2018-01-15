@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import zipcodetw
+import collections
 
 from openerp import api, fields, models, _
 
@@ -659,6 +661,29 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 關聯資料共 712819 筆,  共59968 筆資料未關聯到, 判斷輸入人員已離職或temp_key_in_user為空值(1筆)
         sql = " UPDATE normal_p set member_type = '2' where member_type = '99' "
         self._cr.execute(sql) # 修改資料共6578 筆, 花費0.441秒
+        return True
+
+    def set_postal_code(self):
+        lines = self.env['normal.p'].search([])
+        s = collections.Counter()
+        zip=''
+        for line in lines:
+            if line.rec_addr is False and line.con_addr:
+                zip = zipcodetw.find(line.con_addr)[0:3]
+                line.zip = zip
+                line.rec_addr = line.con_addr
+            elif line.rec_addr:
+                zip = zipcodetw.find(line.rec_addr)[0:3]
+            if len(zip) < 3 :
+                line.zip = 'OOO'
+                s['OOO'] += 1
+            elif len(zip) >= 3 :
+                line.zip = zip
+                s[zip] += 1
+        postal_code_list = list(s.items())
+        for i in range(len(postal_code_list)):
+            sql = " INSERT INTO auto_donateid(zip, area_number) VALUES (%s, %s)" % (postal_code_list[i][0], postal_code_list[i][1])
+            self._cr.execute(sql)
         return True
 
     def auto_zip_insert(self): #自動產生編號
