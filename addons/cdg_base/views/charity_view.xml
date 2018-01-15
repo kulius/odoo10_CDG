@@ -64,11 +64,6 @@
                   parent="first_categ"
                   action="donate_single_view_action"
                   sequence="5"/>
-        <menuitem id="start_donate_menu"
-                  name="開始捐款"
-                  parent="first_categ"
-                  action="start_donate_action"
-                  sequence="5"/>
         <menuitem id="receipt_analysis_menu"
                   name="收據分析表"
                  parent="first_categ"
@@ -200,7 +195,7 @@
                   <!--parent="consultant_manage_root"-->
                   <!--action="charity_view"-->
                   <!--sequence=""/>-->
-        <menuitem id="coffin_manage_root" name="施棺管理" sequence=""/>
+        <menuitem id="coffin_manage_root" name="施棺管理" sequence="5"/>
         <menuitem id="coffin_manage_root_categ" name="施棺管理" parent="coffin_manage_root" sequence="1"/>
         <menuitem id="coffin_base"
                   name="施棺基本資料"
@@ -227,7 +222,9 @@
                   parent="coffin_manage_root_categ"
                   action="coffin_donation_action"
                   sequence=""/>
-        <menuitem id="cashier_manage_root" name="收費員管理" sequence=""/>
+        <menuitem id="disaster_root" name="災害扶助管理"  sequence="6"/>
+        <menuitem id="disaster_manage_categ" name="災害扶助基本" parent="disaster_root" action="charity_view" sequence="1"/>
+        <menuitem id="cashier_manage_root" name="收費員管理" sequence="7"/>
         <menuitem id="cashier_manage_categ" name="收費員管理" parent="cashier_manage_root" sequence="1"/>
         <menuitem id="cashier_base"
                   name="收費員基本資料作業"
@@ -249,7 +246,7 @@
                   parent="cashier_manage_categ"
                   action="charity_view"
                   sequence=""/>
-        <menuitem id="change_base_root" name="異動作業" sequence=""/>
+        <menuitem id="change_base_root" name="異動作業" sequence="8"/>
                 <menuitem id="donate_reciept_change"
                   name="捐款收據異動"
                   parent="change_base_root"
@@ -275,7 +272,7 @@
                   parent="change_base_root"
                   action="charity_view"
                   sequence=""/>
-        <menuitem id="usual_base_root" name="常用功能" sequence=""/>
+        <menuitem id="usual_base_root" name="常用功能" sequence="9"/>
         <menuitem id="people_change"
                   name="人員腳色轉移作業"
                   parent="usual_base_root"
@@ -306,7 +303,7 @@
                   parent="usual_base_root"
                   action="charity_view"
                   sequence=""/>
-        <menuitem id="office_root" name="系統維護" sequence=""/>
+        <menuitem id="office_root" name="系統維護" sequence="10"/>
         <menuitem id="code_change"
                   name="密碼變更作業"
                   parent="office_root"
