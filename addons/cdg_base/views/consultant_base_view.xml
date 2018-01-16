@@ -72,6 +72,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">normal.p</field>
             <field name="view_mode">tree,form</field>
+            <field name="limit">10</field>
             <field name="domain">[('consultant_id','!=', '')]</field>
             <field name="view_ids"
                    eval="[(5, 0, 0),

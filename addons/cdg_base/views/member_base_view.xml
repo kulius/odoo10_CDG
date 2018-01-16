@@ -73,17 +73,18 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">normal.p</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_ids" eval="[(5, 0, 0),
-            (0, 0, {'view_mode': 'tree', 'view_id': ref('member_base_tree')}),
-            (0, 0, {'view_mode': 'form', 'view_id': ref('member_base_form')}),
-            ]"/>
-            <field name="domain">[('member_id','!=','')]</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    <!-- Add Text Here -->
-                </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-            </p>
+                <field name="limit">10</field>
+                <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('member_base_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('member_base_form')}),
+                ]"/>
+                <field name="domain">[('member_id','!=','')]</field>
+                <field name="help" type="html">
+                    <p class="oe_view_nocontent_create">
+                        <!-- Add Text Here -->
+                    </p><p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
             </field>
         </record>
 

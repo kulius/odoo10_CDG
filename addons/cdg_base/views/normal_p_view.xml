@@ -197,7 +197,7 @@
               </p><p>
                 <!-- More details about what a user can do with this object will be OK -->
               </p>
-            </field>
+                </field>
         </record>
 
         <record id="collect_search" model="ir.ui.view">

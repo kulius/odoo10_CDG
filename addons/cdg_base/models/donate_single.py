@@ -13,7 +13,7 @@ class DonateSingle(models.Model):
     # name = fields.Many2one(comodel_name='normal.p',string='姓名')
 
     paid_id = fields.Char(string='收費編號', readonly=True)
-    donate_id = fields.Char(string='捐款編號', readonly=True)
+    donate_id = fields.Char(string='收據編號', readonly=True)
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者', domain=[('w_id', '!=', '')],
                                     states={2: [('readonly', True)]})  # demo用
     donate_member_w_id = fields.Char('舊團員編號',related='donate_member.w_id') # search用
