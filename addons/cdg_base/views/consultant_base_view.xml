@@ -67,6 +67,7 @@
             </field>
         </record>
 
+
         <record id="consultant_base_action" model="ir.actions.act_window">
             <field name="name">顧問基本資料</field>
             <field name="type">ir.actions.act_window</field>
