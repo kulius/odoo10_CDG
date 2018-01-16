@@ -16,6 +16,7 @@
                 </tree>
             </field>
         </record>
+
         <record id="consultant_base_form" model="ir.ui.view">
             <field name="name">consultant base form</field>
             <field name="model">normal.p</field>
