@@ -10,7 +10,7 @@ class CashierBase(models.Model):
     build_date = fields.Date(string='建檔日期')
 
     self_iden = fields.Char(string='身分證字號')
-    con_phone = fields.Char(string='聯絡電話(一)')
+    con_phone = fields.Char(string='聯絡電話')
     con_phone2 = fields.Char(string='聯絡電話(二)')
     cellphone = fields.Char(string='手機')
     zip_code = fields.Char(string='郵遞區號')
