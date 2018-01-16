@@ -24,7 +24,7 @@ class NormalP(models.Model):
     name = fields.Char(string='姓名')
     birth = fields.Date(string='生日')
     cellphone = fields.Char(string='手機')
-    con_phone = fields.Char(string='連絡電話(一)')
+    con_phone = fields.Char(string='連絡電話')
     con_phone2 = fields.Char(string='連絡電話(二)')
     zip_code = fields.Char(string='報表郵遞區號')
     con_addr = fields.Char(string='報表寄送地址')
