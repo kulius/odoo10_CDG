@@ -668,18 +668,20 @@ class AppThemeConfigSettings(models.TransientModel):
         s = collections.Counter()
         zip=''
         for line in lines:
-            if line.rec_addr is False and line.con_addr:
+            if line.rec_addr is False and line.con_addr: # 收據地址是真，報表地址是假的
                 zip = zipcodetw.find(line.con_addr)[0:3]
                 line.zip = zip
                 line.rec_addr = line.con_addr
-            elif line.rec_addr:
+            elif line.rec_addr:   # 報表地址是真
                 zip = zipcodetw.find(line.rec_addr)[0:3]
+
             if len(zip) < 3 :
                 line.zip = 'OOO'
                 s['OOO'] += 1
             elif len(zip) >= 3 :
                 line.zip = zip
                 s[zip] += 1
+
         postal_code_list = list(s.items())
         for i in range(len(postal_code_list)):
             sql = " INSERT INTO auto_donateid(zip, area_number) VALUES (%s, %s)" % (postal_code_list[i][0], postal_code_list[i][1])

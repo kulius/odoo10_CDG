@@ -180,24 +180,24 @@
         </record>
 
         <record id="normal_p_action" model="ir.actions.act_window">
-        <field name="name">捐款者基本資料</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">normal.p</field>
-        <field name="view_mode">tree,form</field>
-            <field name="limit">20</field>
-            <field name="search_view_id" ref="normal_p_search"/>
-            <field name="view_ids"
-                   eval="[(5, 0, 0),
-                   (0, 0, {'view_mode': 'tree', 'view_id': ref('normal_p_tree')}),
-                   (0, 0, {'view_mode': 'form', 'view_id': ref('normal_p_form')}),
-                   ]"/>
-        <field name="help" type="html">
-          <p class="oe_view_nocontent_create">
-            <!-- Add Text Here -->
-          </p><p>
-            <!-- More details about what a user can do with this object will be OK -->
-          </p>
-        </field>
+            <field name="name">捐款者基本資料</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">normal.p</field>
+            <field name="view_mode">tree,form</field>
+                <field name="limit">10</field> <!-- 用來調整tree顯示的筆數 -->
+                <field name="search_view_id" ref="normal_p_search"/>
+                <field name="view_ids"
+                       eval="[(5, 0, 0),
+                       (0, 0, {'view_mode': 'tree', 'view_id': ref('normal_p_tree')}),
+                       (0, 0, {'view_mode': 'form', 'view_id': ref('normal_p_form')}),
+                       ]"/>
+                <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
         </record>
 
         <record id="collect_search" model="ir.ui.view">

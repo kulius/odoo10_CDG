@@ -125,6 +125,8 @@ class DonateSingle(models.Model):
             raise ValidationError(u'需要選取捐款人!')
         elif res_id.payment_method is not 1 and res_id.payment_method is not 2 and res_id.payment_method is not 3 and res_id.payment_method is not 4:
             raise ValidationError(u'支付方法至少選取一個')
+        elif res_id.work_id.name is False:
+            raise ValidationError(u'必須選取收費員')
         max = self.env['donate.order'].search([], order='paid_id desc', limit=1)
         donate_id = max.donate_id
         int_max = int(donate_id[1:]) + 1
