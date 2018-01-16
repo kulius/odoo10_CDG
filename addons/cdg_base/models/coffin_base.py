@@ -10,23 +10,24 @@ class CoffinBase(models.Model):
     coffin_id = fields.Char(string="施棺編號")
     donate_type = fields.Selection(selection=[('Z','零捐'),('A','累積')],string='捐助方式')
     coffin_date = fields.Date(string='領款日期',default=datetime.today())
+    dead_date = fields.Date('死亡日期',default=datetime.today())
     coffin_date_year = fields.Char(string='年度',default=datetime.today().year)
     coffin_date_group = fields.Selection([(1,'01'),(2,'02'),(2,'02'),(3,'03'),(4,'04'),(5,'05'),(6,'06'),(7,'07'),(8,'08'),(9,'09'),(10,'10'),(11,'11'),(12,'12')],'月份',default = 1)
     coffin_season = fields.Char('期別')
     bank_account = fields.Char('匯款帳號')
     user = fields.Char(string='受施者')
     user_iden = fields.Char('受施者身份證字號')
-    geter = fields.Char(string='領款者')
+    geter = fields.Char(string='領款人')
     geter_iden = fields.Char('領款者身份證字號')
     dealer = fields.Char(string='處理者')
     donor = fields.Char('捐款者', compute='get_donate_name')
-    con_phone = fields.Char(string='聯絡電話(一)')
+    con_phone = fields.Char(string='聯絡電話')
     con_phone2 = fields.Char(string='聯絡電話(二)')
     cellphone = fields.Char(string='手機')
-    zip_code = fields.Char(string='郵遞區號') # 領款者地址 原通訊地址
-    zip_code2 = fields.Char('郵遞區號') #弔祭地址
-    con_addr = fields.Char(string='領款者地址') #原通訊地址
-    dead_addr = fields.Char('弔祭地址')
+    zip_code = fields.Char(string='領款人郵遞區號') # 領款者地址 原通訊地址
+    zip_code2 = fields.Char('受施者郵遞區號') #弔祭地址
+    con_addr = fields.Char(string='受施者地址') #原通訊地址
+    payee_addr = fields.Char('領款人地址')
     donater_ps = fields.Text(string='捐款者備註')
     ps = fields.Text(string='備註')
     donate_price = fields.Integer(string='累積金額' , compute='compute_money')
