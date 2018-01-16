@@ -676,7 +676,6 @@ class AppThemeConfigSettings(models.TransientModel):
             elif line.rec_addr: # 有收據地址
                 zip = zipcodetw.find(line.rec_addr)[0:3] # 直接取郵遞區號前3碼
             if len(zip) < 3 and line.rec_addr: # 藉由程式判讀出來的郵遞區號, 若小於3碼則代表地址填寫錯誤, 找不到郵遞區號, 條件是收據地址不為空
-                line.zip = 'OOO' # 郵遞區號由 'OOO' 取代
                 s['OOO'] += 1 # 該郵遞區號出現次數 +1
                 if line.member_type == 1: # 判斷該筆捐款者資料是否為基本會員
                     if line.consultant_id: # 判斷是否具有顧問身分
@@ -736,7 +735,6 @@ class AppThemeConfigSettings(models.TransientModel):
             elif line.rec_addr:
                 zip = zipcodetw.find(line.rec_addr)[0:3]
             if len(zip) < 3 and line.rec_addr:
-                line.zip = 'OOO'
                 s['OOO'] += 1
                 if line.member_type == 1:
                     if line.consultant_id:
