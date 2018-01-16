@@ -22,6 +22,7 @@
         'views/member_source_view.xml',
         'views/consultant_base_view.xml',
         'views/cashier_base_view.xml',
+        'views/poor_base_view.xml',
         'views/people_type_view.xml',
         'views/normal_p_view.xml',
         'views/donate_order_view.xml',
@@ -38,6 +39,7 @@
         'views/charity_view.xml',
         'report/donate_batch_report.xml',
         'report/donate_single_report.xml',
+
 
 
         'wizard/chang_donate.xml',

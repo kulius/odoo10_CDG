@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="poor_base_tree" model="ir.ui.view">
+            <field name="name">poor base tree</field>
+            <field name="model">poor.base</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="poor_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="poor_base_form" model="ir.ui.view">
+            <field name="name">poor base form</field>
+            <field name="model">poor.base</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="poor_id"/>
+                        </group>
+                        <notebook>
+                            <page string="專案資料">
+
+                            </page>
+                            <page string="申請影像證明">
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="poor_base_action" name="扶助基本資料作業" res_model="poor.base" view_mode="tree,form"/>
+
+    </data>
+</odoo>
