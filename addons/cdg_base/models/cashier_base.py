@@ -8,12 +8,11 @@ class CashierBase(models.Model):
     c_id = fields.Char(string='收費員編號')
     name = fields.Char(string='收費員姓名')
     build_date = fields.Date(string='建檔日期')
-
     self_iden = fields.Char(string='身分證字號')
     con_phone = fields.Char(string='聯絡電話')
     con_phone2 = fields.Char(string='聯絡電話(二)')
     cellphone = fields.Char(string='手機')
-    zip_code = fields.Char(string='郵遞區號')
+    zip_code = fields.Char(string='通訊郵遞區號')
     con_addr = fields.Char(string='通訊地址')
     ps = fields.Text(string='備註')
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員')
