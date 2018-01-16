@@ -25,13 +25,14 @@
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
                 <form string="">
-                    <!--<header>-->
+                    <header>
                         <!--<button string="轉眷屬檔" name="data_input_form_DB" type="object"/>-->
                         <!--<button string="設定眷屬" name="set_parent" type="object"/>-->
                     <!--&lt;!&ndash;    <button string="轉會員顧問" name="input_member" type="object" /> &ndash;&gt;-->
                         <!--<button string="轉會員" name="input_member" type="object" />-->
                         <!--<button string="轉顧問" name="input_member" type="object" />-->
-                    <!--</header>-->
+                        <button string="報表地址同收據地址" name="set_con_addr" type="object"></button>
+                    </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button name="historypersonal" string="歷史捐款"

@@ -20,7 +20,10 @@
             <field name="name">consultant base form</field>
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
-                <form string="">
+                <form>
+                    <header>
+                        <button string="報表地址同收據地址" name="set_con_addr" type="object"></button>
+                    </header>
                     <sheet>
                         <group col="7">
                             <field name="w_id" string="顧問編號" colspan="2"/>

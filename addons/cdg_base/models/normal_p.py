@@ -216,6 +216,13 @@ class NormalP(models.Model):
     def setcashier(self):
         self.cashier = self.cashier_name.name
 
+    def set_con_addr(self):
+        if not self.zip_code or not self.con_addr:
+            raise ValidationError(u'收據郵遞區號以及收據地址不能為空白')
+        else:
+            self.zip_code = self.zip
+            self.con_addr = self.rec_addr
+
     def data_input_form_DB(self):
         data = self.env['base.external.dbsource'].search([])
         lines = data.execute('SELECT * FROM 團員眷屬檔')
