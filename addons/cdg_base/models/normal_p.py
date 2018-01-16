@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 from odoo.exceptions import ValidationError
+import zipcodetw
 import psycopg2
 
 from datetime import datetime
