@@ -779,6 +779,10 @@ class AppThemeConfigSettings(models.TransientModel):
         s.clear()
         return True
 
+    def set_postal_code3(self):
+
+        return True
+
     def auto_zip_insert(self): #自動產生編號
 
         # sql = "INSERT INTO auto_donateid(zip) SELECT DISTINCT SUBSTRING(zip_code,1,3) FROM normal_p"
