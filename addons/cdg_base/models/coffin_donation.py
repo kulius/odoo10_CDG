@@ -5,12 +5,12 @@ class CoffinDonation(models.Model):
     _name = 'coffin.donation'
 
     name = fields.Char(string='捐款者姓名', related='donate_order_id.donate_member.name')
-    donate_price = fields.Integer(string='施棺捐款金額', related='donate_order_id.donate')
+    donate_price = fields.Integer(string='施棺捐款金額', related='donate_order_id.used_money')
 
     coffin_donation_id = fields.Many2one(comodel_name='coffin.base')
     old_coffin_donation_id = fields.Many2one(comodel_name='coffin.base')
     donate_single_id = fields.Many2one(comodel_name='donate.single', string='捐款編號')
-    donate_order_id = fields.Many2one(comodel_name='donate.order', string='捐款者 (金額)' , domain=['|',('donate_type', '=', 3),('donate_type', '=', 6),('available_balance', '!=', 0)])
+    donate_order_id = fields.Many2one(comodel_name='donate.order', string='捐款者 (可用餘額)' , domain=[('donate_type', '=', 3),('available_balance', '!=', 0)])
 
     def data_input_from_database(self):
         data = self.env['base.external.dbsource'].search([])

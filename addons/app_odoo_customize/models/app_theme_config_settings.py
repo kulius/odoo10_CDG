@@ -560,6 +560,10 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)
         # 施棺編號 00236 之施棺日期為 2009-06-31, 修改為2009-06-30
         # 施棺編號 01944, 01945, 01946, 01947 之施棺日期為 2010-80-27  修改為2010-08-27
+        sql = "UPDATE coffin_base set dead_date = a.coffin_date from coffin_base a where a.id = coffin_base.id"
+        self._cr.execute(sql)  # 計算資料共14256筆, 花費0.167秒 ; 舊資料設定領款日期等餘死亡日期
+        sql = "UPDATE coffin_base set donate_apply_price = a.donate_price from coffin_base a where a.id = coffin_base.id and a.finish IS TRUE"
+        self._cr.execute(sql)  # 計算資料共11602筆, 花費0.157秒 ; 已結案的舊資料設定累積金額等於申請金額
         return True
 
     def set_coffin_donate(self): # 施棺捐款檔轉入 old_coffin_donation
@@ -599,6 +603,10 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 計算資料共2881560筆, 花費98.004秒
         sql = "UPDATE donate_order SET available_balance = 0 FROM coffin_donation a WHERE a.donate_id = donate_order.donate_id AND donate_order.donate_type = 3"
         self._cr.execute(sql)  # 計算資料共275777筆, 花費16.711秒 ;  共281565筆資料施棺的捐款金額為 0
+        sql = "UPDATE donate_order SET use_amount = TRUE WHERE available_balance = 0 and donate_type = 3"
+        self._cr.execute(sql)  # 計算資料共281565筆, 花費5.875秒 ;  共281565筆資料施棺的是否已支用改為改為True
+        sql = "UPDATE donate_order SET used_money = donate_order.donate WHERE available_balance = 0 and donate_type = 3"
+        self._cr.execute(sql)  # 計算資料共281565筆, 花費6.242秒 ;  共281565筆資料施棺的已用金額設為捐款金額
         return True
 
     def set_consultant_data(self): # 轉顧問檔資料進normal.p, 顧問檔共142筆資料

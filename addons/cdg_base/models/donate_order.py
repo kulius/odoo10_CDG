@@ -56,6 +56,7 @@ class DonateOrder(models.Model):
 
     use_amount = fields.Boolean(string='施棺捐款是否已支用', default=False)
     available_balance = fields.Integer(string='可用餘額')
+    used_money = fields.Integer(string='已用金額')
 
     report_big = fields.Char()
     report_price = fields.Integer()
@@ -70,7 +71,7 @@ class DonateOrder(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            name = "%s (%s)" % (record.donate_member.name, record.donate)
+            name = "%s (%s)" % (record.donate_member.name, record.available_balance)
             result.append((record.id, name))
         return result
 

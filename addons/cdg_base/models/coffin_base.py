@@ -31,7 +31,7 @@ class CoffinBase(models.Model):
     donater_ps = fields.Text(string='捐款者備註')
     ps = fields.Text(string='備註')
     donate_price = fields.Integer(string='累積金額' , compute='compute_money')
-    donate_apply_price = fields.Integer('申請金額', default = 0)
+    donate_apply_price = fields.Integer('申請金額',default=0)
     finish = fields.Boolean(string='是否結案')
     batch_donate = fields.One2many(comodel_name='coffin.donation',inverse_name='coffin_donation_id',string='捐助資料')
     old_batch_donate = fields.One2many(comodel_name='old.coffin.donation', inverse_name='old_coffin_donation_id', string='舊捐助資料')
@@ -44,14 +44,16 @@ class CoffinBase(models.Model):
     @api.depends('batch_donate')
     def compute_money(self):
         for line in self: # 從捐助資料表中, 計算目前的累積金額
-            if line.batch_donate:
+            if line.batch_donate and line.old_batch_donate is False:
                 for row in line.batch_donate:
                     line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))
-            elif line.old_batch_donate and  line.finish == True :
+            elif line.old_batch_donate and line.finish == True:
                 for row in line.old_batch_donate:
                     line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))
-                    if line.donate_price > 30000:
-                        line.donate_price = 30000
+                    line.donate_apply_price = int(line.donate_price)
+                if line.donate_price >= 30000:
+                    line.donate_price = 30000
+                    line.donate_apply_price = 30000
         return True
 
     def compute_old_data(self):
@@ -69,50 +71,87 @@ class CoffinBase(models.Model):
         return True
 
     def add_coffin_file(self):
-
-        lines = self.env['donate.order'].search(['|',('donate_type', '=', 3),('donate_type', '=', 6),('available_balance', '!=', 0),('use_amount', '=', False)])
-        if self.self.donate_apply_price == 0 : # 如果申請金額沒有填入特定的施棺滿足額, 則自動預設為基本設定檔的施棺滿足額
-            basic_setting = self.env['ir.config_parameter'].search([])
+        default_price_flag = False # 判斷是否為基本設定檔的施棺滿足額
+        temp_default_price = 0 # 暫存用的, 沒幹嘛
+        basic_setting = self.env['ir.config_parameter'].search([])
+        if self.donate_apply_price == 0 : # 如果申請金額沒有填入特定的施棺滿足額, 則自動預設為基本設定檔的施棺滿足額
             for line in basic_setting: # 讀取基本設定檔的施棺滿足額
                 if line.key == 'coffin_amount':
                     self.donate_apply_price = int(line.value)
+                    default_price_flag = True
+        else: # 如果有輸入申請金額, 則還是要讀取基本設定檔的施棺滿足額, 後續程式要判斷用
+            for line in basic_setting:  # 讀取基本設定檔的施棺滿足額
+                if line.key == 'coffin_amount':
+                    temp_default_price = int(line.value)
+                    default_price_flag = False
 
-        for line in self: # 從捐助資料表中, 計算目前的累積金額
-            for row in line.batch_donate:
-                line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))
+        for line in self.batch_donate: # 從捐助資料表中, 計算目前的累積金額
+            self.donate_price = int(float(self.donate_price)) + int(float(line.donate_price))
 
         Cumulative_amount = self.donate_apply_price - int(float(self.donate_price)) #計算已累積金額與施棺滿足額的差額
-        flag = False
+        flag = False # 後續程式判讀使否結案用
 
         if Cumulative_amount == 0:  # 初始判斷累積金額是否已滿足施棺滿足額
             self.finish = True
             flag = True
 
-        if self.finish == True:
+        if self.finish == True: # 判斷該專案是否已結案
             raise ValidationError(u'已結案，無法再更改')
         elif self.finish == False:
-            for line in lines:
-                if int(line.available_balance) <= Cumulative_amount and flag == False: #判斷 目前的施棺捐款額是否小於等於施棺滿足額
-                    self.write({
-                        'batch_donate': [(0, 0, {
-                            'donate_order_id': line.id
-                        })]
-                    })
-                    line.use_amount = True # 確認已支用此筆施棺捐款金額
-                    self.donate_price = int(float(self.donate_price)) + line.available_balance # 將捐款金額加入累積金額
-                    Cumulative_amount = Cumulative_amount - line.available_balance # 施棺滿足額 減掉 捐款額
-                    line.available_balance = 0 # 該筆捐款金額歸 0
-
-                if int(line.available_balance) > Cumulative_amount and flag == False:
-                    line.available_balance = line.available_balance - Cumulative_amount
-                    Cumulative_amount = 0
-
-                if Cumulative_amount == 0: # 達到施棺滿足額
-                    self.finish = True
-                    flag = True
-
-            if Cumulative_amount != 0: # 搜尋完所有的施棺捐款後, 仍然無法湊足施棺滿足額
-                raise ValidationError(u'無法湊足施棺滿足額')
+            if self.donate_price == 0  and default_price_flag == True: # 沒有任何的捐助明細,而且確認申請金額是讀取基本設定檔的施棺滿足額, 而不是使用者自行輸入的特殊案例,
+                lines = self.env['donate.order'].search([('donate_type', '=', 3),('available_balance', '=', self.donate_apply_price),('use_amount', '=', False)])
+                if lines: # 有單筆3萬元的捐助資料
+                    for line in lines:
+                        if Cumulative_amount == 0:  # 達到施棺滿足額
+                            self.finish = True
+                            flag = True
+                            break
+                        if  int(line.available_balance) == Cumulative_amount and flag == False: # 單筆 3萬元 的捐款優先使用
+                            self.write({
+                                'batch_donate': [(0, 0, {
+                                    'donate_order_id': line.id
+                                })]
+                            })
+                            line.use_amount = True  # 確認已支用此筆施棺捐款金額
+                            line.used_money = line.available_balance # 已用金額
+                            self.donate_price = int(float(self.donate_price)) + line.available_balance  # 將捐款金額加入累積金額
+                            Cumulative_amount = Cumulative_amount - line.available_balance  # 施棺滿足額 減掉 捐款額
+                            line.available_balance = 0  # 該筆捐款的可用餘額歸 0
+                            self.finish = True  # 結案
+                            flag = True  # 結案
+            elif self.donate_price != 0 or flag == False:  # 代表已有捐助資料 或 沒有單筆3萬元的資料
+                lines = self.env['donate.order'].search(['|',('donate_type', '=', 3),('donate_type', '=', 6),('available_balance', '!=', 0),('use_amount', '=', False)])
+                if lines:
+                    for line in lines:
+                        if Cumulative_amount == 0:  # 達到施棺滿足額
+                            self.finish = True
+                            flag = True
+                            break
+                        if int(line.available_balance) == temp_default_price and line.donate_type == 3:  # 過濾單筆施棺捐款為3萬元的資料, 保險用的
+                            continue
+                        elif int(line.available_balance) <= Cumulative_amount and flag == False:  # 判斷 目前的施棺捐款額是否小於等於施棺滿足額
+                            self.write({
+                                'batch_donate': [(0, 0, {
+                                    'donate_order_id': line.id
+                                })]
+                            })
+                            line.use_amount = True  # 確認已支用此筆施棺捐款金額
+                            line.used_money = line.available_balance # 已用金額
+                            self.donate_price = int(float(self.donate_price)) + line.available_balance  # 將捐款金額加入累積金額
+                            Cumulative_amount = Cumulative_amount - line.available_balance  # 施棺滿足額 減掉 捐款額
+                            line.available_balance = 0  # 該筆捐款金額歸 0
+                        elif int(line.available_balance) > Cumulative_amount and flag == False:  # 單筆捐款大於施棺滿足額的差額
+                            self.write({
+                                'batch_donate': [(0, 0, {
+                                    'donate_order_id': line.id
+                                })]
+                            })
+                            line.used_money = line.available_balance - (line.available_balance - Cumulative_amount) # 已用金額
+                            line.available_balance = line.available_balance - Cumulative_amount # 捐款金額減掉施棺滿足額的差額, 再把餘額寫回可用餘額之中
+                            self.donate_price = int(float(self.donate_price)) + Cumulative_amount
+                            Cumulative_amount = 0 # 達到施棺滿足額, 所以差額歸0
+                elif Cumulative_amount != 0:
+                    raise ValidationError(u'無法湊足施棺滿足額')
         return True;
 
     def data_input_coffin(self):
