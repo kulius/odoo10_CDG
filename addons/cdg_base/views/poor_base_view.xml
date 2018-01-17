@@ -6,7 +6,9 @@
             <field name="model">poor.base</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="poor_id"/>
+                    <field name="case_id"/>
+                    <field name="name"/>
+                    <field name="case_date"/>
                 </tree>
             </field>
         </record>
@@ -18,7 +20,9 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="poor_id"/>
+                            <field name="name"/>
+                            <field name="self_iden"/>
+                            <field name="case_date"/>
                         </group>
                         <notebook>
                             <page string="專案資料">

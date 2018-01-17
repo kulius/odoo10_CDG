@@ -38,9 +38,16 @@
                             <field name="coffin_date_year" string="施棺期別"></field>
                             <field name="coffin_date_group" nolabel="1"/>
                             <field name="finish"/>
+                        </group>
+
+                        <group col="7">
                             <field name="donate_apply_price"/>
                             <field name="donate_price"/>
                             <field name="exception_case"/>
+                        </group>
+
+                        <group>
+
                         </group>
 
                         <notebook>

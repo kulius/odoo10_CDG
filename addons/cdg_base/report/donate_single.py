@@ -2,6 +2,9 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 import datetime
+import base64
+import string
+import StringIO
 
 
 class ReportDonateSingle(models.AbstractModel):

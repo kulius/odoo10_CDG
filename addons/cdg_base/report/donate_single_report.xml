@@ -429,10 +429,10 @@
                                 <div class="header_css">
                                     <div class="left_css">
                                 <h2 style="margin-left:26%;">
-                                    <t t-if="not line.title_donate.con_addr ">
+                                    <t t-if="not line.title_donate.rec_addr ">
                                         無
                                     </t>
-                                    <t t-esc= "line.title_donate.con_addr"/>
+                                    <t t-esc= "line.title_donate.rec_addr"/>
                                 </h2>
                                 <h2 style="margin-left:26%;"><t t-esc="line.title_donate.name"/></h2>
                                 <h2 style="margin-left:26%;"><t t-esc="line.title_donate.new_coding"/></h2>
@@ -499,10 +499,10 @@
                           <div class="header_css">
                                     <div class="left_css">
                                 <h2 style="margin-left:26%;">
-                                    <t t-if="not line.title_donate.con_addr ">
+                                    <t t-if="not line.title_donate.rec_addr ">
                                         無
                                     </t>
-                                    <t t-esc= "line.title_donate.con_addr"/>
+                                    <t t-esc= "line.title_donate.rec_addr"/>
                                 </h2>
                                 <h2 style="margin-left:26%;"><t t-esc="line.title_donate.name"/></h2>
                                 <h2 style="margin-left:26%;"><t t-esc="line.title_donate.new_coding"/></h2>
