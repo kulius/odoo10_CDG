@@ -37,6 +37,7 @@ class CoffinBase(models.Model):
     old_batch_donate = fields.One2many(comodel_name='old.coffin.donation', inverse_name='old_coffin_donation_id', string='舊捐助資料')
     create_date = fields.Date(string='建檔日期')
     db_chang_date = fields.Date(string='異動日期')
+    exception_case = fields.Boolean(string='特案處理')
 
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
@@ -207,6 +208,14 @@ class CoffinBase(models.Model):
             self.coffin_season = '03'
         elif (self.coffin_date_group == 10 or self.coffin_date_group == 11 or self.coffin_date_group == 12):
             self.coffin_season = '04'
+
+    @api.onchange('exception_case')
+    def set_exception(self):
+        if self.exception_case is True:
+            basic_setting = self.env['ir.config_parameter'].search([])
+            for line in basic_setting: # 讀取基本設定檔的施棺滿足額
+                if line.key == 'exception_coffin_amount':
+                    self.donate_apply_price = int(line.value)
 
     def check_db_date(self, date):
         if date:

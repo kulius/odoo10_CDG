@@ -37,6 +37,7 @@ class AppThemeConfigSettings(models.TransientModel):
     Annual_membership_fee = fields.Char(string="會員年費")
     Annual_consultants_fee = fields.Char(string="顧問年費")
     coffin_amount = fields.Char(string="施棺滿足額")
+    exception_coffin_amount = fields.Char(string="特案施棺滿足額")
 
     def save_setting(self):
         basic_setting = self.env['ir.config_parameter'].search([])
@@ -49,6 +50,8 @@ class AppThemeConfigSettings(models.TransientModel):
                 line.value = self.Annual_membership_fee
             if line.key == 'Annual_consultants_fee':
                 line.value = self.Annual_consultants_fee
+            if line.key == 'exception_coffin_amount':
+                line.value = self.exception_coffin_amount
         return True
 
     @api.model
@@ -78,6 +81,7 @@ class AppThemeConfigSettings(models.TransientModel):
         Annual_membership_fee = ir_config.get_param('Annual_membership_fee', default='1200')
         Annual_consultants_fee = ir_config.get_param('Annual_consultants_fee', default='10000')
         coffin_amount = ir_config.get_param('coffin_amount', default='30000')
+        exception_coffin_amount = ir_config.get_param('exception_coffin_amount', default='60000')
 
         return dict(
             app_system_name=app_system_name,
@@ -99,6 +103,7 @@ class AppThemeConfigSettings(models.TransientModel):
             Annual_membership_fee = Annual_membership_fee,
             Annual_consultants_fee= Annual_consultants_fee,
             coffin_amount = coffin_amount,
+            exception_coffin_amount = exception_coffin_amount
         )
 
     @api.multi
@@ -128,6 +133,7 @@ class AppThemeConfigSettings(models.TransientModel):
         ir_config.set_param("Annual_membership_fee",self.Annual_membership_fee or '1200')
         ir_config.set_param("Annual_consultants_fee",self.Annual_consultants_fee or '10000')
         ir_config.set_param("coffin_amount",self.coffin_amount or '30000')
+        ir_config.set_param("exception_coffin_amount", self.exception_coffin_amount or '60000')
         return True
 
     @api.multi

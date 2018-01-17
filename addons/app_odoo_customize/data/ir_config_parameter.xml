@@ -79,5 +79,9 @@
             <field name="key">coffin_amount</field>
             <field name="value">30000</field>
         </record>
+        <record id="exception_coffin_amount" model="ir.config_parameter">
+            <field name="key">exception_coffin_amount</field>
+            <field name="value">60000</field>
+        </record>
     </data>
 </openerp>

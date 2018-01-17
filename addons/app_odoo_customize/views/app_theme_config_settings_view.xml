@@ -91,6 +91,7 @@
                                 <field name="Annual_membership_fee"/>
                                 <field name="Annual_consultants_fee"/>
                                 <field name="coffin_amount"/>
+                                <field name="exception_coffin_amount"/>
                             </group>
                             <group col="4">
                                 <button string="儲存設定" type="object" name="save_setting" class="oe_highlight"/>

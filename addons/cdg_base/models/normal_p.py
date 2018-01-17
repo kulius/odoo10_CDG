@@ -97,6 +97,7 @@ class NormalP(models.Model):
 
     donate_family_list = fields.Char(string='眷屬列表', compute='compute_faamily_list')
     active = fields.Boolean(default=True)
+    is_same_addr = fields.Boolean(string='報表地址同收據地址')
     auto_num = fields.Char('自動地區編號')
 
     def action_chang_donater_wizard(self):
@@ -216,13 +217,6 @@ class NormalP(models.Model):
     @api.onchange('cashier_name')
     def setcashier(self):
         self.cashier = self.cashier_name.name
-
-    def set_con_addr(self):
-        if not self.zip_code or not self.con_addr:
-            raise ValidationError(u'收據郵遞區號以及收據地址不能為空白')
-        else:
-            self.zip_code = self.zip
-            self.con_addr = self.rec_addr
 
     def data_input_form_DB(self):
         data = self.env['base.external.dbsource'].search([])
@@ -404,6 +398,12 @@ class NormalP(models.Model):
     @api.model
     def create(self, vals):
         res_id = super(NormalP, self).create(vals)
+        if res_id.name is False:
+            raise ValidationError(u'請輸入姓名')
+        if res_id.is_same_addr is True:
+            res_id.zip_code = res_id.zip
+            res_id.con_addr = res_id.rec_addr
+
         if res_id.zip is False: #使用者如果沒有填收據寄送地址郵遞區號, 則編碼前3碼為 'OOO'
             compute_code = self.env['auto.donateid'].search([('zip','=','OOO')])
             res_id.new_coding = 'OOO' + str(compute_code.area_number + 1).zfill(5) # 取出當前 zip = 'OOO' 的累積人數+1
