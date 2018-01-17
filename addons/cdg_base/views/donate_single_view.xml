@@ -43,7 +43,8 @@
                         <group col="4">
                             <field name="donate_id" colspan="2"/>
                             <field name="donate_date" colspan="2"/>
-                            <field name="donate_member" colspan="4" options="{'no_quick_create': True, 'no_create_edit' : True}"
+                            <!--  options="{'no_quick_create': True, 'no_create_edit' : True} 用來調整能不能在關聯來的欄位作新增 -->
+                            <field name="donate_member" colspan="4" options="{'no_quick_create': True}"
                                    context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
                             <field name="name"/>
                             <field name="self_iden"/>
