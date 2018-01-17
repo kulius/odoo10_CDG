@@ -404,25 +404,25 @@ class NormalP(models.Model):
     @api.model
     def create(self, vals):
         res_id = super(NormalP, self).create(vals)
-        if res_id.zip_code is False: #使用者如果沒有填寄送地址郵遞區號, 則編碼前3碼為 '000'
-            compute_code = self.env['auto.donateid'].search([('zip','=','000')])
-            res_id.new_coding = '000' + str(compute_code.area_number + 1).zfill(5) # 取出當前 zip = '000' 的累積人數+1
+        if res_id.zip is False: #使用者如果沒有填收據寄送地址郵遞區號, 則編碼前3碼為 'OOO'
+            compute_code = self.env['auto.donateid'].search([('zip','=','OOO')])
+            res_id.new_coding = 'OOO' + str(compute_code.area_number + 1).zfill(5) # 取出當前 zip = 'OOO' 的累積人數+1
             compute_code.write({
-                'area_number': compute_code.area_number + 1 #  寫入 zip = '000' 目前的累積人數
+                'area_number': compute_code.area_number + 1 #  寫入 zip = 'OOO' 目前的累積人數
             })
-        elif res_id.zip_code and len(res_id.zip_code) < 3: # 使用者有輸入寄送地址的郵遞區號但不足3碼
-            raise ValidationError(u'寄送地址的郵遞區號填寫錯誤，請至少填3碼的郵遞區號!')
-        elif res_id.zip_code and len(res_id.zip_code) >= 3: # 使用者可以填3+2郵遞區號, 但是少要填3碼的郵遞區號
-            compute_code = self.env['auto.donateid'].search([('zip', '=', res_id.zip_code[0:3])]) # 搜尋計數器裡符合使用者填入郵遞區號的資料
+        elif res_id.zip and len(res_id.zip) < 3: # 使用者有輸入收據寄送地址的郵遞區號但不足3碼
+            raise ValidationError(u'收據寄送地址的郵遞區號填寫錯誤，請至少填3碼的郵遞區號!')
+        elif res_id.zip and len(res_id.zip) >= 3: # 使用者可以填3+2郵遞區號, 但是少要填3碼的郵遞區號
+            compute_code = self.env['auto.donateid'].search([('zip', '=', res_id.zip[0:3])]) # 搜尋計數器裡符合使用者填入郵遞區號的資料
             if compute_code.zip: # 在計數器裡有找到該郵遞區號
-                res_id.new_coding = res_id.zip_code[0:3] + str(compute_code.area_number + 1).zfill(5)
+                res_id.new_coding = res_id.zip[0:3] + str(compute_code.area_number + 1).zfill(5)
                 compute_code.write({
                     'area_number': compute_code.area_number + 1 #  寫入 zip 目前的累積人數
                 })
             elif compute_code.zip is False: # 在計數器裡沒有找到該郵遞區號
-                res_id.new_coding = res_id.zip_code[0:3] + str('1').zfill(5) # 代表此捐款者為該郵遞區號捐款的第1人
+                res_id.new_coding = res_id.zip[0:3] + str('1').zfill(5) # 代表此捐款者為該郵遞區號捐款的第1人
                 self.env['auto.donateid'].create({
-                    'zip': res_id.zip_code[0:3], # 在計數器裡創建該郵遞區號的資料
+                    'zip': res_id.zip[0:3], # 在計數器裡創建該郵遞區號的資料
                     'area_number': 1 # 將累積人數設定為1
                 })
 
@@ -439,7 +439,6 @@ class NormalP(models.Model):
                 })
         return res_id
 
-#
 # class DonateFamily(models.Model):
 #     _name = 'donate.family'
 #

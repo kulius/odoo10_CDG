@@ -663,7 +663,7 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql) # 修改資料共6578 筆, 花費0.441秒
         return True
 
-    def set_postal_code1(self):
+    def set_postal_code1(self): # 花費時間約18分鐘
         lines = self.env['normal.p'].search([])
         s = collections.Counter()
         zip=''
@@ -716,7 +716,7 @@ class AppThemeConfigSettings(models.TransientModel):
         s.clear()
         return True
 
-    def set_postal_code2(self):
+    def set_postal_code2(self): # 花費時間約18分鐘
         lines = self.env['normal.p'].search([])
         last_time_data = self.env['auto.donateid'].search([])
         s = collections.Counter()
@@ -779,7 +779,7 @@ class AppThemeConfigSettings(models.TransientModel):
         s.clear()
         return True
 
-    def set_postal_code3(self):
+    def set_postal_code3(self): # 沒有收據寄送地址, 也沒有報表寄送地址, 共 7946 筆
         lines = self.env['normal.p'].search(['&',('con_addr', '=', ''),('rec_addr','=', '')])
         for line in lines:
             line.new_coding = ''
