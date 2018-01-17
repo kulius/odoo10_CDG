@@ -202,6 +202,8 @@
                         <label string="資料設定"/>
                         <div>
                             <button string="18.Active Data" type="object" name="active_data" class="oe_highlight"/>
+                            |
+                            <button string="20.人員種類轉檔" type="object" name="set_people_type" class="oe_highlight"/>
                         </div>
                          <label string="其他項目"/>
                         <div>

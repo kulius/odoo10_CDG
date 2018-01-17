@@ -780,7 +780,21 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
     def set_postal_code3(self):
+        lines = self.env['normal.p'].search(['&',('con_addr', '=', ''),('rec_addr','=', '')])
+        for line in lines:
+            line.new_coding = ''
 
+        return True
+
+    def set_people_type(self):
+        sql = " INSERT INTO people_type(name) VALUES ('%s'),('%s'),('%s'),('%s') " % (u'捐款者',u'基本會員',u'贊助會員',u'顧問')
+        self._cr.execute(sql) # 新增 4 筆資料, 花費 0.012 秒
+        sql = " INSERT INTO normal_p_people_type_rel(normal_p_id, people_type_id) SELECT id, 2 FROM normal_p a WHERE member_type = 1 "
+        self._cr.execute(sql)  # 新增 692 筆資料, 花費 0.178 秒
+        sql = " INSERT INTO normal_p_people_type_rel(normal_p_id, people_type_id) SELECT id, 3 FROM normal_p a WHERE member_type = 2 "
+        self._cr.execute(sql)  # 新增 6578 筆資料, 花費 0.518 秒
+        sql = " INSERT INTO normal_p_people_type_rel(normal_p_id, people_type_id) SELECT id, 4 FROM normal_p a WHERE consultant_id IS NOT NULL "
+        self._cr.execute(sql)  # 新增 142 筆資料, 花費 0.109 秒
         return True
 
     def auto_zip_insert(self): #自動產生編號
