@@ -218,6 +218,15 @@ class NormalP(models.Model):
     def setcashier(self):
         self.cashier = self.cashier_name.name
 
+    @api.onchange('is_same_addr')
+    def rec_addr_same_con_addr(self):
+        if self.is_same_addr is True:
+            if not self.zip or not self.rec_addr:
+                raise ValidationError(u'收據郵遞區號以及收據寄送抵指不能為空白')
+            else:
+                self.zip_code = self.zip
+                self.con_addr = self.rec_addr
+
     def data_input_form_DB(self):
         data = self.env['base.external.dbsource'].search([])
         lines = data.execute('SELECT * FROM 團員眷屬檔')
@@ -400,9 +409,6 @@ class NormalP(models.Model):
         res_id = super(NormalP, self).create(vals)
         if res_id.name is False:
             raise ValidationError(u'請輸入姓名')
-        if res_id.is_same_addr is True:
-            res_id.zip_code = res_id.zip
-            res_id.con_addr = res_id.rec_addr
 
         if res_id.zip is False: #使用者如果沒有填收據寄送地址郵遞區號, 則編碼前3碼為 'OOO'
             compute_code = self.env['auto.donateid'].search([('zip','=','OOO')])
