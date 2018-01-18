@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="coffin_batch_form_2" model="ir.ui.view">
+            <field name="name">coffin_batch_form_2</field>
+            <field name="model">coffin.batch</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                         <group>
+                            <field name="coffin_data_lists" nolabel="1"/>
+                        </group>
+                        <group>
+                            <field name="flag" string="確認進行批次處理?"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="confirm_to_batch" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="confirm_to_batch" name="確認" res_model="coffin.batch"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>
