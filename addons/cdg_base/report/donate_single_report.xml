@@ -183,13 +183,13 @@
                             </div>
                             <div class="total_right">
                                 <div class="total_right_money"><t t-esc="data.donate_total"/></div>
-                                <div class="total_right_person"><t t-esc="data.work_id.name"/></div>
+                                <div class="total_right_person"><t t-esc="data.key_in_user.login"/></div>
                             </div>
                         </div>
 
                         <!--收據收費員列-->
                         <div class="total_css">
-                            <div style="margin-left:78%;"><t t-esc="data.create_uid.name"/></div>
+                            <div style="margin-left:78%;"><t t-esc="data.work_id.name"/></div>
                         </div>
 
                         <div class="useless"/>
@@ -333,13 +333,13 @@
                             </div>
                             <div class="total_right">
                                 <div class="total_right_money"><t t-esc="data.donate_total"/></div>
-                                <div class="total_right_person"><t t-esc="data.work_id.name"/></div>
+                                <div class="total_right_person"><t t-esc="data.key_in_user.login"/></div>
                             </div>
                         </div>
 
                         <!--收據收費員列-->
                         <div class="total_css">
-                            <div style="margin-left:78%;"><t t-esc="data.create_uid.name"/></div>
+                            <div style="margin-left:78%;"><t t-esc="data.work_id.name"/></div>
                         </div>
 
 
@@ -528,12 +528,12 @@
                             </div>
                             <div class="total_right">
                                 <div class="total_right_money"><t t-esc="line.title_total_price"/></div>
-                                <div class="total_right_person">123</div>
+                                <div class="total_right_person"><t t-esc="line.key_in_user.login"/></div>
                             </div>
 
                         </div>
                         <div class="total_css">
-                            <div style="margin-left:78%;"><t t-esc="line.create_uid.name"/></div>
+                            <div style="margin-left:78%;"><t t-esc="line.title_work_id"/></div>
                         </div>
 
                         <div class="useless"></div>
@@ -610,12 +610,12 @@
                             </div>
                             <div class="total_right">
                                 <div class="total_right_money"><t t-esc="line.title_total_price"/></div>
-                                <div class="total_right_person">123</div>
+                                <div class="total_right_person"><t t-esc="line.key_in_user.login"/></div>
                             </div>
 
                         </div>
                         <div class="total_css">
-                            <div style="margin-left:78%;"><t t-esc="line.create_uid.name"/></div>
+                            <div style="margin-left:78%;"><t t-esc="line.title_work_id"/></div>
                         </div>
 
 
@@ -802,12 +802,12 @@
                             </div>
                             <div class="total_right">
                                 <div class="total_right_money"><t t-esc="line.title_total_price"/></div>
-                                <div class="total_right_person">123</div>
+                                <div class="total_right_person"><t t-esc="line.key_in_user.login"/></div>
                             </div>
 
                         </div>
                         <div class="total_css">
-                            <div style="margin-left:78%;"><t t-esc="line.create_uid.name"/></div>
+                            <div style="margin-left:78%;"><t t-esc="line.title_work_id"/></div>
                         </div>
 
                         <div class="useless"></div>
@@ -884,12 +884,12 @@
                             </div>
                             <div class="total_right">
                                 <div class="total_right_money"><t t-esc="line.title_total_price"/></div>
-                                <div class="total_right_person">123</div>
+                                <div class="total_right_person"><t t-esc="line.key_in_user.login"/></div>
                             </div>
 
                         </div>
                         <div class="total_css">
-                            <div style="margin-left:78%;"><t t-esc="line.create_uid.name"/></div>
+                            <div style="margin-left:78%;"><t t-esc="line.title_work_id"/></div>
                         </div>
 
 
@@ -1083,12 +1083,12 @@
                             </div>
                             <div class="total_right">
                                 <div class="total_right_money"><t t-esc="line.title_total_price"/></div>
-                                <div class="total_right_person">123</div>
+                                <div class="total_right_person"><t t-esc="line.key_in_user.login"/></div>
                             </div>
 
                         </div>
                         <div class="total_css">
-                            <div style="margin-left:78%;"><t t-esc="line.create_uid.name"/></div>
+                            <div style="margin-left:78%;"><t t-esc="line.title_work_id"/></div>
                         </div>
 
                         <div class="useless"></div>
@@ -1167,12 +1167,12 @@
                             </div>
                             <div class="total_right">
                                 <div class="total_right_money"><t t-esc="line.title_total_price"/></div>
-                                <div class="total_right_person">123</div>
+                                <div class="total_right_person"><t t-esc="line.key_in_user.login"/></div>
                             </div>
 
                         </div>
                         <div class="total_css">
-                            <div style="margin-left:78%;"><t t-esc="line.create_uid.name"/></div>
+                            <div style="margin-left:78%;"><t t-esc="line.title_work_id"/></div>
                         </div>
 
 

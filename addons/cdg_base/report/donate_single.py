@@ -68,10 +68,13 @@ class DonateSingleReport(models.Model):
     donate_wizard = fields.Many2one(comodel_name='wizard.batch',string='捐款日期')
     title_doante_code = fields.Char(string='捐款編號')
     title_doante_date = fields.Char(string='捐款日期')
+    title_work_id = fields.Char(string='收費員')
     title_Make_up_date=fields.Char(string='日期',default=lambda self: fields.date.today())
     donate_line = fields.One2many(comodel_name='report.line',inverse_name='parent_id', string='個人捐款明細')
     title_total_price = fields.Integer(string='捐款總金額', compute='compute_price', store=True)
     title_total_price_big = fields.Char(string='金額大寫', compute='compute_price', store=True)
+    key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]},default=lambda self: self.env.uid)
+
 
     @api.depends('donate_line')
     def compute_price(self):
@@ -157,7 +160,9 @@ class ReportDonateSingleIndependent(models.AbstractModel):
                 'title_doante_code': line.donate_id,
             })
             for line in target:
-                tmp_id.write({'title_doante_date': line.donate_date})
+                tmp_id.write({'title_doante_date': line.donate_date,
+                              'title_work_id': line.work_id.name
+                              })
 
             report_line += tmp_id
             line_data = []
@@ -218,7 +223,8 @@ class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
                 'donate_price': line.donate
             }])
             for line in target:
-                tmp_id.write({'title_doante_date': line.donate_date})
+                tmp_id.write({'title_doante_date': line.donate_date,'title_work_id': line.work_id.name}
+                             )
 
             tmp_id.write({
                 'donate_line': line_data
@@ -295,7 +301,7 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 'title_doante_code': line.donate_id,
             })
             for line in target:
-                tmp_id.write({'title_doante_date': line.donate_date})
+                tmp_id.write({'title_doante_date': line.donate_date,'title_work_id': line.work_id.name})
             line_data = []
             for row in merge_res_line:
                 if row.donate_id == line.donate_id:
@@ -318,7 +324,7 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 'title_doante_code': line.donate_id,
             })
             for line in target:
-                tmp_id.write({'title_doante_date': line.donate_date})
+                tmp_id.write({'title_doante_date': line.donate_date,'title_work_id': line.work_id.name})
             line_data = []
             for row in res_line:
                 if row.donate_member == line.donate_member and row.donate_id == line.donate_id:
