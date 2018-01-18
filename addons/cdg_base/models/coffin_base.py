@@ -42,10 +42,27 @@ class CoffinBase(models.Model):
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
 
+    def coffin_batch(self,ids):
+        res = []
+        for line in ids:
+            res.append([4, line])
+        wizard_data = self.env['coffin.batch'].create({
+            'coffin_data_lists': res
+        })
+
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'coffin.batch',
+            'name': '批次處理',
+            'view_mode': 'form',
+            'res_id': wizard_data.id,
+            'target': 'new',
+        }
+
     @api.depends('batch_donate')
     def compute_money(self):
         for line in self: # 從捐助資料表中, 計算目前的累積金額
-            if line.batch_donate and line.old_batch_donate is False:
+            if line.batch_donate and len(line.old_batch_donate) == 0:
                 for row in line.batch_donate:
                     line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))
             elif line.old_batch_donate and line.finish == True:

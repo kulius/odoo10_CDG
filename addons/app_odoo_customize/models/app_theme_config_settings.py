@@ -658,7 +658,7 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 篩選不重複資料的7241筆資料寫入臨時創建的資料表中, 並與normal.p進行關聯共57893筆資料, 花費 0.83 秒, 共204筆資料未關聯到 (會員編號在normal_p沒有找到, 會員檔也沒有找到)
         return True
 
-    def set_cashier_data(self):
+    def set_cashier_data(self): # 收費員檔轉入 cashier_base
         sql = "INSERT INTO cashier_base(c_id, name, self_iden, con_phone, con_phone2, cellphone, zip_code, con_addr, build_date, ps, temp_key_in_user, db_chang_date) "\
               " SELECT 收費員編號, 姓名, 身份證號, 電話一, 電話二, 手機, 郵遞區號, 通訊地址, case when 建檔日期='' then NULL WHEN 建檔日期='.' THEN NULL else cast(建檔日期 as date) end as 建檔日期, 備註, 輸入人員, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期 from 收費員檔"
         self._cr.execute(sql) # 收費員檔共輸入 1381 筆資料, 花費0.027秒
@@ -666,6 +666,12 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 關聯資料共1370筆, 花費0.03秒,  未關聯資料共11筆
         sql = " UPDATE normal_p set cashier_name = a.id from cashier_base a where a.c_id = normal_p.temp_cashier_name"
         self._cr.execute(sql)  # 關聯資料共5554筆, 花費1.544秒,  未關聯資料共767231筆
+        return True
+
+    def set_cashier_code(self): # 收費員編號重新編號
+        lines = self.env['cashier.base'].search([])
+        for line in lines:
+            line.c_id = 'D' + line.c_id
         return True
 
     def active_data(self):

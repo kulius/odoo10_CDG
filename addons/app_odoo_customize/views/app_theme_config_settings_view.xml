@@ -199,6 +199,8 @@
                         <label string="收費員檔轉檔"/>
                         <div>
                             <button string="17.收費員轉檔" type="object" name="set_cashier_data" class="oe_highlight"/>
+                            |
+                            <button string="21.收費員編號" type="object" name="set_cashier_code" class="oe_highlight"/>
                         </div>
                         <label string="資料設定"/>
                         <div>

@@ -33,21 +33,17 @@
                             <button string="產生捐助明細" name="add_coffin_file" class="oe_stat_button" icon="fa-list-ol" type="object"/>
                             <!--<button string="歷史捐助明細" name="compute_old_data" class="oe_stat_button" icon="fa-book" type="object"/>-->
                         </div>
-                        <group col="7" name="文字">
+                        <group col="7">
                             <field name="coffin_id"/>
-                            <field name="coffin_date_year" string="施棺期別"></field>
+                            <field name="coffin_date_year" string="施棺期別"/>
                             <field name="coffin_date_group" nolabel="1"/>
                             <field name="finish"/>
                         </group>
 
-                        <group col="7">
+                        <group col="6">
+                            <field name="exception_case"/>
                             <field name="donate_apply_price"/>
                             <field name="donate_price"/>
-                            <field name="exception_case"/>
-                        </group>
-
-                        <group>
-
                         </group>
 
                         <notebook>
@@ -116,6 +112,23 @@
                   <field string="領款日期" name="coffin_date" filter_domain="[('coffin_date', '=',self)]"/>
                 </search>
             </field>
+        </record>
+
+        <record id="action_coffin_batch" model="ir.actions.server">
+            <field name="name">施棺批次處理</field>
+            <field name="model_id" ref="model_coffin_base"/>
+            <field name="code">
+                action =  object.coffin_batch(context.get('active_ids', []))
+            </field>
+        </record>
+
+        <record model="ir.values" id="ir_values_coffin_batch_button">
+            <field name="name">coffin batch</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.server,%d'%action_coffin_batch"/>
+            <field name="key">action</field>
+            <field name="object" eval="True"/>
+            <field name="model">coffin.base</field>
         </record>
 
         <record id="coffin_base_action" model="ir.actions.act_window">
