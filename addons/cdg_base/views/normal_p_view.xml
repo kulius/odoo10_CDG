@@ -65,8 +65,6 @@
                                         <group col="10">
                                             <field name="zip"/>
                                             <field name="rec_addr" colspan="8"/>
-                                        </group>
-                                        <group col="2">
                                             <field name="is_same_addr"/>
                                         </group>
                                         <group col="10">
