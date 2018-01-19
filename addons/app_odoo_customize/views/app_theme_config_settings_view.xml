@@ -211,12 +211,6 @@
                          <label string="其他項目"/>
                         <div>
                             <button string="歷史資料自動編號" type="object" name="auto_zip_insert" class="oe_highlight"/>
-                            <!--|-->
-                            <!--<button string="郵遞區號自動編號(1/3)" type="object" name="set_postal_code1" class="oe_highlight"/>-->
-                            <!--|-->
-                            <!--<button string="郵遞區號自動編號(2/3)" type="object" name="set_postal_code2" class="oe_highlight"/>-->
-                            <!--|-->
-                            <!--<button string="郵遞區號自動編號(3/3)" type="object" name="set_postal_code3" class="oe_highlight"/>-->
                         </div>
                     </group>
                 </form>
