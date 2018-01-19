@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import zipcodetw
 import collections
 
 from openerp import api, fields, models, _
@@ -683,122 +682,6 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql) # 修改資料共6578 筆, 花費0.441秒
         return True
 
-    def set_postal_code1(self): # 花費時間約18分鐘
-        lines = self.env['normal.p'].search([])
-        s = collections.Counter()
-        zip=''
-        for line in lines[0:400000]:
-            zip = ''
-            if line.rec_addr is False and line.con_addr: # 收據地址為空, 但卻有報表寄送地址
-                zip = zipcodetw.find(line.con_addr)[0:3] #藉由報表寄送地址判讀該地址的郵遞區號, 並只取郵遞區號前3碼
-                line.zip = zip # 將郵遞區號寫入 收據地址的郵遞區號
-                line.rec_addr = line.con_addr # 將報表寄送地址寫入收據地址, 前提是收據地址是空的
-            elif line.rec_addr: # 有收據地址
-                zip = zipcodetw.find(line.rec_addr)[0:3] # 直接取郵遞區號前3碼
-            if len(zip) < 3 and line.rec_addr: # 藉由程式判讀出來的郵遞區號, 若小於3碼則代表地址填寫錯誤, 找不到郵遞區號, 條件是收據地址不為空
-                s['OOO'] += 1 # 該郵遞區號出現次數 +1
-                if line.member_type == 1: # 判斷該筆捐款者資料是否為基本會員
-                    if line.consultant_id: # 判斷是否具有顧問身分
-                        line.new_coding = 'ACOOO' + str(s.get('OOO')).zfill(5) # 代表該捐款者是基本會員以及具有顧問身分
-                    else:
-                        line.new_coding = 'AOOO' + str(s.get('OOO')).zfill(5) # 代表該捐款者是基本會員
-                elif line.member_type == 2: # 判斷該筆捐款者資料是否為贊助會員
-                    if line.consultant_id:
-                        line.new_coding = 'BCOOO' + str(s.get('OOO')).zfill(5) # 代表該捐款者是贊助會員以及具有顧問身分
-                    else:
-                        line.new_coding = 'BOOO' + str(s.get('OOO')).zfill(5) # 代表該捐款者是贊助會員
-                elif line.member_type is False and line.consultant_id :
-                    line.new_coding = 'COOO' + str(s.get('OOO')).zfill(5) #不具有任何會員身分但具有顧問身分
-                else:
-                    line.new_coding = 'OOO' + str(s.get('OOO')).zfill(5) # 什麼都沒有的一般捐款者
-            elif len(zip) == 3 : # 郵遞區號有3碼, 代表該筆資料的地址可以找到相對應的郵遞區號
-                line.zip = zip #將程式判斷的郵遞區號寫入該捐款者的收據地址郵遞區號
-                s[zip] += 1 # 該郵遞區號的出現次數 +1
-                if line.member_type == 1:
-                    if line.consultant_id:
-                        line.new_coding = 'AC' + zip + str(s.get(zip)).zfill(5)
-                    else:
-                        line.new_coding = 'A' + zip + str(s.get(zip)).zfill(5)
-                elif line.member_type == 2:
-                    if line.consultant_id:
-                        line.new_coding = 'BC' + zip + str(s.get(zip)).zfill(5)
-                    else:
-                        line.new_coding = 'B' + zip + str(s.get(zip)).zfill(5)
-                elif line.member_type is False and line.consultant_id :
-                    line.new_coding = 'C' + zip + str(s.get(zip)).zfill(5)
-                else:
-                    line.new_coding = zip + str(s.get(zip)).zfill(5)
-
-        postal_code_list = list(s.items()) # 將python 的 counter 轉換為陣列
-        for i in range(len(postal_code_list)):
-            sql = " INSERT INTO auto_donateid(zip, area_number) VALUES ('%s', '%s')" % (postal_code_list[i][0], postal_code_list[i][1])
-            self._cr.execute(sql) # 將counter內的計數寫入資料庫之中
-        s.clear()
-        return True
-
-    def set_postal_code2(self): # 花費時間約18分鐘
-        lines = self.env['normal.p'].search([])
-        last_time_data = self.env['auto.donateid'].search([])
-        s = collections.Counter()
-        zip=''
-        for row in last_time_data: # 將資料庫計數器的資料撈出來, 放入python 的 counter之中, 以便繼續統計個郵遞區號的出現次數
-            zip = row.zip
-            s[zip] += int(row.area_number)
-        zip = ''
-
-        for line in lines[400001:]:
-            zip = ''
-            if line.rec_addr is False and line.con_addr:
-                zip = zipcodetw.find(line.con_addr)[0:3]
-                line.zip = zip
-                line.rec_addr = line.con_addr
-            elif line.rec_addr:
-                zip = zipcodetw.find(line.rec_addr)[0:3]
-            if len(zip) < 3 and line.rec_addr:
-                s['OOO'] += 1
-                if line.member_type == 1:
-                    if line.consultant_id:
-                        line.new_coding = 'ACOOO' + str(s.get('OOO')).zfill(5)
-                    else:
-                        line.new_coding = 'AOOO' + str(s.get('OOO')).zfill(5)
-                elif line.member_type == 2:
-                    if line.consultant_id:
-                        line.new_coding = 'BCOOO' + str(s.get('OOO')).zfill(5)
-                    else:
-                        line.new_coding = 'BOOO' + str(s.get('OOO')).zfill(5)
-                elif line.member_type is False and line.consultant_id :
-                    line.new_coding = 'COOO' + str(s.get('OOO')).zfill(5)
-                else:
-                    line.new_coding = 'OOO' + str(s.get('OOO')).zfill(5)
-            elif len(zip) == 3 :
-                line.zip = zip
-                s[zip] += 1
-                if line.member_type == 1:
-                    if line.consultant_id:
-                        line.new_coding = 'AC' + zip + str(s.get(zip)).zfill(5)
-                    else:
-                        line.new_coding = 'A' + zip + str(s.get(zip)).zfill(5)
-                elif line.member_type == 2:
-                    if line.consultant_id:
-                        line.new_coding = 'BC' + zip + str(s.get(zip)).zfill(5)
-                    else:
-                        line.new_coding = 'B' + zip + str(s.get(zip)).zfill(5)
-                elif line.member_type is False and line.consultant_id :
-                    line.new_coding = 'C' + zip + str(s.get(zip)).zfill(5)
-                else:
-                    line.new_coding = zip + str(s.get(zip)).zfill(5)
-
-        postal_code_list = list(s.items())
-        for i in range(len(postal_code_list)):
-            postal_code_data = self.env['auto.donateid'].search([('zip','=',postal_code_list[i][0])]) # 搜尋資料庫的計數器是否具有該郵遞區號
-            if postal_code_data:
-                postal_code_data.area_number = postal_code_data.area_number + int(postal_code_list[i][1]) #有搜尋到 則更新資料庫計數器的數量
-            else:
-                sql = " INSERT INTO auto_donateid(zip, area_number) VALUES ('%s', '%s')" % (postal_code_list[i][0], postal_code_list[i][1]) # 沒有搜尋到則重新建立該郵遞區號的資料
-                self._cr.execute(sql)
-        s.clear()
-        return True
-
     def set_postal_code3(self): # 沒有收據寄送地址, 也沒有報表寄送地址, 共 7946 筆
         lines = self.env['normal.p'].search(['&',('con_addr', '=', ''),('rec_addr','=', '')])
         for line in lines:
@@ -816,28 +699,3 @@ class AppThemeConfigSettings(models.TransientModel):
         sql = " INSERT INTO normal_p_people_type_rel(normal_p_id, people_type_id) SELECT id, 4 FROM normal_p a WHERE consultant_id IS NOT NULL "
         self._cr.execute(sql)  # 新增 142 筆資料, 花費 0.109 秒
         return True
-
-    def auto_zip_insert(self): #自動產生編號
-
-        # sql = "INSERT INTO auto_donateid(zip) SELECT DISTINCT SUBSTRING(zip_code,1,3) FROM normal_p"
-        # self._cr.execute(sql)
-        # sql = "INSERT INTO auto_donateid(zip) VALUES ('000')"
-        # self._cr.execute(sql)
-        data = self.env['auto.donateid'].search([])
-        data2 = self.env['normal.p'].search([()])
-
-        for i in data:
-            for j in data2:
-                if j.zip_code == '':
-                    j.zip_code = "000"
-                if j.zip_code == i.zip:
-                    i.area_number += 1
-                    j.auto_num = i.area_number
-                    j.auto_num = j.auto_num.zfill(5)
-                    j.new_coding = i.zip + j.auto_num
-
-
-
-
-
-

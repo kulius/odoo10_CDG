@@ -34,15 +34,12 @@
         'views/consultant_fee_only_view.xml',
         'views/consultant_source_view.xml',
         'views/member_fee_only_view.xml',
-
-        'views/charity_view.xml',
         'views/hand_checking_view.xml',
+        'views/charity_view.xml',
+
         'report/paper.xml',
         'report/donate_batch_report.xml',
         'report/donate_single_report.xml',
-
-
-
 
         'wizard/chang_donate.xml',
         'wizard/print_check.xml',
