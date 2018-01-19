@@ -19,6 +19,7 @@ class NormalP(models.Model):
     _order = 'sequence,id'
 
     new_coding = fields.Char(string='捐款者編號')
+    old_coding = fields.Char(string='舊捐款者編號')
     special_tag = fields.Boolean(string='眷屬檔沒有的團員')
     w_id = fields.Char(string='舊團員編號')
     number = fields.Char(string='序號')
@@ -222,7 +223,7 @@ class NormalP(models.Model):
     def rec_addr_same_con_addr(self):
         if self.is_same_addr is True:
             if not self.zip or not self.rec_addr:
-                raise ValidationError(u'收據郵遞區號以及收據寄送抵指不能為空白')
+                raise ValidationError(u'收據郵遞區號或收據寄送地址不能為空白')
             else:
                 self.zip_code = self.zip
                 self.con_addr = self.rec_addr
@@ -404,6 +405,48 @@ class NormalP(models.Model):
             })
         return True
 
+    @api.onchange('rec_addr')
+    def rec_addr_change(self):
+        if self.name:
+            self.old_coding = self.new_coding # 將原本的捐款者編號, 放入歷史紀錄之中
+
+            if self.zip is False: #使用者如果沒有填收據寄送地址郵遞區號, 則編碼前3碼為 'OOO'
+                compute_code = self.env['auto.donateid'].search([('zip','=','OOO')])
+                self.new_coding = 'OOO' + str(compute_code.area_number + 1).zfill(5) # 取出當前 zip = 'OOO' 的累積人數+1
+                compute_code.write({
+                    'area_number': compute_code.area_number + 1 #  寫入 zip = 'OOO' 目前的累積人數
+                })
+            elif self.zip and len(self.zip) < 3: # 使用者有輸入收據寄送地址的郵遞區號但不足3碼
+                raise ValidationError(u'收據寄送地址的郵遞區號填寫錯誤，請至少填3碼的郵遞區號!')
+            elif self.zip and len(self.zip) >= 3: # 使用者可以填3+2郵遞區號, 但是少要填3碼的郵遞區號
+                compute_code = self.env['auto.donateid'].search([('zip', '=', self.zip[0:3])]) # 搜尋計數器裡符合使用者填入郵遞區號的資料
+                if compute_code.zip: # 在計數器裡有找到該郵遞區號
+                    self.new_coding = self.zip[0:3] + str(compute_code.area_number + 1).zfill(5)
+                    compute_code.write({
+                        'area_number': compute_code.area_number + 1 #  寫入 zip 目前的累積人數
+                    })
+                elif compute_code.zip is False: # 在計數器裡沒有找到該郵遞區號
+                    self.new_coding = self.zip[0:3] + str('1').zfill(5) # 代表此捐款者為該郵遞區號捐款的第1人
+                    self.env['auto.donateid'].create({
+                        'zip': self.zip[0:3], # 在計數器裡創建該郵遞區號的資料
+                        'area_number': 1 # 將累積人數設定為1
+                    })
+
+            if 2 in self.type.ids:  # 判斷該筆捐款者資料是否為基本會員
+                if 4 in self.type.ids:  # 判斷是否具有顧問身分
+                    self.new_coding = 'AC' + self.new_coding  # 代表該捐款者是基本會員以及具有顧問身分
+                else:
+                    self.new_coding = 'A' + self.new_coding  # 代表該捐款者是基本會員
+            elif 3 in self.type.ids:  # 判斷該筆捐款者資料是否為贊助會員
+                if 4 in self.type.ids:
+                    self.new_coding = 'BC' + self.new_coding  # 代表該捐款者是贊助會員以及具有顧問身分
+                else:
+                    self.new_coding = 'B' + self.new_coding  # 代表該捐款者是贊助會員
+            elif not (2 in self.type.ids) and not (3 in self.type.ids) and 4 in self.type.ids :
+                self.new_coding = 'C' + self.new_coding  # 不具有任何會員身分但具有顧問身分
+            else:
+                self.new_coding = self.new_coding  # 什麼都沒有的一般捐款者
+
     @api.model
     def create(self, vals):
         res_id = super(NormalP, self).create(vals)
@@ -431,6 +474,21 @@ class NormalP(models.Model):
                     'zip': res_id.zip[0:3], # 在計數器裡創建該郵遞區號的資料
                     'area_number': 1 # 將累積人數設定為1
                 })
+
+        if 2 in res_id.type.ids:  # 判斷該筆捐款者資料是否為基本會員
+            if 4 in res_id.type.ids:  # 判斷是否具有顧問身分
+                res_id.new_coding = 'AC' + res_id.new_coding  # 代表該捐款者是基本會員以及具有顧問身分
+            else:
+                res_id.new_coding = 'A' + res_id.new_coding  # 代表該捐款者是基本會員
+        elif 3 in res_id.type.ids:  # 判斷該筆捐款者資料是否為贊助會員
+            if 4 in res_id.type.ids:
+                res_id.new_coding = 'BC' + res_id.new_coding  # 代表該捐款者是贊助會員以及具有顧問身分
+            else:
+                res_id.new_coding = 'B' + res_id.new_coding  # 代表該捐款者是贊助會員
+        elif not (2 in res_id.type.ids) and not (3 in res_id.type.ids) and 4 in res_id.type.ids :
+            res_id.new_coding = 'C' + res_id.new_coding  # 不具有任何會員身分但具有顧問身分
+        else:
+            res_id.new_coding = res_id.new_coding  # 什麼都沒有的一般捐款者
 
         if res_id.parent.id is False: # 如果新建的捐款者資料沒有選定戶長是誰, 那麼就由系統自動將該使用者設為戶長
             res_id.write({
