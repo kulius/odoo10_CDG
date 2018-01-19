@@ -45,14 +45,12 @@ class CoffinBase(models.Model):
     @api.model
     def create(self, vals):
         res_id = super(CoffinBase, self).create(vals)
-
         if res_id.coffin_date < res_id.dead_date:
-            raise ValidationError(u'死亡日期不能超越領款日期')
-        elif not res_id.coffin_date_group:
+            raise ValidationError(u'領款日期不得早於死亡日期')
+        elif not res_id.coffin_date_group: # 若使用者未設定施棺期別的月份, 則由系統將領款日期的月份帶入
             res_id.coffin_date_group = datetime.strptime(res_id.coffin_date, '%Y-%m-%d').month
         elif res_id.coffin_date_group != datetime.strptime(res_id.coffin_date, '%Y-%m-%d').month:
-            raise ValidationError(u'期別設定錯誤')
-
+            raise ValidationError(u'施棺期別設定錯誤')
         return res_id
 
     def coffin_batch(self,ids):
@@ -243,11 +241,11 @@ class CoffinBase(models.Model):
     def compare_date(self):
         if self.coffin_date < self.dead_date:
             raise ValidationError(u'領款日期不得早於死亡日期')
-        if len(str(datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)) < 3 :
+        if len(str(datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)) < 3 : # 民國100年之前的資料, 將年份補足為三位數, 並將年份帶入施棺期別的年份
             self.coffin_date_year = '0' + str(datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)
-        elif len(str(datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)) == 3 :
+        elif len(str(datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)) == 3 : # 將領款日期的年份帶入施棺期別的年份
             self.coffin_date_year = datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911
-        self.coffin_date_group = datetime.strptime(self.coffin_date, '%Y-%m-%d').month
+        self.coffin_date_group = datetime.strptime(self.coffin_date, '%Y-%m-%d').month # 領款日期的月份帶入施棺期別的月份
 
     @api.onchange('exception_case')
     def set_exception(self):
