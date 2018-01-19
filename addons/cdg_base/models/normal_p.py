@@ -405,7 +405,7 @@ class NormalP(models.Model):
             })
         return True
 
-    @api.onchange('rec_addr')
+    @api.onchange('zip', 'type')
     def rec_addr_change(self):
         if self.name:
             self.old_coding = self.new_coding # 將原本的捐款者編號, 放入歷史紀錄之中
