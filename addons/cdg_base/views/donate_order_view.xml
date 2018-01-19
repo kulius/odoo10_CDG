@@ -28,7 +28,7 @@
                     <header>
                         <field name="state" widget="statusbar" statusbar_visible="1,2"/>
                         <!--<button string="轉捐款檔" name="data_input_from_database" type="object"/>-->
-                        <button string="作廢" name="cancel_donate" type="object"/>
+                        <!--<button string="作廢" name="cancel_donate" type="object"/>-->
                     </header>
                     <sheet>
                         <group col="4">

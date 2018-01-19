@@ -806,7 +806,7 @@ class AppThemeConfigSettings(models.TransientModel):
 
         return True
 
-    def set_people_type(self):
+    def set_people_type(self): # 人員種類關聯
         sql = " INSERT INTO people_type(name) VALUES ('%s'),('%s'),('%s'),('%s') " % (u'捐款者',u'基本會員',u'贊助會員',u'顧問')
         self._cr.execute(sql) # 新增 4 筆資料, 花費 0.012 秒
         sql = " INSERT INTO normal_p_people_type_rel(normal_p_id, people_type_id) SELECT id, 2 FROM normal_p a WHERE member_type = 1 "

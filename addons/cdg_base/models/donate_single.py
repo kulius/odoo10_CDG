@@ -311,9 +311,14 @@ class DonateSingle(models.Model):
             raise ValidationError(u'本捐款單已作廢!!')
         elif self.state == 2:
             raise ValidationError(u'本捐款單已列印收據!!')
-        self.state = 3
+
+        for line in self.donate_list:
+            if line.used_money != 0:
+                raise ValidationError(u'本捐款單的 %s 先生/小姐 施棺捐款 %s 元整，已支出!! 因此無法作廢或退費，感謝您的善心' % (line.donate_member.name, line.donate))
+
         for line in self.donate_list:
             line.state = 2
+        self.state = 3
 
     def add_to_list_create(self, record):
 
