@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api
-from odoo.exceptions import ValidationError
 import datetime
-import logging
+from odoo.exceptions import ValidationError
+import psycopg2
+
+from datetime import datetime
+from odoo import models, fields, api
 
 # 一般人基本檔 團員 會員 收費員 顧問
+import logging
+
 _logger = logging.getLogger(__name__)
+
 
 class NormalP(models.Model):
     # 捐款人

@@ -99,11 +99,11 @@ class DonateOrder(models.Model):
                     'report_year': self.checkbool(line[u'收據年度開立'])
                 })
             i += 1
+
     def cancel_donate(self):
         if self.state == 2:
             raise ValidationError(u'本捐款單已作廢!!')
         self.state = 2
-
 
     def checkbool(self, bool):
         if bool == 'Y':
