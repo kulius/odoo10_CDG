@@ -117,7 +117,7 @@ class CoffinBase(models.Model):
             raise ValidationError(u'已結案，無法再更改')
         elif self.finish == False:
             if self.donate_price == 0  and default_price_flag == True: # 沒有任何的捐助明細,而且確認申請金額是讀取基本設定檔的施棺滿足額, 而不是使用者自行輸入的特殊案例,
-                lines = self.env['donate.order'].search([('donate_type', '=', 3),('available_balance', '=', self.donate_apply_price),('use_amount', '=', False)])
+                lines = self.env['donate.order'].search([('donate_type', '=', 3),('available_balance', '=', self.donate_apply_price),('use_amount', '=', False),('donate_date','<',self.coffin_date)])
                 if lines: # 有單筆3萬元的捐助資料
                     for line in lines:
                         if Cumulative_amount == 0:  # 達到施棺滿足額
@@ -138,7 +138,7 @@ class CoffinBase(models.Model):
                             self.finish = True  # 結案
                             flag = True  # 結案
             elif self.donate_price != 0 or flag == False:  # 代表已有捐助資料 或 沒有單筆3萬元的資料
-                lines = self.env['donate.order'].search(['|',('donate_type', '=', 3),('donate_type', '=', 6),('available_balance', '!=', 0),('use_amount', '=', False)])
+                lines = self.env['donate.order'].search(['|',('donate_type', '=', 3),('donate_type', '=', 6),('available_balance', '!=', 0),('use_amount', '=', False),('donate_date','<',self.coffin_date)])
                 if lines:
                     for line in lines:
                         if Cumulative_amount == 0:  # 達到施棺滿足額
