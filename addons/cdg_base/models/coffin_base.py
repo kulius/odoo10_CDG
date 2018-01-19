@@ -230,12 +230,11 @@ class CoffinBase(models.Model):
     def compare_date(self):
         if self.coffin_date < self.dead_date:
             raise ValidationError(u'領款日期不得早於死亡日期')
-        loans_date = datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911
-        if len(str(loans_date)) < 3 :
-            self.coffin_date_year = '0' + str(loans_date)
-        elif len(str(loans_date)) == 3 :
-            self.coffin_date_year = loans_date.year - 1911
-        self.coffin_date_group = loans_date.month
+        if len(str(datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)) < 3 :
+            self.coffin_date_year = '0' + str(datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)
+        elif len(str(datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)) == 3 :
+            self.coffin_date_year = datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911
+        self.coffin_date_group = datetime.strptime(self.coffin_date, '%Y-%m-%d').month
 
     @api.onchange('exception_case')
     def set_exception(self):
