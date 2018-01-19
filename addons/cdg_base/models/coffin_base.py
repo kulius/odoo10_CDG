@@ -42,6 +42,19 @@ class CoffinBase(models.Model):
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
 
+    @api.model
+    def create(self, vals):
+        res_id = super(CoffinBase, self).create(vals)
+
+        if res_id.coffin_date < res_id.dead_date:
+            raise ValidationError(u'死亡日期不能超越領款日期')
+        elif not res_id.coffin_date_group:
+            res_id.coffin_date_group = datetime.strptime(res_id.coffin_date, '%Y-%m-%d').month
+        elif res_id.coffin_date_group != datetime.strptime(res_id.coffin_date, '%Y-%m-%d').month:
+            raise ValidationError(u'期別設定錯誤')
+
+        return res_id
+
     def coffin_batch(self,ids):
         res = []
         for line in ids:

@@ -38,7 +38,7 @@
                             <field name="coffin_date_year" string="施棺期別"/>
                             <field name="coffin_date_group" nolabel="1"/>
                             <field name="finish"/>
-                            <field name="coffin_season" invisible = "1"/>
+                            <field name="coffin_season" invisible = "1"/> <!--onchange 旗下的方法若沒有顯示在view是無法寫進資料庫 -->
                         </group>
 
                         <group col="6">
