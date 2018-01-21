@@ -21,7 +21,7 @@ class DonateOrder(models.Model):
                              string='狀態', default=1, index=True)
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款人姓名')
     paid_id = fields.Char(string='收費編號')
-    donate_id = fields.Char(string='捐款編號')
+    donate_id = fields.Char(string='收據編號')
     donate_w_id = fields.Char(string='團員編號')
     donate_w_id_number = fields.Char(string='序號')
     donate_date = fields.Date(string='捐款日期')
