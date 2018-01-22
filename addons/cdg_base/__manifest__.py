@@ -46,6 +46,8 @@
         'wizard/wizard_batch.xml',
         'wizard/new_coffin.xml',
         'wizard/coffin_batch.xml',
+        'wizard/member_fee_inquire.xml',
+        'wizard/consultant_fee_inquire.xml',
 
         'security/group.xml',
         'security/ir.model.access.csv',

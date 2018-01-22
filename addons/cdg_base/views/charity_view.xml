@@ -69,11 +69,11 @@
                  parent="first_categ"
                   action="receipt_analysis_action"
                   sequence="6"/>
-        <menuitem id="receipt_analysis_menu"
-                  name="捐款退款"
-                  parent="first_categ"
-                  action="charity_view"
-                  sequence="7"/>
+        <!--<menuitem id="receipt_analysis_menu"-->
+                  <!--name="捐款退款"-->
+                  <!--parent="first_categ"-->
+                  <!--action="charity_view"-->
+                  <!--sequence="7"/>-->
 
         <!--<menuitem id="group_manage_root" name="團員管理" sequence=""/>
         <menuitem id="grouper_base"
@@ -123,6 +123,11 @@
                   parent="member_manage_categ"
                   action="member_batch_action"
                   sequence="3"/>
+        <menuitem id="member_fee_inquire_menu"
+                  name="會員費查詢"
+                  parent="member_manage_categ"
+                  action="member_fee_inquire_action"
+                  sequence="4"/>
         <!--<menuitem id="keepsake_menu"-->
                   <!--name="紀念品名冊"-->
                   <!--parent="member_manage_categ"-->
@@ -180,6 +185,11 @@
                   parent="consultant_manage_categ"
                   action="consultant_batch_action"
                   sequence="3"/>
+        <menuitem id="consultant_fee_inquire_menu"
+                  name="顧問費查詢"
+                  parent="consultant_manage_categ"
+                  action="consultant_fee_inquire_action"
+                  sequence="4"/>
         <!--<menuitem id="member_data_menu"
                   name="會員、顧問轉檔"
                   parent="consultant_manage_categ"
