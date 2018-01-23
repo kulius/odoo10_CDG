@@ -40,6 +40,7 @@
         'report/paper.xml',
         'report/donate_batch_report.xml',
         'report/donate_single_report.xml',
+        'report/cashier_list_report.xml',
 
         'wizard/chang_donate.xml',
         'wizard/print_check.xml',

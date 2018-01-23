@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="cashier_list_xlsx"
+                model="normal.p"
+                string="收費員名冊"
+                report_type="xlsx"
+                name="cdg_base.cashier_list.xlsx"
+                file="收費員名冊.xlsx"
+                attachment_use="False"/>
+    </data>
+</odoo>
