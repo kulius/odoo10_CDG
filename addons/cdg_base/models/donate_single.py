@@ -186,7 +186,7 @@ class DonateSingle(models.Model):
     #      })
 
     @api.onchange('history_donate_flag')
-    def get_history_donate(self):  #----------------------待處理
+    def get_history_donate(self):
 
         if self.history_donate_flag is True:
             max_paid = 0
