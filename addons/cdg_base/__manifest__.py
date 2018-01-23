@@ -47,6 +47,7 @@
         'wizard/wizard_batch.xml',
         'wizard/new_coffin.xml',
         'wizard/coffin_batch.xml',
+        'wizard/donor_search.xml',
         'wizard/member_fee_inquire.xml',
         'wizard/consultant_fee_inquire.xml',
 
