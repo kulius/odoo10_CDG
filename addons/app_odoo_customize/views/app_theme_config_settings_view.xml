@@ -211,6 +211,8 @@
                          <label string="其他項目"/>
                         <div>
                             <button string="歷史資料自動編號" type="object" name="auto_zip_insert" class="oe_highlight"/>
+                            |
+                            <button string="收據編號" type="object" name="set_donate_id" class="oe_highlight"/>
                         </div>
                     </group>
                 </form>

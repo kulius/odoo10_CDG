@@ -20,3 +20,4 @@ from . import member_source
 from . import hand_book
 from . import auto_donateid
 from . import poor_base
+from . import donate_statistics

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import logging
+import logging, datetime
+import collections
 
 from openerp import api, fields, models, _
 
@@ -577,9 +578,9 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
     def set_donate_single(self): # 捐款檔及捐款歷史檔篩選捐款編號作為唯一值, 以便做關聯
-        sql = "INSERT INTO donate_single(donate_id, old_donate_total) SELECT distinct ON (捐款編號) 捐款編號, 捐款總額 FROM 捐款檔"
+        sql = "INSERT INTO donate_single(donate_id, old_donate_total, donate_date) SELECT distinct ON (捐款編號) 捐款編號, 捐款總額, case when 捐款日期='' then NULL WHEN 捐款日期='.' THEN NULL else cast(捐款日期 as date) end as 捐款日期 FROM 捐款檔"
         self._cr.execute(sql) # 轉入資料共 1070889筆, 花費39.5秒
-        sql = "INSERT INTO donate_single(donate_id, old_donate_total) SELECT distinct ON (捐款編號) 捐款編號, 捐款總額 FROM 捐款歷史檔"
+        sql = "INSERT INTO donate_single(donate_id, old_donate_total, donate_date) SELECT distinct ON (捐款編號) 捐款編號, 捐款總額, case when 捐款日期='' then NULL WHEN 捐款日期='.' THEN NULL else cast(捐款日期 as date) end as 捐款日期 FROM 捐款歷史檔"
         self._cr.execute(sql)  # 轉入資料共30737 筆, 花費1.125秒
         return True
 
@@ -697,4 +698,35 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 新增 6578 筆資料, 花費 0.518 秒
         sql = " INSERT INTO normal_p_people_type_rel(normal_p_id, people_type_id) SELECT id, 4 FROM normal_p a WHERE consultant_id IS NOT NULL "
         self._cr.execute(sql)  # 新增 142 筆資料, 花費 0.109 秒
+        return True
+
+    def set_donate_id(self):
+        y = 2003 # 資料庫存在的最早資料是2003年9月
+        m = 1
+        while y<=2018:
+            while m<=12:
+                if m == 1 or m == 3 or m == 5 or m == 7 or m == 8 or m == 10 or m == 12:
+                    d2 = 31
+                elif m == 2:
+                    d2 = 28
+                else:
+                    d2 = 30
+
+                sql = " SELECT COUNT(*)  FROM donate_order WHERE donate_date BETWEEN '%s-%s-%s' AND '%s-%s-%s' AND donate_date IS NOT NULL" % (y, m, 1, y, m, d2)
+                self._cr.execute(sql)
+                for count in self._cr.dictfetchall():  # 取出計算捐款人數後的資料筆數
+                    count_datas_number = count['count']
+
+                sql = " SELECT COUNT(*)  FROM donate_single WHERE donate_date BETWEEN '%s-%s-%s' AND '%s-%s-%s' AND donate_date IS NOT NULL" % (y, m, 1, y, m, d2)
+                self._cr.execute(sql)
+                for count in self._cr.dictfetchall():  # 取出計算捐款戶數後的資料筆數
+                    count_datas_households = count['count']
+
+                if count_datas_number !=0 or count_datas_households != 0:
+                    sql = " INSERT INTO donate_statistics(year, month, number,households) VALUES ('%s', '%s', '%s', '%s')" % (y, m, count_datas_number, count_datas_households)
+                    self._cr.execute(sql)
+                m = m + 1
+            m = 1
+            y = y + 1
+            # 總共費時約 2 分鐘, 資料追朔至2003年
         return True

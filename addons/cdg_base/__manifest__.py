@@ -35,7 +35,7 @@
         'views/consultant_source_view.xml',
         'views/member_fee_only_view.xml',
         'views/hand_checking_view.xml',
-        'views/charity_view.xml',
+
 
         'report/paper.xml',
         'report/donate_batch_report.xml',
@@ -49,6 +49,8 @@
         'wizard/coffin_batch.xml',
         'wizard/member_fee_inquire.xml',
         'wizard/consultant_fee_inquire.xml',
+
+        'views/charity_view.xml',
 
         'security/group.xml',
         'security/ir.model.access.csv',

@@ -128,12 +128,33 @@ class DonateSingle(models.Model):
         elif res_id.work_id.name is False:
             raise ValidationError(u'必須選取收費員')
 
-        max = self.env['donate.order'].search([], order='paid_id desc', limit=1)
-        donate_id = max.donate_id
-        int_max = int(donate_id[1:]) + 1
-        res_id.write({
-            'donate_id': 'A' + str(int_max),
-        })
+        i = 0
+        for line in res_id.family_check: # 計算該捐款者眷屬有多少人是願意捐款的
+            if line.is_donate:
+                i = i + 1
+
+        historical_data_year = str(datetime.datetime.strptime(res_id.donate_date, '%Y-%m-%d').year) # 根據捐款日期取出捐款的年份
+        historical_data_month = str(datetime.datetime.strptime(res_id.donate_date, '%Y-%m-%d').month) # 根據捐款日期取出捐款的月份
+        datas = self.env['donate.statistics'].search([('year','=',historical_data_year),('month','=',historical_data_month)]) # 搜尋計數器中有沒有資料
+        if datas: # 如果有找到資料
+            households_number = datas.households + 1
+            res_id.write({
+                'donate_id': 'A' + str(historical_data_year)[2:] + str(historical_data_month).zfill(2) + str(households_number).zfill(5)
+            })
+            datas.households = households_number # 捐款的戶數寫回計數器
+            datas.number = datas.number + i # 捐款人數要寫回計數器
+        else: # 如果沒有找到資料
+            self.env['donate.statistics'].create({
+                'year': '20' + historical_data_year,
+                'month': historical_data_month.zfill(2),
+                'households' : 1,
+                'number' : i
+            })
+            households_number = 1
+            res_id.write({
+                'donate_id': 'A' + str(historical_data_year)[2:] + str(historical_data_month).zfill(2) + str(households_number).zfill(5)
+            })
+
         self.add_to_list_create(res_id)
         self.compute_family_list_create()
 
@@ -165,7 +186,7 @@ class DonateSingle(models.Model):
     #      })
 
     @api.onchange('history_donate_flag')
-    def get_history_donate(self):
+    def get_history_donate(self):  #----------------------待處理
 
         if self.history_donate_flag is True:
             max_paid = 0
@@ -401,7 +422,7 @@ class DonateSingle(models.Model):
     def save_donate_list(self, donate_type, paid_id, member_id, money):  # 將明細產生
         if donate_type == 3:
             self.write({
-                    'donate_list': [(0, 0, {
+                'donate_list': [(0, 0, {
                     'donate_id': self.donate_id,
                     'paid_id': str(paid_id),
                     'donate_member': member_id.id,
@@ -414,15 +435,15 @@ class DonateSingle(models.Model):
             })
         else:
             self.write({
-                        'donate_list': [(0, 0, {
-                        'donate_id': self.donate_id,
-                        'paid_id': str(paid_id),
-                        'donate_member': member_id.id,
-                        'donate_type': donate_type,
-                        'donate': money,
-                        'donate_date': datetime.date.today(),
-                        'self_id': member_id.self_iden,
-                        'payment_method': int(self.payment_method),
+                'donate_list': [(0, 0, {
+                    'donate_id': self.donate_id,
+                    'paid_id': str(paid_id),
+                    'donate_member': member_id.id,
+                    'donate_type': donate_type,
+                    'donate': money,
+                    'donate_date': datetime.date.today(),
+                    'self_id': member_id.self_iden,
+                    'payment_method': int(self.payment_method),
                 })]
             })
 
