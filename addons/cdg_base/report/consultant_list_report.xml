@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="consultant_list_xlsx"
+                model="consultant.fee"
+                string="顧問名冊"
+                report_type="xlsx"
+                name="cdg_base.consultant_list.xlsx"
+                file="顧問名冊.xlsx"
+                attachment_use="False"/>
+    </data>
+</odoo>
