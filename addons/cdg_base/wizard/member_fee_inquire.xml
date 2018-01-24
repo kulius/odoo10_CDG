@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+
+        <record id="member_fee_only_view_tree" model="ir.ui.view">
+            <field name="name">member fee only tree</field>
+            <field name="model">associatemember.fee</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="year"/>
+                    <field name="fee_payable"/>
+                    <field name="fee_date"/>
+                    <field name="normal_p_id"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="member_fee_inquire_form" model="ir.ui.view">
             <field name="name">member_fee_inquire_form</field>
             <field name="model">memnber.fee.inquire</field>
@@ -21,7 +35,7 @@
             </field>
         </record>
 
-        <act_window id="member_fee_inquire_action" name="會員費查詢" res_model="memnber.fee.inquire"
-                    view_mode="form" target="new" multi="False"/>
+        <act_window id="member_fee_inquire_action" name="會員費查詢" res_model="memnber.fee.inquire" limit="150"
+                    view_mode="form,tree"  target="new" multi="False"/>
     </data>
 </odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="member_list_xlsx"
+                model="associatemember.fee"
+                string="會員名冊"
+                report_type="xlsx"
+                name="cdg_base.member_list.xlsx"
+                file="會員名冊.xlsx"
+                attachment_use="False"/>
+    </data>
+</odoo>

@@ -58,7 +58,8 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">associatemember.fee</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[]</field>
+            <!--<field name="domain">[]</field>-->
+            <field name="limit">10</field>
             <field name="view_ids"
                    eval="[(5, 0, 0),
                    (0, 0, {'view_mode': 'tree', 'view_id': ref('cdg_base.member_fee_only_view_tree')})
