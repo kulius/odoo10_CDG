@@ -42,6 +42,7 @@
         'report/donate_single_report.xml',
         'report/cashier_list_report.xml',
         'report/consultant_list_report.xml',
+        'report/member_list_report.xml',
 
         'wizard/chang_donate.xml',
         'wizard/print_check.xml',
