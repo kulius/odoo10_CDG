@@ -67,6 +67,10 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <footer>
+                        <button type="object" name="search_area_donor" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
                 </form>
             </field>
         </record>

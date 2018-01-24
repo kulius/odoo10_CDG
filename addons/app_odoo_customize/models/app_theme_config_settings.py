@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import logging, datetime
-import collections
 
 from openerp import api, fields, models, _
 

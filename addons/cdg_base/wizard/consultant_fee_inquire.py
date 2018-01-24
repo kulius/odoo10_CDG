@@ -24,4 +24,5 @@ class consultantfeeinquire(models.Model):
         action['views'] = [
             [self.env.ref('cdg_base.consultant_fee_search_tree').id, 'tree'],
         ]
+
         return action

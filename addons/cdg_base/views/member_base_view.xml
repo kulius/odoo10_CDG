@@ -28,8 +28,8 @@
                     </header>
                     <sheet>
                         <group col="7">
-                                <field name="w_id" string="會員編號" colspan="2"/>
                                 <field name="name" string="會員姓名" colspan="2"/>
+                                <field name="type" widget="many2many_tags" string="會員種類" options="{'no_quick_create': True, 'no_create_edit' : True}" domain="['|',('name','=','基本會員'),('name','=','贊助會員')]" colspan="2"/>
                                 <field name="build_date" string="創建日期" colspan="3"/>
                         </group>
                             <notebook>
