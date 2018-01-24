@@ -45,7 +45,7 @@
                             <field name="donate_date" colspan="2"/>
                             <!--  options="{'no_quick_create': True, 'no_create_edit' : True} 用來調整能不能在關聯來的欄位作新增 -->
                             <field name="donate_member" colspan="4" options="{'no_quick_create': True}"
-                                   context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
+                                   context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form', 'search_view_ref':'cdg_base.normal_p_search'}"/>
                             <field name="name"/>
                             <field name="self_iden"/>
                             <field name="cellphone"/>
