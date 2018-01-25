@@ -13,6 +13,8 @@ class memnberfeeinquire(models.Model):
         if self.year is False:
             raise ValidationError(u'請輸入繳費年度!')
         number = 0
+        if len(self.year) < 3:
+            self.year = '0'+ str(self.year)
         action = self.env.ref('cdg_base.member_fee_only_view_action').read()[0]
         action['context'] ={} # remove default domain condition in search box
         action['domain'] =[] # remove any value in search box

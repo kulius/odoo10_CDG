@@ -35,4 +35,6 @@ class CashierListXlsx(ReportXlsx):
 
 
 
+
+
 CashierListXlsx('report.cdg_base.cashier_list.xlsx', 'normal.p')
