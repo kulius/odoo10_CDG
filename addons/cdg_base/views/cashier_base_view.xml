@@ -44,9 +44,9 @@
                                     <field name="con_phone"/>
                                     <field name="cellphone"/>
                                 </group>
-                                <group col="10">
+                                <group col="8">
                                     <field name="zip_code"/>
-                                    <field name="con_addr" colspan="8"/>
+                                    <field name="con_addr" colspan="6"/>
                                 </group>
                                 <group col="10">
                                     <field name="ps" colspan="10"/>

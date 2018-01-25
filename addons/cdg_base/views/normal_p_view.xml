@@ -64,14 +64,14 @@
                                             <field name="con_phone"/>
                                             <field name="cellphone"/>
                                         </group>
-                                        <group col="10">
+                                        <group col="8">
                                             <field name="zip"/>
-                                            <field name="rec_addr" colspan="8"/>
+                                            <field name="rec_addr" colspan="6"/>
                                             <field name="is_same_addr"/>
                                         </group>
-                                        <group col="10">
+                                        <group col="8">
                                             <field name="zip_code"/>
-                                            <field name="con_addr" colspan="8"/>
+                                            <field name="con_addr" colspan="6"/>
                                         </group>
                                         <group col="6">
                                             <field name="donate_family_list" colspan="6"/>

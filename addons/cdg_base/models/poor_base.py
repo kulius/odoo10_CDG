@@ -9,6 +9,15 @@ class PoorBase(models.Model):
     name = fields.Char('姓名')
     self_iden = fields.Char('身分證號')
     case_id = fields.Char('案件編號')
+    allow_money = fields.Integer('申請費用')
+    receive_money = fields.Integer('已領金額')
+    zip = fields.Char(string='收據郵遞區號')
+    rec_addr = fields.Char(string='收據寄送地址')
+    zip_code = fields.Char(string='報表郵遞區號')
+    con_addr = fields.Char(string='報表寄送地址')
+
+
+
     case_date = fields.Date('案件日期',default=datetime.today())
 
     @api.model

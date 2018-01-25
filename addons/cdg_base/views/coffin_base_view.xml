@@ -61,11 +61,11 @@
                                     <field name="con_phone"/>
                                     <field name="cellphone"/>
                                 </group>
-                                <group col="10">
+                                <group col="8">
                                     <field name="zip_code2"/>
-                                    <field name="payee_addr" colspan="8"/>
+                                    <field name="payee_addr" colspan="6"/>
                                     <field name="zip_code"/>
-                                    <field name="con_addr"  colspan="8"/>
+                                    <field name="con_addr"  colspan="6"/>
                                 </group>
                                 <group col="2">
                                     <field name="donater_ps" string="捐款者備註"/>
