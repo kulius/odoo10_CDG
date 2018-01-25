@@ -32,6 +32,7 @@ class AppThemeConfigSettings(models.TransientModel):
     app_account_url = fields.Char('My Odoo.com Account Url')
 
     Basic_donations = fields.Char(string="基本捐助款")
+    First_Annual_membership_fee = fields.Char(string="首年會員年費")
     Annual_membership_fee = fields.Char(string="會員年費")
     Annual_consultants_fee = fields.Char(string="顧問年費")
     coffin_amount = fields.Char(string="施棺滿足額")
@@ -50,6 +51,8 @@ class AppThemeConfigSettings(models.TransientModel):
                 line.value = self.Annual_consultants_fee
             if line.key == 'exception_coffin_amount':
                 line.value = self.exception_coffin_amount
+            if line.key == 'First_Annual_membership_fee':
+                line.value = self.First_Annual_membership_fee
         return True
 
     @api.model
@@ -76,6 +79,7 @@ class AppThemeConfigSettings(models.TransientModel):
         app_account_url = ir_config.get_param('app_account_url', default='http://www.sunpop.cn/my-account/')
 
         Basic_donations = ir_config.get_param('Basic_donations', default='100')
+        First_Annual_membership_fee = ir_config.get_param('First_Annual_membership_fee', default='1700')
         Annual_membership_fee = ir_config.get_param('Annual_membership_fee', default='1200')
         Annual_consultants_fee = ir_config.get_param('Annual_consultants_fee', default='10000')
         coffin_amount = ir_config.get_param('coffin_amount', default='30000')
@@ -98,6 +102,7 @@ class AppThemeConfigSettings(models.TransientModel):
             app_account_title=app_account_title,
             app_account_url=app_account_url,
             Basic_donations=Basic_donations,
+            First_Annual_membership_fee = First_Annual_membership_fee,
             Annual_membership_fee = Annual_membership_fee,
             Annual_consultants_fee= Annual_consultants_fee,
             coffin_amount = coffin_amount,
@@ -128,6 +133,7 @@ class AppThemeConfigSettings(models.TransientModel):
         ir_config.set_param("app_account_url", self.app_account_url or "http://www.sunpop.cn/my-account/")
 
         ir_config.set_param("Basic_donations",self.Basic_donations or '100')
+        ir_config.set_param("First_Annual_membership_fee", self.First_Annual_membership_fee or '1700')
         ir_config.set_param("Annual_membership_fee",self.Annual_membership_fee or '1200')
         ir_config.set_param("Annual_consultants_fee",self.Annual_consultants_fee or '10000')
         ir_config.set_param("coffin_amount",self.coffin_amount or '30000')

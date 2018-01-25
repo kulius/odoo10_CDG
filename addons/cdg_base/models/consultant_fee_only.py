@@ -17,3 +17,12 @@ class ConsultantFeeOnly(models.Model):
     rec_addr = fields.Char(string='收據地址', related='normal_p_id.rec_addr')
     con_phone = fields.Char(string='連絡電話', related='normal_p_id.con_phone')
     cellphone = fields.Char(string='手機', related='normal_p_id.cellphone')
+
+    @api.onchange('normal_p_id')
+    def set_base_fee(self):
+        basic_setting = self.env['ir.config_parameter'].search([])
+        Annual_consultants_fee = 0
+        for line in basic_setting:
+            if line.key == 'Annual_consultants_fee':
+                Annual_consultants_fee = int(line.value)
+        self.fee_payable = Annual_consultants_fee

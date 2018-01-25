@@ -19,3 +19,21 @@ class MemberFeeOnly(models.Model):
     con_phone = fields.Char(string='連絡電話', related='normal_p_id.con_phone')
     cellphone = fields.Char(string='手機', related='normal_p_id.cellphone')
 
+    @api.onchange('normal_p_id')
+    def set_base_fee(self):
+        basic_setting = self.env['ir.config_parameter'].search([])
+        Annual_membership_fee = 0
+        flag = False
+        for line in basic_setting:
+            if line.key == 'Annual_membership_fee':
+                Annual_membership_fee = int(line.value)
+            if line.key == 'First_Annual_membership_fee':
+                First_Annual_membership_fee = int(line.value)
+        for line in self.normal_p_id.member_pay_history:
+            if line:
+                self.fee_payable = Annual_membership_fee
+                flag = True
+                break
+        if flag == False:
+            self.fee_payable = First_Annual_membership_fee
+

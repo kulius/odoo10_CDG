@@ -67,6 +67,10 @@
             <field name="key">Basic_donations</field>
             <field name="value">100</field>
         </record>
+        <record id="First_Annual_membership_fee" model="ir.config_parameter">
+            <field name="key">First_Annual_membership_fee</field>
+            <field name="value">1700</field>
+        </record>
         <record id="Annual_membership_fee" model="ir.config_parameter">
             <field name="key">Annual_membership_fee</field>
             <field name="value">1200</field>

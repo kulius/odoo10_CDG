@@ -72,6 +72,7 @@
                                          <tree  editable="bottom">
                                              <field name="year"/>
                                              <field name="fee_date"/>
+                                             <field name="fee_payable"/>
                                              <field name="member_name"/>
                                              <field name="rec_addr"/>
                                              <field name="con_phone"/>
