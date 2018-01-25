@@ -47,10 +47,10 @@ class NormalP(models.Model):
     temp_cashier_name = fields.Char(string='收費員姓名_temp')
     donate_cycle = fields.Selection(selection=[('03', '季繳'), ('06', '半年繳'), ('12', '年繳')], string='捐助週期')
     rec_type = fields.Selection(selection=[(1, '正常'), (2, '年收據')], string='收據狀態')
-    rec_send = fields.Boolean(string='收據寄送')
+    rec_send = fields.Boolean(string='收據寄送', default=True)
 
     self = fields.Char(string='自訂排序')
-    report_send = fields.Boolean(string='報表寄送')
+    report_send = fields.Boolean(string='報表寄送', default=True)
     thanks_send = fields.Boolean(string='感謝狀寄送')
     prints = fields.Boolean(string='是否列印')
     prints_id = fields.Char(string='核印批號')
