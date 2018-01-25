@@ -20,7 +20,7 @@
             <field name="name">cashier base f</field>
             <field name="model">cashier.base</field>
             <field name="arch" type="xml">
-                <form>
+                <form class="o_sale_order">
                     <header>
                         <button string="匯入收費員檔" name="data_input_cashier" type="object"/>
                     </header>
@@ -30,10 +30,15 @@
                             <button string="會員收費名冊" name="member_register" class="oe_stat_button" icon="fa-users" type="object"/>
                             <button string="顧問收費名冊" name="consultant_register" class="oe_stat_button" icon="fa-user-md" type="object"/>
                         </div>
-                        <group col="7">
-                                <field name="c_id" string="收費員編號" colspan="2"/>
-                                 <field name="name" string="收費員姓名"  colspan="2"/>
-                                 <field name="create_date" string="建檔日期" colspan="3"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="c_id" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="name" string="收費員姓名"  colspan="2"/>
+                            <field name="create_date" string="建檔日期" colspan="2"/>
+                            <!--<field name="c_id" string="收費員編號" colspan="2"/>-->
                         </group>
                         <notebook>
                             <page string="基本資料">
