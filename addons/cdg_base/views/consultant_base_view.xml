@@ -20,11 +20,16 @@
             <field name="name">consultant base form</field>
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
-                <form>
+                <form class="o_sale_order">
                     <header>
                         <button string="報表地址同收據地址" name="set_con_addr" type="object"></button>
                     </header>
                     <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="new_coding"/>
+                            </h1>
+                        </div>
                         <group col="7">
                             <field name="name" string="顧問姓名" colspan="2"/>
                             <field name="type" widget="many2many_tags" string="顧問" options="{'no_quick_create': True, 'no_create_edit' : True}" defaults = "{ 'name': '顧問'}" domain="[('name','=','顧問')]" colspan="2"/>

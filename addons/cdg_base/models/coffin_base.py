@@ -5,6 +5,7 @@ from datetime import *
 
 class CoffinBase(models.Model):
     _name = 'coffin.base'
+    _rec_name = 'coffin_id'
 
     name = fields.Char()
     coffin_id = fields.Char(string="施棺編號")
