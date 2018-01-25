@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import logging, datetime
+# import zipcodetw
+# import collections
 
 from openerp import api, fields, models, _
 
@@ -459,27 +461,9 @@ class AppThemeConfigSettings(models.TransientModel):
 
 
     def data_transfer(self): #轉團員檔及團員眷屬檔
-        # sql = "INSERT INTO normal_p(w_id,number,name,cellphone,con_phone,con_phone2,zip_code,address,con_addr,habbit_donate,donate_cycle,rec_type,ps,cashier_code,rec_send,is_donate,report_send,thanks_send,bank_check"\
-        #       " ,prints_id,self_iden,bank_id,bank,bank_id2,account,prints_date,ps2)"\
-        #       " SELECT code,number,name,cellphone,phone1,phone2, zip,addr,addr,cast(donate_code as Integer),cycle,case when annual_receipt = 'N' then 1 else 2 end as annualreceipt"\
-        #       " ,ps,collector_code ,case when rec_send='N' then FALSE else TRUE end as rec_send"\
-        #       " ,case when is_donate='N' then FALSE else TRUE end as is_donate "\
-        #       " ,case when report_send='N' then FALSE else TRUE end as report_send ,case when thanks_send='N' then FALSE else TRUE end as thanks_send"\
-        #       " ,case when bank_check='N' then FALSE else TRUE end as bank_check"\
-        #       " ,check_num,p_id,bank_id,bankname,bank_id2,bankaccount,checkdate,transfer_note"\
-        #       " from (SELECT 團員編號 AS code, '1' AS number, 姓名 AS name, 出生日期 AS birth, 手機 AS cellphone, 電話一 AS phone1, 電話二 AS phone2,郵遞區號 AS zip, 通訊地址 AS addr, 捐助種類編號 AS donate_code,捐助週期 AS cycle, 年收據 AS annual_receipt, 建檔日期 AS build_date, 備註 AS ps,收費員編號 AS collector_code, 收據寄送 AS rec_send,NULL AS is_donate, 自訂排序 AS sorting, 報表寄送 AS report_send, 感謝狀寄送 AS thanks_send, 銀行核印 AS bank_check, 核印批號 AS check_num, 身份證號 AS p_id, 扣款銀行代碼 AS bank_id, 扣款銀行 AS bankname, 扣款分行代碼 AS bank_id2, 扣款分行 AS bankname2, 銀行帳號 AS bankaccount, 核印日期 AS checkdate, 約定轉帳備註 AS transfer_note,輸入人員 AS key_in_user, 異動日期 AS db_chang_date"\
-        #       " FROM 團員檔"\
-        #       " where 郵遞區號='111'"\
-        #       " UNION"\
-        #       " SELECT 團員編號 AS code, 序號 AS number, 姓名 AS name, 出生日期 AS birth, 手機 AS cellphone, 電話一 AS phone1, 電話二 AS phone2, 郵遞區號 AS zip, 通訊地址 AS addr, 捐助種類編號 AS donate_code, NULL AS cycle, NULL AS annual_receipt , NULL AS build_date, NULL AS ps, NULL AS collector_code, 收據寄送 AS rec_send, 是否捐助 AS is_donate, 自訂排序 AS sorting , NULL AS report_send, NULL AS thanks_send, NULL AS bank_check, NULL AS check_num, NULL AS p_id, NULL AS bank_id, NULL AS bankname, NULL AS bank_id2, NULL AS bankname2, NULL AS bankaccount, NULL AS checkdate, NULL AS transfer_note,輸入人員 AS key_in_user, 異動日期 AS db_chang_date"\
-        #       " FROM 團員眷屬檔"\
-        #       " where 郵遞區號='111' and 序號 <> '1'"\
-        #       " ) as aaa"\
-        #       " LIMIT 1000"
-
         # 轉團員眷屬檔, 其中團員編號為空的資料共334筆未轉入
         sql = "INSERT INTO normal_p(w_id, number, name, cellphone, con_phone, con_phone2, zip, rec_addr, habbit_donate, rec_send, is_donate, temp_key_in_user, db_chang_date) "\
-              " SELECT 團員編號, 序號, 姓名, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, cast(捐助種類編號 as Integer), case when 收據寄送='N' then FALSE else TRUE end as 收據寄送, case when 是否捐助='N' then FALSE else TRUE end as 是否捐助, 輸入人員, case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 團員眷屬檔 WHERE 團員編號 <>'' "
+              " SELECT 團員編號, 序號, 姓名, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, cast(捐助種類編號 as Integer), case when 收據寄送='N' then FALSE else TRUE end as 收據寄送, case when 是否捐助='N' then FALSE else TRUE end as 是否捐助, 輸入人員, case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期 FROM 團員眷屬檔 WHERE 團員編號 <>'' "
         self._cr.execute(sql)
 
         #轉入不在眷屬檔，在團員檔的資料，共7769筆
@@ -498,12 +482,10 @@ class AppThemeConfigSettings(models.TransientModel):
               " ps2 = a.約定轉帳備註, temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end" \
               " FROM 團員檔 a WHERE a.團員編號 = normal_p.w_id and a.姓名 = normal_p.name"
         self._cr.execute(sql) # 全資料共768060筆
+        sql = "UPDATE normal_p SET temp_cashier = a.收費員編號 FROM 團員檔 a WHERE a.團員編號 = normal_p.w_id"
+        self._cr.execute(sql)
         sql = "UPDATE normal_p  SET active = TRUE"
         self._cr.execute(sql)  # 把所有捐款者資料的active設為TRUE, 不然基本資料會什麼都看不見, 共768060筆 花費12.103秒
-        sql = "SELECT id,'AAA' || LPAD(CAST(row_number() OVER() AS VARCHAR),6,'0') AS new_coding into temp FROM normal_p"
-        self._cr.execute(sql)
-        sql = "UPDATE normal_p  SET new_coding = b.new_coding FROM temp b WHERE normal_p.id =b.id"
-        self._cr.execute(sql)
         return True
 
     def set_leader(self): # 設定戶長
@@ -527,7 +509,7 @@ class AppThemeConfigSettings(models.TransientModel):
         sql = "INSERT INTO worker_data(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
               " SELECT 職稱, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期,性別, 電話二, 身份證號,case when 離職日期='' then NULL else cast(離職日期 as date) end as 離職日期, 員工編號, 通訊地址,備註,手機,姓名, 電話一,最高學歷,case when 到職日期='' then NULL else cast(到職日期 as date) end as 到職日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 員工檔"
         self._cr.execute(sql)
-        sql = "INSERT INTO c.worker(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
+        sql = "INSERT INTO c_worker(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
               " SELECT 職稱, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期,性別, 電話二, 身份證號,case when 離職日期='' then NULL else cast(離職日期 as date) end as 離職日期, 員工編號, 通訊地址,備註,手機,姓名, 電話一,最高學歷,case when 到職日期='' then NULL else cast(到職日期 as date) end as 到職日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 員工檔"
         self._cr.execute(sql)
         employee_data = self.env['worker.data'].search([])
@@ -561,14 +543,15 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
     def set_coffin_data(self): # 施棺檔轉入 coffin_base 共 14256筆, 花費0.21秒
-        sql = "INSERT INTO coffin_base(coffin_id, donate_type, create_date, donate_price, finish, \"user\", coffin_date_year, coffin_date_group, coffin_date, geter, dealer, cellphone, con_phone, con_phone2, zip_code, dead_addr, donater_ps, ps, temp_key_in_user, db_chang_date) " \
+        sql = "UPDATE 施棺檔 SET 施棺日期='2009-06-30' WHERE 施棺日期='2009-06-31' "
+        self._cr.execute(sql)
+        sql = "UPDATE 施棺檔 SET 施棺日期='2010-08-27' WHERE 施棺日期='2010-80-27' "
+        self._cr.execute(sql)
+        sql = "INSERT INTO coffin_base(coffin_id, donate_type, create_date, donate_price, finish, \"user\", coffin_date_year, coffin_date_group, coffin_date, geter, dealer, cellphone, con_phone, con_phone2, zip_code, con_addr, donater_ps, ps, temp_key_in_user, db_chang_date) " \
               " SELECT 施棺編號, 捐助方式, case when 建檔日期='' then NULL WHEN 建檔日期='.' THEN NULL else cast(建檔日期 as date) end as 建檔日期, CAST(已捐總額 AS INTEGER), case when 結案='N' then FALSE else TRUE end as 結案, 受施者, 年度, case when 期別='' then NULL else CAST(期別 AS INTEGER) end as 期別, case when 施棺日期='' then NULL WHEN 施棺日期='.' THEN NULL else cast(施棺日期 as date) end as 施棺日期, 領款人, 處理者, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, 捐款者備註, 備註, 輸入人員, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期 FROM 施棺檔"
         self._cr.execute(sql)
-        sql = "UPDATE 施棺檔 SET 施棺日期='2009-06-30' FROM 施棺檔 WHERE 施棺日期='2009-06-31' "
-        self._cr.execute(sql)
-        sql = "UPDATE 施棺檔 SET 施棺日期='2010-08-27' FROM 施棺檔 WHERE 施棺日期='2010-80-27' "
-        self._cr.execute(sql)
         # 施棺編號 00236 之施棺日期為 2009-06-31, 修改為2009-06-30
+        # 施棺編號 01944, 01945, 01946, 01947 之施棺日期為 2010-80-27  修改為2010-08-27
         # 施棺編號 01944, 01945, 01946, 01947 之施棺日期為 2010-80-27  修改為2010-08-27
         sql = "UPDATE coffin_base set dead_date = a.coffin_date from coffin_base a where a.id = coffin_base.id"
         self._cr.execute(sql)  # 計算資料共14256筆, 花費0.167秒 ; 舊資料設定領款日期等餘死亡日期
@@ -611,7 +594,7 @@ class AppThemeConfigSettings(models.TransientModel):
     def compute_coffin_donate(self): # 計算 coffin_donation的捐款編號與donate_order的捐款編號相符者, 將 可用餘額(available_balance)設為 0 ; 不相符者則將可用餘額設為捐款金額(donate)
         sql = "UPDATE donate_order SET available_balance = donate_order.donate"
         self._cr.execute(sql)  # 計算資料共2881560筆, 花費98.004秒
-        sql = "UPDATE donate_order SET available_balance = 0 FROM coffin_donation a WHERE a.donate_id = donate_order.donate_id AND donate_order.donate_type = 3"
+        sql = "UPDATE donate_order SET available_balance = 0 FROM old_coffin_donation a WHERE a.donate_id = donate_order.donate_id AND donate_order.donate_type = 3"
         self._cr.execute(sql)  # 計算資料共275777筆, 花費16.711秒 ;  共281565筆資料施棺的捐款金額為 0
         sql = "UPDATE donate_order SET use_amount = TRUE WHERE available_balance = 0 and donate_type = 3"
         self._cr.execute(sql)  # 計算資料共281565筆, 花費5.875秒 ;  共281565筆資料施棺的是否已支用改為改為True
@@ -624,7 +607,7 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql) # 轉入顧問檔有資料但normal.p沒有資料的, 共有73筆資料
         sql = "UPDATE normal_p " \
               " SET consultant_id = a.顧問編號, cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, zip_code = a.戶籍郵遞區號, con_addr = a.戶籍通訊地址, zip = a.郵遞區號, rec_addr = a.通訊地址, hire_date = case when a.聘顧日期='' then NULL else cast(a.聘顧日期 as date) end, build_date = case when a.建檔日期='' then NULL else cast(a.建檔日期 as date) end, " \
-              " ps = a.備註, temp_cashier_name = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, report_send = case when a.報表寄送='N' then FALSE else TRUE end, thanks_send = case when a.感謝狀寄送='N' then FALSE else TRUE end, self = a.自訂排序,temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end " \
+              " ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, report_send = case when a.報表寄送='N' then FALSE else TRUE end, thanks_send = case when a.感謝狀寄送='N' then FALSE else TRUE end, self = a.自訂排序,temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end " \
               " FROM 顧問檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
         self._cr.execute(sql) #顧問檔更新normal.p的資料共142筆, 花費 0.408 秒
         return True
@@ -634,7 +617,7 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 轉入會員檔有資料但normal.p沒有資料的, 共有4654筆資料, 花費 0.398 秒
         sql = "UPDATE normal_p " \
               " SET member_id = a.會員編號, cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, zip_code = a.戶籍郵遞區號, con_addr = a.戶籍通訊地址, zip = a.郵遞區號, rec_addr = a.通訊地址, build_date = case when a.建檔日期='' then NULL else cast(a.建檔日期 as date) end, self_iden = a.身份證號, member_type = case when 會員種類編號='' then NULL else CAST(會員種類編號 AS INTEGER) end, " \
-              " ps = a.備註, temp_cashier_name = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, booklist = case when a.名冊列印='N' then FALSE else TRUE end, self = a.自訂排序,temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end " \
+              " ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, booklist = case when a.名冊列印='N' then FALSE else TRUE end, self = a.自訂排序,temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end " \
               " FROM 會員檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
         self._cr.execute(sql)  # 會員檔更新normal.p的資料共7304筆, 花費 0.804 秒
         return True
@@ -668,14 +651,8 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql) # 收費員檔共輸入 1381 筆資料, 花費0.027秒
         sql = " UPDATE cashier_base set key_in_user = a.id from res_users a where a.login = cashier_base.temp_key_in_user"
         self._cr.execute(sql)  # 關聯資料共1370筆, 花費0.03秒,  未關聯資料共11筆
-        sql = " UPDATE normal_p set cashier_name = a.id from cashier_base a where a.c_id = normal_p.temp_cashier_name"
+        sql = " UPDATE normal_p set cashier_name = a.id from cashier_base a where a.c_id = normal_p.temp_cashier"
         self._cr.execute(sql)  # 關聯資料共5554筆, 花費1.544秒,  未關聯資料共767231筆
-        return True
-
-    def set_cashier_code(self): # 收費員編號重新編號
-        lines = self.env['cashier.base'].search([])
-        for line in lines:
-            line.c_id = 'D' + line.c_id
         return True
 
     def active_data(self):
@@ -685,13 +662,6 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 關聯資料共 712819 筆,  共59968 筆資料未關聯到, 判斷輸入人員已離職或temp_key_in_user為空值(1筆)
         sql = " UPDATE normal_p set member_type = '2' where member_type = '99' "
         self._cr.execute(sql) # 修改資料共6578 筆, 花費0.441秒
-        return True
-
-    def set_postal_code3(self): # 沒有收據寄送地址, 也沒有報表寄送地址, 共 7946 筆
-        lines = self.env['normal.p'].search(['&',('con_addr', '=', ''),('rec_addr','=', '')])
-        for line in lines:
-            line.new_coding = ''
-
         return True
 
     def set_people_type(self): # 人員種類關聯
@@ -734,6 +704,78 @@ class AppThemeConfigSettings(models.TransientModel):
             m = 1
             y = y + 1
             # 總共費時約 2 分鐘, 資料追朔至2003年
+        return True
+
+    # def set_postal_code1(self):  # 花費時間約18分鐘
+    #     lines = self.env['normal.p'].search([])
+    #     s = collections.Counter()
+    #     zip = ''
+    #     for line in lines[0:400000]:
+    #         zip = ''
+    #         if line.rec_addr is False and line.con_addr:  # 收據地址為空, 但卻有報表寄送地址
+    #             zip = zipcodetw.find(line.con_addr)[0:3]  # 藉由報表寄送地址判讀該地址的郵遞區號, 並只取郵遞區號前3碼
+    #             line.zip = zip  # 將郵遞區號寫入 收據地址的郵遞區號
+    #             line.rec_addr = line.con_addr  # 將報表寄送地址寫入收據地址, 前提是收據地址是空的
+    #         elif line.rec_addr:  # 有收據地址
+    #             zip = zipcodetw.find(line.rec_addr)[0:3]  # 直接取郵遞區號前3碼
+    #         if len(zip) < 3 and line.rec_addr:  # 藉由程式判讀出來的郵遞區號, 若小於3碼則代表地址填寫錯誤, 找不到郵遞區號, 條件是收據地址不為空
+    #             s['999'] += 1  # 該郵遞區號出現次數 +1
+    #             line.new_coding = '999' + str(s.get('999')).zfill(5)  # 什麼都沒有的一般捐款者
+    #         elif len(zip) == 3:  # 郵遞區號有3碼, 代表該筆資料的地址可以找到相對應的郵遞區號
+    #             line.zip = zip  # 將程式判斷的郵遞區號寫入該捐款者的收據地址郵遞區號
+    #             s[zip] += 1  # 該郵遞區號的出現次數 +1
+    #             line.new_coding = zip + str(s.get(zip)).zfill(5)
+    #
+    #     postal_code_list = list(s.items())  # 將python 的 counter 轉換為陣列
+    #     for i in range(len(postal_code_list)):
+    #         sql = " INSERT INTO auto_donateid(zip, area_number) VALUES ('%s', '%s')" % (postal_code_list[i][0], postal_code_list[i][1])
+    #         self._cr.execute(sql)  # 將counter內的計數寫入資料庫之中
+    #     s.clear()
+    #     return True
+    #
+    # def set_postal_code2(self):  # 花費時間約18分鐘
+    #     lines = self.env['normal.p'].search([])
+    #     last_time_data = self.env['auto.donateid'].search([])
+    #     s = collections.Counter()
+    #     zip = ''
+    #     for row in last_time_data:  # 將資料庫計數器的資料撈出來, 放入python 的 counter之中, 以便繼續統計個郵遞區號的出現次數
+    #         zip = row.zip
+    #         s[zip] += int(row.area_number)
+    #     zip = ''
+    #
+    #     for line in lines[400001:]:
+    #         zip = ''
+    #         if line.rec_addr is False and line.con_addr:
+    #             zip = zipcodetw.find(line.con_addr)[0:3]
+    #             line.zip = zip
+    #             line.rec_addr = line.con_addr
+    #         elif line.rec_addr:
+    #             zip = zipcodetw.find(line.rec_addr)[0:3]
+    #         if len(zip) < 3 and line.rec_addr:
+    #             s['999'] += 1
+    #             line.new_coding = '999' + str(s.get('999')).zfill(5)
+    #         elif len(zip) == 3:
+    #             line.zip = zip
+    #             s[zip] += 1
+    #             line.new_coding = zip + str(s.get(zip)).zfill(5)
+    #
+    #     postal_code_list = list(s.items())
+    #     for i in range(len(postal_code_list)):
+    #         postal_code_data = self.env['auto.donateid'].search(
+    #             [('zip', '=', postal_code_list[i][0])])  # 搜尋資料庫的計數器是否具有該郵遞區號
+    #         if postal_code_data:
+    #             postal_code_data.area_number = postal_code_data.area_number + int(
+    #                 postal_code_list[i][1])  # 有搜尋到 則更新資料庫計數器的數量
+    #         else:
+    #             sql = " INSERT INTO auto_donateid(zip, area_number) VALUES ('%s', '%s')" % (postal_code_list[i][0], postal_code_list[i][1])  # 沒有搜尋到則重新建立該郵遞區號的資料
+    #             self._cr.execute(sql)
+    #     s.clear()
+    #     return True
+
+    def set_postal_code3(self):  # 沒有收據寄送地址, 也沒有報表寄送地址, 共 7946 筆
+        lines = self.env['normal.p'].search(['&', ('con_addr', '=', ''), ('rec_addr', '=', '')])
+        for line in lines:
+            line.new_coding = ''
         return True
 
     def postal_code_database(self):

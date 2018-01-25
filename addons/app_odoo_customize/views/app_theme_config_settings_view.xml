@@ -200,8 +200,6 @@
                         <label string="收費員檔轉檔"/>
                         <div>
                             <button string="17.收費員轉檔" type="object" name="set_cashier_data" class="oe_highlight"/>
-                            |
-                            <button string="21.收費員編號" type="object" name="set_cashier_code" class="oe_highlight"/>
                         </div>
                         <label string="資料設定"/>
                         <div>
@@ -212,6 +210,10 @@
                          <label string="其他項目"/>
                         <div>
                             <button string="收據編號匯入及統計" type="object" name="set_donate_id" class="oe_highlight"/>
+                            <!--|-->
+                            <!--<button string="郵遞區號編號1" type="object" name="set_postal_code1" class="oe_highlight"/>-->
+                            <!--|-->
+                            <!--<button string="郵遞區號編號2" type="object" name="set_postal_code2" class="oe_highlight"/>-->
                             |
                             <button string="郵遞區號資料庫匯入" type="object" name="postal_code_database" class="oe_highlight"/>
                         </div>
