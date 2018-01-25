@@ -67,7 +67,16 @@
                                 </group>
                             </page>
                             <page string="繳費狀況">
-                                <field name="consultant_pay_history"/>
+                                <field name="consultant_pay_history">
+                                     <tree  editable="bottom">
+                                         <field name="year"/>
+                                         <field name="fee_date"/>
+                                         <field name="normal_p_id"/>
+                                         <field name="rec_addr"/>
+                                         <field name="con_phone"/>
+                                         <field name="cellphone"/>
+                                     </tree>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
