@@ -60,7 +60,7 @@
                   <!--action="donate_batch_view_action"-->
                   <!--sequence="4"/>-->
         <menuitem id="donate_single_menu"
-                  name="已產生捐款"
+                  name="捐款作業"
                   parent="first_categ"
                   action="donate_single_view_action"
                   sequence="5"/>
