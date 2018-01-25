@@ -158,9 +158,10 @@ class NormalP(models.Model):
     def name_search(self, name='', args=None, operator='ilike', limit=100):
         args = args or []
         domain = []
-        if name:
-            domain = ['|', ('name', operator, name), '|', ('w_id', operator, name), '|', ('new_coding', operator, name),
-                      '|', ('self_iden',operator, name), ('con_addr', operator, name)]
+        if u'\u4e00' <= name <=u'\u9fff':
+            domain = [('name', operator, name)]
+        else:
+            domain = ['|', ('w_id', operator, name), ('new_coding', operator, name)]
 
         banks = self.search(domain + args, limit=limit)
         return banks.name_get()
