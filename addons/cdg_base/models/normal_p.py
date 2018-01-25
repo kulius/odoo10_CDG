@@ -105,6 +105,10 @@ class NormalP(models.Model):
         action['res_id'] = wizard_data.id
         return action
 
+    def start_donate(self):
+        action = self.env.ref('cdg_base.start_donate_action').read()[0]
+        return action
+
     def historypersonal(self):
         action = self.env.ref('cdg_base.donate_single_view_action').read()[0]
         action['context'] ={} # remove default domain condition in search box

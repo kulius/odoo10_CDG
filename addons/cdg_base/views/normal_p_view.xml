@@ -34,12 +34,16 @@
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
+                            <button name="start_donate" string="捐款作業"
+                                    type="object" class="oe_stat_button" icon="fa-dollar">
+                            </button>
                             <button name="historypersonal" string="歷史捐款"
                                     type="object" class="oe_stat_button" icon="fa-book">
                             </button>
                             <button name="action_chang_donater_wizard" string="合併捐款者"
                                     type="object" class="oe_stat_button" icon="fa-exchange">
                             </button>
+
                         </div>
                         <div class="oe_title">
                             <h1>
