@@ -50,6 +50,7 @@
                                     <group col="8">
                                         <field name="zip"/>
                                         <field name="rec_addr" colspan="6"/>
+                                        <field name="is_same_addr"/>
                                     </group>
                                     <group col="8">
                                         <field name="zip_code"/>
