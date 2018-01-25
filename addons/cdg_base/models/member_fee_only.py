@@ -14,6 +14,7 @@ class MemberFeeOnly(models.Model):
     fee_date = fields.Date(string='收費日期',default=datetime.today())
     clerk_id = fields.Char(string='收費員編號')
     normal_p_id = fields.Many2one(comodel_name='normal.p', string='關聯的會員')
+    member_name = fields.Char(string='收據地址', related='normal_p_id.name')
     rec_addr = fields.Char(string='收據地址', related='normal_p_id.rec_addr')
     con_phone = fields.Char(string='連絡電話', related='normal_p_id.con_phone')
     cellphone = fields.Char(string='手機', related='normal_p_id.cellphone')
