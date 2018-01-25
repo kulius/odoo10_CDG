@@ -22,6 +22,9 @@ class ConsultantFeeOnly(models.Model):
     def set_base_fee(self):
         basic_setting = self.env['ir.config_parameter'].search([])
         Annual_consultants_fee = 0
+
+
+
         for line in basic_setting:
             if line.key == 'Annual_consultants_fee':
                 Annual_consultants_fee = int(line.value)
