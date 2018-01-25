@@ -8,9 +8,9 @@
                 <tree>
                     <field name="c_id"/>
                     <field name="name"/>
-                    <field name="con_phone"/>
                     <field name="cellphone"/>
                     <field name="con_addr"/>
+                    <field name="ps"/>
                 </tree>
             </field>
         </record>
