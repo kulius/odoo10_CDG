@@ -6,7 +6,7 @@
                 string="會員名冊"
                 report_type="xlsx"
                 name="cdg_base.member_list.xlsx"
-                file="會員名冊.xlsx"
+                file="cdg_base.member_list.xlsx"
                 attachment_use="False"/>
     </data>
 </odoo>
