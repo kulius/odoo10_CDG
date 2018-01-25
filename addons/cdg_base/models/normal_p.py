@@ -70,7 +70,7 @@ class NormalP(models.Model):
     cashier = fields.Many2one(comodel_name='cashier.base', string='收費員')
     temp_cashier = fields.Char(string='收費員_temp')
     pay_date = fields.Date(string='收費日期')
-    booklist = fields.Boolean(string='名冊列印')
+    booklist = fields.Boolean(string='名冊列印', default=True)
     member_type = fields.Selection(selection=[(1, '基本會員'), (2, '贊助會員')], string='會員種類')
     hire_date = fields.Date(string='雇用日期')
     merge_report = fields.Boolean(string='年收據寄送', help='將捐款者的收據整合進該住址') # help 可以在開發者模式下的欄位看到內容
