@@ -38,18 +38,16 @@
                                 <field name="coffin_id" readonly="1"/>
                             </h1>
                         </div>
-                        <group col="7">
-                            <field name="coffin_date_year" string="施棺期別"/>
-                            <field name="coffin_date_group" nolabel="1"/>
-                            <field name="finish"/>
-                            <field name="coffin_season" invisible = "1"/> <!--onchange 旗下的方法若沒有顯示在view是無法寫進資料庫 -->
-                            <!--<field name="coffin_id"/>-->
+                        <group col="6">
+                            <field name="coffin_date_year" string="施棺期別" colspan="2"/>
+                            <field name="coffin_date_group" nolabel="1" colspan="1"/>
+                            <field name="finish" colspan="3"/>
                         </group>
-
                         <group col="6">
                             <field name="exception_case"/>
                             <field name="donate_apply_price"/>
                             <field name="donate_price"/>
+                            <field name="coffin_season" invisible = "1"/>
                         </group>
 
                         <notebook>
@@ -89,7 +87,7 @@
                                 </field>
                             </page>
                             <page string="舊捐助資料">
-                                <field name="old_batch_donate">
+                                <field name="old_batch_donate" readonly="1">
                                     <tree>
                                         <field name="coffin_id"/>
                                         <field name="donate_id"/>

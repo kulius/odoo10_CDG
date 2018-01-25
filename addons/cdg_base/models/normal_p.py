@@ -96,7 +96,6 @@ class NormalP(models.Model):
     auto_num = fields.Char('自動地區編號')
 
     def action_chang_donater_wizard(self):
-
         wizard_data = self.env['chang.donater'].create({
             'from_target': self.id
         })
@@ -107,6 +106,8 @@ class NormalP(models.Model):
 
     def start_donate(self):
         action = self.env.ref('cdg_base.start_donate_action').read()[0]
+        user = self.env['res.users'].search([('login', '=', self.env.user.login)])
+        action['context'] = {'default_donate_member':self.id, 'default_payment_method':user.payment_method}
         return action
 
     def historypersonal(self):
