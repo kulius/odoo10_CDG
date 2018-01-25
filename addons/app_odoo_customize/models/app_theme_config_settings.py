@@ -743,7 +743,7 @@ class AppThemeConfigSettings(models.TransientModel):
     #         s[zip] += int(row.area_number)
     #     zip = ''
     #
-    #     for line in lines[400001:]:
+    #     for line in lines[400000:]:
     #         zip = ''
     #         if line.rec_addr is False and line.con_addr:
     #             zip = zipcodetw.find(line.con_addr)[0:3]
@@ -771,12 +771,34 @@ class AppThemeConfigSettings(models.TransientModel):
     #             self._cr.execute(sql)
     #     s.clear()
     #     return True
-
-    def set_postal_code3(self):  # 沒有收據寄送地址, 也沒有報表寄送地址, 共 7946 筆
-        lines = self.env['normal.p'].search(['&', ('con_addr', '=', ''), ('rec_addr', '=', '')])
-        for line in lines:
-            line.new_coding = ''
-        return True
+    #
+    # def set_postal_code3(self):  # 沒有收據寄送地址, 也沒有報表寄送地址
+    #     lines = self.env['normal.p'].search([('new_coding', '=', False)])
+    #     last_time_data = self.env['auto.donateid'].search([])
+    #     s = collections.Counter()
+    #     zip = ''
+    #     for row in last_time_data:  # 將資料庫計數器的資料撈出來, 放入python 的 counter之中, 以便繼續統計個郵遞區號的出現次數
+    #         zip = row.zip
+    #         s[zip] += int(row.area_number)
+    #     zip = ''
+    #
+    #     for line in lines:
+    #         print(line.name)
+    #         s['999'] += 1
+    #         line.new_coding = '999' + str(s.get('999')).zfill(5)
+    #
+    #     postal_code_list = list(s.items())
+    #     for i in range(len(postal_code_list)):
+    #         postal_code_data = self.env['auto.donateid'].search(
+    #             [('zip', '=', postal_code_list[i][0])])  # 搜尋資料庫的計數器是否具有該郵遞區號
+    #         if postal_code_data:
+    #             postal_code_data.area_number = postal_code_data.area_number + int(
+    #                 postal_code_list[i][1])  # 有搜尋到 則更新資料庫計數器的數量
+    #         else:
+    #             sql = " INSERT INTO auto_donateid(zip, area_number) VALUES ('%s', '%s')" % (postal_code_list[i][0], postal_code_list[i][1])  # 沒有搜尋到則重新建立該郵遞區號的資料
+    #             self._cr.execute(sql)
+    #     s.clear()
+    #     return True
 
     def postal_code_database(self):
         sql = " INSERT INTO postal_code (city, area, zip) VALUES " \
