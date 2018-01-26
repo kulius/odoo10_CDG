@@ -43,3 +43,23 @@ class CashierBase(models.Model):
         action['domain'] = []  # remove any value in search box
         action['domain'] = [('consultant_id','!=', ''),('cashier_name', '=', self.name)]
         return action
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = []
+        if u'\u4e00' <= name <=u'\u9fff':
+            domain = [('name', operator, name)]
+        else:
+            domain = [('c_id', operator, name)]
+
+        banks = self.search(domain + args, limit=limit)
+        return banks.name_get()
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name = "{%s} %s" % (record.c_id, record.name)
+            result.append((record.id, name))
+        return result
