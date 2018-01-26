@@ -192,6 +192,22 @@
             </field>
         </record>
 
+        <record id="normal_p_doante_single_tree" model="ir.ui.view">
+            <field name="name">normal p doantesingle t</field>
+            <field name="model">normal.p</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="new_coding"/>
+                    <field name="w_id"/>
+                    <field name="name"/>
+                    <field name="con_phone"/>
+                    <field name="cellphone"/>
+                    <field name="con_addr"/>
+                    <field name="donate_family_list"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="normal_p_action" model="ir.actions.act_window">
             <field name="name">捐款者基本資料</field>
             <field name="type">ir.actions.act_window</field>
