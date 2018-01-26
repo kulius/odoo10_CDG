@@ -11,12 +11,14 @@
                     <field name="state"/>
                     <field name="donate_id"/>
                     <field name="donate_w_id"/>
-                    <field name="donate_member" />
+                    <field name="donate_new_coding"/>
+                    <field name="donate_name"/>
                     <field name="con_phone"/>
                     <field name="donate"/>
                     <field name="donate_type"/>
                     <field name="use_amount" colspan="1"/>
                     <field name="donate_date"/>
+                    <field name="donate_member" invisible = "1"/>
                 </tree>
             </field>
         </record>

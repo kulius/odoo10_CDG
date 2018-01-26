@@ -8,12 +8,14 @@
                 <tree>
                     <field name="state"/>
                     <field name="donate_id"/>
-                    <field name="donate_member"/>
+                    <field name="donate_member_w_id"/>
+                    <field name="donate_member_new_coding"/>
                     <field name="name"/>
                     <field name="donate_date" string="捐款日期"/>
                     <field name="donate_family_list"/>
                     <field name="donate_total"/>
                     <field name="receipt_send"/>
+                    <field name="donate_member" invisible = "1"/>
                 </tree>
             </field>
         </record>
