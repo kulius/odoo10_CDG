@@ -248,6 +248,7 @@
             </field>
         </record>
 
+
         <record id="action_donate_order_batch" model="ir.actions.server">
             <field name="name">批次捐款</field>
             <field name="model_id" ref="model_normal_p"/>

@@ -74,6 +74,7 @@
             </field>
         </record>
 
+
         <record id="cashier_base_action" model="ir.actions.act_window">
         <field name="name">收費員基本資料</field>
         <field name="type">ir.actions.act_window</field>
