@@ -410,9 +410,9 @@ class NormalP(models.Model):
         if self.name:
             self.old_coding = self.new_coding # 將原本的捐款者編號, 放入歷史紀錄之中
 
-            if self.zip is False: #使用者如果沒有填收據寄送地址郵遞區號, 則編碼前3碼為 'OOO'
-                compute_code = self.env['auto.donateid'].search([('zip','=','OOO')])
-                self.new_coding = 'OOO' + str(compute_code.area_number + 1).zfill(5) # 取出當前 zip = 'OOO' 的累積人數+1
+            if self.zip is False: #使用者如果沒有填收據寄送地址郵遞區號, 則編碼前3碼為 '999'
+                compute_code = self.env['auto.donateid'].search([('zip','=','999')])
+                self.new_coding = '999' + str(compute_code.area_number + 1).zfill(5) # 取出當前 zip = '999' 的累積人數+1
                 compute_code.write({
                     'area_number': compute_code.area_number + 1 #  寫入 zip = 'OOO' 目前的累積人數
                 })
@@ -432,32 +432,17 @@ class NormalP(models.Model):
                         'area_number': 1 # 將累積人數設定為1
                     })
 
-            if 2 in self.type.ids:  # 判斷該筆捐款者資料是否為基本會員
-                if 4 in self.type.ids:  # 判斷是否具有顧問身分
-                    self.new_coding = 'AC' + self.new_coding  # 代表該捐款者是基本會員以及具有顧問身分
-                else:
-                    self.new_coding = 'A' + self.new_coding  # 代表該捐款者是基本會員
-            elif 3 in self.type.ids:  # 判斷該筆捐款者資料是否為贊助會員
-                if 4 in self.type.ids:
-                    self.new_coding = 'BC' + self.new_coding  # 代表該捐款者是贊助會員以及具有顧問身分
-                else:
-                    self.new_coding = 'B' + self.new_coding  # 代表該捐款者是贊助會員
-            elif not (2 in self.type.ids) and not (3 in self.type.ids) and 4 in self.type.ids :
-                self.new_coding = 'C' + self.new_coding  # 不具有任何會員身分但具有顧問身分
-            else:
-                self.new_coding = self.new_coding  # 什麼都沒有的一般捐款者
-
     @api.model
     def create(self, vals):
         res_id = super(NormalP, self).create(vals)
         if res_id.name is False:
             raise ValidationError(u'請輸入姓名')
 
-        if res_id.zip is False: #使用者如果沒有填收據寄送地址郵遞區號, 則編碼前3碼為 'OOO'
-            compute_code = self.env['auto.donateid'].search([('zip','=','OOO')])
-            res_id.new_coding = 'OOO' + str(compute_code.area_number + 1).zfill(5) # 取出當前 zip = 'OOO' 的累積人數+1
+        if res_id.zip is False: #使用者如果沒有填收據寄送地址郵遞區號, 則編碼前3碼為 '999'
+            compute_code = self.env['auto.donateid'].search([('zip','=','999')])
+            res_id.new_coding = '999' + str(compute_code.area_number + 1).zfill(5) # 取出當前 zip = '999' 的累積人數+1
             compute_code.write({
-                'area_number': compute_code.area_number + 1 #  寫入 zip = 'OOO' 目前的累積人數
+                'area_number': compute_code.area_number + 1 #  寫入 zip = '999' 目前的累積人數
             })
         elif res_id.zip and len(res_id.zip) < 3: # 使用者有輸入收據寄送地址的郵遞區號但不足3碼
             raise ValidationError(u'收據寄送地址的郵遞區號填寫錯誤，請至少填3碼的郵遞區號!')
@@ -474,21 +459,6 @@ class NormalP(models.Model):
                     'zip': res_id.zip[0:3], # 在計數器裡創建該郵遞區號的資料
                     'area_number': 1 # 將累積人數設定為1
                 })
-
-        if 2 in res_id.type.ids:  # 判斷該筆捐款者資料是否為基本會員
-            if 4 in res_id.type.ids:  # 判斷是否具有顧問身分
-                res_id.new_coding = 'AC' + res_id.new_coding  # 代表該捐款者是基本會員以及具有顧問身分
-            else:
-                res_id.new_coding = 'A' + res_id.new_coding  # 代表該捐款者是基本會員
-        elif 3 in res_id.type.ids:  # 判斷該筆捐款者資料是否為贊助會員
-            if 4 in res_id.type.ids:
-                res_id.new_coding = 'BC' + res_id.new_coding  # 代表該捐款者是贊助會員以及具有顧問身分
-            else:
-                res_id.new_coding = 'B' + res_id.new_coding  # 代表該捐款者是贊助會員
-        elif not (2 in res_id.type.ids) and not (3 in res_id.type.ids) and 4 in res_id.type.ids :
-            res_id.new_coding = 'C' + res_id.new_coding  # 不具有任何會員身分但具有顧問身分
-        else:
-            res_id.new_coding = res_id.new_coding  # 什麼都沒有的一般捐款者
 
         if res_id.parent.id is False: # 如果新建的捐款者資料沒有選定戶長是誰, 那麼就由系統自動將該使用者設為戶長
             res_id.write({
