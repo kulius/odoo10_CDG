@@ -17,6 +17,7 @@ class DonateSingle(models.Model):
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者',
                                     states={2: [('readonly', True)]})  # demo用
     donate_member_w_id = fields.Char('舊團員編號',related='donate_member.w_id') # search用
+    donate_member_number = fields.Char('舊團員序號',related='donate_member.number')
     donate_member_new_coding = fields.Char('新捐款者編號',related='donate_member.new_coding')  # search用
     name = fields.Char(string='姓名', compute='set_donate_name',store=True)
     self_iden = fields.Char(string='身分證字號', compute='set_donate_name', store=True)
@@ -50,7 +51,9 @@ class DonateSingle(models.Model):
     family_check = fields.One2many(comodel_name='donate.family.line',inverse_name='parent_id', string='捐款人名冊', states={2: [('readonly', True)]})
     donate_list = fields.One2many(comodel_name='donate.order', inverse_name='donate_list_id', string='捐款明細', states={2: [('readonly', True)]})
     work_id = fields.Many2one(comodel_name='cashier.base', string='收費員', states={2: [('readonly', True)]})
+    temp_work_id = fields.Char(string='收費員')
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]}, default=lambda self: self.env.uid)
+    temp_key_in_user = fields.Char(string='輸入人員')
     print_user = fields.Many2one(comodel_name='res.users', string='列印人員', states={2: [('readonly', True)]})
 
 
@@ -137,22 +140,22 @@ class DonateSingle(models.Model):
         historical_data_month = str(datetime.datetime.strptime(res_id.donate_date, '%Y-%m-%d').month) # 根據捐款日期取出捐款的月份
         datas = self.env['donate.statistics'].search([('year','=',historical_data_year),('month','=',historical_data_month)]) # 搜尋計數器中有沒有資料
         if datas: # 如果有找到資料
-            households_number = datas.households + 1
+            receipt_number = datas.receipt_number + 1
             res_id.write({
-                'donate_id': 'A' + str(historical_data_year)[2:] + str(historical_data_month).zfill(2) + str(households_number).zfill(5)
+                'donate_id': 'A' + str(historical_data_year)[2:] + str(historical_data_month).zfill(2) + str(receipt_number).zfill(5)
             })
-            datas.households = households_number # 捐款的戶數寫回計數器
+            datas.receipt_number = receipt_number # 捐款的收據張數寫回計數器
             datas.number = datas.number + i # 捐款人數要寫回計數器
         else: # 如果沒有找到資料
             self.env['donate.statistics'].create({
                 'year': '20' + historical_data_year,
                 'month': historical_data_month.zfill(2),
-                'households' : 1,
+                'receipt_number' : 1,
                 'number' : i
             })
-            households_number = 1
+            receipt_number = 1
             res_id.write({
-                'donate_id': 'A' + str(historical_data_year)[2:] + str(historical_data_month).zfill(2) + str(households_number).zfill(5)
+                'donate_id': 'A' + str(historical_data_year)[2:] + str(historical_data_month).zfill(2) + str(receipt_number).zfill(5)
             })
 
         self.add_to_list_create(res_id)

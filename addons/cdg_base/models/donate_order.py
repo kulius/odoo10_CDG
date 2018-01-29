@@ -28,6 +28,7 @@ class DonateOrder(models.Model):
     donate_w_id_number = fields.Char(string='序號')
     donate_date = fields.Date(string='捐款日期')
     self_id = fields.Char(string='身分證字號')
+    cashier = fields.Many2one(comodel_name='cashier.base', string='收費員')
     clerk = fields.Char(string='收費員編號')
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員')
     temp_key_in_user = fields.Char(string='輸入人員')
