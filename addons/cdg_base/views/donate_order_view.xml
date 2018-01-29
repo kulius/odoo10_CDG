@@ -73,6 +73,7 @@
                 </form>
             </field>
         </record>
+
         <record id="donate_order_search" model="ir.ui.view">
             <field name="name">donate order t</field>
             <field name="model">donate.order</field>
