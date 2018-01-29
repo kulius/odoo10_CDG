@@ -176,8 +176,8 @@
                             <field name="is_merge" colspan="3"/>
                         </group>
                         <group col="8">
-                            <field name="zip_code" colspan="2" string="聯絡地址"/>
-                            <field name="con_addr" colspan="6" nolabel="1"/>
+                            <field name="zip" colspan="2" string="收據寄送地址"/>
+                            <field name="rec_addr" colspan="6" nolabel="1"/>
                         </group>
                         <group>
                             <field name="donate_family_list"/>

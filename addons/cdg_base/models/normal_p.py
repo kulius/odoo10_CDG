@@ -76,7 +76,7 @@ class NormalP(models.Model):
     merge_report = fields.Boolean(string='年收據寄送', help='將捐款者的收據整合進該住址') # help 可以在開發者模式下的欄位看到內容
     #團員檔及團員眷屬檔設定戶長之功能
     parent = fields.Many2one(comodel_name='normal.p', string='戶長', ondelete='cascade',)
-    donate_family1 = fields.One2many(comodel_name='normal.p', inverse_name='parent', string='團員眷屬',readonly='True')
+    donate_family1 = fields.One2many(comodel_name='normal.p', inverse_name='parent', string='團員眷屬')
     # 來判斷你是不是老大
     member_data_ids = fields.Many2one(comodel_name='member.data', string='關聯的顧問會員檔')
     donate_history_ids = fields.One2many(comodel_name='donate.order', inverse_name='donate_member')
