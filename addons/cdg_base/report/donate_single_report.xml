@@ -55,18 +55,18 @@
                                 </t>
                                 <t t-elif="data.receipt_send == false">
                                     <t t-if="len(data.donate_member.rec_addr) > 10">
-                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "data.donate_member.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "data.donate_member.zip"/><t t-esc= "data.donate_member.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "data.donate_member.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "data.donate_member.zip"/><t t-esc= "data.donate_member.rec_addr"/></h2>
                                     </t>
                                 </t>
                                 <t t-else="">
                                     <t t-if="len(data.donate_member.rec_addr) > 16">
-                                        <h3 style="margin-left:26%;"><t t-esc= "data.donate_member.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><t t-esc= "data.donate_member.zip"/><t t-esc= "data.donate_member.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><t t-esc= "data.donate_member.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><t t-esc= "data.donate_member.zip"/><t t-esc= "data.donate_member.rec_addr"/></h2>
                                     </t>
                                 </t>
 
@@ -206,18 +206,18 @@
                                 </t>
                                 <t t-elif="data.receipt_send == false">
                                     <t t-if="len(data.donate_member.rec_addr) > 10">
-                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "data.donate_member.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "data.donate_member.zip"/><t t-esc= "data.donate_member.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "data.donate_member.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "data.donate_member.zip"/><t t-esc= "data.donate_member.rec_addr"/></h2>
                                     </t>
                                 </t>
                                 <t t-else="">
                                     <t t-if="len(data.donate_member.rec_addr) > 16">
-                                        <h3 style="margin-left:26%;"><t t-esc= "data.donate_member.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><t t-esc= "data.donate_member.zip"/><t t-esc= "data.donate_member.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><t t-esc= "data.donate_member.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><t t-esc= "data.donate_member.zip"/><t t-esc= "data.donate_member.rec_addr"/></h2>
                                     </t>
                                 </t>
                                 <h2 style="margin-left:26%;"><t t-esc="data.donate_member.name"/></h2>
@@ -461,18 +461,18 @@
                                 </t>
                                 <t t-elif="line.title_donate.rec_send == false">
                                     <t t-if="len(line.title_donate.rec_addr) > 10">
-                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h2>
                                     </t>
                                 </t>
                                 <t t-else="">
                                     <t t-if="len(line.title_donate.rec_addr) > 16">
-                                        <h3 style="margin-left:26%;"><t t-esc= "line.title_donate.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><t t-esc= "line.title_donate.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h2>
                                     </t>
                                 </t>
 
@@ -545,18 +545,18 @@
                                 </t>
                                 <t t-elif="line.title_donate.rec_send == false">
                                     <t t-if="len(line.title_donate.rec_addr) > 10">
-                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h2>
                                     </t>
                                 </t>
                                 <t t-else="">
                                     <t t-if="len(line.title_donate.rec_addr) > 16">
-                                        <h3 style="margin-left:26%;"><t t-esc= "line.title_donate.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><t t-esc= "line.title_donate.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h2>
                                     </t>
                                 </t>
                                 <h2 style="margin-left:26%;"><t t-esc="line.title_donate.name"/></h2>
@@ -737,18 +737,18 @@
                                 </t>
                                 <t t-elif="line.title_donate.rec_send == false">
                                     <t t-if="len(line.title_donate.rec_addr) > 10">
-                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h2>
                                     </t>
                                 </t>
                                 <t t-else="">
                                     <t t-if="len(line.title_donate.rec_addr) > 16">
-                                        <h3 style="margin-left:26%;"><t t-esc= "line.title_donate.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><t t-esc= "line.title_donate.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h2>
                                     </t>
                                 </t>
                                 <h2 style="margin-left:26%;"><t t-esc="line.title_donate.name"/></h2>
@@ -819,18 +819,18 @@
                                 </t>
                                 <t t-elif="line.title_donate.rec_send == false">
                                     <t t-if="len(line.title_donate.rec_addr) > 10">
-                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h2>
                                     </t>
                                 </t>
                                 <t t-else="">
                                     <t t-if="len(line.title_donate.rec_addr) > 16">
-                                        <h3 style="margin-left:26%;"><t t-esc= "line.title_donate.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><t t-esc= "line.title_donate.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h2>
                                     </t>
                                 </t>
                                 <h2 style="margin-left:26%;"><t t-esc="line.title_donate.name"/></h2>
@@ -1020,18 +1020,18 @@
                                 </t>
                                 <t t-elif="line.title_donate.rec_send == false">
                                     <t t-if="len(line.title_donate.rec_addr) > 10">
-                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h2>
                                     </t>
                                 </t>
                                 <t t-else="">
                                     <t t-if="len(line.title_donate.rec_addr) > 16">
-                                        <h3 style="margin-left:26%;"><t t-esc= "line.title_donate.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><t t-esc= "line.title_donate.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h2>
                                     </t>
                                 </t>
                                 <h2 style="margin-left:26%;"><t t-esc="line.title_donate.name"/></h2>
@@ -1104,18 +1104,18 @@
                                 </t>
                                 <t t-elif="line.title_donate.rec_send == false">
                                     <t t-if="len(line.title_donate.rec_addr) > 10">
-                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><b>[收據不寄送]</b><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h2>
                                     </t>
                                 </t>
                                 <t t-else="">
                                     <t t-if="len(line.title_donate.rec_addr) > 16">
-                                        <h3 style="margin-left:26%;"><t t-esc= "line.title_donate.rec_addr"/></h3>
+                                        <h3 style="margin-left:26%;"><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h3>
                                     </t>
                                     <t t-else="">
-                                        <h2 style="margin-left:26%;"><t t-esc= "line.title_donate.rec_addr"/></h2>
+                                        <h2 style="margin-left:26%;"><t t-esc= "line.title_donate.zip"/><t t-esc= "line.title_donate.rec_addr"/></h2>
                                     </t>
                                 </t>
                                 <h2 style="margin-left:26%;"><t t-esc="line.title_donate.name"/></h2>
