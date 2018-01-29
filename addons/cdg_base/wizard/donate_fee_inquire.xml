@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="donate_order_inquire_tree" model="ir.ui.view">
+            <field name="name">donate order inquire tree</field>
+            <field name="model">donate.order</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="donate_new_coding"/>
+                    <field name="donate"/>
+                    <field name="donate_total"/>
+                    <field name="donate_type"/>
+                    <field name="donate_date"/>
+                    <field name="clerk"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="donate_fee_inquire_form" model="ir.ui.view">
+            <field name="name">donate fee inquire_form</field>
+            <field name="model">donate.fee.inquire</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="donate_fee_search" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="donate_fee_inquire_action" name="歷史捐款查詢" res_model="donate.fee.inquire"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>

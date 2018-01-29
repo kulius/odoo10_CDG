@@ -52,6 +52,4 @@ class ConsultantListXlsx(ReportXlsx):
 
 
 
-
-
 ConsultantListXlsx('report.cdg_base.consultant_list.xlsx', 'consultant.fee')

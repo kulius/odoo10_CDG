@@ -43,6 +43,7 @@
         'report/cashier_list_report.xml',
         'report/consultant_list_report.xml',
         'report/member_list_report.xml',
+        'report/donate_order_report.xml',
 
         'wizard/chang_donate.xml',
         'wizard/print_check.xml',
@@ -52,6 +53,7 @@
         'wizard/donor_search.xml',
         'wizard/member_fee_inquire.xml',
         'wizard/consultant_fee_inquire.xml',
+        'wizard/donate_fee_inquire.xml',
 
         'views/charity_view.xml',
 
