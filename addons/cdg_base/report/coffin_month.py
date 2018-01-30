@@ -18,8 +18,11 @@ class CoffinMonthXlsx(ReportXlsx):
         sheet.write(0, 4, u'領款者身分字號')
 
         for line in env:
+            if line.donate_apply_price == 30000:
+                sheet.write(self.count, 1, line.user)
+            else:
+                sheet.write(self.count, 1, line.user + u"*")
             sheet.write(self.count, 0, line.coffin_date)
-            sheet.write(self.count, 1, line.user)
             sheet.write(self.count, 2, line.con_addr)
             sheet.write(self.count, 3, line.geter)
             sheet.write(self.count, 4, line.geter_iden)
