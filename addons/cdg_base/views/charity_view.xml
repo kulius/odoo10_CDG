@@ -226,7 +226,7 @@
         <menuitem id="coffin_donate"
                   name="施棺報表"
                   parent="coffin_manage_root_categ"
-                  action="charity_view"
+                  action="coffin_inquire_action"
                   sequence=""/>
         <!--<menuitem id="coffin_funeral_order"-->
                   <!--name="施棺及喪葬費用明細表"-->

@@ -7,3 +7,4 @@ from . import coffin_batch
 from . import member_fee_inquire
 from . import consultant_fee_inquire
 from . import donate_fee_inquire
+from . import coffin_inquire
