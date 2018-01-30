@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="donate_new_coding"/>
+                    <field name="donate_name"/>
                     <field name="donate"/>
                     <field name="donate_total"/>
                     <field name="donate_type"/>

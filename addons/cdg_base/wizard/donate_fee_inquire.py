@@ -26,7 +26,7 @@ class donatefeeinquire(models.Model):
         number = len(self.env['donate.order'].search([('donate_member.name', '=', self.name)]))
 
         action['views'] = [
-            [self.env.ref('cdg_base.donate_order_tree').id, 'tree'],
+            [self.env.ref('cdg_base.donate_order_inquire_tree').id, 'tree'],
         ]
 
         action['limit'] = number

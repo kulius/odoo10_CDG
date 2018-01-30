@@ -29,7 +29,7 @@ class DonateSingle(models.Model):
     state = fields.Selection([(1, '已產生'), (2, '已列印'), (3, '已作廢')],
                              string='狀態', default=1, index=True)
 
-    donate_total = fields.Integer(string='捐款總額', compute='compute_total',store=True)
+    donate_total = fields.Integer(string='捐款總額', compute='compute_total')
     old_donate_total = fields.Integer(string='舊捐款總額')
 
     receipt_send = fields.Boolean(string='收據寄送')
@@ -65,7 +65,7 @@ class DonateSingle(models.Model):
     sreceipt_number = fields.Integer(string='收據筆數', compute='compute_total', store=True)
     print_count = fields.Integer(string='列印筆數',store=True)
     print_date = fields.Date('列印日期')
-    donate_family_list = fields.Char('眷屬列表', store=True,compute='compute_family_list')
+    donate_family_list = fields.Char('眷屬列表',compute='compute_family_list')
 
     def print_check(self,ids):
         res = []
@@ -291,8 +291,8 @@ class DonateSingle(models.Model):
 
     @api.depends('donate_list')
     def compute_family_list(self):
-        str = ''
         for line in self:
+            str = ''
             for row in line.donate_list:
                 if row.donate_type == 1:
                     str +=  " (%s %s %s )," % (row.donate_member.name, u'造橋',row.donate)
@@ -308,12 +308,12 @@ class DonateSingle(models.Model):
                     str += " (%s %s %s )," % (row.donate_member.name,  u'不指定',row.donate)
                 if row.donate_type == 99:
                     str += " (%s %s %s )," % (row.donate_member.name,  u'其他工程',row.donate)
-            self.donate_family_list= str
+            line.donate_family_list= str
 
     # 新建立捐款在眷屬列表顯示個人姓名+捐款種類+捐款金額
     def compute_family_list_create(self):
-        str = ''
         for line in self:
+            str = ''
             for row in line.donate_list:
                 if row.donate_type == 1:
                     str +=  " (%s %s %s )," % (row.donate_member.name, u'造橋',row.donate)
@@ -329,7 +329,7 @@ class DonateSingle(models.Model):
                     str += " (%s %s %s )," % (row.donate_member.name,  u'不指定',row.donate)
                 if row.donate_type == 99:
                     str += " (%s %s %s )," % (row.donate_member.name,  u'其他工程',row.donate)
-            self.donate_family_list= str
+            line.donate_family_list= str
 
     def button_to_cnacel_donate(self):
         if self.state == 3:
@@ -475,6 +475,8 @@ class DonateSingle(models.Model):
         for line in self:
             normal_p = line.donate_member
             line.name = normal_p.name
+            line.donate_member_w_id = normal_p.w_id
+            line.donate_member_number = normal_p.number
             line.cellpnone = normal_p.cellphone
             line.con_phone = normal_p.con_phone
             line.self_iden = normal_p.self_iden
