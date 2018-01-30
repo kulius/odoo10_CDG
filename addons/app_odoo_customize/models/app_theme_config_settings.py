@@ -582,6 +582,9 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 更新資料共1115080筆, 花費約28.725秒
         sql = "UPDATE donate_single SET name = a.name, self_iden = a.self_iden, cellphone = a.cellphone, con_phone = a.con_phone, zip_code = a.zip_code ,con_addr = a.con_addr FROM normal_p a WHERE a.w_id = donate_single.donate_member_w_id AND a.number = donate_single.donate_member_number"
         self._cr.execute(sql)  # 更新資料共1115055筆, 花費約63.721秒
+
+        sql = "UPDATE donate_single SET donate_member = a.id, receipt_send = a.rec_send, report_send = a.report_send, year_receipt_send = a.merge_report FROM normal_p a WHERE donate_single.donate_member_w_id = a.w_id AND donate_single.donate_member_number = a.number"
+        self._cr.execute(sql)  # 更新資料共1146809筆, 花費約54.058秒
         return True
 
     def set_donate_single_associated(self): # donate_single 關聯 donate_order
@@ -604,6 +607,7 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
     def compute_coffin_donate(self): # 計算 coffin_donation的捐款編號與donate_order的捐款編號相符者, 將可用餘額(available_balance)設為 0 ; 不相符者則將可用餘額設為捐款金額(donate)
+
         sql = "UPDATE donate_order SET available_balance = donate_order.donate"
         self._cr.execute(sql)  # 計算資料共3001165筆, 花費101.806秒
         sql = "UPDATE donate_order SET available_balance = 0 FROM old_coffin_donation a WHERE a.donate_id = donate_order.donate_id AND donate_order.donate_type = 3"
@@ -663,6 +667,8 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql) # 收費員檔共輸入 1385 筆資料, 花費0.037秒
         sql = " UPDATE cashier_base set key_in_user = a.id from res_users a where a.login = cashier_base.temp_key_in_user"
         self._cr.execute(sql)  # 更新資料共1374筆, 花費0.031秒
+        sql = " UPDATE normal_p set cashier_name = a.id from cashier_base a where a.c_id = normal_p.temp_cashier"
+        self._cr.execute(sql)  # 更新資料共762123筆, 花費22.080秒
         sql = " UPDATE donate_single set work_id = a.id from cashier_base a where a.c_id = donate_single.temp_work_id"
         self._cr.execute(sql)  # 更新資料共1147032筆, 花費44.450秒
         sql = " UPDATE donate_order set cashier = a.id from cashier_base a where a.c_id = donate_order.clerk"
