@@ -37,5 +37,4 @@ class CoffinSeasonXlsx(ReportXlsx):
 
         self.count = 1
 
-
 CoffinSeasonXlsx('report.cdg_base.coffin_season.xlsx', 'coffin.base')
