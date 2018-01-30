@@ -24,7 +24,6 @@ class consultantfeeinquire(models.Model):
 
 
         action['limit'] = number
-        print(number)
 
         action['views'] = [
             [self.env.ref('cdg_base.coffin_base_tree').id, 'tree'],
