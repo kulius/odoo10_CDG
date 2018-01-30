@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="coffin_season_xlsx"
+                model="coffin.base"
+                string="施棺季報表"
+                report_type="xlsx"
+                name="cdg_base.coffin_season.xlsx"
+                file="施棺季報表.xlsx"
+                attachment_use="False"/>
+    </data>
+</odoo>
