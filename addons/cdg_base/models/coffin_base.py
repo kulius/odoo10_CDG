@@ -6,6 +6,7 @@ from datetime import *
 class CoffinBase(models.Model):
     _name = 'coffin.base'
     _rec_name = 'coffin_id'
+    _order = 'donate_apply_price'
 
     name = fields.Char()
     coffin_id = fields.Char(string="施棺編號")
@@ -81,9 +82,6 @@ class CoffinBase(models.Model):
                 for row in line.old_batch_donate:
                     line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))
                     line.donate_apply_price = int(line.donate_price)
-                if line.donate_price >= 30000:
-                    line.donate_price = 30000
-                    line.donate_apply_price = 30000
         return True
 
     def compute_old_data(self):
