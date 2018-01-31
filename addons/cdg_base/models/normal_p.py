@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 class NormalP(models.Model):
     # 捐款人
     _name = 'normal.p'
-    _order = 'new_coding'
+    _order = 'write_date'
 
     new_coding = fields.Char(string='捐款者編號')
     old_coding = fields.Char(string='舊捐款者編號')
@@ -99,7 +99,6 @@ class NormalP(models.Model):
         wizard_data = self.env['chang.donater'].create({
             'from_target': self.id
         })
-
         action = self.env.ref('cdg_base.chang_donater_action').read()[0]
         action['res_id'] = wizard_data.id
         return action
@@ -161,7 +160,6 @@ class NormalP(models.Model):
             else:
                 break
 
-
     def combine_addr(self):
         for line in self.donate_family1:
             if line:
@@ -169,8 +167,6 @@ class NormalP(models.Model):
                   line.rec_addr =  self.rec_addr
             else:
                 break
-
-
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):

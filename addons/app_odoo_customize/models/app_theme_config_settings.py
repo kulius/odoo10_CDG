@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging, datetime
+import math
 # import zipcodetw
 # import collections
 
@@ -607,6 +608,87 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
     def compute_coffin_donate(self): # 計算 coffin_donation的捐款編號與donate_order的捐款編號相符者, 將可用餘額(available_balance)設為 0 ; 不相符者則將可用餘額設為捐款金額(donate)
+        sql = "SELECT SUM(捐款金額),MAX(捐款總額),捐款編號, 團員編號 INTO donate_difference_table FROM 捐款檔 GROUP BY 捐款編號, 團員編號 HAVING SUM(捐款金額) <> MAX(捐款總額)"
+        self._cr.execute(sql) # 計算資料共17590筆, 花費29.656秒
+        sql = "SELECT * INTO reorganization_table FROM donate_order a INNER JOIN donate_difference_table b ON a.donate_id = b.捐款編號"
+        self._cr.execute(sql)  # 計算資料共74788筆, 花費1.419秒
+        sql = "SELECT * FROM donate_difference_table WHERE max <> 0 "
+        self._cr.execute(sql)
+        index_donate = self._cr.dictfetchall()
+        donate_total = 0
+        donate = 0
+        num = 0
+        remainder = 0
+        j=0
+        for line in index_donate:
+            j=j+1
+            if j % 100 == 0:
+                print u"第%s筆 捐款編號: %s" % (j,line['捐款編號'])
+            donate_total = line['max']
+            sql = "SELECT * FROM reorganization_table WHERE donate_id = '%s' ORDER BY donate_w_id_number" % line['捐款編號']
+            self._cr.execute(sql)
+            group_donate_data = self._cr.dictfetchall()
+            num = len(group_donate_data)
+            if int(donate_total % num) == 0:
+                sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' " % (int(donate_total/num), line['捐款編號'])
+                self._cr.execute(sql)
+            else:
+                remainder = math.floor(donate_total/num) % 10
+                if donate_total/num < 10:
+                    sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' " % (int(math.floor(donate_total / num)), line['捐款編號'])
+                    self._cr.execute(sql)
+                    for row in group_donate_data[0:1]:
+                        sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id_number = '%s' " % (int(donate_total - math.floor(donate_total/num)*(num-1)), line['捐款編號'] ,row['donate_w_id_number'])
+                        self._cr.execute(sql)
+                else:
+                    sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' " % (int(math.floor(donate_total / num) - remainder), line['捐款編號'])
+                    self._cr.execute(sql)
+                    for row in group_donate_data[0:1]:
+                        sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id_number = '%s' " % (int(donate_total - (math.floor(donate_total / num)) * (num - 1) + (remainder) * (num - 1)), line['捐款編號'], row['donate_w_id_number'])
+                        self._cr.execute(sql)
+        # 18:15  20:29 6000筆 20:54 7000筆  21:15 7800筆 21:19  8000筆  21:44 9000筆 22:07 10000筆  22:15 10200筆  22:33 11000筆  23:13 12500筆
+        return True
+
+    def compute_coffin_donate2(self): # 計算 coffin_donation的捐款編號與donate_order的捐款編號相符者, 將可用餘額(available_balance)設為 0 ; 不相符者則將可用餘額設為捐款金額(donate)
+        sql = "SELECT SUM(捐款金額),MAX(捐款總額),捐款編號, 團員編號 INTO donate_difference FROM 捐款歷史檔 GROUP BY 捐款編號, 團員編號 HAVING SUM(捐款金額) <> MAX(捐款總額)"
+        self._cr.execute(sql) # 計算資料共17590筆, 花費29.656秒
+        sql = "SELECT * INTO reorganization_table2 FROM donate_order a INNER JOIN donate_difference b ON a.donate_id = b.捐款編號"
+        self._cr.execute(sql)  # 計算資料共74788筆, 花費1.419秒
+        sql = "SELECT * FROM donate_difference WHERE max <> 0 "
+        self._cr.execute(sql)
+        index_donate = self._cr.dictfetchall()
+        donate_total = 0
+        donate = 0
+        num = 0
+        remainder = 0
+        j=0
+        for line in index_donate:
+            j=j+1
+            if j % 100 == 0:
+                print u"第%s筆 捐款編號: %s" % (j,line['捐款編號'])
+            donate_total = line['max']
+            sql = "SELECT * FROM reorganization_table2 WHERE donate_id = '%s' ORDER BY donate_w_id_number" % line['捐款編號']
+            self._cr.execute(sql)
+            group_donate_data = self._cr.dictfetchall()
+            num = len(group_donate_data)
+            if num != 0:
+                if int(donate_total % num) == 0 :
+                    sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' " % (int(donate_total/num), line['捐款編號'])
+                    self._cr.execute(sql)
+                else:
+                    remainder = math.floor(donate_total/num) % 10
+                    if donate_total/num < 10:
+                        sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' " % (int(math.floor(donate_total / num)), line['捐款編號'])
+                        self._cr.execute(sql)
+                        for row in group_donate_data[0:1]:
+                            sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id_number = '%s' " % (int(donate_total - math.floor(donate_total/num)*(num-1)), line['捐款編號'] ,row['donate_w_id_number'])
+                            self._cr.execute(sql)
+                    else:
+                        sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' " % (int(math.floor(donate_total / num) - remainder), line['捐款編號'])
+                        self._cr.execute(sql)
+                        for row in group_donate_data[0:1]:
+                            sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id_number = '%s' " % (int(donate_total - (math.floor(donate_total / num)) * (num - 1) + (remainder) * (num - 1)), line['捐款編號'], row['donate_w_id_number'])
+                            self._cr.execute(sql)
 
         sql = "UPDATE donate_order SET available_balance = donate_order.donate"
         self._cr.execute(sql)  # 計算資料共3001165筆, 花費101.806秒
@@ -679,6 +761,11 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 關聯資料共2814283筆, 花費133.597秒
         return True
 
+    def set_donate_family_line(self): # 關聯歷史捐款者名冊
+        sql = "INSERT INTO donate_family_line(parent_id, donate_member) SELECT donate_list_id, donate_member FROM donate_order order by donate_list_id"
+        self._cr.execute(sql) # 關聯資料共3001177筆, 花費153.007秒
+        return True
+
     def active_data(self):
         sql = "UPDATE normal_p  SET active = TRUE"
         self._cr.execute(sql)  # 把所有捐款者資料的active設為TRUE, 不然基本資料會什麼都看不見, 共778150筆 花費15.093秒
@@ -702,7 +789,11 @@ class AppThemeConfigSettings(models.TransientModel):
     def set_donate_id(self):
         y = 2003 # 資料庫存在的最早資料是2003年9月
         m = 8
-        while y<=2018:
+        now_month = int(datetime.datetime.strptime(str(datetime.date.today()), '%Y-%m-%d').month)
+        end_while = True
+        while y<=2018 & end_while:
+            if y == 2018 and m == now_month:
+                end_while = False
             while m<=12:
                 if m == 1 or m == 3 or m == 5 or m == 7 or m == 8 or m == 10 or m == 12:
                     d2 = 31
@@ -710,33 +801,33 @@ class AppThemeConfigSettings(models.TransientModel):
                     d2 = 28
                 else:
                     d2 = 30
-
+                count_datas_number = 0
+                count_datas_receipt_number = 0
                 sql = " SELECT COUNT(*) FROM donate_order WHERE donate_date BETWEEN '%s-%s-%s' AND '%s-%s-%s' AND donate_date IS NOT NULL" % (y, m, 1, y, m, d2)
                 self._cr.execute(sql)
-                for count in self._cr.dictfetchall():  # 取出計算捐款人數後的資料筆數
+                for count in self._cr.dictfetchall():  # 依照捐款日期計算的捐款人數
                     count_datas_number = count['count']
 
                 sql = " SELECT donate_w_id, donate_w_id_number FROM donate_order WHERE donate_date BETWEEN '%s-%s-%s' AND '%s-%s-%s' AND donate_date IS NOT NULL GROUP BY donate_w_id, donate_w_id_number" % (y, m, 1, y, m, d2)
                 self._cr.execute(sql)
-                number_of_people = len(self._cr.dictfetchall()) #濾掉重複捐款後的人數
+                number_of_people = len(self._cr.dictfetchall()) # 依照捐款日期計算的捐款人數, 但是濾掉重複捐款的人
 
-                sql = " SELECT COUNT(*)  FROM donate_single WHERE donate_date BETWEEN '%s-%s-%s' AND '%s-%s-%s' AND donate_date IS NOT NULL" % (y, m, 1, y, m, d2)
-                self._cr.execute(sql)
-                for count in self._cr.dictfetchall():  # 取出計算收據數量後的資料筆數
-                    count_datas_receipt_number = count['count']
+                code = 'A' + str(y)[2:] + str(m).zfill(2) + '%' # 迴圈跑年份及月份
+                sql = " SELECT donate_id FROM donate_single WHERE donate_id LIKE '%s' ORDER BY donate_id desc limit 1" % (code)
+                self._cr.execute(sql) # 取出舊資料該年該月份捐款編號的末5碼最大值
+                for count in self._cr.dictfetchall():
+                    count_datas_receipt_number = int(count['donate_id'][5:])
 
                 sql = " SELECT DISTINCT ON (donate_member_w_id) * FROM donate_single WHERE donate_date BETWEEN '%s-%s-%s' AND '%s-%s-%s' AND donate_date IS NOT NULL" % (y, m, 1, y, m, d2)
                 self._cr.execute(sql)
-                count_datas_households_number = len(self._cr.dictfetchall()) #濾掉重複捐款後的捐款戶數
+                count_datas_households_number = len(self._cr.dictfetchall()) #依照捐款日期去計算已開出的收據張數並濾掉重複捐款團員編號, 確認該年該月份的捐款戶數
 
                 if count_datas_number != 0 or count_datas_receipt_number != 0:
-                    sql = " INSERT INTO donate_statistics(year, month, number, number_of_people, receipt_number, households) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')" % (y, m, count_datas_number, number_of_people, count_datas_receipt_number, count_datas_households_number)
+                    sql = " INSERT INTO donate_statistics(year, month, number, number_of_people, receipt_number, households) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')" % (y, m, count_datas_number, number_of_people, int(count_datas_receipt_number), count_datas_households_number)
                     self._cr.execute(sql)
                 m = m + 1
             m = 1
             y = y + 1
-            if y == 2018 and m == 2:
-                break
             # 總共費時約 12 分鐘, 資料追朔至2003年
         return True
 

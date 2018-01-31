@@ -295,7 +295,6 @@ class ReportDonateSingleDefault(models.AbstractModel):
         # 找出要合併列印的人，整理後放入報表用table
 
         for line in merge_res:
-
             tmp_id = report_line.create({
                 'title_donate': line.donate_member.id,
                 'title_doante_code': line.donate_id,
@@ -317,8 +316,8 @@ class ReportDonateSingleDefault(models.AbstractModel):
 
         # 找出不合併列印的人，整理後放進報表用table
         for line in res:
-            date = datetime.datetime.strptime(line.create_date, "%Y-%m-%d %H:%M:%S")
-            date_sring = date.strftime("%Y-%m-%d")
+            # date = datetime.datetime.strptime(line.create_date, "%Y-%m-%d %H:%M:%S")
+            # date_sring = date.strftime("%Y-%m-%d")
             tmp_id = report_line.create({
                 'title_donate': line.donate_member.id,
                 'title_doante_code': line.donate_id,

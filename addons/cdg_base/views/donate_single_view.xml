@@ -134,11 +134,11 @@
                     <field name="donate_id"/>
                     <field name="donate_member_w_id"/>
                     <field name="donate_member_new_coding"/>
-                    <!--<field string="捐款日期-起" name="donate_date" filter_domain="[('donate_date', '&gt;=',self )]"/>-->
-                    <!--<field string="捐款日期-迄" name="donate_date" filter_domain="[('donate_date', '&lt;=',self)]"/>-->
+                    <field string="捐款日期-起" name="donate_date" filter_domain="[('donate_date', '&gt;=',self )]"/>
+                    <field string="捐款日期-迄" name="donate_date" filter_domain="[('donate_date', '&lt;=',self)]"/>
 
                     <filter string="未列印的捐款" name="un_print_donate" domain="[('state','=',1)]"/>
-                    <filter string="捐款日期" name="donate_date_today" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('create_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>
+                    <!--<filter string="捐款日期" name="donate_date_today" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('create_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>-->
                     <filter string="捐款來源-現金" name="cash" domain="[('cash','=','True')]"/>
                     <filter string="捐款來源-郵政劃撥" name="mail" domain="[('mail','=','True')]"/>
                     <filter string="捐款來源-信用卡" name="credit_card" domain="[('credit_card','=','True')]"/>

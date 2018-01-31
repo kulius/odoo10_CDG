@@ -16,8 +16,12 @@ class DonateSingle(models.Model):
     donate_id = fields.Char(string='收據編號', readonly=True)
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者',
                                     states={2: [('readonly', True)]})  # demo用
-    donate_member_w_id = fields.Char('舊團員編號',related='donate_member.w_id') # search用
-    donate_member_number = fields.Char('舊團員序號',related='donate_member.number')
+    w_id = fields.Char('舊團員編號', related='donate_member.w_id')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛了
+    new_coding = fields.Char('新捐款者編號', related='donate_member.new_coding')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛了
+
+    donate_member_w_id = fields.Char('舊團員編號',related='donate_member.w_id') # search用   (轉檔時, 要把 related 去掉)
+    donate_member_number = fields.Char('舊團員序號',related='donate_member.number') # 轉檔時, 要把 related 去掉
+
     donate_member_new_coding = fields.Char('新捐款者編號',related='donate_member.new_coding')  # search用
     name = fields.Char(string='姓名', compute='set_donate_name',store=True)
     self_iden = fields.Char(string='身分證字號', compute='set_donate_name', store=True)
@@ -198,27 +202,30 @@ class DonateSingle(models.Model):
                 if max_paid < int(line.paid_id) and line.state == 1:
                     max_paid = int(line.paid_id)
                     max = line
-            old = self.search([('donate_id', '=', max.donate_id)])
+            if max:
+                old = self.search([('donate_id', '=', max.donate_id)])
 
-            r = []
-            for line in old.family_check:
-                r.append([0, 0, {
-                    'donate_member': line.donate_member.id
-                }])
+                r = []
+                for line in old.family_check:
+                    r.append([0, 0, {
+                        'donate_member': line.donate_member.id
+                    }])
 
-            self.update({
-                'family_check': r,
-                'bridge': old.bridge,
-                'bridge_money': old.bridge_money,
-                'road': old.road,
-                'road_money': old.road_money,
-                'coffin': old.coffin,
-                'coffin_money': old.coffin_money,
-                'poor_help': old.poor_help,
-                'poor_help_money': old.poor_help_money,
-                'noassign': old.noassign,
-                'noassign_money': old.noassign_money,
-            })
+                self.update({
+                    'family_check': r,
+                    'bridge': old.bridge,
+                    'bridge_money': old.bridge_money,
+                    'road': old.road,
+                    'road_money': old.road_money,
+                    'coffin': old.coffin,
+                    'coffin_money': old.coffin_money,
+                    'poor_help': old.poor_help,
+                    'poor_help_money': old.poor_help_money,
+                    'noassign': old.noassign,
+                    'noassign_money': old.noassign_money,
+                })
+            else:
+                raise ValidationError(u'系統查詢結果並無歷史捐款紀錄')
 
 
     @api.onchange('bridge', 'road', 'coffin', 'poor_help','noassign')
