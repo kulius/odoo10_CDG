@@ -154,6 +154,23 @@ class NormalP(models.Model):
     def toggle_merge(self):
         self.is_merge = not self.is_merge
 
+    def all_addr_chnage(self):
+        for line in self.donate_family1:
+            if line:
+                line.rec_addr  =  self.rec_addr
+            else:
+                break
+
+
+    def combine_addr(self):
+        for line in self.donate_family1:
+            if line:
+                if line.is_merge is True:
+                  line.rec_addr =  self.rec_addr
+            else:
+                break
+
+
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):

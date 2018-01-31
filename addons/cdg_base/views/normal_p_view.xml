@@ -92,8 +92,8 @@
                                 </page>
                                 <page string="團員眷屬">
                                     <div class="oe_button_box" name="button_box">
-                                        <button string="合併收據地址" name="button1" type="object" class="oe_stat_button" icon="fa-exchange"/>
-                                        <button string="全部變更地址" name="button2" type="object" class="oe_stat_button" icon="fa-location-arrow"/>
+                                        <button string="合併收據地址" name="combine_addr" type="object" class="oe_stat_button" icon="fa-exchange"/>
+                                        <button string="全部變更地址" name="all_addr_chnage" type="object" class="oe_stat_button" icon="fa-location-arrow"/>
                                     </div>
                                     <field name="donate_family1" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form'}">
                                         <tree>
