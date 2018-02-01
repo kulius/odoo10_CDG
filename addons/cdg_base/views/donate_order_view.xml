@@ -99,6 +99,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">donate.order</field>
         <field name="view_mode">tree,form</field>
+            <field name="limit">10</field>
             <field name="view_ids"
                        eval="[(5, 0, 0),
                        (0, 0, {'view_mode': 'tree', 'view_id': ref('donate_order_tree')}),
