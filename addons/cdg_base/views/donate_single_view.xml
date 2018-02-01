@@ -104,8 +104,8 @@
                                 <!--</field>-->
                             <!--</page>-->
                             <page string="捐款記錄明細">
-                                <field name="donate_list" readonly="1">
-                                    <tree>
+                                <field name="donate_list">
+                                    <tree editable="bottom">
                                         <field name="state" />
                                         <field name="donate_id"/>
                                         <field name="paid_id"/>

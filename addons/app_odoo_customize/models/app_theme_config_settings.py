@@ -464,7 +464,7 @@ class AppThemeConfigSettings(models.TransientModel):
     def data_transfer(self): #轉團員檔及團員眷屬檔
         # 轉團員眷屬檔, 其中團員編號為空的資料共334筆未轉入
         sql = "INSERT INTO normal_p(w_id, number, name, cellphone, con_phone, con_phone2, zip, rec_addr, habbit_donate, is_merge, is_donate, temp_key_in_user, db_chang_date) "\
-              " SELECT 團員編號, 序號, 姓名, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, cast(捐助種類編號 as Integer), case when 收據寄送='N' then FALSE else TRUE end as 收據寄送, case when 是否捐助='N' then FALSE else TRUE end as 是否捐助, 輸入人員, case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期 FROM 團員眷屬檔 WHERE 團員編號 <>'' "
+              " SELECT 團員編號, 序號, 姓名, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, cast(捐助種類編號 as Integer), case when 收據寄送='N' then TRUE else FALSE end as 收據寄送, case when 是否捐助='N' then FALSE else TRUE end as 是否捐助, 輸入人員, case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期 FROM 團員眷屬檔 WHERE 團員編號 <>'' "
         self._cr.execute(sql) # 輸入765486筆資料, 花費9.687秒
 
         #轉入不在眷屬檔，在團員檔的資料，共7848筆, 花費7.251秒
@@ -477,7 +477,7 @@ class AppThemeConfigSettings(models.TransientModel):
         # 團員檔的資料比較齊全，因此把團員檔的資料寫入normal.p, 更新255014筆資料, 共花費8.871秒
         sql = "UPDATE normal_p " \
               " SET cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, donate_cycle = cast(a.捐助週期 as Integer), zip_code = a.郵遞區號, con_addr = a.通訊地址, " \
-              " merge_report = case when a.年收據='N' then FALSE else TRUE end, ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, report_send = case when a.報表寄送='N' then FALSE else TRUE end," \
+              " merge_report = case when a.年收據='N' then FALSE else TRUE end, ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then TRUE else FALSE end, report_send = case when a.報表寄送='N' then FALSE else TRUE end," \
               " thanks_send = case when a.感謝狀寄送='N' then FALSE else TRUE end, prints = case when a.銀行核印='N' then FALSE else TRUE end, prints_id = a.核印批號, self_iden = a.身份證號, bank_id = a.扣款銀行代碼, bank = a.扣款銀行," \
               " bank_id2 = a.扣款分行代碼, bank2 = a.扣款分行, account = a.銀行帳號, prints_date = a.核印日期," \
               " ps2 = a.約定轉帳備註, temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end" \
