@@ -283,7 +283,8 @@ class DonateSingle(models.Model):
                 'donate_member': line.id
             }])
         self.update({
-            'family_check': r
+            'family_check': r,
+            'work_id':self.donate_member.cashier_name.id
         })
         user = self.env['res.users'].search([('login', '=', self.env.user.login)])
         self.payment_method = user.payment_method

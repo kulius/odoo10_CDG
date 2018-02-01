@@ -15,6 +15,7 @@
                     <field name="donate_family_list"/>
                     <field name="donate_total"/>
                     <field name="receipt_send"/>
+                    <field name="work_id"/>
                     <field name="donate_member" invisible = "1"/>
                 </tree>
             </field>
@@ -84,7 +85,7 @@
                                 <field name="family_check">
                                     <tree editable="bottom">
                                         <field name="family_new_coding"/>
-                                        <field name="donate_member" options="{'no_quick_create': True, 'no_create_edit' : True}" context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
+                                        <field name="donate_member" options="{'no_quick_create': True, 'no_create_edit' : True}" context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form', 'search_view_ref':'cdg_base.normal_p_search'}"/>
                                         <field name="is_donate"/>
                                         <field name="is_merge"/>
                                     </tree>
