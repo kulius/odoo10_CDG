@@ -152,8 +152,8 @@ class DonateSingle(models.Model):
             datas.number = datas.number + i # 捐款人數要寫回計數器
         else: # 如果沒有找到資料
             self.env['donate.statistics'].create({
-                'year': '20' + historical_data_year,
-                'month': historical_data_month.zfill(2),
+                'year': historical_data_year,
+                'month': historical_data_month,
                 'receipt_number' : 1,
                 'number' : i
             })
