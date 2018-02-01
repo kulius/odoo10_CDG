@@ -49,7 +49,7 @@ class DonateSingle(models.Model):
     coffin_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     poor_help_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     noassign_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    payment_method = fields.Selection( [(1,'現金'),(2,'郵政劃撥'),(3,'信用卡扣款'),(4,'銀行轉帳')], string='繳費方式')
+    payment_method = fields.Selection( [(1,'現金'),(2,'郵政劃撥'),(3,'信用卡扣款'),(4,'銀行轉帳'),(5,'支票')], string='繳費方式')
 #    cash = fields.Boolean(string='現金', states={2: [('readonly', True)]})
     person_check = fields.Many2many(comodel_name="normal.p", string="捐款人名冊")
     family_check = fields.One2many(comodel_name='donate.family.line',inverse_name='parent_id', string='捐款人名冊', states={2: [('readonly', True)]})
