@@ -452,11 +452,7 @@ class NormalP(models.Model):
             raise ValidationError(u'請輸入姓名')
 
         if res_id.zip is False: #使用者如果沒有填收據寄送地址郵遞區號, 則編碼前3碼為 '999'
-            compute_code = self.env['auto.donateid'].search([('zip','=','999')])
-            res_id.new_coding = '999' + str(compute_code.area_number + 1).zfill(5) # 取出當前 zip = '999' 的累積人數+1
-            compute_code.write({
-                'area_number': compute_code.area_number + 1 #  寫入 zip = '999' 目前的累積人數
-            })
+            raise ValidationError(u'收據郵遞區號不能為空白')
         elif res_id.zip and len(res_id.zip) < 3: # 使用者有輸入收據寄送地址的郵遞區號但不足3碼
             raise ValidationError(u'收據寄送地址的郵遞區號填寫錯誤，請至少填3碼的郵遞區號!')
         elif res_id.zip and len(res_id.zip) >= 3: # 使用者可以填3+2郵遞區號, 但是少要填3碼的郵遞區號
