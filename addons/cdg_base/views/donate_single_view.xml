@@ -35,6 +35,9 @@
                             <!--<button name="bring_last_history" string="上次捐款紀錄" type="object" class="oe_stat_button"-->
                                     <!--icon="fa-level-up">-->
                             <!--</button>-->
+                            <button name="start_donate" string="捐款作業"
+                                    type="object" class="oe_stat_button" icon="fa-dollar" attrs="{'invisible': [('donate_id', '=', False)]}">
+                            </button>
                             <button name="parent_list_creat" string="載入眷屬" type="object" class="oe_stat_button"
                                     icon="fa-users">
                                 <!--將該成員眷屬列出-->

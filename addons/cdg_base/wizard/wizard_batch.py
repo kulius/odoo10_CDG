@@ -17,7 +17,9 @@ class WizardDonate(models.Model):
     poor_help_money = fields.Integer(string='$')
     noassign_money = fields.Integer(string='$')
     donate_date = fields.Date('捐款日期',default=lambda self: fields.date.today())
+    payment_method = fields.Selection([(1, '現金'), (2, '郵政劃撥'), (3, '信用卡扣款'), (4, '銀行轉帳'), (5, '支票')], string='繳費方式')
     donate_line = fields.Many2many(comodel_name='normal.p', string='捐款批次的人')
+    work_id = fields.Many2one(comodel_name='cashier.base', string='收費員')
 
     def confirm_donate(self):
         order = self.env['donate.single']
@@ -43,7 +45,8 @@ class WizardDonate(models.Model):
                 'noassign_money':self.noassign_money,
                 'donate_member': line.id,
                 'family_check': res_line,
-                'donate_date':self.donate_date
+                'donate_date':self.donate_date,
+                'work_id':self.work_id
             })
         action = self.env.ref('cdg_base.donate_single_view_action').read()[0] #
         return action

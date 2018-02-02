@@ -65,7 +65,7 @@ class DonateSingle(models.Model):
 #    history_payment_method = fields.Boolean('是否上次捐款方式')
     report_price_big = fields.Char(string='報表用大寫金額')
     report_donate = fields.Char(string='報表用捐款日期')
-    donate_date = fields.Date('捐款日期',default=lambda self: fields.date.today())
+    donate_date = fields.Date('捐款日期')
     sreceipt_number = fields.Integer(string='收據筆數', compute='compute_total', store=True)
     print_count = fields.Integer(string='列印筆數',store=True)
     print_date = fields.Date('列印日期')
@@ -173,6 +173,7 @@ class DonateSingle(models.Model):
 
         user = self.env['res.users'].search([('login', '=', self.env.user.login)])
         user.payment_method = res_id.payment_method
+        user.last_donate_date = res_id.donate_date
         return res_id
 
     @api.model
@@ -288,6 +289,7 @@ class DonateSingle(models.Model):
         })
         user = self.env['res.users'].search([('login', '=', self.env.user.login)])
         self.payment_method = user.payment_method
+        self.donate_date = user.last_donate_date
 
     @api.depends('donate_list')
     def compute_total(self):
@@ -493,6 +495,12 @@ class DonateSingle(models.Model):
             line.receipt_send = normal_p.rec_send
             line.report_send = normal_p.report_send
             line.year_receipt_send = normal_p.merge_report
+
+    def start_donate(self):
+        action = self.env.ref('cdg_base.start_donate_action').read()[0]
+        user = self.env['res.users'].search([('login', '=', self.env.user.login)])
+        action['context'] = {'default_donate_member':self.donate_member.id, 'default_payment_method':user.payment_method}
+        return action
 
 
 class DonateSingleLine(models.Model):
