@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 class NormalP(models.Model):
     # 捐款人
     _name = 'normal.p'
-    _order = 'write_date desc'
+    _order = 'new_coding'
 
     new_coding = fields.Char(string='捐款者編號')
     old_coding = fields.Char(string='舊捐款者編號')

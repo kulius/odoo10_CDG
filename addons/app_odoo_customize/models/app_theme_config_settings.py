@@ -487,6 +487,8 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql) # 更新772197筆資料, 花費17.647秒
         sql = "UPDATE normal_p  SET active = TRUE"
         self._cr.execute(sql)  # 把所有捐款者資料的active設為TRUE, 不然基本資料會什麼都看不見, 共773334筆 花費11.692秒
+        sql = "UPDATE normal_p SET new_coding = '' "
+        self._cr.execute(sql) #將所有的捐款者編號全部設為空 而並非是NULL
         return True
 
     def set_leader(self): # 設定戶長
@@ -839,15 +841,26 @@ class AppThemeConfigSettings(models.TransientModel):
     #     zip = ''
     #     for line in lines[0:400000]:
     #         zip = ''
+    #         flag = True
     #         if line.rec_addr is False and line.con_addr:  # 收據地址為空, 但卻有報表寄送地址
     #             zip = zipcodetw.find(line.con_addr)[0:3]  # 藉由報表寄送地址判讀該地址的郵遞區號, 並只取郵遞區號前3碼
     #             line.zip = zip  # 將郵遞區號寫入 收據地址的郵遞區號
     #             line.rec_addr = line.con_addr  # 將報表寄送地址寫入收據地址, 前提是收據地址是空的
     #         elif line.rec_addr:  # 有收據地址
     #             zip = zipcodetw.find(line.rec_addr)[0:3]  # 直接取郵遞區號前3碼
-    #         if len(zip) < 3 and line.rec_addr:  # 藉由程式判讀出來的郵遞區號, 若小於3碼則代表地址填寫錯誤, 找不到郵遞區號, 條件是收據地址不為空
-    #             s['999'] += 1  # 該郵遞區號出現次數 +1
-    #             line.new_coding = '999' + str(s.get('999')).zfill(5)  # 什麼都沒有的一般捐款者
+    #
+    #         if (len(zip) < 3 or zip =='')and line.rec_addr:  # 藉由程式判讀出來的郵遞區號, 若小於3碼則代表地址填寫錯誤, 找不到郵遞區號, 條件是收據地址不為空
+    #             if len(line.zip) < 3:
+    #                 s['999'] += 1  # 該郵遞區號出現次數 +1
+    #                 line.new_coding = '999' + str(s.get('999')).zfill(5)  # 什麼都沒有的一般捐款者
+    #             elif len(line.zip) >= 3:
+    #                 for ch in line.zip:
+    #                     if not u'\u0030' <= ch <=u'\u0039':
+    #                         flag = False
+    #                 if flag:
+    #                     zip = line.zip[0:3]
+    #                     s[zip] += 1  # 該郵遞區號的出現次數 +1
+    #                     line.new_coding = zip + str(s.get(zip)).zfill(5)
     #         elif len(zip) == 3:  # 郵遞區號有3碼, 代表該筆資料的地址可以找到相對應的郵遞區號
     #             line.zip = zip  # 將程式判斷的郵遞區號寫入該捐款者的收據地址郵遞區號
     #             s[zip] += 1  # 該郵遞區號的出現次數 +1
@@ -872,27 +885,36 @@ class AppThemeConfigSettings(models.TransientModel):
     #
     #     for line in lines[400000:]:
     #         zip = ''
-    #         if line.rec_addr is False and line.con_addr:
-    #             zip = zipcodetw.find(line.con_addr)[0:3]
-    #             line.zip = zip
-    #             line.rec_addr = line.con_addr
-    #         elif line.rec_addr:
-    #             zip = zipcodetw.find(line.rec_addr)[0:3]
-    #         if len(zip) < 3 and line.rec_addr:
-    #             s['999'] += 1
-    #             line.new_coding = '999' + str(s.get('999')).zfill(5)
-    #         elif len(zip) == 3:
-    #             line.zip = zip
-    #             s[zip] += 1
+    #         flag = True
+    #         if line.rec_addr is False and line.con_addr:  # 收據地址為空, 但卻有報表寄送地址
+    #             zip = zipcodetw.find(line.con_addr)[0:3]  # 藉由報表寄送地址判讀該地址的郵遞區號, 並只取郵遞區號前3碼
+    #             line.zip = zip  # 將郵遞區號寫入 收據地址的郵遞區號
+    #             line.rec_addr = line.con_addr  # 將報表寄送地址寫入收據地址, 前提是收據地址是空的
+    #         elif line.rec_addr:  # 有收據地址
+    #             zip = zipcodetw.find(line.rec_addr)[0:3]  # 直接取郵遞區號前3碼
+    #
+    #         if (len(zip) < 3 or zip == '') and line.rec_addr:  # 藉由程式判讀出來的郵遞區號, 若小於3碼則代表地址填寫錯誤, 找不到郵遞區號, 條件是收據地址不為空
+    #             if len(line.zip) < 3:
+    #                 s['999'] += 1  # 該郵遞區號出現次數 +1
+    #                 line.new_coding = '999' + str(s.get('999')).zfill(5)  # 什麼都沒有的一般捐款者
+    #             elif len(line.zip) >= 3:
+    #                 for ch in line.zip:
+    #                     if not u'\u0030' <= ch <= u'\u0039':
+    #                         flag = False
+    #                 if flag:
+    #                     zip = line.zip[0:3]
+    #                     s[zip] += 1  # 該郵遞區號的出現次數 +1
+    #                     line.new_coding = zip + str(s.get(zip)).zfill(5)
+    #         elif len(zip) == 3:  # 郵遞區號有3碼, 代表該筆資料的地址可以找到相對應的郵遞區號
+    #             line.zip = zip  # 將程式判斷的郵遞區號寫入該捐款者的收據地址郵遞區號
+    #             s[zip] += 1  # 該郵遞區號的出現次數 +1
     #             line.new_coding = zip + str(s.get(zip)).zfill(5)
     #
     #     postal_code_list = list(s.items())
     #     for i in range(len(postal_code_list)):
-    #         postal_code_data = self.env['auto.donateid'].search(
-    #             [('zip', '=', postal_code_list[i][0])])  # 搜尋資料庫的計數器是否具有該郵遞區號
+    #         postal_code_data = self.env['auto.donateid'].search([('zip', '=', postal_code_list[i][0])])  # 搜尋資料庫的計數器是否具有該郵遞區號
     #         if postal_code_data:
-    #             postal_code_data.area_number = postal_code_data.area_number + int(
-    #                 postal_code_list[i][1])  # 有搜尋到 則更新資料庫計數器的數量
+    #             postal_code_data.area_number = postal_code_data.area_number + int(postal_code_list[i][1])  # 有搜尋到 則更新資料庫計數器的數量
     #         else:
     #             sql = " INSERT INTO auto_donateid(zip, area_number) VALUES ('%s', '%s')" % (postal_code_list[i][0], postal_code_list[i][1])  # 沒有搜尋到則重新建立該郵遞區號的資料
     #             self._cr.execute(sql)
@@ -900,7 +922,7 @@ class AppThemeConfigSettings(models.TransientModel):
     #     return True
     #
     # def set_postal_code3(self):  # 沒有收據寄送地址, 也沒有報表寄送地址
-    #     lines = self.env['normal.p'].search([('new_coding', '=', False)])
+    #     lines = self.env['normal.p'].search([('new_coding', '=', '')])
     #     last_time_data = self.env['auto.donateid'].search([])
     #     s = collections.Counter()
     #     zip = ''
@@ -915,14 +937,9 @@ class AppThemeConfigSettings(models.TransientModel):
     #
     #     postal_code_list = list(s.items())
     #     for i in range(len(postal_code_list)):
-    #         postal_code_data = self.env['auto.donateid'].search(
-    #             [('zip', '=', postal_code_list[i][0])])  # 搜尋資料庫的計數器是否具有該郵遞區號
+    #         postal_code_data = self.env['auto.donateid'].search([('zip', '=', '999')])  # 搜尋資料庫的計數器是否具有該郵遞區號
     #         if postal_code_data:
-    #             postal_code_data.area_number = postal_code_data.area_number + int(
-    #                 postal_code_list[i][1])  # 有搜尋到 則更新資料庫計數器的數量
-    #         else:
-    #             sql = " INSERT INTO auto_donateid(zip, area_number) VALUES ('%s', '%s')" % (postal_code_list[i][0], postal_code_list[i][1])  # 沒有搜尋到則重新建立該郵遞區號的資料
-    #             self._cr.execute(sql)
+    #             postal_code_data.area_number = postal_code_data.area_number + int(postal_code_list[i][1])  # 有搜尋到 則更新資料庫計數器的數量
     #     s.clear()
     #     return True
 
