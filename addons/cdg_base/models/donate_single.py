@@ -74,13 +74,26 @@ class DonateSingle(models.Model):
     print_date = fields.Date('列印日期')
     donate_family_list = fields.Char('眷屬列表',compute='compute_family_list')
 
+    clear_all_is_donate = fields.Boolean(string='清除 [是否捐助]')
+    clear_all_is_merge = fields.Boolean(string='清除 [是否合併收據]')
+
+    @api.onchange('clear_all_is_donate')
     def donate_anti_election(self):
+        if self.clear_all_is_donate:
+            for line in self.family_check:
+                line.is_donate = False
+        elif self.clear_all_is_donate is False:
+            for line in self.family_check:
+                line.is_donate = line.donate_member.is_donate
 
-        return True
-
+    @api.onchange('clear_all_is_merge')
     def merge_anti_election(self):
-
-        return True
+        if self.clear_all_is_merge:
+            for line in self.family_check:
+                line.is_merge = False
+        elif self.clear_all_is_merge is False:
+            for line in self.family_check:
+                line.is_merge = line.donate_member.is_merge
 
     def print_check(self,ids):
         res = []
@@ -147,9 +160,13 @@ class DonateSingle(models.Model):
             raise ValidationError(u'必須選取收費員')
 
         i = 0
+        is_donate_flag = False
         for line in res_id.family_check: # 計算該捐款者眷屬有多少人是願意捐款的
             if line.is_donate:
+                is_donate_flag = True
                 i = i + 1
+        if not is_donate_flag:
+            raise ValidationError(u'請至少有一人需要捐款')
 
         historical_data_year = str(datetime.datetime.strptime(res_id.donate_date, '%Y-%m-%d').year) # 根據捐款日期取出捐款的年份
         historical_data_month = str(datetime.datetime.strptime(res_id.donate_date, '%Y-%m-%d').month) # 根據捐款日期取出捐款的月份
