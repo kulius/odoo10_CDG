@@ -96,13 +96,17 @@ class NormalP(models.Model):
     active = fields.Boolean(default=True)
     is_same_addr = fields.Boolean(string='報表地址同收據地址')
     auto_num = fields.Char('自動地區編號')
+    check_donate_order = fields.Boolean(string='捐款紀錄查詢', default = False)
+    is_delete = fields.Boolean(string='未有捐款紀錄', default = False)
 
-    @api.multi
-    def unlink(self):
-        if self.donate_history_ids:
-            raise ValidationError(u'該捐款者有捐款資料，無法刪除')
-
-        return super(NormalP, self).unlink()
+    @api.onchange('check_donate_order')
+    def check_unlink(self):
+        if self.check_donate_order:
+            for line in self.donate_family1:
+                if (len(line.donate_history_ids) != 0 or len(line.donate_single_history_ids) != 0 ) is True:
+                    line.is_delete = False
+                elif (len(line.donate_history_ids) ==0 and len(line.donate_single_history_ids) == 0) is True:
+                    line.is_delete = True
 
     def action_chang_donater_wizard(self):
         wizard_data = self.env['chang.donater'].create({
