@@ -35,7 +35,6 @@ class CoffinMonthXlsx(ReportXlsx):
         sheet.set_column(4, 4, 12)
         sheet.set_column(5, 5, 15)
 
-
         self.count = 1
 
 
