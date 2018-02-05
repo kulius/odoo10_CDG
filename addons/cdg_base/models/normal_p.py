@@ -80,6 +80,7 @@ class NormalP(models.Model):
     # 來判斷你是不是老大
     member_data_ids = fields.Many2one(comodel_name='member.data', string='關聯的顧問會員檔')
     donate_history_ids = fields.One2many(comodel_name='donate.order', inverse_name='donate_member')
+    donate_single_history_ids = fields.One2many(comodel_name='donate.single', inverse_name='donate_member')
     #會員收費檔及顧問檔收費檔關聯
     member_pay_history = fields.One2many(comodel_name='associatemember.fee', inverse_name='normal_p_id')
     consultant_pay_history = fields.One2many(comodel_name='consultant.fee', inverse_name='normal_p_id')
@@ -94,6 +95,13 @@ class NormalP(models.Model):
     active = fields.Boolean(default=True)
     is_same_addr = fields.Boolean(string='報表地址同收據地址')
     auto_num = fields.Char('自動地區編號')
+
+    @api.multi
+    def unlink(self):
+        if self.donate_history_ids:
+            raise ValidationError(u'該捐款者有捐款資料，無法刪除')
+
+        return super(NormalP, self).unlink()
 
     def action_chang_donater_wizard(self):
         wizard_data = self.env['chang.donater'].create({

@@ -71,6 +71,14 @@ class DonateSingle(models.Model):
     print_date = fields.Date('列印日期')
     donate_family_list = fields.Char('眷屬列表',compute='compute_family_list')
 
+    def donate_anti_election(self):
+
+        return True
+
+    def merge_anti_election(self):
+
+        return True
+
     def print_check(self,ids):
         res = []
         for line in ids:
@@ -197,15 +205,13 @@ class DonateSingle(models.Model):
     def get_history_donate(self):
 
         if self.history_donate_flag is True:
-            max_paid = 0
             max = None
-            for line in self.donate_member.donate_history_ids:
-                if max_paid < int(line.paid_id) and line.state == 1:
-                    max_paid = int(line.paid_id)
-                    max = line
+            second_last = len(self.donate_member.donate_single_history_ids)
+            for line in self.donate_member.donate_single_history_ids[0:second_last - 1]:
+                max = line
+                print(line.donate_id)
             if max:
                 old = self.search([('donate_id', '=', max.donate_id)])
-
                 r = []
                 for line in old.family_check:
                     r.append([0, 0, {

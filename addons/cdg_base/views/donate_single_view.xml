@@ -83,8 +83,11 @@
                                     <field name="noassign_money" nolabel="1"/>
                                     <field name="coffin"/>
                                     <field name="coffin_money" nolabel="1"/>
-
                                 </group>
+                                <div class="oe_button_box" name="button_box">
+                                    <button name="donate_anti_election" string="是否捐助反選" type="object" class="oe_stat_button" icon="fa-check-square-o"></button>
+                                    <button name="merge_anti_election" string="是否合併反選" type="object" class="oe_stat_button" icon="fa-check-square"></button>
+                                </div>
                                 <field name="family_check">
                                     <tree editable="bottom">
                                         <field name="family_new_coding"/>
