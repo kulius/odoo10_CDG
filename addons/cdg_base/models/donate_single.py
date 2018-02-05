@@ -34,6 +34,9 @@ class DonateSingle(models.Model):
                              string='狀態', default=1, index=True)
 
     donate_total = fields.Integer(string='捐款總額', compute='compute_total')
+    current_donate_total = fields.Integer('目前捐款總額', readonly="1")
+    current_donate_people = fields.Integer('目前捐款人數', readonly="1")
+
     old_donate_total = fields.Integer(string='舊捐款總額')
 
     receipt_send = fields.Boolean(string='收據寄送')
@@ -201,6 +204,15 @@ class DonateSingle(models.Model):
     #         'payment_method': last_order.payment_method
     #      })
 
+
+
+
+
+
+
+
+
+
     @api.onchange('history_donate_flag')
     def get_history_donate(self):
 
@@ -233,10 +245,16 @@ class DonateSingle(models.Model):
                 })
             else:
                 raise ValidationError(u'系統查詢結果並無歷史捐款紀錄')
-
+    @api.onchange('family_check')
+    def current_people(self):
+        self.current_donate_people = 0
+        for line in self.family_check:
+            if line.is_donate is True:
+                self.current_donate_people += 1
 
     @api.onchange('bridge', 'road', 'coffin', 'poor_help','noassign')
     def set_default_price(self):
+        self.current_donate_total = 0
         if self.bridge and self.bridge_money == 0:
             self.bridge_money = 100
         elif self.bridge is False:
@@ -258,9 +276,18 @@ class DonateSingle(models.Model):
         elif self.noassign is False:
             self.noassign_money = 0
 
+        for line in self.family_check:
+            if line.is_donate is True:
+                self.current_donate_total += self.bridge_money
+                self.current_donate_total += self.road_money
+                self.current_donate_total += self.coffin_money
+                self.current_donate_total += self.poor_help_money
+                self.current_donate_total += self.noassign_money
+
 
     @api.onchange('bridge_money','road_money','coffin_money', 'poor_help_money','noassign_money')
     def set_checkbox_check(self):
+        self.current_donate_total = 0
         if self.bridge_money != 0:
             self.bridge = True
         else:
@@ -281,6 +308,14 @@ class DonateSingle(models.Model):
             self.noassign = True
         else:
             self.noassign = False
+
+        for line in self.family_check:
+            if line.is_donate is True:
+                self.current_donate_total += self.bridge_money
+                self.current_donate_total += self.road_money
+                self.current_donate_total += self.coffin_money
+                self.current_donate_total += self.poor_help_money
+                self.current_donate_total += self.noassign_money
 
     @api.onchange('donate_member')
     def show_family(self):
