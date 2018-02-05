@@ -59,6 +59,7 @@
                             <field name="report_send"/>
                             <field name="rec_send"/>
                             <field name="merge_report"/>
+                            <field name="check_donate_order"/>
                             <field name="old_coding" invisible = "1"/>
                             <!--<field name="new_coding" invisible = "1"/>-->
                         </group>
@@ -105,6 +106,7 @@
                                             <field name="rec_addr"/>
                                             <button name="toggle_donate" string="捐助變更" type="object"/>
                                             <button name="toggle_merge" string="合併變更" type="object"/>
+                                            <field name="is_delete"/>
                                         </tree>
                                     </field>
 
