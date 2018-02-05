@@ -101,8 +101,8 @@ class NormalP(models.Model):
     def unlink(self):
         if self.donate_history_ids:
             raise ValidationError(u'該捐款者有捐款資料，無法刪除')
-
-        return super(NormalP, self).unlink()
+        else:
+            return super(NormalP, self).unlink()
 
     def action_chang_donater_wizard(self):
         wizard_data = self.env['chang.donater'].create({
