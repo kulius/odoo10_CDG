@@ -223,13 +223,6 @@ class DonateSingle(models.Model):
 
 
 
-
-
-
-
-
-
-
     @api.onchange('history_donate_flag')
     def get_history_donate(self):
 
