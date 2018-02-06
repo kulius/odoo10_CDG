@@ -239,7 +239,7 @@ class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
         }
         return Report.render('cdg_base.receipt_single_one_kind_one_person', docargs)
 
-
+#
 class ReportDonateSingleDefault(models.AbstractModel):
     _name = 'report.cdg_base.receipt_single_default'
 
@@ -326,7 +326,7 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 tmp_id.write({'title_doante_date': line.donate_date,'title_work_id': line.work_id.name})
             line_data = []
             for row in res_line:
-                if row.donate_member == line.donate_member and row.donate_id == line.donate_id:
+                if row.donate_id == line.donate_id:
                     line_data.append([0, 0, {
                         'name': row.donate_member.name,
                         'donate_type': row.donate_type,
