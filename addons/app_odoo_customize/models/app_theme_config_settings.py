@@ -477,7 +477,7 @@ class AppThemeConfigSettings(models.TransientModel):
         # 團員檔的資料比較齊全，因此把團員檔的資料寫入normal.p, 更新255014筆資料, 共花費8.871秒
         sql = "UPDATE normal_p " \
               " SET cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, donate_cycle = cast(a.捐助週期 as Integer), zip_code = a.郵遞區號, con_addr = a.通訊地址, " \
-              " merge_report = case when a.年收據='N' then FALSE else TRUE end, ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then TRUE else FALSE end, report_send = case when a.報表寄送='N' then FALSE else TRUE end," \
+              " merge_report = case when a.年收據='N' then FALSE else TRUE end, ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, report_send = case when a.報表寄送='N' then FALSE else TRUE end," \
               " thanks_send = case when a.感謝狀寄送='N' then FALSE else TRUE end, prints = case when a.銀行核印='N' then FALSE else TRUE end, prints_id = a.核印批號, self_iden = a.身份證號, bank_id = a.扣款銀行代碼, bank = a.扣款銀行," \
               " bank_id2 = a.扣款分行代碼, bank2 = a.扣款分行, account = a.銀行帳號, prints_date = a.核印日期," \
               " ps2 = a.約定轉帳備註, temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end" \
