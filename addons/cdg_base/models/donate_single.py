@@ -562,3 +562,9 @@ class DonateSingleLine(models.Model):
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款人')
     is_donate = fields.Boolean(string='是否捐助', related='donate_member.is_donate')
     is_merge = fields.Boolean(string='是否合併收據', related='donate_member.is_merge')
+
+    bridge_money = fields.Integer(string='造橋')
+    road_money = fields.Integer(string='補路')
+    coffin_money = fields.Integer(string='施棺')
+    poor_help_money = fields.Integer(string='貧困扶助')
+    noassign_money = fields.Integer(string='不指定')

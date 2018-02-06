@@ -86,19 +86,25 @@
                                 </group>
                                 <span STYLE='FONT-SIZE:25PX'>捐款名冊</span>
                                 <group col="4">
-                                    <field name="clear_all_is_donate"/>
-                                    <field name="clear_all_is_merge"/>
                                     <field name="current_donate_people"/>
                                     <field name="current_donate_total"/>
                                 </group>
                                 <field name="family_check">
                                     <tree editable="bottom">
-                                        <field name="family_new_coding"/>
-                                        <field name="donate_member" options="{'no_quick_create': True, 'no_create_edit' : True}" context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form', 'search_view_ref':'cdg_base.normal_p_search'}"/>
+                                        <field name="donate_member" options="{'no_quick_create': True, 'no_create_edit' : True}" context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form', 'search_view_ref':'cdg_base.normal_p_search'}" readonly="1"/>
                                         <field name="is_donate"/>
                                         <field name="is_merge"/>
+                                        <!--<field name="bridge_money"/>-->
+                                        <!--<field name="road_money"/>-->
+                                        <!--<field name="coffin_money"/>-->
+                                        <!--<field name="poor_help_money"/>-->
+                                        <!--<field name="noassign_money"/>-->
                                     </tree>
                                 </field>
+                                <group col="4">
+                                    <field name="clear_all_is_donate"/>
+                                    <field name="clear_all_is_merge"/>
+                                </group>
                                 <span STYLE='FONT-SIZE:25PX'>寄送方式</span>
                                 <group col="6">
                                     <field name="receipt_send"/>
