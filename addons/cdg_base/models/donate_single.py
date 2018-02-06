@@ -395,8 +395,6 @@ class DonateSingle(models.Model):
     def button_to_cnacel_donate(self):
         if self.state == 3:
             raise ValidationError(u'本捐款單已作廢!!')
-        elif self.state == 2:
-            raise ValidationError(u'本捐款單已列印收據!!')
 
         for line in self.donate_list:
             if line.used_money != 0:
