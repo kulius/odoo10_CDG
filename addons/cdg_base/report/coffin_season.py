@@ -12,13 +12,12 @@ class CoffinSeasonXlsx(ReportXlsx):
     def generate_xlsx_report(self, workbook, data, env):
         sheet = workbook.add_worksheet()
         sheet.write(1, 0, u'序號')
-        sheet.write(1, 1, u'日期')
+        sheet.write(1, 1, u'死亡日期')
         sheet.write(1, 2, u'受施亡者')
         sheet.write(1, 3, u'亡者住址')
         sheet.write(1, 4, u'領款者')
         sheet.write(1, 5, u'處理者')
         sheet.write(1, 6, u'捐款者')
-        sheet.write(1, 7, u'審核簽章')
 
         for line in env:
             if line.donate_apply_price == 30000:
@@ -26,7 +25,7 @@ class CoffinSeasonXlsx(ReportXlsx):
             else:
                 sheet.write(self.count, 2, line.user + u"*")
             sheet.write(self.count, 0, self.coffin_count)
-            sheet.write(self.count, 1, line.coffin_date)
+            sheet.write(self.count, 1, line.dead_date)
             sheet.write(self.count, 3, line.con_addr)
             sheet.write(self.count, 4, line.geter)
             sheet.write(self.count, 5, line.dealer)
@@ -40,7 +39,6 @@ class CoffinSeasonXlsx(ReportXlsx):
         sheet.set_column(4, 4, 12)
         sheet.set_column(5, 5, 15)
         sheet.set_column(6, 6, 30)
-        sheet.set_column(7, 7, 15)
         sheet.write(0,0,u'施棺總筆數')
         sheet.write(0,1,self.coffin_count-1)
         sheet.write(0,2,u'筆')
