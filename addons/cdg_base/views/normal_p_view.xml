@@ -156,7 +156,7 @@
                     <field name="w_id"/>
                     <field name="con_phone"/>
                     <field name="cellphone"/>
-                    <field name="con_addr"/>
+                    <field name="rec_addr"/>
                     <filter string="戶長" name="top_of_home" domain="[('donate_family1','!=', False)]" />
                 </search>
             </field>
@@ -170,7 +170,7 @@
                     <div class="col-md-12">
                         <group col="9">
                             <field name="name" colspan="3"/>
-                            <field name="type" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}" colspan="3"/>
+                            <field name="type" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}" colspan="3" domain="[('name','!=','捐款者')]"/>
                             <field name="cashier" options="{'no_quick_create': True, 'no_create_edit' : True}" colspan="3"/>
                             <field name="merge_report" colspan="3"/>
                             <field name="is_donate" colspan="3"/>
