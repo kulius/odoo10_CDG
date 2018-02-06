@@ -11,7 +11,7 @@
                     <field name="w_id"/>
                     <field name="name"/>
                     <field name="con_phone"/>
-                    <field name="con_addr"/>
+                    <field name="rec_addr"/>
                     <field name="donate_family_list"/>
                     <field name="cashier_name"/>
                     <!-- 原始資料還有"收據寄送" "報表寄送" -->
