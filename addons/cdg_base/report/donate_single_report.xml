@@ -30,13 +30,13 @@
                 name="cdg_base.receipt_single_default"
                 paperformat="paper_form_cdg"
         />
-        <report id="print_check"
-                model="donate.single"
-                string="預設收據_補單確認"
-                report_type="qweb-pdf"
-                name="cdg_base.receipt_single_default"
-                paperformat="paper_form_cdg"
-        />
+        <!--<report id="print_check"-->
+                <!--model="donate.single"-->
+                <!--string="預設收據_補單確認"-->
+                <!--report_type="qweb-pdf"-->
+                <!--name="cdg_base.receipt_single_default"-->
+                <!--paperformat="paper_form_cdg"-->
+        <!--/>-->
 
         <!--列印合整理完成-->
         <template id="receipt_single_all_template">

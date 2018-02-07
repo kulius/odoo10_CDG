@@ -95,22 +95,22 @@ class DonateSingle(models.Model):
             for line in self.family_check:
                 line.is_merge = line.donate_member.is_merge
 
-    # def print_check(self,ids):
-    #     res = []
-    #     for line in ids:
-    #         res.append([4, line])
-    #     wizard_data = self.env['print.check'].create({
-    #         'from_target': res
-    #     })
-    #
-    #     return {
-    #         'type': 'ir.actions.act_window',
-    #         'res_model': 'print.check',
-    #         'name': '補單確認',
-    #         'view_mode': 'form',
-    #         'res_id': wizard_data.id,
-    #         'target': 'new',
-    #     }
+    def print_check(self,ids):
+        res = []
+        for line in ids:
+            res.append([4, line])
+        wizard_data = self.env['print.check'].create({
+            'from_target': res
+        })
+
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'print.check',
+            'name': '補單確認',
+            'view_mode': 'form',
+            'res_id': wizard_data.id,
+            'target': 'new',
+        }
 
     def bring_last_history(self):
         max_paid = 0

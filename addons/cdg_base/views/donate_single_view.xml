@@ -220,22 +220,22 @@
             </field>
         </record>
 
-        <!--<record id="action_print_check" model="ir.actions.server">-->
-            <!--<field name="name">補單確認</field>-->
-            <!--<field name="model_id" ref="model_donate_single"/>-->
-            <!--<field name="code">-->
-                <!--action =  object.print_check(context.get('active_ids', []))-->
-            <!--</field>-->
-        <!--</record>-->
-<!--&lt;!&ndash;object = normal_p &ndash;&gt;-->
+        <record id="action_print_check" model="ir.actions.server">
+            <field name="name">預設收據補單</field>
+            <field name="model_id" ref="model_donate_single"/>
+            <field name="code">
+                action =  object.print_check(context.get('active_ids', []))
+            </field>
+        </record>
+<!--object = normal_p -->
 
-        <!--<record model="ir.values" id="ir_values_print_check_button">-->
-            <!--<field name="name">補單確認</field>-->
-            <!--<field name="key2">client_print_multi</field>-->
-            <!--<field name="value" eval="'ir.actions.server,%d'%action_print_check"/>-->
-            <!--<field name="key">action</field>-->
-            <!--<field name="object" eval="True"/>-->
-            <!--<field name="model">donate.single</field>-->
-        <!--</record>-->
+        <record model="ir.values" id="ir_values_print_check_button">
+            <field name="name">預設收據補單</field>
+            <field name="key2">client_print_multi</field>
+            <field name="value" eval="'ir.actions.server,%d'%action_print_check"/>
+            <field name="key">action</field>
+            <field name="object" eval="True"/>
+            <field name="model">donate.single</field>
+        </record>
     </data>
 </odoo>
