@@ -10,20 +10,19 @@ class donatefeeinquire(models.Model):
 
     #用時間來做查詢，先不顯示在畫面上
 
-    name = fields.Char('捐款者')
+    donor_id = fields.Many2one(comodel_name='normal.p', string='捐款者')
+
 
 
     def donate_fee_search(self):
 
-        if self.name is False:
-            raise ValidationError(u'請輸入捐款者姓名!')
         number = 0
         action = self.env.ref('cdg_base.donate_order_action').read()[0]
         action['context'] = {}  # remove default domain condition in search box
         action['domain'] = []  # remove any value in search box
 
-        action['domain'] = [('donate_member.name', '=', self.name)]
-        number = len(self.env['donate.order'].search([('donate_member.name', '=', self.name)]))
+        action['domain'] = [('donate_member.name', '=', self.donor_id.name)]
+        number = len(self.env['donate.order'].search([('donate_member.name', '=',self.donor_id.name)]))
 
         action['views'] = [
             [self.env.ref('cdg_base.donate_order_inquire_tree').id, 'tree'],

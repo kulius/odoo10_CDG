@@ -113,6 +113,9 @@
                                     <field name="report_send"/>
                                     <field name="year_receipt_send"/>
                                 </group>
+                                <group>
+                                    <field name="ps"/>
+                                </group>
                             </page>
                             <!--<page string="眷屬明細">-->
                                 <!--<field name="person_check">-->

@@ -25,7 +25,7 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="name"/>
+                            <field name="donor_id"/>
                         </group>
                     </sheet>
                     <footer>
