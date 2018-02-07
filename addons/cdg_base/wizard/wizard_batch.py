@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 
 class WizardDonate(models.Model):
@@ -20,17 +21,29 @@ class WizardDonate(models.Model):
     payment_method = fields.Selection([(1, '現金'), (2, '郵政劃撥'), (3, '信用卡扣款'), (4, '銀行轉帳'), (5, '支票')], string='繳費方式')
     donate_line = fields.Many2many(comodel_name='normal.p', string='捐款批次的人')
     work_id = fields.Many2one(comodel_name='cashier.base', string='收費員')
+    key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]},default=lambda self: self.env.uid)
 
     def confirm_donate(self):
         order = self.env['donate.single']
         res = []
         res_line = []
+        if self.bridge_money == 0 and self.road_money == 0 and self.coffin_money ==0 and self.poor_help_money and self.noassign_money == 0:
+            raise ValidationError(u'各項捐款種類之捐款金額皆為 0 ，請至少填入一項捐款種類之捐款金額')
+        if self.payment_method is not 1 and self.payment_method is not 2 and self.payment_method is not 3 and self.payment_method is not 4:
+            raise ValidationError(u'支付方法至少選取一個')
+        if self.work_id.name is False:
+            raise ValidationError(u'必須選取收費員')
         for line in self.donate_line:
             res_line = []
             for row in line.donate_family1:
                 if row.is_donate is True:
                     res_line.append([0, 0, {
-                        'donate_member': row.id
+                        'donate_member': row.id,
+                        'bridge_money':self.bridge_money,
+                        'road_money': self.road_money,
+                        'coffin_money': self.coffin_money,
+                        'poor_help_money': self.poor_help_money,
+                        'noassign_money': self.noassign_money,
                     }])
             order.create({
                 'bridge': self.bridge,
@@ -46,7 +59,9 @@ class WizardDonate(models.Model):
                 'donate_member': line.id,
                 'family_check': res_line,
                 'donate_date':self.donate_date,
-                'work_id':self.work_id
+                'work_id':self.work_id.id,
+                'key_in_user':self.key_in_user.id,
+                'payment_method':self.payment_method
             })
         action = self.env.ref('cdg_base.donate_single_view_action').read()[0] #
         return action

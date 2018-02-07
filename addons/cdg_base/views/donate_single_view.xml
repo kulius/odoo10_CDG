@@ -73,16 +73,16 @@
                             <page string="捐款">
                                 <span STYLE='FONT-SIZE:25PX'>捐款項目</span>
                                 <group col="6">
-                                    <field name="bridge"/>
-                                    <field name="bridge_money" nolabel="1"/>
-                                    <field name="poor_help" />
-                                    <field name="poor_help_money" nolabel="1"/>
-                                    <field name="road"/>
-                                    <field name="road_money" nolabel="1"/>
-                                    <field name="noassign" />
-                                    <field name="noassign_money" nolabel="1"/>
-                                    <field name="coffin"/>
-                                    <field name="coffin_money" nolabel="1"/>
+                                    <!--<field name="bridge"/>-->
+                                    <field name="bridge_money" string="造橋"/>
+                                    <!--<field name="poor_help" />-->
+                                    <field name="poor_help_money" string="貧困扶助"/>
+                                    <!--<field name="road"/>-->
+                                    <field name="road_money" string="補路"/>
+                                    <!--<field name="noassign" />-->
+                                    <field name="noassign_money" string="不指定"/>
+                                    <!--<field name="coffin"/>-->
+                                    <field name="coffin_money" string="施棺"/>
                                 </group>
                                 <span STYLE='FONT-SIZE:25PX'>捐款名冊</span>
                                 <group col="4">
@@ -94,11 +94,11 @@
                                         <field name="donate_member" options="{'no_quick_create': True, 'no_create_edit' : True}" context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form', 'search_view_ref':'cdg_base.normal_p_search'}" readonly="1"/>
                                         <field name="is_donate"/>
                                         <field name="is_merge"/>
-                                        <!--<field name="bridge_money"/>-->
-                                        <!--<field name="road_money"/>-->
-                                        <!--<field name="coffin_money"/>-->
-                                        <!--<field name="poor_help_money"/>-->
-                                        <!--<field name="noassign_money"/>-->
+                                        <field name="bridge_money"/>
+                                        <field name="road_money"/>
+                                        <field name="coffin_money"/>
+                                        <field name="poor_help_money"/>
+                                        <field name="noassign_money"/>
                                     </tree>
                                 </field>
                                 <group col="4">
@@ -124,7 +124,7 @@
                                     <tree editable="bottom">
                                         <field name="state" />
                                         <field name="donate_id"/>
-                                        <field name="paid_id"/>
+                                        <!--<field name="paid_id"/>-->
                                         <field name="donate_member"/>
                                         <field name="donate_type"/>
                                         <field name="donate"/>
@@ -181,7 +181,7 @@
         </record>
 
         <record id="start_donate_action" model="ir.actions.act_window">
-            <field name="name">開始捐款</field>
+            <field name="name">捐款作業</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">donate.single</field>
             <field name="view_mode">form</field>
@@ -220,22 +220,22 @@
             </field>
         </record>
 
-        <record id="action_print_check" model="ir.actions.server">
-            <field name="name">補單確認</field>
-            <field name="model_id" ref="model_donate_single"/>
-            <field name="code">
-                action =  object.print_check(context.get('active_ids', []))
-            </field>
-        </record>
-<!--object = normal_p -->
+        <!--<record id="action_print_check" model="ir.actions.server">-->
+            <!--<field name="name">補單確認</field>-->
+            <!--<field name="model_id" ref="model_donate_single"/>-->
+            <!--<field name="code">-->
+                <!--action =  object.print_check(context.get('active_ids', []))-->
+            <!--</field>-->
+        <!--</record>-->
+<!--&lt;!&ndash;object = normal_p &ndash;&gt;-->
 
-        <record model="ir.values" id="ir_values_print_check_button">
-            <field name="name">補單確認</field>
-            <field name="key2">client_print_multi</field>
-            <field name="value" eval="'ir.actions.server,%d'%action_print_check"/>
-            <field name="key">action</field>
-            <field name="object" eval="True"/>
-            <field name="model">donate.single</field>
-        </record>
+        <!--<record model="ir.values" id="ir_values_print_check_button">-->
+            <!--<field name="name">補單確認</field>-->
+            <!--<field name="key2">client_print_multi</field>-->
+            <!--<field name="value" eval="'ir.actions.server,%d'%action_print_check"/>-->
+            <!--<field name="key">action</field>-->
+            <!--<field name="object" eval="True"/>-->
+            <!--<field name="model">donate.single</field>-->
+        <!--</record>-->
     </data>
 </odoo>
