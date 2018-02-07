@@ -57,6 +57,7 @@
         'wizard/consultant_fee_inquire.xml',
         'wizard/donate_fee_inquire.xml',
         'wizard/coffin_inquire.xml',
+        'wizard/consultant_join_year.xml',
 
         'views/charity_view.xml',
 

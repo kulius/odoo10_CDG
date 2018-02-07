@@ -497,10 +497,10 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
     def receipt_transfer(self): # 轉捐款檔
-        sql = " INSERT INTO donate_order(paid_id,donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,report_year,clerk,db_chang_date, temp_key_in_user ) SELECT 收費編號,捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,case when 捐款日期='' then NULL WHEN 捐款日期='.' THEN NULL else cast(捐款日期 as date) end as 捐款日期,case when 收據年度開立 = 'N' then FALSE else TRUE end as report_year,收費員編號, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期, 輸入人員 from 捐款歷史檔 where 團員編號  in (select w_id from normal_p)"
+        sql = " INSERT INTO donate_order(paid_id,donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,report_year,clerk,db_chang_date, temp_key_in_user,create_date) SELECT 收費編號,捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,case when 捐款日期='' then NULL WHEN 捐款日期='.' THEN NULL else cast(捐款日期 as date) end as 捐款日期,case when 收據年度開立 = 'N' then FALSE else TRUE end as report_year,收費員編號, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期, 輸入人員,case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期 from 捐款歷史檔 where 團員編號  in (select w_id from normal_p)"
         self._cr.execute(sql)  # 捐款歷史檔 共89676筆資料, 轉入89415筆, 差261筆資料, 花費2.784秒
 
-        sql = " INSERT INTO donate_order(paid_id,donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,report_year,clerk,db_chang_date, temp_key_in_user ) SELECT 收費編號,捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,case when 捐款日期='' then NULL WHEN 捐款日期='.' THEN NULL else cast(捐款日期 as date) end as 捐款日期,case when 收據年度開立 = 'N' then FALSE else TRUE end as report_year,收費員編號, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期, 輸入人員 from 捐款檔 where 團員編號  in (select w_id from normal_p)"
+        sql = " INSERT INTO donate_order(paid_id,donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,report_year,clerk,db_chang_date, temp_key_in_user,create_date) SELECT 收費編號,捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,case when 捐款日期='' then NULL WHEN 捐款日期='.' THEN NULL else cast(捐款日期 as date) end as 捐款日期,case when 收據年度開立 = 'N' then FALSE else TRUE end as report_year,收費員編號, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期, 輸入人員,case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期 from 捐款檔 where 團員編號  in (select w_id from normal_p)"
         self._cr.execute(sql) # 捐款檔 共2911750筆 花費約70.620秒, 序號為空的有10筆 團員編號皆是E1204971
         return True
 
@@ -725,8 +725,8 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
     def set_consultant(self): #顧問收費檔轉檔
-        sql = "INSERT INTO consultant_fee(consultant_id,year,fee_code,fee_payable,fee_date,clerk_id) " \
-              " SELECT 顧問編號,年度,收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 收費日期,收費員編號 from 顧問收費檔 "
+        sql = "INSERT INTO consultant_fee(consultant_id,year,fee_code,fee_payable,fee_date,clerk_id,temp_key_in_user,create_date) " \
+              " SELECT 顧問編號,cast(年度 as Integer),收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 收費日期,收費員編號,輸入人員,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期 from 顧問收費檔 "
         self._cr.execute(sql)  # 顧問收費檔共508筆資料, 花費0.030秒
         sql = "UPDATE consultant_fee SET normal_p_id = a.id FROM normal_p a WHERE a.consultant_id = consultant_fee.consultant_id"
         self._cr.execute(sql) # 更新顧問收費檔共507筆資料, 花費0.4 秒, 顧問編號 V00198在normal_p沒有找到, 顧問檔也沒有找到
@@ -738,8 +738,8 @@ class AppThemeConfigSettings(models.TransientModel):
         dict = self._cr.dictfetchall()  #normal.p有會員編號的資料共7304筆資料, 篩選不重複資料後, 總共7286筆資料
         # SELECT member_id FROM normal_p GROUP BY member_id HAVING (COUNT(*) > 1)  篩選出現不只一次的資料有49筆
         sql = ''
-        sql = "INSERT INTO associatemember_fee(member_id,member_note_code,year,fee_code,fee_payable,fee_date,clerk_id) " \
-              " SELECT 會員編號, 會員名冊編號,年度,收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 日期,收費員編號 from 會員收費檔 "
+        sql = "INSERT INTO associatemember_fee(member_id,member_note_code,year,fee_code,fee_payable,fee_date,clerk_id,temp_key_in_user,create_date) " \
+              " SELECT 會員編號, 會員名冊編號,cast(年度 as Integer),收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 日期,收費員編號,輸入人員,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期 from 會員收費檔 "
         self._cr.execute(sql)  # 會員收費檔 65416筆資料, 花費 0.485 秒
         sql = "SELECT DISTINCT on (member_id) * into member_temp FROM normal_p WHERE member_id <>'' "
         self._cr.execute(sql) # 共7286筆資料, 花費0.313秒
@@ -763,6 +763,16 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 關聯資料共1072573筆, 花費46.664秒
         sql = " UPDATE donate_order set key_in_user = a.id from res_users a where a.login = donate_order.temp_key_in_user"
         self._cr.execute(sql)  # 關聯資料共2814283筆, 花費133.597秒
+        sql = " UPDATE associatemember_fee set key_in_user = a.id from res_users a where a.login = associatemember_fee.temp_key_in_user"
+        self._cr.execute(sql)  #
+        sql = " UPDATE associatemember_fee set cashier = a.id from cashier_base a where a.c_id = associatemember_fee.clerk_id"
+        self._cr.execute(sql)  #
+        sql = " UPDATE consultant_fee set key_in_user = a.id from res_users a where a.login = consultant_fee.temp_key_in_user"
+        self._cr.execute(sql)  #
+        sql = " UPDATE consultant_fee set cashier = a.id from cashier_base a where a.c_id = consultant_fee.clerk_id"
+        self._cr.execute(sql)  #
+        sql = " UPDATE coffin_base set key_in_user = a.id from res_users a where a.login = coffin_base.temp_key_in_user"
+        self._cr.execute(sql)  #
         return True
 
     def set_donate_family_line(self): # 關聯歷史捐款者名冊

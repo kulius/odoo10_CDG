@@ -102,7 +102,6 @@ class DonateSingle(models.Model):
         wizard_data = self.env['print.check'].create({
             'from_target': res
         })
-
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'print.check',
@@ -216,16 +215,6 @@ class DonateSingle(models.Model):
         banks = self.search(domain + args, limit=limit)
         return banks.name_get()
 
-    # @api.onchange('history_payment_method')
-    # def get_history_payment_method(self):
-    #     if(self.history_payment_method == True):
-    #       last_order = self.env['donate.single'].search([('create_uid', '=', self.env.user.id)])[-1]
-    #       self.update({
-    #         'payment_method': last_order.payment_method
-    #      })
-
-
-
     @api.onchange('history_donate_flag')
     def get_history_donate(self):
 
@@ -257,6 +246,7 @@ class DonateSingle(models.Model):
                 })
             else:
                 raise ValidationError(u'系統查詢結果並無歷史捐款紀錄')
+
     @api.onchange('family_check')
     def current_people(self):
         self.current_donate_people = 0
@@ -269,40 +259,12 @@ class DonateSingle(models.Model):
                 self.current_donate_total += line.coffin_money
                 self.current_donate_total += line.poor_help_money
                 self.current_donate_total += line.noassign_money
-
-
-    # @api.onchange('bridge','road','coffin','poor_help','noassign')
-    # def set_default_price(self):
-    #     self.current_donate_total = 0
-    #     if self.bridge and self.bridge_money == 0:
-    #         self.bridge_money = 100
-    #     elif self.bridge is False:
-    #         self.bridge_money = 0
-    #     if self.road and self.road_money == 0:
-    #         self.road_money = 100
-    #     elif self.road is False:
-    #         self.road_money = 0
-    #     if self.coffin and self.coffin_money == 0:
-    #         self.coffin_money = 100
-    #     elif self.coffin is False:
-    #         self.coffin_money = 0
-    #     if self.poor_help and self.poor_help_money == 0:
-    #         self.poor_help_money = 100
-    #     elif self.poor_help is False:
-    #         self.poor_help_money = 0
-    #     if self.noassign and self.noassign_money == 0:
-    #         self.noassign_money = 100
-    #     elif self.noassign is False:
-    #         self.noassign_money = 0
-    #
-    #     for line in self.family_check:
-    #         if line.is_donate is True:
-    #             self.current_donate_total += self.bridge_money
-    #             self.current_donate_total += self.road_money
-    #             self.current_donate_total += self.coffin_money
-    #             self.current_donate_total += self.poor_help_money
-    #             self.current_donate_total += self.noassign_money
-
+            if line.is_donate is False:
+                bridge_money = 0
+                line.road_money = 0
+                line.coffin_money = 0
+                line.poor_help_money = 0
+                line.noassign_money = 0
 
     @api.onchange('bridge_money','road_money','coffin_money','poor_help_money','noassign_money')
     def compute_donate_total(self):
@@ -552,7 +514,6 @@ class DonateSingle(models.Model):
         user = self.env['res.users'].search([('login', '=', self.env.user.login)])
         action['context'] = {'default_donate_member':self.donate_member.id, 'default_payment_method':user.payment_method}
         return action
-
 
 class DonateSingleLine(models.Model):
     _name = 'donate.family.line'

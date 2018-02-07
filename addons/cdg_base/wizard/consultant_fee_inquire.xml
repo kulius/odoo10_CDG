@@ -8,7 +8,8 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="year" string="繳費年度"/>
+                            <field name="star_year" string="繳費年度-起"/>
+                            <field name="end_year" string="繳費年度-訖"/>
                             <field name="payment" string="繳費狀況"/>
                         </group>
                     </sheet>

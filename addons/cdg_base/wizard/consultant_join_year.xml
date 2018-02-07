@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+        <record id="consultant_join_form" model="ir.ui.view">
+            <field name="name">consultant join year form</field>
+            <field name="model">consultant.join.year</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="year" string="顧問聘僱年度查詢"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="join_year_search" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="consultant_join_year_action" name="顧問聘僱年度查詢" res_model="consultant.join.year"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>

@@ -32,6 +32,26 @@
                   parent="charity_base_categ"
                   action="charity_view"
                   sequence="3"/>
+        <menuitem id="receipt_analysis_menu"
+                  name="收據分析表"
+                 parent="charity_check"
+                  action="receipt_analysis_action"
+                  sequence="1"/>
+        <menuitem id="donate_statistics_menu"
+                  name="各項捐款金額統計表"
+                 parent="charity_check"
+                  action="donate_statistics_action"
+                  sequence="2"/>
+        <menuitem id="consultant_fee_statistics_menu"
+                  name="顧問費收費統計表"
+                 parent="charity_check"
+                  action="consultant_fee_statistics_action"
+                  sequence="3"/>
+        <menuitem id="member_fee_statistics_menu"
+                  name="會員費收費統計表"
+                 parent="charity_check"
+                  action="member_fee_statistics_action"
+                  sequence="4"/>
         <menuitem id="first_root" name="捐款者管理" sequence="2"/>
         <menuitem id="first_categ" name="捐款者管理" parent="first_root" sequence="1"/>
         <menuitem id="member_grouper_consultant_cashier"
@@ -70,11 +90,7 @@
                   <!--action="donate_batch_view_action"-->
                   <!--sequence="4"/>-->
 
-        <menuitem id="receipt_analysis_menu"
-                  name="收據分析表"
-                 parent="first_categ"
-                  action="receipt_analysis_action"
-                  sequence="6"/>
+
         <!--<menuitem id="receipt_analysis_menu"-->
                   <!--name="捐款退款"-->
                   <!--parent="first_categ"-->
@@ -185,7 +201,7 @@
                   name="顧問基本資料"
                   parent="consultant_manage_categ"
                   action="consultant_base_action"
-                  sequence="0"/>
+                  sequence="1"/>
         <!--<menuitem id="consultant_fee_menu"-->
                   <!--name="顧問費用"-->
                   <!--parent="consultant_manage_categ"-->
@@ -201,6 +217,11 @@
                   parent="consultant_manage_categ"
                   action="consultant_fee_inquire_action"
                   sequence="2"/>
+        <menuitem id="consultant_join_year_menu"
+                  name="顧問聘僱年度查詢"
+                  parent="consultant_manage_categ"
+                  action="consultant_join_year_action"
+                  sequence="3"/>
         <!--<menuitem id="member_data_menu"
                   name="會員、顧問轉檔"
                   parent="consultant_manage_categ"

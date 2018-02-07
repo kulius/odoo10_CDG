@@ -95,23 +95,50 @@
         </record>
 
         <record id="donate_order_action" model="ir.actions.act_window">
-        <field name="name">捐款明細</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">donate.order</field>
-        <field name="view_mode">tree,form</field>
-            <field name="limit">10</field>
-            <field name="view_ids"
-                       eval="[(5, 0, 0),
-                       (0, 0, {'view_mode': 'tree', 'view_id': ref('donate_order_tree')}),
-                       (0, 0, {'view_mode': 'form', 'view_id': ref('donate_order_form')}),
-                       ]"/>
-        <field name="help" type="html">
-          <p class="oe_view_nocontent_create">
-            <!-- Add Text Here -->
-          </p><p>
-            <!-- More details about what a user can do with this object will be OK -->
-          </p>
-        </field>
-    </record>
+            <field name="name">捐款明細</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">donate.order</field>
+            <field name="view_mode">tree,form</field>
+                <field name="limit">10</field>
+                <field name="view_ids"
+                           eval="[(5, 0, 0),
+                           (0, 0, {'view_mode': 'tree', 'view_id': ref('donate_order_tree')}),
+                           (0, 0, {'view_mode': 'form', 'view_id': ref('donate_order_form')}),
+                           ]"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+        <record id="donate_statistics_action" model="ir.actions.act_window">
+            <field name="name">各項捐款金額統計表</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">donate.order</field>
+            <field name="view_mode">pivot</field>
+            <field name="domain">[('key_in_user','=',uid)]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="donate_statistics" model="ir.ui.view">
+            <field name="name">各項捐款金額統計表</field>
+            <field name="model">donate.order</field>
+            <field name="arch" type="xml">
+                <pivot string="各項捐款金額統計表">
+                    <field name="key_in_user" type="row"/>
+                    <field name="create_date" type="row"/>
+                    <field name="donate_type" type="col"/>
+                    <field name="donate" type="measure"/>
+                </pivot>
+            </field>
+        </record>
     </data>
 </odoo>
