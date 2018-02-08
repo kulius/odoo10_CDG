@@ -59,7 +59,7 @@
                             <field name="rec_send"/>
                             <field name="merge_report"/>
                             <field name="check_donate_order"/>
-                            <field name="old_coding" invisible = "1"/>
+                            <!--<field name="old_coding" invisible = "1"/>-->
                             <!--<field name="new_coding" invisible = "1"/>-->
                         </group>
                          <notebook>

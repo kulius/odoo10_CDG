@@ -260,8 +260,8 @@ class DonateSingle(models.Model):
                 self.current_donate_total += line.coffin_money
                 self.current_donate_total += line.poor_help_money
                 self.current_donate_total += line.noassign_money
-            if line.is_donate is False:
-                bridge_money = 0
+            elif line.is_donate is False:
+                line.bridge_money = 0
                 line.road_money = 0
                 line.coffin_money = 0
                 line.poor_help_money = 0

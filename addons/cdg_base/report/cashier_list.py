@@ -22,7 +22,7 @@ class CashierListXlsx(ReportXlsx):
 
         for line in env:
             sheet.write(self.count, 0, line.new_coding)
-            sheet.write(self.count, 1, line.old_coding)
+            sheet.write(self.count, 1, line.w_id)
             sheet.write(self.count, 2, line.name)
             sheet.write(self.count, 3, line.con_phone)
             sheet.write(self.count, 4, line.cellphone)
