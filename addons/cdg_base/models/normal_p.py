@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 class NormalP(models.Model):
     # 捐款人
     _name = 'normal.p'
-    _order = 'new_coding'
+    _order = 'w_id, new_coding'
 
     new_coding = fields.Char(string='捐款者編號')
     # old_coding = fields.Char(string='舊捐款者編號')
@@ -30,7 +30,6 @@ class NormalP(models.Model):
     temp_key_in_user = fields.Char(string='輸入人員_temp')
     db_chang_date = fields.Date(string='異動日期')
     build_date = fields.Date(string='建檔日期', default=datetime.today())
-
 
     email = fields.Char(string='Email')
     type = fields.Many2many(comodel_name='people.type', string='人員種類')
@@ -89,6 +88,8 @@ class NormalP(models.Model):
     consultant_id = fields.Char(string='顧問編號')
 
     sequence = fields.Integer(string='排序')
+    sequence_dependents = fields.Integer(string='眷屬排序')
+
     is_donate = fields.Boolean(string='是否捐助', default=True)
     is_merge = fields.Boolean(string='是否合併收據', default=True)
 

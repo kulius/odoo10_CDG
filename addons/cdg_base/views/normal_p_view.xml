@@ -244,12 +244,14 @@
         </record>
 
         <record id="batch_donate_search" model="ir.ui.view">
-            <field name="name">collect_search</field>
+            <field name="name">batch_donate_search</field>
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="name"/>
-                    <field name="cashier_name"/>
+                    <field name="w_id" string="舊團員編號"/>
+                    <field name="new_coding" string="捐款者編號"/>
+                    <field name="name" string="捐款者姓名"/>
+                    <field string="收費員" name="cashier_name" filter_domain="[('cashier_name', '=', self )]"/>
 
                     <filter string="戶長" name="head" domain="[('donate_family1','!=', False)]" />
                 </search>
