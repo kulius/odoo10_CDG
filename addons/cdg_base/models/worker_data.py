@@ -29,6 +29,7 @@ class workerdata(models.Model):
 
 class workerdata_2(models.Model):
     _name = 'worker.data'
+    _description = u'員工基本資料管理'
 
     w_id = fields.Char(string='員工編號')
     name = fields.Char(string='姓名')

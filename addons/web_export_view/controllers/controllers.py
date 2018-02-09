@@ -28,7 +28,7 @@ class ExcelExportView(ExcelExport):
             self.from_data(columns_headers, rows),
             headers=[
                 ('Content-Disposition', 'attachment; filename="%s"'
-                 % self.filename(model)),
+                 % self.filename('CDG Export EXCEL')),
                 ('Content-Type', self.content_type)
             ],
              cookies={'fileToken': token}

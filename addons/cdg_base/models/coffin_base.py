@@ -7,6 +7,7 @@ class CoffinBase(models.Model):
     _name = 'coffin.base'
     _rec_name = 'coffin_id'
     _order = 'donate_apply_price'
+    _description = u'施棺基本資料管理'
 
     name = fields.Char()
     coffin_id = fields.Char(string="施棺編號")

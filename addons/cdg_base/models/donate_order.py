@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class DonateOrder(models.Model):
     _name = 'donate.order'
+    _description = u'捐款明細管理'
 
     # name = fields.Many2one(comodel_name='normal.p',string='姓名')
     donate_list_id = fields.Many2one(comodel_name='donate.single')

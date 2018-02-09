@@ -4,6 +4,7 @@ from odoo.exceptions import ValidationError
 
 class memnberfeeinquire(models.Model):
     _name = 'memnber.fee.inquire'
+    _description = u'會員費查詢'
 
     star_year = fields.Integer(string='繳費年度-起')
     end_year = fields.Integer(string='繳費年度-訖')

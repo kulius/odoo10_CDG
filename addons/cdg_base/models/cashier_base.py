@@ -4,6 +4,7 @@ from odoo import models, fields, api
 
 class CashierBase(models.Model):
     _name = 'cashier.base'
+    _description = u'收費員基本資料管理'
 
     c_id = fields.Char(string='收費員編號')
     name = fields.Char(string='收費員姓名')

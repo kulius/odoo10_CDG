@@ -6,6 +6,7 @@ import logging, time
 class ConsultantFeeOnly(models.Model):
     _name = 'consultant.fee'
     _rec_name = 'fee_code'
+    _description = u'顧問費管理'
 
     consultant_id = fields.Char(string='舊顧問編號')
     year = fields.Integer(string='年度',default= int(datetime.today().year - 1911))

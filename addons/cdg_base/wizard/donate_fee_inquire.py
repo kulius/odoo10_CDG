@@ -4,6 +4,7 @@ from odoo.exceptions import ValidationError
 
 class donatefeeinquire(models.Model):
     _name = "donate.fee.inquire"
+    _description = u'捐款歷史清冊'
 
     year_start = fields.Char('繳費年度')
     year_end = fields.Char()

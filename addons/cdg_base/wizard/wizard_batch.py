@@ -22,6 +22,19 @@ class WizardDonate(models.Model):
     donate_line = fields.Many2many(comodel_name='normal.p', string='捐款批次的人')
     work_id = fields.Many2one(comodel_name='cashier.base', string='收費員')
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]},default=lambda self: self.env.uid)
+    sum_donor_num = fields.Integer(string='捐款人數',compute = 'compute_donate_data')
+    sum_donate_total = fields.Integer(string='捐款總額',compute = 'compute_donate_data')
+
+    def compute_donate_data(self):
+        self.sum_donor_num = 0
+        self.sum_donate_total = 0
+        for line in self.donate_line:
+            if line.donate_batch_setting:
+                for row in line.donate_family1:
+                    if row.is_donate is True:
+                        self.sum_donor_num += 1
+                        self.sum_donate_total += row.last_donate_money
+        return True
 
     def confirm_donate(self):
         order = self.env['donate.single']
@@ -79,51 +92,3 @@ class WizardDonate(models.Model):
                 })
         action = self.env.ref('cdg_base.donate_single_view_action').read()[0] #
         return action
-
-    @api.onchange('bridge', 'road', 'coffin', 'poor_help','noassign')
-    def set_default_price(self):
-        if self.bridge and self.bridge_money == 0:
-            self.bridge_money = 100
-        elif self.bridge is False:
-            self.bridge_money = 0
-        if self.road and self.road_money == 0:
-            self.road_money = 100
-        elif self.road is False:
-            self.road_money = 0
-        if self.coffin and self.coffin_money == 0:
-            self.coffin_money = 100
-        elif self.coffin is False:
-            self.coffin_money = 0
-        if self.poor_help and self.poor_help_money == 0:
-            self.poor_help_money = 100
-        elif self.poor_help is False:
-            self.poor_help_money = 0
-        if self.noassign and self.noassign_money == 0:
-            self.noassign_money = 100
-        elif self.noassign is False:
-            self.noassign_money = 0
-
-
-    @api.onchange('bridge_money', 'road_money', 'coffin_money', 'poor_help_money','noassign_money')
-    def set_checkbox_check(self):
-        if self.bridge_money != 0:
-            self.bridge = True
-        else:
-            self.bridge = False
-        if self.road_money != 0:
-            self.road = True
-        else:
-            self.road = False
-        if self.coffin_money != 0:
-            self.coffin = True
-        else:
-            self.coffin = False
-        if self.poor_help_money != 0:
-            self.poor_help = True
-        else:
-            self.poor_help = False
-        if self.noassign_money != 0:
-            self.noassign = True
-        else:
-            self.noassign = False
-

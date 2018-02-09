@@ -7,6 +7,7 @@ import datetime
 
 class CWorker(models.Model):
     _name = 'c.worker'
+    _description = u'員工基本資料管理'
 
     w_id = fields.Char(string='員工編號')
     name = fields.Char(string='姓名')
