@@ -138,7 +138,6 @@
                                 </field>
                             </page>
                         </notebook>
-
                     </sheet>
                 </form>
             </field>
@@ -172,7 +171,7 @@
             <field name="name">捐款作業</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">donate.single</field>
-            <field name="view_mode">tree,form,pivot</field>
+            <field name="view_mode">tree,form</field>
             <!--<!<field name="domain">[('create_uid','=',uid)]</field>-->
             <field name="context">{'search_default_un_print_donate': 1}</field>
             <field name="help" type="html">
@@ -225,19 +224,6 @@
                     <field name="print_count" type="measure"/>
                 </pivot>
             </field>
-        </record>
-
-        <record id="view_pivot_donate_order" model="ir.ui.view">
-         <field name="model">donate.order</field>
-         <field name="domain">[('key_in_user','=',uid)]</field>
-         <field name="arch" type="xml">
-           <pivot string="各項捐款金額統計表">
-                <field name="key_in_user" type="row"/>
-                <field name="create_date" type="row"/>
-                <field name="donate_type" type="col"/>
-                <field name="donate" type="measure"/>
-           </pivot>
-         </field>
         </record>
 
         <record id="action_print_check" model="ir.actions.server">
