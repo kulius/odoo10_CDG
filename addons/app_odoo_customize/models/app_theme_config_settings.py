@@ -509,6 +509,15 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql) # 全資料共3001165筆, 關聯資料共3000603 筆 花費662.986秒, 序號為空的資料共10筆, 全部共差 562 筆資料(donate_member is None)
         return True
 
+    def set_last_donate_data(self):
+        sql = "SELECT MAX(donate_id), donate_member INTO search_last_order FROM donate_order WHERE donate_member IN (SELECT id FROM normal_p) GROUP BY donate_member"
+        self._cr.execute(sql)  # 篩選出所有捐款者的最後一次捐款紀錄 共 390150 筆, 花費5.224秒
+        sql = "SELECT a.donate_id, a.donate_member, a.donate_date, a.donate, a.donate_type INTO get_last_order FROM donate_order a , search_last_order b WHERE a.donate_id = b.max AND a.donate_member = b.donate_member ORDER BY a.donate_member"
+        self._cr.execute(sql)  # 從donate_order 篩選出 資料共 391336 筆, 花費2.437秒
+        sql = "UPDATE normal_p SET last_donate_date = a.donate_date, last_donate_type = a.donate_type, last_donate_money = a.donate FROM get_last_order a WHERE a.donate_member = normal_p.id"
+        self._cr.execute(sql) # 更新normal_p 欄位資料, 共 390150 筆, 花費14.053秒
+        return True
+
     def set_worker(self): #員工檔轉進 res.users
         sql = "INSERT INTO worker_data(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
               " SELECT 職稱, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期,性別, 電話二, 身份證號,case when 離職日期='' then NULL else cast(離職日期 as date) end as 離職日期, 員工編號, 通訊地址,備註,手機,姓名, 電話一,最高學歷,case when 到職日期='' then NULL else cast(到職日期 as date) end as 到職日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 員工檔"

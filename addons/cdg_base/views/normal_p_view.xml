@@ -20,6 +20,24 @@
             </field>
         </record>
 
+        <record id="normal_p_batch_tree" model="ir.ui.view">
+            <field name="name">normal_p_batch_tree</field>
+            <field name="model">normal.p</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="new_coding"/>
+                    <field name="w_id"/>
+                    <field name="name"/>
+                    <field name="con_phone"/>
+                    <field name="rec_addr"/>
+                    <field name="donate_family_list"/>
+                    <field name="donate_batch_setting"/>
+                    <button name="check_batch_donate" string="確認" type="object"/>
+                    <field name="cashier_name"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="normal_p_form" model="ir.ui.view">
             <field name="name">normal p f</field>
             <field name="model">normal.p</field>
@@ -96,13 +114,15 @@
                                         <button string="全部變更地址" name="all_addr_chnage" type="object" class="oe_stat_button" icon="fa-location-arrow"/>
                                     </div>
                                     <field name="donate_family1" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form', 'default_rec_addr': rec_addr,'default_zip': zip,'default_cashier': cashier_name}">
-                                        <tree>
+                                        <tree editable="bottom">
                                             <field name="sequence" widget="handle"/>
                                             <field name="new_coding"/>
                                             <field name="name"/>
                                             <field name="is_donate"/>
                                             <field name="is_merge"/>
                                             <field name="rec_addr"/>
+                                            <field name="last_donate_type"/>
+                                            <field name="last_donate_money"/>
                                             <button name="toggle_donate" string="捐助變更" type="object"/>
                                             <button name="toggle_merge" string="合併變更" type="object"/>
                                             <field name="is_delete"/>
@@ -287,7 +307,7 @@
              <field name="context">{'search_default_head': 1}</field>
              <field name="view_ids"
                    eval="[(5, 0, 0),
-                   (0, 0, {'view_mode': 'tree', 'view_id': ref('normal_p_tree')}),
+                   (0, 0, {'view_mode': 'tree', 'view_id': ref('normal_p_batch_tree')}),
                    (0, 0, {'view_mode': 'form', 'view_id': ref('normal_p_form')}),
                    ]"/>
              <field name="help" type="html">

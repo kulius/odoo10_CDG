@@ -88,17 +88,21 @@ class NormalP(models.Model):
     consultant_id = fields.Char(string='顧問編號')
 
     sequence = fields.Integer(string='排序')
-    sequence_dependents = fields.Integer(string='眷屬排序')
 
     is_donate = fields.Boolean(string='是否捐助', default=True)
     is_merge = fields.Boolean(string='是否合併收據', default=True)
 
-    donate_family_list = fields.Char(string='眷屬列表', compute='compute_faamily_list')
+    donate_family_list = fields.Char(string='眷屬列表', compute='compute_faamily_list' )
     active = fields.Boolean(default=True)
     is_same_addr = fields.Boolean(string='報表地址同收據地址')
     auto_num = fields.Char('自動地區編號')
     check_donate_order = fields.Boolean(string='捐款紀錄查詢', default = False)
     is_delete = fields.Boolean(string='未有捐款紀錄', default = False)
+
+    last_donate_date = fields.Date('上次捐款日期')
+    last_donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (04, '伙食費'), (05, '貧困扶助'),(06, '不指定'), (99, '其他工程')],string='捐款種類')
+    last_donate_money = fields.Integer('上次捐款金額')
+    donate_batch_setting = fields.Boolean(string='確認捐款', default = False)
 
     @api.onchange('check_donate_order')
     def check_unlink(self):
@@ -147,19 +151,42 @@ class NormalP(models.Model):
             'target': 'new',
         }
 
+    def check_batch_donate(self):
+        if self.donate_batch_setting == True:
+            self.donate_batch_setting = False
+        elif self.donate_batch_setting == False:
+            self.donate_batch_setting = True
+        return True
+
+
     @api.depends('donate_family1.is_donate','donate_family1.is_merge')
     def compute_faamily_list(self):
         for line in self:
             sb = ''
             str = ''
-
+            donate_type = ''
             for row in line.donate_family1:
+                if row.last_donate_type == 1:
+                    donate_type =  u'造橋'
+                if row.last_donate_type == 2:
+                    donate_type = u'補路'
+                if row.last_donate_type == 3:
+                    donate_type = u'施棺'
+                if row.last_donate_type == 4:
+                    donate_type = u'伙食費'
+                if row.last_donate_type == 5:
+                    donate_type = u'貧困扶助'
+                if row.last_donate_type == 6:
+                    donate_type = u'不指定'
+                if row.last_donate_type == 99:
+                    donate_type = u'其他工程'
+
                 if row.is_donate is False:
-                    str += u'(X)' + row.name + ','
+                    str += u'(X %s %s %s),' % (row.name , donate_type , row.last_donate_money )
                 elif row.is_merge is False:
-                    sb += u'(★)'+ row.name + ','
+                    sb += u'(★ %s %s %s),' % (row.name , donate_type , row.last_donate_money )
                 else:
-                    sb += row.name + ','
+                    sb += u'(%s %s %s),' % (row.name , donate_type , row.last_donate_money )
             line.donate_family_list = sb+str
 
     def toggle_donate(self):

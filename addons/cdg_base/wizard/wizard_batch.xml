@@ -53,18 +53,6 @@
                             <field name="payment_method" />
                             <field name="work_id"/>
                         </group>
-                        <group col="6">
-                            <field name="bridge"/>
-                            <field name="bridge_money" nolabel="1"/>
-                            <field name="road"/>
-                            <field name="road_money" nolabel="1"/>
-                            <field name="coffin"/>
-                            <field name="coffin_money" nolabel="1"/>
-                            <field name="poor_help"/>
-                            <field name="poor_help_money" nolabel="1"/>
-                            <field name="noassign"/>
-                            <field name="noassign_money" nolabel="1"/>
-                        </group>
                     </sheet>
                     <footer>
                         <button type="object" name="confirm_donate" string="確定批次捐款" class="oe_highlight"/>
