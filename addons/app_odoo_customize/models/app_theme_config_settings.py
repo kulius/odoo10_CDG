@@ -774,11 +774,11 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 關聯資料共2814283筆, 花費133.597秒
         sql = " UPDATE associatemember_fee set key_in_user = a.id from res_users a where a.login = associatemember_fee.temp_key_in_user"
         self._cr.execute(sql)  #
-        sql = " UPDATE associatemember_fee set cashier = a.id from cashier_base a where a.c_id = associatemember_fee.clerk_id"
+        sql = " UPDATE associatemember_fee set cashier_name = a.id from cashier_base a where a.c_id = associatemember_fee.clerk_id"
         self._cr.execute(sql)  #
         sql = " UPDATE consultant_fee set key_in_user = a.id from res_users a where a.login = consultant_fee.temp_key_in_user"
         self._cr.execute(sql)  #
-        sql = " UPDATE consultant_fee set cashier = a.id from cashier_base a where a.c_id = consultant_fee.clerk_id"
+        sql = " UPDATE consultant_fee set cashier_name = a.id from cashier_base a where a.c_id = consultant_fee.clerk_id"
         self._cr.execute(sql)  #
         sql = " UPDATE coffin_base set key_in_user = a.id from res_users a where a.login = coffin_base.temp_key_in_user"
         self._cr.execute(sql)  #
@@ -874,6 +874,8 @@ class AppThemeConfigSettings(models.TransientModel):
     #                 line.new_coding = '999' + str(s.get('999')).zfill(5)  # 什麼都沒有的一般捐款者
     #             elif len(line.zip) >= 3:
     #                 for ch in line.zip:
+    #                     if int(line.zip[0]) == 0:
+    #                         flag = False
     #                     if not u'\u0030' <= ch <=u'\u0039':
     #                         flag = False
     #                 if flag:
@@ -918,6 +920,8 @@ class AppThemeConfigSettings(models.TransientModel):
     #                 line.new_coding = '999' + str(s.get('999')).zfill(5)  # 什麼都沒有的一般捐款者
     #             elif len(line.zip) >= 3:
     #                 for ch in line.zip:
+    #                     if int(line.zip[0]) == 0:
+    #                         flag = False
     #                     if not u'\u0030' <= ch <= u'\u0039':
     #                         flag = False
     #                 if flag:
@@ -961,6 +965,11 @@ class AppThemeConfigSettings(models.TransientModel):
     #             postal_code_data.area_number = postal_code_data.area_number + int(postal_code_list[i][1])  # 有搜尋到 則更新資料庫計數器的數量
     #     s.clear()
     #     return True
+
+    def postal_code_normal_p(self):
+        sql = "UPDATE normal_p SET postal_code_id = a.id FROM postal_code a WHERE a.zip = normal_p.zip"
+        self._cr.execute(sql) # 共726082筆資料, 花費35.212秒
+        return True
 
     def postal_code_database(self):
         sql = " INSERT INTO postal_code (city, area, zip) VALUES " \

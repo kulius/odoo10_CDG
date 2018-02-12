@@ -160,60 +160,62 @@
                             <button string="3.捐款檔轉檔" type="object" name="receipt_transfer" class="oe_highlight"/>
                             |
                             <button string="4.設定捐款者" type="object" name="set_donor" class="oe_highlight"/>
+                            |
+                            <button string="5.捐款者最後一次捐款紀錄" type="object" name="set_last_donate_data" class="oe_highlight"/>
                         </div>
                         <label string="員工檔"/>
                         <div>
-                            <button string="5.員工檔轉檔" type="object" name="set_worker" class="oe_highlight"/>
+                            <button string="6.員工檔轉檔" type="object" name="set_worker" class="oe_highlight"/>
                             |
-                            <button string="6.員工檔關聯捐款者檔" type="object" name="set_worker_associated" class="oe_highlight"/>
+                            <button string="7.員工檔關聯捐款者檔" type="object" name="set_worker_associated" class="oe_highlight"/>
                         </div>
                         <label string="施棺檔"/>
                         <div>
-                            <button string="7.施棺檔轉檔" type="object" name="set_coffin_data" class="oe_highlight"/>
+                            <button string="8.施棺檔轉檔" type="object" name="set_coffin_data" class="oe_highlight"/>
                             |
-                            <button string="8.施棺捐款檔轉檔" type="object" name="set_coffin_donate" class="oe_highlight"/>
+                            <button string="9.施棺捐款檔轉檔" type="object" name="set_coffin_donate" class="oe_highlight"/>
                             |
-                            <button string="11.施棺明細關聯施棺" type="object" name="set_coffin_id" class="oe_highlight"/>
+                            <button string="12.施棺明細關聯施棺" type="object" name="set_coffin_id" class="oe_highlight"/>
                         </div>
                         <label string="捐款檔設定"/>
                         <div>
-                            <button string="9.捐款檔設定" type="object" name="set_donate_single" class="oe_highlight"/>
+                            <button string="10.捐款檔設定" type="object" name="set_donate_single" class="oe_highlight"/>
                             |
-                            <button string="10.捐款檔關聯捐款明細" type="object" name="set_donate_single_associated" class="oe_highlight"/>
+                            <button string="11.捐款檔關聯捐款明細" type="object" name="set_donate_single_associated" class="oe_highlight"/>
                             |
-                            <button string="12.施棺檔關聯捐款檔" type="object" name="set_coffin_donate_single_associated" class="oe_highlight"/>
+                            <button string="13.施棺檔關聯捐款檔" type="object" name="set_coffin_donate_single_associated" class="oe_highlight"/>
                             |
-                            <button string="18.捐款主檔關聯捐款者基本資料" type="object" name="set_donate_family_line" class="oe_highlight"/>
+                            <button string="19.捐款主檔關聯捐款者基本資料" type="object" name="set_donate_family_line" class="oe_highlight"/>
                             <!--|-->
-                            <!--<button string="22-1.計算可用餘額" type="object" name="compute_coffin_donate" class="oe_highlight"/>-->
+                            <!--<button string="23-1.計算可用餘額" type="object" name="compute_coffin_donate" class="oe_highlight"/>-->
                             <!--|-->
-                            <!--<button string="22-2.計算可用餘額" type="object" name="compute_coffin_donate2" class="oe_highlight"/>-->
+                            <!--<button string="23-2.計算可用餘額" type="object" name="compute_coffin_donate2" class="oe_highlight"/>-->
                         </div>
                          <label string="顧問及會員轉檔"/>
                         <div>
-                            <button string="13.顧問檔轉檔" type="object" name="set_consultant_data" class="oe_highlight"/>
+                            <button string="14.顧問檔轉檔" type="object" name="set_consultant_data" class="oe_highlight"/>
                             |
-                            <button string="14.會員檔轉檔" type="object" name="set_member_data" class="oe_highlight"/>
+                            <button string="15.會員檔轉檔" type="object" name="set_member_data" class="oe_highlight"/>
                         </div>
                         <label string="收費檔轉檔"/>
                         <div>
-                            <button string="16.轉會員收費檔" type="object" name="set_member" class="oe_highlight"/>
+                            <button string="17.轉會員收費檔" type="object" name="set_member" class="oe_highlight"/>
                             |
-                            <button string="15.轉顧問收費檔" type="object" name="set_consultant" class="oe_highlight"/>
+                            <button string="16.轉顧問收費檔" type="object" name="set_consultant" class="oe_highlight"/>
                         </div>
                         <label string="收費員檔轉檔"/>
                         <div>
-                            <button string="17.收費員轉檔" type="object" name="set_cashier_data" class="oe_highlight"/>
+                            <button string="18.收費員轉檔" type="object" name="set_cashier_data" class="oe_highlight"/>
                         </div>
                         <label string="資料設定"/>
                         <div>
-                            <button string="19.Active Data" type="object" name="active_data" class="oe_highlight"/>
+                            <button string="20.Active Data" type="object" name="active_data" class="oe_highlight"/>
                             |
-                            <button string="20.人員種類轉檔" type="object" name="set_people_type" class="oe_highlight"/>
+                            <button string="21.人員種類轉檔" type="object" name="set_people_type" class="oe_highlight"/>
                         </div>
                          <label string="其他項目"/>
                         <div>
-                            <button string="21.收據編號匯入及統計" type="object" name="set_donate_id" class="oe_highlight"/>
+                            <button string="22.收據編號匯入及統計" type="object" name="set_donate_id" class="oe_highlight"/>
                             |
                             <!--<button string="郵遞區號編號1" type="object" name="set_postal_code1" class="oe_highlight"/>-->
                             <!--|-->

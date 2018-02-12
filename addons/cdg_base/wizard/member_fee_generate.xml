@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="member_fee_generate_form" model="ir.ui.view">
+            <field name="name">member_fee_generate_form</field>
+            <field name="model">memnber.fee.generate</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <font style="display:block" color="red">請確認會員資料及會員費設定是否正確，若該年度已產生後，系統將不在重新產生!!</font>
+                            <group>
+                                   <field name="year" string="會員費產生年度" placeholder="年度"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="start_member_batch" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="member_fee_generate_action" name="會員費查詢" res_model="memnber.fee.generate" limit="150"
+                    view_mode="form,tree"  target="new" multi="False"/>
+    </data>
+</odoo>

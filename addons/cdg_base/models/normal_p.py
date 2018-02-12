@@ -104,6 +104,7 @@ class NormalP(models.Model):
     last_donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (04, '伙食費'), (05, '貧困扶助'),(06, '不指定'), (99, '其他工程')],string='捐款種類')
     last_donate_money = fields.Integer('上次捐款金額')
     donate_batch_setting = fields.Boolean(string='確認捐款', default = False)
+    postal_code_id = fields.Many2one(comodel_name='postal.code', string='郵遞區號關聯')
 
     @api.onchange('check_donate_order')
     def check_unlink(self):
@@ -418,48 +419,6 @@ class NormalP(models.Model):
             return True
         elif bool == 'N':
             return False
-
-
-
-    def start_member_batch(self):
-        basic_setting = self.env['ir.config_parameter'].search([])
-        Annual_membership_fee=0
-        for line in basic_setting:
-            if line.key == 'Annual_membership_fee':
-                Annual_membership_fee = int(line.value)
-        if len(self.year) == 4:
-            self.year=str(int(self.year)-1911)
-
-        sql = "SELECT DISTINCT on (member_id) * FROM normal_p WHERE member_id <>'' and con_addr<>'' "
-        self._cr.execute(sql)
-        dict = self._cr.dictfetchall()
-        for i in range(len(dict)):
-            self.env['associatemember.fee'].create({
-                'year': self.year,
-                'fee_payable': Annual_membership_fee,
-                'normal_p_id': dict[i]['id']
-            })
-        return True
-
-    def start_consultant_batch(self):
-        basic_setting = self.env['ir.config_parameter'].search([])
-        Annual_consultants_fee = 0
-        for line in basic_setting:
-            if line.key == 'Annual_consultants_fee':
-                Annual_consultants_fee = int(line.value)
-        if len(self.year) == 4:
-            self.year = str(int(self.year) - 1911)
-
-        sql = "SELECT DISTINCT on (consultant_id) * FROM normal_p WHERE consultant_id <>'' and con_addr<>'' "
-        self._cr.execute(sql)
-        dict = self._cr.dictfetchall()
-        for i in range(len(dict)):
-            self.env['consultant.fee'].create({
-                'year':self.year,
-                'fee_payable':Annual_consultants_fee,
-                'normal_p_id': dict[i]['id']
-            })
-        return True
 
     # @api.onchange('zip', 'type')
     # def rec_addr_change(self):

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="consultant_fee_generate_form" model="ir.ui.view">
+            <field name="name">consultant fee generate form</field>
+            <field name="model">consultant.fee.generate</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <font style="display:block" color="red">請確認顧問資料及顧問費設定是否正確，若該年度已產生後，系統將不在重新產生!!</font>
+                            <group>
+                                   <field name="year" string="顧問費產生年度" placeholder="年度"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="start_consultant_batch" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="consultant_fee_generate_action" name="顧問費產生" res_model="consultant.fee.generate"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>

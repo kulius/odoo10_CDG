@@ -10,10 +10,10 @@ class MemberFeeOnly(models.Model):
 
     member_id = fields.Char(string='會員編號')
     member_note_code = fields.Char(string='會員名冊編號')
-    year = fields.Integer(string='年度', default= int(datetime.today().year - 1911))
+    year = fields.Integer(string='年度')
     fee_code = fields.Char(string='收費編號')
     fee_payable = fields.Integer(string='應繳金額')
-    fee_date = fields.Date(string='收費日期',default=datetime.today())
+    fee_date = fields.Date(string='收費日期')
     cashier = fields.Many2one(comodel_name='cashier.base', string='收費員')
     clerk_id = fields.Char(string='收費員編號')
     normal_p_id = fields.Many2one(comodel_name='normal.p', string='關聯的會員')

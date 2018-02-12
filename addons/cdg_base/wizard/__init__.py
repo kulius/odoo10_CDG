@@ -9,3 +9,5 @@ from . import consultant_fee_inquire
 from . import donate_fee_inquire
 from . import coffin_inquire
 from . import consultant_join_year
+from . import consultant_fee_generate
+from . import member_fee_generate

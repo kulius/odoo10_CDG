@@ -58,6 +58,8 @@
         'wizard/donate_fee_inquire.xml',
         'wizard/coffin_inquire.xml',
         'wizard/consultant_join_year.xml',
+        'wizard/consultant_fee_generate.xml',
+        'wizard/member_fee_generate.xml',
 
         'views/charity_view.xml',
 

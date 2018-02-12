@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <record id="consultant_fee_inquire_form" model="ir.ui.view">
-            <field name="name">consultant fee inquire_form</field>
+            <field name="name">consultant fee inquire form</field>
             <field name="model">consultant.fee.inquire</field>
             <field name="arch" type="xml">
                 <form>

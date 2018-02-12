@@ -11,7 +11,9 @@
                     <field name="w_id"/>
                     <field name="name"/>
                     <field name="con_phone"/>
+                    <field name="zip"/>
                     <field name="rec_addr"/>
+                    <field name="zip_code"/>
                     <field name="con_addr"/>
                     <field name="donate_family_list"/>
                     <field name="cashier_name"/>
@@ -177,7 +179,7 @@
                     <field name="con_phone"/>
                     <field name="cellphone"/>
                     <field name="rec_addr"/>
-                    <filter string="戶長" name="top_of_home" domain="[('donate_family1','!=', False)]" />
+                    <filter string="戶長" name="top_of_home" domain="[('donate_family1','!=', False)]"/>
                 </search>
             </field>
         </record>
