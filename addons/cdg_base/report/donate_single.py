@@ -122,7 +122,6 @@ class ReportLine(models.Model):
 
 
 
-
 class ReportDonateSingleIndependent(models.AbstractModel):
     _name = 'report.cdg_base.receipt_single_independent_template'
 
@@ -153,18 +152,11 @@ class ReportDonateSingleIndependent(models.AbstractModel):
                 if exist is False:
                     res += line
         for line in res:
-         #   date = datetime.datetime.strptime(line.create_date, "%Y-%m-%d %H:%M:%S")
-         #   date_sring = date.strftime("%Y-%m-%d")
             tmp_id = report_line.create({
                 'title_donate': line.donate_member.id,
                 'title_doante_code': line.donate_id,
             })
-            for line in target:
-                tmp_id.write({'title_doante_date': line.donate_date,
-                              'title_work_id': line.work_id.name
-                              })
 
-            report_line += tmp_id
             line_data = []
             for row in res_line:
                 if row.donate_member == line.donate_member and row.donate_id == line.donate_id:
@@ -178,12 +170,10 @@ class ReportDonateSingleIndependent(models.AbstractModel):
             })
             report_line += tmp_id
 
-
         docargs = {
             'doc_ids': docids,
             'doc_model': 'donate.batch',
             'docs': report_line,
-
         }
         return Report.render('cdg_base.receipt_single_independent_template', docargs)
 

@@ -342,8 +342,7 @@ class DonateSingle(models.Model):
         for line in self:
             for row in line.donate_list:
                 line.sreceipt_number += 1
-                if row.donate_member.is_donate == True:
-                    line.donate_total += row.donate
+                line.donate_total += row.donate
 
     @api.depends('donate_list')
     def compute_family_list(self):

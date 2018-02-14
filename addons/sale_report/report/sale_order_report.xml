@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="sale_order_report_custom">
+            <t t-call="report.html_container">
+                <h1 class="col-12 text-center">銷售服務報價單</h1>
+                <h3 class="col-12 text-center">正在列印輸出中，請稍候...</h3>
+<script type="text/javascript">
+var cfprint_addr = "127.0.0.1";   //列印伺服器監聽地址
+var _delay_close = -1;          //列印完成後關閉視窗的延時時長(毫秒), -1則表示不關閉
+
+/**定義主表結構**/
+var _tableOrder = {
+    "Name": "SaleOrder",
+    "Cols":[
+        { "type": "str", "size": 150, "name": "顧客名稱", "required": false },
+        { "type": "str", "size": 50, "name": "聯絡人", "required": false },
+        { "type": "str", "size": 30, "name": "聯絡電話", "required": false },
+        { "type": "str", "size": 30, "name": "傳真電話", "required": false },
+        { "type": "str", "size": 30, "name": "報價編號", "required": false },
+        { "type": "str", "size": 20, "name": "報價日期", "required": false },
+        { "type": "str", "size": 30, "name": "業務聯絡人", "required": false },
+        { "type": "str", "size": 30, "name": "業務聯絡電話", "required": false },
+        { "type": "str", "size": 30, "name": "業務行動電話", "required": false },
+        { "type": "float", "size": 0, "name": "不含稅金額", "required": false },
+        { "type": "float", "size": 0, "name": "稅", "required": false },
+        { "type": "float", "size": 0, "name": "總計", "required": false },
+    ],
+    "Data":[ ]
+};
+
+/**定義從表結構**/
+var _tableSaleOrderLines = {
+    "Name": "SaleOrderLines",
+    "Cols":[
+        { "type": "str", "size": 6, "name": "項次", "required": false },
+        { "type": "str", "size": 255, "name": "產品", "required": false },
+        { "type": "str", "size": 255, "name": "說明", "required": false },
+        { "type": "float", "size": 0, "name": "數量", "required": false },
+        { "type": "float", "size": 0, "name": "單價", "required": false },
+        { "type": "float", "size": 0, "name": "小計", "required": false },
+    ],
+    "Data":[ ]
+};
+<t t-foreach="docs" t-as="o">
+/*增加主表記錄*/
+_tableOrder.Data.push(
+{
+    "顧客名稱":"<span t-field="o.partner_id" t-field-options='{"widget": "contact", "fields": ["name"], "no_marker": true, "no_tag_br": true, "data_type": "raw"}' />",
+    "聯絡人":"<t t-if="o.partner_id.child_ids[0].name"><t t-esc="o.partner_id.child_ids[0].name"/></t>",
+    "聯絡電話":"<t t-esc="o.partner_id.phone"/>",
+    "傳真電話":"<t t-esc="o.partner_id.fax"/>",
+    "報價編號":"<t t-esc="o.name"/>",
+    "報價日期":"<span t-field="o.date_order" t-field-options='{"format": "yyyy/MM/dd"}'></span>",
+    "業務聯絡人":"<t t-if="o.user_id"><t t-esc="o.user_id.name"/></t>",
+    "業務聯絡電話":"<t t-if="o.user_id"><t t-esc="o.user_id.phone"/></t>",
+    "業務行動電話":"<t t-if="o.user_id"><t t-esc="o.user_id.mobile"/></t>",
+    "不含稅金額":"<t t-esc="o.amount_untaxed"/>",
+    "稅":"<t t-esc="o.amount_tax"/>",
+    "總計":"<t t-esc="o.amount_total"/>",
+});
+
+<t t-foreach="o.order_line" t-as="lines">
+/**增加從表記錄**/
+_tableSaleOrderLines.Data.push(
+{
+    "項次":"<t t-esc="lines_index +1"/>",
+    "產品":"[<t t-esc="lines.product_id.default_code"/>]<t t-esc="lines.product_id.name"/>",
+    "說明":"<t t-esc="lines.product_id.description_sale"/>",
+    "數量":"<t t-esc="lines.product_uom_qty"/>",
+    "單價":"<t t-esc="lines.price_unit"/>",
+    "小計":"<t t-esc="lines.price_subtotal"/>",
+});
+    <!--"總價":"<span t-field="move.product_id.uom_id" t-field-options='{"data_type":"raw"}'/>"-->
+</t>
+</t>
+var _data = {"template": "odoo_sale_order.fr3", "ver": 4, "Copies": 1, "Duplex": 0, "Preview": 1, "Tables":[]};
+_data["Tables"].push(_tableOrder);
+_data["Tables"].push(_tableSaleOrderLines);
+var _reportData = JSON.stringify(_data);  //轉成json字元串
+
+console.log(_reportData);
+//生成資料之後，在cfprint_ext.js中會自動呼叫進行列印
+</script>
+            </t>
+        </template>
+    </data>
+</odoo>

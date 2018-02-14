@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="action_sale_order_custom_report"
+                model="sale.order"
+                string="銷售服務報價單"
+                report_type="qweb-html"
+                name="sale_report.sale_order_report_custom"
+                file="sale_report.sale_order_report_custom"
+                />
+    </data>
+</odoo>

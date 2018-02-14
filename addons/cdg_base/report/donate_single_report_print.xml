@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="donate_single_print">
+        <template id="donate_single_merge">
             <t t-call="report.html_container">
                 <h1 class="col-12 text-center">合併收據</h1>
                 <h3 class="col-12 text-center">正在列印輸出中，請稍候...</h3>
@@ -14,7 +14,7 @@
                     "Name": "SaleOrder",
                     "Cols":[
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
-                        { "type": "str", "size": 10, "name": "收件人", "required": false },
+                        { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
                         { "type": "str", "size": 30, "name": "住址", "required": false },
                         { "type": "str", "size": 20, "name": "團員編號", "required": false },
                         { "type": "str", "size": 10, "name": "捐款日期", "required": false },
@@ -32,7 +32,7 @@
                     "Name": "SaleOrderLines",
                     "Cols":[
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
-                        { "type": "str", "size": 10, "name": "捐款人姓名", "required": false },
+                        { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
                         { "type": "str", "size": 4, "name": "捐款種類", "required": false },
                         { "type": "str", "size": 10, "name": "捐款金額", "required": false },
                     ],
@@ -45,7 +45,7 @@
                     _tableOrder.Data.push(
                     {
                         "收據編號":"<t t-esc="o.donate_id"/>",
-                        "收件人":"<t t-esc="o.donate_member.name"/>",
+                        "捐款者姓名":"<t t-esc="o.donate_member.name"/>",
                         "住址":"<t t-esc="o.con_addr"/>",
                         "捐款日期":"<t t-esc="o.donate_date"/>",
                         "團員編號":"<t t-esc="o.new_coding"/>",
@@ -60,7 +60,7 @@
                             _tableSaleOrderLines.Data.push(
                             {
                                 "收據編號":"<t t-esc="o.donate_id"/>",
-                                "捐款人姓名":"<t t-esc="lines.donate_member.name"/>",
+                                "捐款者姓名":"<t t-esc="lines.donate_member.name"/>",
                                 "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",
                                 "捐款金額":"<t t-esc="lines.donate"/>",
                             });
@@ -69,7 +69,7 @@
                             _tableSaleOrderLines.Data.push(
                             {
                                 "收據編號":"<t t-esc="o.donate_id"/>",
-                                "捐款人姓名":"感恩",
+                                "捐款者姓名":"感恩",
                                 "捐款種類":"眾善士",
                                 "捐款金額":"．．．",
                             });
@@ -77,7 +77,7 @@
                         <t t-set="foo" t-value="foo+1"/>
                     </t>
                 </t>
-                var _data = {"template": "donate_single.fr3", "ver": 4, "Copies": 1, "Duplex": 0, "Preview": 1, "Tables":[]};
+                var _data = {"template": "donate_single_merge.fr3", "ver": 4, "Copies": 1, "Duplex": 0, "Preview": 1, "Tables":[]};
                 _data["Tables"].push(_tableOrder);
                 _data["Tables"].push(_tableSaleOrderLines);
                 var _reportData = JSON.stringify(_data);  //轉成json字元串
@@ -87,5 +87,93 @@
                 </script>
             </t>
         </template>
+
+        <template id="donate_single_personal">
+            <t t-call="report.html_container">
+                <h1 class="col-12 text-center">個人收據</h1>
+                <h3 class="col-12 text-center">正在列印輸出中，請稍候...</h3>
+                <script type="text/javascript">
+                var cfprint_addr = "127.0.0.1";   //列印伺服器監聽地址
+                var _delay_close = -1;          //列印完成後關閉視窗的延時時長(毫秒), -1則表示不關閉
+
+                /**定義主表結構**/
+                var _tableOrder = {
+                    "Name": "SaleOrder",
+                    "Cols":[
+                        { "type": "str", "size": 15, "name": "收據編號", "required": false },
+                        { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
+                        { "type": "str", "size": 30, "name": "住址", "required": false },
+                        { "type": "str", "size": 20, "name": "團員編號", "required": false },
+                        { "type": "str", "size": 10, "name": "捐款日期", "required": false },
+                        { "type": "str", "size": 10, "name": "經手人", "required": false },
+                        { "type": "str", "size": 10, "name": "收費員", "required": false },
+                        { "type": "str", "size": 20, "name": "捐款總額大寫", "required": false },
+                        { "type": "str", "size": 20, "name": "捐款總額", "required": false },
+                    ],
+                    "Data":[ ]
+                };
+
+                /**定義從表結構**/
+                var _tableSaleOrderLines = {
+                    "Name": "SaleOrderLines",
+                    "Cols":[
+                        { "type": "str", "size": 15, "name": "收據編號", "required": false },
+                        { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
+                        { "type": "str", "size": 4, "name": "捐款種類", "required": false },
+                        { "type": "str", "size": 10, "name": "捐款金額", "required": false },
+                    ],
+                    "Data":[ ]
+                };
+                <t t-set="donate_type" t-value="dict([(01,'造橋'),(02,'補路'),(03,'施棺'),(04,'伙食費'),(05,'貧困扶助'),(06,'不指定'),(99,'其他工程')])"/>
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="foo" t-value="0"/>
+                    /*增加主表記錄*/
+                    _tableOrder.Data.push(
+                    {
+                        "收據編號":"<t t-esc="o.title_doante_code"/>",
+                        "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
+                        "住址":"<t t-esc="o.title_donate.con_addr"/>",
+                        "捐款日期":"<t t-esc="o.title_doante_date"/>",
+                        "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
+                        "經手人":"<t t-esc="o.key_in_user.name"/>",
+                        "收費員":"<t t-esc="o.work_id.name"/>",
+                        "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
+                        "捐款總額":"<t t-esc="o.title_total_price"/>"
+                    });
+                    <t t-foreach="o.donate_line" t-as="lines">
+                        <t t-if="foo &lt; 23">
+                            <t t-if="o.title_donate.id == lines.donate_member_id.id">
+                                _tableSaleOrderLines.Data.push(
+                                {
+                                    "收據編號":"<t t-esc="lines.donate_id"/>",
+                                    "捐款者姓名":"<t t-esc="lines.name"/>",
+                                    "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",
+                                    "捐款金額":"<t t-esc="lines.donate_price"/>",
+                                });
+                            </t>
+                        </t>
+                        <t t-if="foo == 23">
+                            _tableSaleOrderLines.Data.push(
+                            {
+                                "收據編號":"<t t-esc="o.title_doante_code"/>",
+                                "捐款者姓名":"感恩",
+                                "捐款種類":"眾善士",
+                                "捐款金額":"．．．",
+                            });
+                        </t>
+                        <t t-set="foo" t-value="foo+1"/>
+                    </t>
+                </t>
+                var _data = {"template": "donate_single_personal.fr3", "ver": 4, "Copies": 1, "Duplex": 0, "Preview": 1, "Tables":[]};
+                _data["Tables"].push(_tableOrder);
+                _data["Tables"].push(_tableSaleOrderLines);
+                var _reportData = JSON.stringify(_data);  //轉成json字元串
+
+                console.log(_reportData);
+                //生成資料之後，在cfprint_ext.js中會自動呼叫進行列印
+                </script>
+            </t>
+        </template>
+
     </data>
 </odoo>

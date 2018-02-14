@@ -6,7 +6,12 @@
                 string="合併收據-老虎"
                 report_type="qweb-html"
                 name="cdg_base.donate_single_merge"
-                file="cdg_base.donate_single_merge"
-                />
+                file="cdg_base.donate_single_merge"/>
+        <report id="action_donate_single_personal"
+                model="donate.single"
+                string="個人收據-老虎"
+                report_type="qweb-html"
+                name="cdg_base.donate_single_personal"
+                file="cdg_base.donate_single_personal"/>
     </data>
 </odoo>
