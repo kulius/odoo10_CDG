@@ -56,7 +56,6 @@
                                     <t t-set="i" t-value="i+1"/>
                                 </t>
                             </t>
-
                     </div>
             </t>
         </template>
