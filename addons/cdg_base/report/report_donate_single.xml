@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="action_donate_single_merge"
+                model="donate.single"
+                string="合併收據-老虎"
+                report_type="qweb-html"
+                name="cdg_base.donate_single_merge"
+                file="cdg_base.donate_single_merge"
+                />
+    </data>
+</odoo>

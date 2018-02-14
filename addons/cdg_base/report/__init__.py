@@ -7,4 +7,4 @@ from . import member_list
 from . import donate_order
 from . import coffin_season
 from . import coffin_month
-from . import empty_cashier
+from . import report_donate_single
