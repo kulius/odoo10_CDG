@@ -11,8 +11,6 @@ class CashierListXlsx(ReportXlsx):
     def generate_xlsx_report(self,workbook,data,env):
         sheet = workbook.add_worksheet()
 
-        format1 = workbook.add_format({'border':2})
-
         sheet.write(0, 0,u'捐款者編號')
         sheet.write(0, 1, u'舊團員編號')
         sheet.write(0, 2, u'姓名')
@@ -27,9 +25,6 @@ class CashierListXlsx(ReportXlsx):
             sheet.write(self.count, 3, line.con_phone)
             sheet.write(self.count, 4, line.cellphone)
             sheet.write(self.count, 5, line.zip_code + line.con_addr)
-            sheet.write(self.count, 6,'', format1)
-            sheet.write(self.count, 7, '', format1)
-            sheet.write(self.count, 8, '', format1)
             self.count += 1
 
         sheet.set_column(0, 1, 12)

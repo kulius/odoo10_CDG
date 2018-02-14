@@ -293,7 +293,7 @@
         <menuitem id="nothing_list"
                   name="空白收費名冊"
                   parent="cashier_manage_categ"
-                  action="charity_view"
+                  action="cashier_empty_action"
                   sequence=""/>
         <menuitem id="change_base_root" name="異動作業" sequence="9"/>
                 <menuitem id="donate_reciept_change"

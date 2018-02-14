@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cashier_empty_form" model="ir.ui.view">
+            <field name="name">cashier empty form</field>
+            <field name="model">cashier.empty</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="num"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="empty_block" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="cashier_empty_action" name="空白名冊產生" res_model="cashier.empty"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>

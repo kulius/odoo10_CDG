@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- string:是报表在菜单上的文字。 -->
+        <!-- name:要写template的xmlid，8版本不能省略模块名。9待实验。 -->
+        <report id="receipt_empty_cashier"
+                model="cashier.empty"
+                string="空白收費員名冊"
+                report_type="qweb-pdf"
+                name="cdg_base.receipt_empty_template"
+                paperformat="paper_form_cdg"/>
+
+        <template id="receipt_empty_template">
+            <t t-call="report.html_container">
+                    <div class="page">
+                         <style type="text/css">
+                             h1{
+                                font-size: 40px;
+                                margin-left: 650px;
+                             }
+                         </style>
+                        <t t-set="i" t-value="1"/>
+                            <t t-if="num==1">
+                                <t t-foreach="20" t-as="i">
+                                    <h1 align="right">口</h1>
+                                    <t t-set="i" t-value="i+1"/>
+                                </t>
+                            </t>
+                            <t t-elif="num==2">
+                                 <t t-foreach="20" t-as="i">
+                                    <h1 align="right">口口</h1>
+                                    <t t-set="i" t-value="i+1"/>
+                                </t>
+                            </t>
+                            <t t-elif="num==3">
+                                 <t t-foreach="20" t-as="i">
+                                    <h1 align="right">口口口</h1>
+                                    <t t-set="i" t-value="i+1"/>
+                                </t>
+                            </t>
+                            <t t-elif="num==4">
+                                 <t t-foreach="20" t-as="i">
+                                    <h1 align="right">口口口口</h1>
+                                    <t t-set="i" t-value="i+1"/>
+                                </t>
+                            </t>
+                            <t t-elif="num==5">
+                                 <t t-foreach="20" t-as="i">
+                                    <h1 align="right">口口口口口</h1>
+                                    <t t-set="i" t-value="i+1"/>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                 <t t-foreach="20" t-as="i">
+                                    <h1 align="right">口口口口口口</h1>
+                                    <t t-set="i" t-value="i+1"/>
+                                </t>
+                            </t>
+
+                    </div>
+            </t>
+        </template>
+
+
+    </data>
+</odoo>

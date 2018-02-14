@@ -46,6 +46,7 @@
         'report/donate_order_report.xml',
         'report/coffin_month_report.xml',
         'report/coffin_season_report.xml',
+        'report/empty_cashier_report.xml',
 
         'wizard/chang_donate.xml',
         'wizard/print_check.xml',
@@ -60,6 +61,7 @@
         'wizard/consultant_join_year.xml',
         'wizard/consultant_fee_generate.xml',
         'wizard/member_fee_generate.xml',
+        'wizard/cashier_empty.xml',
 
         'views/charity_view.xml',
 
