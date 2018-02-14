@@ -8,3 +8,4 @@ from . import donate_order
 from . import coffin_season
 from . import coffin_month
 from . import report_donate_single
+from . import empty_cashier
