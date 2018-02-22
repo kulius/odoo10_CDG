@@ -15,7 +15,7 @@
                     "Cols":[
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
                         { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
-                        { "type": "str", "size": 30, "name": "住址", "required": false },
+                        { "type": "str", "size": 40, "name": "住址", "required": false },
                         { "type": "str", "size": 20, "name": "團員編號", "required": false },
                         { "type": "str", "size": 10, "name": "捐款日期", "required": false },
                         { "type": "str", "size": 10, "name": "捐款金額", "required": false },
@@ -102,7 +102,7 @@
                     "Cols":[
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
                         { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
-                        { "type": "str", "size": 30, "name": "住址", "required": false },
+                        { "type": "str", "size": 40, "name": "住址", "required": false },
                         { "type": "str", "size": 20, "name": "團員編號", "required": false },
                         { "type": "str", "size": 10, "name": "捐款日期", "required": false },
                         { "type": "str", "size": 10, "name": "經手人", "required": false },
@@ -188,7 +188,7 @@
                     "Cols":[
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
                         { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
-                        { "type": "str", "size": 30, "name": "住址", "required": false },
+                        { "type": "str", "size": 40, "name": "住址", "required": false },
                         { "type": "str", "size": 20, "name": "團員編號", "required": false },
                         { "type": "str", "size": 10, "name": "捐款日期", "required": false },
                         { "type": "str", "size": 10, "name": "經手人", "required": false },
@@ -230,7 +230,7 @@
             </t>
         </template>
 
-        <template id="receipt_single_default">
+        <template id="donate_single_default">
             <t t-call="report.html_container">
                 <h1 class="col-12 text-center">預設收據</h1>
                 <h3 class="col-12 text-center">正在列印輸出中，請稍候...</h3>
@@ -244,13 +244,14 @@
                     "Cols":[
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
                         { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
-                        { "type": "str", "size": 30, "name": "住址", "required": false },
+                        { "type": "str", "size": 40, "name": "住址", "required": false },
                         { "type": "str", "size": 20, "name": "團員編號", "required": false },
                         { "type": "str", "size": 10, "name": "捐款日期", "required": false },
                         { "type": "str", "size": 10, "name": "經手人", "required": false },
                         { "type": "str", "size": 10, "name": "收費員", "required": false },
                         { "type": "str", "size": 20, "name": "捐款總額大寫", "required": false },
                         { "type": "str", "size": 20, "name": "捐款總額", "required": false },
+                        { "type": "str", "size": 20, "name": "是否合併收據", "required": false },
                     ],
                     "Data":[ ]
                 };
@@ -263,13 +264,14 @@
                         { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
                         { "type": "str", "size": 4, "name": "捐款種類", "required": false },
                         { "type": "str", "size": 10, "name": "捐款金額", "required": false },
+                        { "type": "str", "size": 20, "name": "是否合併收據", "required": false },
                     ],
                     "Data":[ ]
                 };
                 <t t-set="donate_type" t-value="dict([(01,'造橋'),(02,'補路'),(03,'施棺'),(04,'伙食費'),(05,'貧困扶助'),(06,'不指定'),(99,'其他工程')])"/>
                 <t t-foreach="docs" t-as="o">
                     <t t-set="foo" t-value="0"/>
-                    /*增加主表記錄*/
+                    <t t-if="o.title_donate.is_merge ==True">
                     _tableOrder.Data.push(
                     {
                         "收據編號":"<t t-esc="o.title_doante_code"/>",
@@ -280,17 +282,45 @@
                         "經手人":"<t t-esc="o.key_in_user.name"/>",
                         "收費員":"<t t-esc="o.work_id.name"/>",
                         "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
-                        "捐款總額":"<t t-esc="o.title_total_price"/>"
+                        "捐款總額":"<t t-esc="o.title_total_price"/>",
+                        "是否合併收據":"<t t-esc="1"/>",
                     });
+                    </t>
+                    <t t-if="o.title_donate.is_merge ==False">
+                    _tableOrder.Data.push(
+                    {
+                        "收據編號":"<t t-esc="o.title_doante_code"/>",
+                        "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
+                        "住址":"<t t-esc="o.title_donate.con_addr"/>",
+                        "捐款日期":"<t t-esc="o.title_doante_date"/>",
+                        "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
+                        "經手人":"<t t-esc="o.key_in_user.name"/>",
+                        "收費員":"<t t-esc="o.work_id.name"/>",
+                        "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
+                        "捐款總額":"<t t-esc="o.title_total_price"/>",
+                        "是否合併收據":"<t t-esc="o.title_donate.id"/>",
+                    });
+                    </t>
                     <t t-foreach="o.donate_line" t-as="lines">
                         <t t-if="foo &lt; 23">
-                            <t t-if="o.title_donate.id == lines.donate_member_id.id">
+                            <t t-if=" lines.is_merge ==True">
                                 _tableSaleOrderLines.Data.push(
                                 {
                                     "收據編號":"<t t-esc="lines.donate_id"/>",
                                     "捐款者姓名":"<t t-esc="lines.name"/>",
                                     "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",
                                     "捐款金額":"<t t-esc="lines.donate_price"/>",
+                                    "是否合併收據":"<t t-esc="1"/>",
+                                });
+                            </t>
+                            <t t-if="lines.is_merge ==False">
+                                _tableSaleOrderLines.Data.push(
+                                {
+                                    "收據編號":"<t t-esc="lines.donate_id"/>",
+                                    "捐款者姓名":"<t t-esc="lines.name"/>",
+                                    "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",
+                                    "捐款金額":"<t t-esc="lines.donate_price"/>",
+                                    "是否合併收據":"<t t-esc="lines.donate_member_id.id"/>",
                                 });
                             </t>
                         </t>
