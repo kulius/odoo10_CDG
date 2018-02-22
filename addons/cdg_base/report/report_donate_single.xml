@@ -13,5 +13,17 @@
                 report_type="qweb-html"
                 name="cdg_base.donate_single_personal"
                 file="cdg_base.donate_single_personal"/>
+        <report id="action_donate_single_one_kind_one_person"
+                model="donate.single"
+                string="單獨收據-老虎"
+                report_type="qweb-html"
+                name="cdg_base.receipt_single_one_kind_one_person"
+                file="cdg_base.receipt_single_one_kind_one_person"/>
+        <report id="action_receipt_single_default"
+                model="donate.single"
+                string="預設收據-老虎"
+                report_type="qweb-html"
+                name="cdg_base.receipt_single_default"
+                file="cdg_base.receipt_single_default"/>
     </data>
 </odoo>
