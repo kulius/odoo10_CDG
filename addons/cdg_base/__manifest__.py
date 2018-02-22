@@ -2,7 +2,7 @@
     'name': "CDG",
     'version': '1.0',
     'depends': [
-        'report'
+        'report','report_xlsx',
     ],
     'author': "先捷電腦",
     'website': "http://www.alltop.com/",
