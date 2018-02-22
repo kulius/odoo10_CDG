@@ -169,3 +169,147 @@ class ReportDonateSinglePersonal(models.AbstractModel):
             'docs': report_line,
         }
         return self.env['report'].render('cdg_base.donate_single_personal', values=docargs)
+
+class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
+    _name = 'report.cdg_base.receipt_single_one_kind_one_person'
+
+    @api.multi
+    def render_html(self,docids, data=None):
+        target = self.env['donate.single'].browse(docids)
+        res = self.env['donate.order']
+        report_line = self.env['donate.single.report']
+
+        for row in target:
+            if row.state == 3:
+                raise ValidationError(u'本捐款單已經作廢')
+            elif row.state == 1:
+                # row.state = 2
+                row.print_count += 1
+                row.print_date=datetime.date.today()
+                row.print_user = self.env.uid
+
+            for line in row.donate_list:
+                res += line
+        for line in res:
+            tmp_id = report_line.create({
+                'title_donate': line.donate_member.id,
+                'title_doante_code': line.donate_id,
+            })
+
+            line_data = []
+            line_data.append([0, 0, {
+                'name': line.donate_member.name,
+                'donate_type': line.donate_type,
+                'donate_price': line.donate
+            }])
+            for line in target:
+                tmp_id.write({'title_doante_date': line.donate_date,'title_work_id': line.work_id.name})
+
+            tmp_id.write({
+                'donate_line': line_data
+            })
+            report_line += tmp_id
+
+        docargs = {
+            'doc_ids': docids,
+            'doc_model': 'donate.single',
+            'docs': report_line,
+        }
+        return self.env['report'].render('cdg_base.donate_single_one_kind_one_person', values=docargs)
+
+class ReportDonateSingleDefault(models.AbstractModel):
+    _name = 'report.cdg_base.receipt_single_default'
+
+    @api.model
+    def render_html(self, docids, data=None):
+        Report = self.env['report']
+        target = self.env['donate.single'].browse(docids)
+        res = self.env['donate.order']
+        merge_res= self.env['donate.order']
+        merge_res_line = self.env['donate.order']
+        res_line = self.env['donate.order']
+        report_line = self.env['donate.single.report']
+        flag = False
+
+        if data:
+            target = self.env['donate.single'].browse(data['from_target'])
+            flag = data['flag']
+
+        for row in target:
+            if row.state == 3:
+                raise ValidationError(u'本捐款單已經作廢')
+            elif row.state == 1:
+                row.state = 2
+                row.print_count += 1
+                row.print_date = datetime.date.today()
+                row.print_user = self.env.uid
+
+            for line in row.donate_list:
+                if line.donate_member == row.donate_member:
+                    merge_exist = False
+                    for list in merge_res:
+                        if list.donate_member == line.donate_member and list.donate_id == line.donate_id:
+                            merge_exist = True
+                    if merge_exist is False:
+                        merge_res += line
+
+                if line.donate_member.is_merge is True:
+                    merge_res_line += line
+                else:
+                    res_line += line
+                    exist = False
+                    for list in res:
+                        if list.donate_member == line.donate_member and list.donate_id == line.donate_id:
+                            exist = True
+                    if exist is False:
+                        res += line
+
+        # 找出要合併列印的人，整理後放入報表用table
+        for line in merge_res:
+            tmp_id = report_line.create({
+                'title_donate': line.donate_member.id,
+                'title_doante_code': line.donate_id,
+            })
+            for line in target:
+                tmp_id.write({'title_doante_date': line.donate_date,'title_work_id': line.work_id.name})
+            line_data = []
+            for row in merge_res_line:
+                if row.donate_id == line.donate_id:
+                    line_data.append([0, 0, {
+                        'name': row.donate_member.name,
+                        'donate_type': row.donate_type,
+                        'donate_price': row.donate
+                    }])
+            tmp_id.write({
+                'donate_line': line_data
+            })
+            report_line += tmp_id
+
+        # 找出不合併列印的人，整理後放進報表用table
+        for line in res:
+            tmp_id = report_line.create({
+                'title_donate': line.donate_member.id,
+                'title_doante_code': line.donate_id,
+            })
+            for line in target:
+                tmp_id.write({'title_doante_date': line.donate_date,'title_work_id': line.work_id.name})
+            line_data = []
+            for row in res_line:
+                if row.donate_id == line.donate_id:
+                    line_data.append([0, 0, {
+                        'name': row.donate_member.name,
+                        'donate_type': row.donate_type,
+                        'donate_price': row.donate
+                    }])
+            tmp_id.write({
+                'donate_line': line_data
+            })
+            report_line += tmp_id
+
+        docargs = {
+            'doc_ids': docids,
+            'doc_model': 'donate.batch',
+            'docs': report_line,
+            'flag':flag
+        }
+        return Report.render('cdg_base.receipt_single_default', docargs)
