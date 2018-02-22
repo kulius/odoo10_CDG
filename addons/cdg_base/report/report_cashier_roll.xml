@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="cashier_roll"
+                model="normal.p"
+                string="收費員名冊"
+                report_type="qweb-pdf"
+                name="cdg_base.receipt_cashier_roll_template"
+                paperformat="paper_form_cdg"
+        />
+
+         <template id="receipt_cashier_roll_template">
+            <t t-call="report.html_container">
+
+                <div class="page">
+                  <t t-foreach="docs" t-as="data">
+                    <strong>
+                        <h3 style="display:inline;">[捐款者收費名冊]</h3>
+                        <h3 style="display:inline;margin-left:5%;"><t t-esc= "data.cashier_name.c_id"/></h3>
+                        <h3 style="display:inline;margin-left:10%;"><t t-esc= "data.cashier_name.name"/></h3>
+                        <hr style="border: solid 2px black;margin:3px;padding:0px;"></hr>
+                    </strong>
+                    <h3 style="display:inline;"><t t-esc= "data.w_id"/></h3>
+                    <h3 style="display:inline;margin-left:115px;">(<t t-esc= "data.zip"/>)<t t-esc= "data.rec_addr"/></h3>
+                    <t t-foreach="data.donate_family1" t-as="familyname">
+                        <div>
+                           <div style="margin-left:200px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                           <div style="float:right;display:inline-block;padding:20px;margin:5px;border: solid 2px black;"></div>
+                           <div style="float:right;display:inline-block;padding:20px;margin:5px;border: solid 2px black;"></div>
+                           <div style="float:right;display:inline-block;padding:20px;margin:5px;border: solid 2px black;"></div>
+                           <div style="float:right;display:inline-block;padding:20px;margin:5px;border: solid 2px black;"></div>
+                           <div style="float:right;display:inline-block;padding:20px;margin:5px;border: solid 2px black;"></div>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </t>
+                  </t>
+                </div>
+
+            </t>
+         </template>
+    </data>
+</odoo>

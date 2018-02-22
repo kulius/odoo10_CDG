@@ -49,6 +49,7 @@
         'report/report_donate_single.xml',
         'report/donate_single_report_print.xml',
         'report/empty_cashier_report.xml',
+        'report/report_cashier_roll.xml',
 
         'wizard/chang_donate.xml',
         'wizard/print_check.xml',
