@@ -82,8 +82,10 @@
                     <field name="donate_id"/>
                     <field name="donate_w_id"/>
                     <field name="donate_member"/>
+                    <field name="cashier"/>
                     <field name="key_in_user"/>
-
+                    <field string="收據編號-起" name="donate_id" filter_domain="[('donate_id', '&gt;=',self )]"/>
+                    <field string="收據編號-迄" name="donate_id" filter_domain="[('donate_id', '&lt;=',self)]"/>
                     <field string="捐款日期-起" name="donate_date" filter_domain="[('donate_date', '&gt;=',self )]"/>
                     <field string="捐款日期-迄" name="donate_date" filter_domain="[('donate_date', '&lt;=',self)]"/>
 

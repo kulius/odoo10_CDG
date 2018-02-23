@@ -64,6 +64,7 @@ class WizardDonate(models.Model):
                         if row.last_donate_type == 6:
                             self.noassign_money = row.last_donate_money
                             self.noassign = True
+                        # 問題在這裡
                         res_line.append([0, 0, {
                             'donate_member': row.id,
                             'bridge_money':self.bridge_money,
