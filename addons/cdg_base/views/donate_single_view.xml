@@ -159,10 +159,11 @@
 
                     <filter string="未列印的捐款" name="un_print_donate" domain="[('state','=',1)]"/>
                     <!--<filter string="捐款日期" name="donate_date_today" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('create_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>-->
-                    <filter string="捐款來源-現金" name="cash" domain="[('cash','=','True')]"/>
-                    <filter string="捐款來源-郵政劃撥" name="mail" domain="[('mail','=','True')]"/>
-                    <filter string="捐款來源-信用卡" name="credit_card" domain="[('credit_card','=','True')]"/>
-                    <filter string="捐款來源-銀行轉帳" name="bank" domain="[('bank','=','True')]"/>
+                    <filter string="捐款來源-現金" name="payment_method" domain="[('payment_method','=','1')]"/>
+                    <filter string="捐款來源-郵政劃撥" name="payment_method" domain="[('payment_method','=','2')]"/>
+                    <filter string="捐款來源-信用卡" name="payment_method" domain="[('payment_method','=','3')]"/>
+                    <filter string="捐款來源-銀行轉帳" name="payment_method" domain="[('payment_method','=','4')]"/>
+                    <filter string="捐款來源-支票" name="payment_method" domain="[('payment_method','=','4')]"/>
                 </search>
             </field>
         </record>

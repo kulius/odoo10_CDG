@@ -45,26 +45,32 @@ class WizardDonate(models.Model):
         if self.work_id.name is False:
             raise ValidationError(u'必須選取收費員')
         for line in self.donate_line:
+            res_line = []
             if line.donate_batch_setting:
-                res_line = []
                 for row in line.donate_family1:
                     if row.is_donate is True:
                         if row.last_donate_type == 1:
                             self.bridge_money = row.last_donate_money
                             self.bridge = True
-                        if row.last_donate_type == 2:
+                        elif row.last_donate_type == 2:
                             self.road_money = row.last_donate_money
                             self.road = True
-                        if row.last_donate_type == 3:
+                        elif row.last_donate_type == 3:
                             self.coffin_money = row.last_donate_money
-                            self.coffin_money = True
-                        if row.last_donate_type == 5:
+                            self.coffin = True
+                        elif row.last_donate_type == 5:
                             self.poor_help_money = row.last_donate_money
                             self.poor_help = True
-                        if row.last_donate_type == 6:
+                        elif row.last_donate_type == 6:
                             self.noassign_money = row.last_donate_money
                             self.noassign = True
-                        # 問題在這裡
+                        else:
+                            self.bridge_money = 0
+                            self.road_money = 0
+                            self.coffin_money = 0
+                            self.poor_help_money = 0
+                            self.noassign_money = 0
+
                         res_line.append([0, 0, {
                             'donate_member': row.id,
                             'bridge_money':self.bridge_money,
@@ -73,17 +79,12 @@ class WizardDonate(models.Model):
                             'poor_help_money': self.poor_help_money,
                             'noassign_money': self.noassign_money,
                         }])
+                        self.bridge_money = 0
+                        self.road_money = 0
+                        self.coffin_money = 0
+                        self.poor_help_money = 0
+                        self.noassign_money = 0
                 order.create({
-                    'bridge': self.bridge,
-                    'road': self.road,
-                    'coffin': self.coffin,
-                    'poor_help': self.poor_help,
-                    'noassign':self.noassign,
-                    'bridge_money': self.bridge_money,
-                    'road_money': self.road_money,
-                    'coffin_money': self.coffin_money,
-                    'poor_help_money': self.poor_help_money,
-                    'noassign_money':self.noassign_money,
                     'donate_member': line.id,
                     'family_check': res_line,
                     'donate_date':self.donate_date,

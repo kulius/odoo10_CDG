@@ -182,6 +182,8 @@ class NormalP(models.Model):
                     donate_type = u'不指定'
                 if row.last_donate_type == 99:
                     donate_type = u'其他工程'
+                if row.last_donate_type == False:
+                    donate_type = ''
 
                 if row.is_donate is False:
                     str += u'(X %s %s %s),' % (row.name , donate_type , row.last_donate_money )
