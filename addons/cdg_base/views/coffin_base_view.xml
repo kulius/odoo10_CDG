@@ -65,9 +65,9 @@
                                     <field name="cellphone"/>
                                 </group>
                                 <group col="8">
-                                    <field name="zip_code2"/>
-                                    <field name="payee_addr" colspan="6"/>
                                     <field name="zip_code"/>
+                                    <field name="payee_addr" colspan="6"/>
+                                    <field name="zip_code2"/>
                                     <field name="con_addr"  colspan="6"/>
                                 </group>
                                 <group col="2">
