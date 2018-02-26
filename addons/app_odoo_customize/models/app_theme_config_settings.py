@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging, datetime
-# import math
+import math
 # import zipcodetw
 # import collections
 
@@ -618,100 +618,100 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 關聯資料共162068筆, 花費7.007秒
         return True
 
-    # def compute_coffin_donate(self): # 計算 coffin_donation的捐款編號與donate_order的捐款編號相符者, 將可用餘額(available_balance)設為 0 ; 不相符者則將可用餘額設為捐款金額(donate)
-    #     sql = "SELECT SUM(捐款金額),MAX(捐款總額),捐款編號, 團員編號 INTO donate_difference_table FROM 捐款檔 GROUP BY 捐款編號, 團員編號 HAVING SUM(捐款金額) <> MAX(捐款總額)"
-    #     self._cr.execute(sql) # 計算資料共17590筆, 花費29.656秒
-    #     sql = "SELECT * INTO reorganization_table FROM donate_order a INNER JOIN donate_difference_table b ON a.donate_id = b.捐款編號"
-    #     self._cr.execute(sql)  # 計算資料共74788筆, 花費1.419秒
-    #     sql = "SELECT * FROM donate_difference_table WHERE max <> 0 "
-    #     self._cr.execute(sql)
-    #     index_donate = self._cr.dictfetchall()
-    #     donate_total = 0
-    #     donate = 0
-    #     num = 0
-    #     remainder = 0
-    #     j=0
-    #     for line in index_donate:
-    #         j=j+1
-    #         if j % 100 == 0:
-    #             print u"第%s筆 捐款編號: %s" % (j,line['捐款編號'])
-    #         donate_total = line['max']
-    #         sql = "SELECT * FROM reorganization_table WHERE donate_id = '%s'  AND donate_w_id = '%s' ORDER BY donate_w_id, donate_w_id_number" % (line['捐款編號'],line['團員編號'])
-    #         self._cr.execute(sql)
-    #         group_donate_data = self._cr.dictfetchall()
-    #         num = len(group_donate_data)
-    #         if num != 0:
-    #             if int(donate_total % num) == 0 :
-    #                 sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id = '%s' " % (int(donate_total/num), line['捐款編號'],line['團員編號'])
-    #                 self._cr.execute(sql)
-    #             else:
-    #                 remainder = math.floor(donate_total/num) % 10
-    #                 if donate_total/num < 10:
-    #                     sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id = '%s' " % (int(math.floor(donate_total / num)), line['捐款編號'],line['團員編號'])
-    #                     self._cr.execute(sql)
-    #                     for row in group_donate_data[0:1]:
-    #                         sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id = '%s' AND donate_w_id_number = '%s' " % (int(donate_total - math.floor(donate_total/num)*(num-1)), line['捐款編號'], row['donate_w_id'], row['donate_w_id_number'])
-    #                         self._cr.execute(sql)
-    #                 else:
-    #                     sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id = '%s' " % (int(math.floor(donate_total / num) - remainder), line['捐款編號'],line['團員編號'])
-    #                     self._cr.execute(sql)
-    #                     for row in group_donate_data[0:1]:
-    #                         sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id = '%s' AND donate_w_id_number = '%s' " % (int(donate_total - (math.floor(donate_total / num)) * (num - 1) + (remainder) * (num - 1)), line['捐款編號'], row['donate_w_id'], row['donate_w_id_number'])
-    #                         self._cr.execute(sql)
-    #     # 18:15  20:29 6000筆 20:54 7000筆  21:15 7800筆 21:19 8000筆  21:44 9000筆 22:07 10000筆  22:15 10200筆  22:33 11000筆  23:13 12500筆
-    #     # 21:04  22:03 2700筆 22:05 2800筆  22:08 2900筆 22:10 3000筆
-    #     return True
-    #
-    # def compute_coffin_donate2(self): # 計算 coffin_donation的捐款編號與donate_order的捐款編號相符者, 將可用餘額(available_balance)設為 0 ; 不相符者則將可用餘額設為捐款金額(donate)
-    #     sql = "SELECT SUM(捐款金額),MAX(捐款總額),捐款編號, 團員編號 INTO donate_difference FROM 捐款歷史檔 GROUP BY 捐款編號, 團員編號 HAVING SUM(捐款金額) <> MAX(捐款總額)"
-    #     self._cr.execute(sql) # 計算資料共17590筆, 花費29.656秒
-    #     sql = "SELECT * INTO reorganization_table2 FROM donate_order a INNER JOIN donate_difference b ON a.donate_id = b.捐款編號"
-    #     self._cr.execute(sql)  # 計算資料共74788筆, 花費1.419秒
-    #     sql = "SELECT * FROM donate_difference WHERE max <> 0 "
-    #     self._cr.execute(sql)
-    #     index_donate = self._cr.dictfetchall()
-    #     donate_total = 0
-    #     donate = 0
-    #     num = 0
-    #     remainder = 0
-    #     j=0
-    #     for line in index_donate:
-    #         j=j+1
-    #         if j % 100 == 0:
-    #             print u"第%s筆 捐款編號: %s" % (j,line['捐款編號'])
-    #         donate_total = line['max']
-    #         sql = "SELECT * FROM reorganization_table2 WHERE donate_id = '%s' AND donate_w_id = '%s' ORDER BY donate_w_id, donate_w_id_number" % (line['捐款編號'],line['團員編號'])
-    #         self._cr.execute(sql)
-    #         group_donate_data = self._cr.dictfetchall()
-    #         num = len(group_donate_data)
-    #         if num != 0:
-    #             if int(donate_total % num) == 0 :
-    #                 sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id = '%s' " % (int(donate_total/num), line['捐款編號'],line['團員編號'])
-    #                 self._cr.execute(sql)
-    #             else:
-    #                 remainder = math.floor(donate_total/num) % 10
-    #                 if donate_total/num < 10:
-    #                     sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id = '%s' " % (int(math.floor(donate_total / num)), line['捐款編號'],line['團員編號'])
-    #                     self._cr.execute(sql)
-    #                     for row in group_donate_data[0:1]:
-    #                         sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id = '%s' AND donate_w_id_number = '%s' " % (int(donate_total - math.floor(donate_total/num)*(num-1)), line['捐款編號'], row['donate_w_id'], row['donate_w_id_number'])
-    #                         self._cr.execute(sql)
-    #                 else:
-    #                     sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id = '%s' " % (int(math.floor(donate_total / num) - remainder), line['捐款編號'],line['團員編號'])
-    #                     self._cr.execute(sql)
-    #                     for row in group_donate_data[0:1]:
-    #                         sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id = '%s' AND donate_w_id_number = '%s' " % (int(donate_total - (math.floor(donate_total / num)) * (num - 1) + (remainder) * (num - 1)), line['捐款編號'], row['donate_w_id'], row['donate_w_id_number'])
-    #                         self._cr.execute(sql)
-    #
-    #     sql = "UPDATE donate_order SET available_balance = donate_order.donate"
-    #     self._cr.execute(sql)  # 計算資料共3001165筆, 花費101.806秒
-    #     sql = "UPDATE donate_order SET available_balance = 0 FROM old_coffin_donation a WHERE a.donate_id = donate_order.donate_id AND donate_order.donate_type = 3"
-    #     self._cr.execute(sql)  # 計算資料共298074筆, 花費40.667秒 ;  共303549筆資料施棺的捐款金額為 0
-    #     sql = "UPDATE donate_order SET use_amount = TRUE WHERE available_balance = 0 and donate_type = 3"
-    #     self._cr.execute(sql)  # 計算資料共303549筆, 花費15.818秒
-    #     sql = "UPDATE donate_order SET used_money = donate_order.donate WHERE available_balance = 0 and donate_type = 3"
-    #     self._cr.execute(sql)  # 計算資料共303549筆, 花費6.952秒
-    #     return True
+    def compute_coffin_donate(self): # 計算 coffin_donation的捐款編號與donate_order的捐款編號相符者, 將可用餘額(available_balance)設為 0 ; 不相符者則將可用餘額設為捐款金額(donate)
+        sql = "SELECT SUM(捐款金額),MAX(捐款總額),捐款編號 INTO donate_difference_table FROM 捐款檔 GROUP BY 捐款編號 HAVING SUM(捐款金額) <> MAX(捐款總額)"
+        self._cr.execute(sql) # 計算資料共17590筆, 花費29.656秒
+        sql = "SELECT * INTO reorganization_table FROM donate_order a INNER JOIN donate_difference_table b ON a.donate_id = b.捐款編號"
+        self._cr.execute(sql)  # 計算資料共74788筆, 花費1.419秒
+        sql = "SELECT * FROM donate_difference_table WHERE max <> 0 "
+        self._cr.execute(sql)
+        index_donate = self._cr.dictfetchall()
+        donate_total = 0
+        donate = 0
+        num = 0
+        remainder = 0
+        j=0
+        for line in index_donate:
+            j=j+1
+            if j % 100 == 0:
+                print u"第%s筆 捐款編號: %s" % (j,line['捐款編號'])
+            donate_total = line['max']
+            sql = "SELECT * FROM reorganization_table WHERE donate_id = '%s' ORDER BY donate_w_id_number" % (line['捐款編號'])
+            self._cr.execute(sql)
+            group_donate_data = self._cr.dictfetchall()
+            num = len(group_donate_data)
+            if num != 0:
+                if int(donate_total % num) == 0 :
+                    sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' " % (int(donate_total/num), line['捐款編號'])
+                    self._cr.execute(sql)
+                else:
+                    remainder = math.floor(donate_total/num) % 10
+                    if donate_total/num < 10:
+                        sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' " % (int(math.floor(donate_total / num)), line['捐款編號'])
+                        self._cr.execute(sql)
+                        for row in group_donate_data[0:1]:
+                            sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id_number = '%s' " % (int(donate_total - math.floor(donate_total/num)*(num-1)), line['捐款編號'], row['donate_w_id_number'])
+                            self._cr.execute(sql)
+                    else:
+                        sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' " % (int(math.floor(donate_total / num) - remainder), line['捐款編號'])
+                        self._cr.execute(sql)
+                        for row in group_donate_data[0:1]:
+                            sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id_number = '%s' " % (int(donate_total - (math.floor(donate_total / num)) * (num - 1) + (remainder) * (num - 1)), line['捐款編號'], row['donate_w_id_number'])
+                            self._cr.execute(sql)
+        # 18:15  20:29 6000筆 20:54 7000筆  21:15 7800筆 21:19 8000筆  21:44 9000筆 22:07 10000筆  22:15 10200筆  22:33 11000筆  23:13 12500筆
+        # 21:04  22:03 2700筆 22:05 2800筆  22:08 2900筆 22:10 3000筆
+        return True
+
+    def compute_coffin_donate2(self): # 計算 coffin_donation的捐款編號與donate_order的捐款編號相符者, 將可用餘額(available_balance)設為 0 ; 不相符者則將可用餘額設為捐款金額(donate)
+        sql = "SELECT SUM(捐款金額),MAX(捐款總額),捐款編號 INTO donate_difference FROM 捐款歷史檔 GROUP BY 捐款編號 HAVING SUM(捐款金額) <> MAX(捐款總額)"
+        self._cr.execute(sql) # 計算資料共17590筆, 花費29.656秒
+        sql = "SELECT * INTO reorganization_table2 FROM donate_order a INNER JOIN donate_difference b ON a.donate_id = b.捐款編號"
+        self._cr.execute(sql)  # 計算資料共74788筆, 花費1.419秒
+        sql = "SELECT * FROM donate_difference WHERE max <> 0 "
+        self._cr.execute(sql)
+        index_donate = self._cr.dictfetchall()
+        donate_total = 0
+        donate = 0
+        num = 0
+        remainder = 0
+        j=0
+        for line in index_donate:
+            j=j+1
+            if j % 100 == 0:
+                print u"第%s筆 捐款編號: %s" % (j,line['捐款編號'])
+            donate_total = line['max']
+            sql = "SELECT * FROM reorganization_table2 WHERE donate_id = '%s' ORDER BY donate_w_id_number" % (line['捐款編號'])
+            self._cr.execute(sql)
+            group_donate_data = self._cr.dictfetchall()
+            num = len(group_donate_data)
+            if num != 0:
+                if int(donate_total % num) == 0 :
+                    sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' " % (int(donate_total/num), line['捐款編號'])
+                    self._cr.execute(sql)
+                else:
+                    remainder = math.floor(donate_total/num) % 10
+                    if donate_total/num < 10:
+                        sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' " % (int(math.floor(donate_total / num)), line['捐款編號'])
+                        self._cr.execute(sql)
+                        for row in group_donate_data[0:1]:
+                            sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id_number = '%s' " % (int(donate_total - math.floor(donate_total/num)*(num-1)), line['捐款編號'], row['donate_w_id_number'])
+                            self._cr.execute(sql)
+                    else:
+                        sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' " % (int(math.floor(donate_total / num) - remainder), line['捐款編號'])
+                        self._cr.execute(sql)
+                        for row in group_donate_data[0:1]:
+                            sql = "UPDATE donate_order SET donate = %s WHERE donate_id = '%s' AND donate_w_id_number = '%s' " % (int(donate_total - (math.floor(donate_total / num)) * (num - 1) + (remainder) * (num - 1)), line['捐款編號'], row['donate_w_id_number'])
+                            self._cr.execute(sql)
+
+        sql = "UPDATE donate_order SET available_balance = donate_order.donate"
+        self._cr.execute(sql)  # 計算資料共3001165筆, 花費101.806秒
+        sql = "UPDATE donate_order SET available_balance = 0 FROM old_coffin_donation a WHERE a.donate_id = donate_order.donate_id AND donate_order.donate_type = 3"
+        self._cr.execute(sql)  # 計算資料共298074筆, 花費40.667秒 ;  共303549筆資料施棺的捐款金額為 0
+        sql = "UPDATE donate_order SET use_amount = TRUE WHERE available_balance = 0 and donate_type = 3"
+        self._cr.execute(sql)  # 計算資料共303549筆, 花費15.818秒
+        sql = "UPDATE donate_order SET used_money = donate_order.donate WHERE available_balance = 0 and donate_type = 3"
+        self._cr.execute(sql)  # 計算資料共303549筆, 花費6.952秒
+        return True
 
     def set_consultant_data(self): # 轉顧問檔資料進normal.p, 顧問檔共199筆資料
         sql = "INSERT INTO normal_p(name , con_addr) SELECT 姓名, 戶籍通訊地址 FROM 顧問檔 EXCEPT SELECT name, con_addr FROM normal_p"

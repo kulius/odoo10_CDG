@@ -14,8 +14,8 @@
                     "Name": "SaleOrder",
                     "Cols":[
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
-                        { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
-                        { "type": "str", "size": 40, "name": "住址", "required": false },
+                        { "type": "str", "size": 50, "name": "捐款者姓名", "required": false },
+                        { "type": "str", "size": 50, "name": "住址", "required": false },
                         { "type": "str", "size": 20, "name": "團員編號", "required": false },
                         { "type": "str", "size": 10, "name": "捐款日期", "required": false },
                         { "type": "str", "size": 10, "name": "捐款金額", "required": false },
@@ -33,7 +33,7 @@
                     "Cols":[
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
                         { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
-                        { "type": "str", "size": 4, "name": "捐款種類", "required": false },
+                        { "type": "str", "size": 10, "name": "捐款種類", "required": false },
                         { "type": "str", "size": 10, "name": "捐款金額", "required": false },
                     ],
                     "Data":[ ]
@@ -101,8 +101,8 @@
                     "Name": "SaleOrder",
                     "Cols":[
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
-                        { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
-                        { "type": "str", "size": 40, "name": "住址", "required": false },
+                        { "type": "str", "size": 50, "name": "捐款者姓名", "required": false },
+                        { "type": "str", "size": 50, "name": "住址", "required": false },
                         { "type": "str", "size": 20, "name": "團員編號", "required": false },
                         { "type": "str", "size": 10, "name": "捐款日期", "required": false },
                         { "type": "str", "size": 10, "name": "經手人", "required": false },
@@ -118,8 +118,8 @@
                     "Name": "SaleOrderLines",
                     "Cols":[
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
-                        { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
-                        { "type": "str", "size": 4, "name": "捐款種類", "required": false },
+                        { "type": "str", "size": 50, "name": "捐款者姓名", "required": false },
+                        { "type": "str", "size": 10, "name": "捐款種類", "required": false },
                         { "type": "str", "size": 10, "name": "捐款金額", "required": false },
                     ],
                     "Data":[ ]
@@ -187,15 +187,15 @@
                     "Name": "DonateSingleLines",
                     "Cols":[
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
-                        { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
-                        { "type": "str", "size": 40, "name": "住址", "required": false },
+                        { "type": "str", "size": 50, "name": "捐款者姓名", "required": false },
+                        { "type": "str", "size": 50, "name": "住址", "required": false },
                         { "type": "str", "size": 20, "name": "團員編號", "required": false },
                         { "type": "str", "size": 10, "name": "捐款日期", "required": false },
                         { "type": "str", "size": 10, "name": "經手人", "required": false },
                         { "type": "str", "size": 10, "name": "收費員", "required": false },
                         { "type": "str", "size": 20, "name": "捐款總額大寫", "required": false },
                         { "type": "str", "size": 20, "name": "捐款總額", "required": false },
-                        { "type": "str", "size": 4, "name": "捐款種類", "required": false },
+                        { "type": "str", "size": 10, "name": "捐款種類", "required": false },
                         { "type": "str", "size": 10, "name": "捐款金額", "required": false },
                     ],
                     "Data":[ ]
@@ -243,8 +243,8 @@
                     "Name": "SaleOrder",
                     "Cols":[
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
-                        { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
-                        { "type": "str", "size": 40, "name": "住址", "required": false },
+                        { "type": "str", "size": 50, "name": "捐款者姓名", "required": false },
+                        { "type": "str", "size": 50, "name": "住址", "required": false },
                         { "type": "str", "size": 20, "name": "團員編號", "required": false },
                         { "type": "str", "size": 10, "name": "捐款日期", "required": false },
                         { "type": "str", "size": 10, "name": "經手人", "required": false },
@@ -261,8 +261,8 @@
                     "Name": "SaleOrderLines",
                     "Cols":[
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
-                        { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
-                        { "type": "str", "size": 4, "name": "捐款種類", "required": false },
+                        { "type": "str", "size": 50, "name": "捐款者姓名", "required": false },
+                        { "type": "str", "size": 10, "name": "捐款種類", "required": false },
                         { "type": "str", "size": 10, "name": "捐款金額", "required": false },
                         { "type": "str", "size": 20, "name": "是否合併收據", "required": false },
                     ],
