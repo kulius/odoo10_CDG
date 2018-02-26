@@ -78,6 +78,15 @@ class DonateSingle(models.Model):
 
     clear_all_is_donate = fields.Boolean(string='清除 [是否捐助]')
     clear_all_is_merge = fields.Boolean(string='清除 [是否合併收據]')
+    set_today = fields.Boolean(string='今天?')
+
+    @api.onchange('set_today')
+    def set_today_donate(self):
+        if self.set_today == True:
+            self.donate_date = datetime.date.today()
+        if self.set_today == False:
+            user = self.env['res.users'].search([('login', '=', self.env.user.login)])
+            self.donate_date = user.last_donate_date
 
     @api.onchange('clear_all_is_donate')
     def donate_anti_election(self):
