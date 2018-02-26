@@ -65,6 +65,7 @@
         'wizard/consultant_fee_generate.xml',
         'wizard/member_fee_generate.xml',
         'wizard/cashier_empty.xml',
+        'wizard/cashier_block_view.xml',
 
         'views/charity_view.xml',
 

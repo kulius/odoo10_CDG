@@ -158,6 +158,22 @@ class NormalP(models.Model):
             'target': 'new',
         }
 
+    def cashier_block(self, ids):
+        res = []
+        for line in ids:
+            res.append([4, line])
+            wizard_data = self.env['cashier.block'].create({
+                'from_target': res
+            })
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'cashier.block',
+            'name': '隨便我高興',
+            'view_mode': 'form',
+            'res_id': wizard_data.id,
+            'target': 'new',
+        }
+
     def check_batch_donate(self):
         if self.donate_batch_setting == True:
             self.donate_batch_setting = False

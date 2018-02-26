@@ -110,7 +110,7 @@ class DonateSingle(models.Model):
         res = []
         for line in ids:
             res.append([4, line])
-        wizard_data = self.env['print.check'].create({
+            wizard_data = self.env['print.check'].create({
             'from_target': res
         })
         return {
