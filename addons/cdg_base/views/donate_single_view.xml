@@ -77,22 +77,18 @@
                             <page string="捐款">
                                 <span STYLE='FONT-SIZE:25PX'>捐款項目</span>
                                 <group col="6">
-                                    <!--<field name="bridge"/>-->
                                     <field name="bridge_money" string="造橋"/>
-                                    <!--<field name="poor_help" />-->
                                     <field name="poor_help_money" string="貧困扶助"/>
-                                    <!--<field name="road"/>-->
                                     <field name="road_money" string="補路"/>
-                                    <!--<field name="noassign" />-->
-                                    <field name="noassign_money" string="一般捐款"/>
-                                    <!--<field name="coffin"/>-->
                                     <field name="coffin_money" string="施棺"/>
+                                    <field name="noassign_money" string="一般捐款"/>
                                 </group>
                                 <span STYLE='FONT-SIZE:25PX'>捐款名冊</span>
-                                <group col="9">
+                                <group col="8">
                                     <field name="current_donate_people"/>
-                                    <field name="current_donate_total"/>
                                     <field name="current_donate_project"/>
+                                    <field name="current_donate_total"/>
+                                    <field name="print_all_donor_list"/>
                                 </group>
                                 <field name="family_check">
                                     <tree editable="bottom">

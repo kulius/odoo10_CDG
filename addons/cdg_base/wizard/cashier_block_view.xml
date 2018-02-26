@@ -17,7 +17,8 @@
                     </footer>
                 </form>
             </field>
-        </record> <act_window id="action_cashier_block" name="收費員捐款者名冊" res_model="cashier.block"
+        </record>
+        <act_window id="action_cashier_block" name="收費員捐款者名冊" res_model="cashier.block"
                     view_mode="form" target="new" multi="False"/>
     </data>
 

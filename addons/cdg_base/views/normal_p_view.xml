@@ -430,7 +430,7 @@
 
         <record model="ir.values" id="ir_values_cashier_block_button">
             <field name="name">隨便我高興</field>
-            <field name="key2">client_cashier_block</field>
+            <field name="key2">client_print_multi</field>
             <field name="value" eval="'ir.actions.server,%d'%cashier_block_action"/>
             <field name="key">action</field>
             <field name="object" eval="True"/>

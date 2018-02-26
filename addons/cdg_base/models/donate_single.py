@@ -30,6 +30,7 @@ class DonateSingle(models.Model):
     con_phone = fields.Char(string='聯絡電話', compute='set_donate_name', store=True)
     zip_code = fields.Char(string='郵遞區號', compute='set_donate_name', store=True)
     con_addr = fields.Char(string='聯絡地址', compute='set_donate_name', store=True)
+    rec_addr = fields.Char(string='收據地址') # 防錯的, 沒幹嘛
 
     state = fields.Selection([(1, '已產生'), (2, '已列印'), (3, '已作廢')],
                              string='狀態', default=1, index=True)
@@ -76,10 +77,11 @@ class DonateSingle(models.Model):
     print_count = fields.Integer(string='列印筆數',store=True)
     print_date = fields.Date('列印日期')
     donate_family_list = fields.Char('眷屬列表',compute='compute_family_list')
+    print_all_donor_list = fields.Boolean(string='列印願意捐助的眷屬')
 
     clear_all_is_donate = fields.Boolean(string='清除 [是否捐助]')
     clear_all_is_merge = fields.Boolean(string='清除 [是否合併收據]')
-    set_today = fields.Boolean(string='今天?')
+    set_today = fields.Boolean(string='今天')
 
     @api.onchange('set_today')
     def set_today_donate(self):
@@ -420,17 +422,15 @@ class DonateSingle(models.Model):
             for line in record.family_check.filtered(lambda  x :x.is_donate==True):
                 if line.bridge_money != 0:
                     record.save_donate_list(1, line.donate_member, line.bridge_money)
-
                 if line.road_money != 0:
                     record.save_donate_list(2, line.donate_member, line.road_money)
-
                 if line.coffin_money != 0:
                     record.save_donate_list(3, line.donate_member, line.coffin_money)
-
                 if line.poor_help_money != 0:
                     record.save_donate_list(5, line.donate_member, line.poor_help_money)
-
                 if line.noassign_money != 0:
+                    record.save_donate_list(6, line.donate_member, line.noassign_money)
+                if self.print_all_donor_list and (line.bridge_money == 0 and line.road_money == 0 and line.coffin_money == 0 and line.poor_help_money == 0 and line.noassign_money == 0 ):
                     record.save_donate_list(6, line.donate_member, line.noassign_money)
         else:
             raise ValidationError(u'捐款名冊為空，無法進行捐款作業')
@@ -443,19 +443,16 @@ class DonateSingle(models.Model):
             for line in self.family_check.filtered(lambda  x :x.is_donate==True):
                 if line.bridge_money != 0:
                     self.save_donate_list(1, line.donate_member, line.bridge_money)
-
                 if line.road_money != 0:
                     self.save_donate_list(2, line.donate_member, line.road_money)
-
                 if line.coffin_money != 0:
                     self.save_donate_list(3, line.donate_member, line.coffin_money)
-
                 if line.poor_help_money != 0:
                     self.save_donate_list(5, line.donate_member, line.poor_help_money)
-
                 if line.noassign_money != 0:
                     self.save_donate_list(6, line.donate_member, line.noassign_money)
-
+                if self.print_all_donor_list and (line.bridge_money == 0 and line.road_money == 0 and line.coffin_money == 0 and line.poor_help_money == 0 and line.noassign_money == 0 ):
+                    self.save_donate_list(6, line.donate_member, line.noassign_money)
         else:
             raise ValidationError(u'捐款名冊為空，無法進行捐款作業')
 
@@ -490,7 +487,6 @@ class DonateSingle(models.Model):
                     'cashier': self.work_id.id
                 })]
             })
-
 
     def parent_list_creat(self):
         r = []

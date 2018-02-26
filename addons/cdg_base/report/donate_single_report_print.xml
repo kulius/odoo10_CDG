@@ -302,8 +302,9 @@
                     });
                     </t>
                     <t t-foreach="o.donate_line" t-as="lines">
-                        <t t-if="foo &lt; 23">
+                        <t t-if="foo &lt; 20">
                             <t t-if=" lines.is_merge ==True">
+                                <t t-set="foo" t-value="foo+1"/>
                                 _tableSaleOrderLines.Data.push(
                                 {
                                     "收據編號":"<t t-esc="lines.donate_id"/>",
@@ -312,6 +313,17 @@
                                     "捐款金額":"<t t-esc="lines.donate_price"/>",
                                     "是否合併收據":"<t t-esc="1"/>",
                                 });
+                                <t t-if="foo == 20">
+                                    _tableSaleOrderLines.Data.push(
+                                    {
+                                        "收據編號":"<t t-esc="o.title_doante_code"/>",
+                                        "捐款者姓名":"感恩",
+                                        "捐款種類":"眾善士",
+                                        "捐款金額":"．．．",
+                                        "是否合併收據":"<t t-esc="1"/>",
+                                    });
+                                </t>
+
                             </t>
                             <t t-if="lines.is_merge ==False">
                                 _tableSaleOrderLines.Data.push(
@@ -324,16 +336,8 @@
                                 });
                             </t>
                         </t>
-                        <t t-if="foo == 23">
-                            _tableSaleOrderLines.Data.push(
-                            {
-                                "收據編號":"<t t-esc="o.title_doante_code"/>",
-                                "捐款者姓名":"感恩",
-                                "捐款種類":"眾善士",
-                                "捐款金額":"．．．",
-                            });
-                        </t>
-                        <t t-set="foo" t-value="foo+1"/>
+
+
                     </t>
                 </t>
                 var _data = {"template": "donate_single_default.fr3", "ver": 4, "Copies": 1, "Duplex": 0, "Preview": 1, "Tables":[]};
