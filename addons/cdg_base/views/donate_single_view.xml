@@ -89,9 +89,10 @@
                                     <field name="coffin_money" string="施棺"/>
                                 </group>
                                 <span STYLE='FONT-SIZE:25PX'>捐款名冊</span>
-                                <group col="4">
+                                <group col="9">
                                     <field name="current_donate_people"/>
                                     <field name="current_donate_total"/>
+                                    <field name="current_donate_project"/>
                                 </group>
                                 <field name="family_check">
                                     <tree editable="bottom">

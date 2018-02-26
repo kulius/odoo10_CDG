@@ -35,8 +35,9 @@ class DonateSingle(models.Model):
                              string='狀態', default=1, index=True)
 
     donate_total = fields.Integer(string='捐款總額', compute='compute_total')
-    current_donate_total = fields.Integer('目前捐款總額', readonly="1")
-    current_donate_people = fields.Integer('目前捐款人數', readonly="1")
+    current_donate_total = fields.Integer('捐款總額小計', readonly="1")
+    current_donate_people = fields.Integer('捐款人數小計', readonly="1")
+    current_donate_project = fields.Integer('捐款項目小計', readonly="1")
 
     old_donate_total = fields.Integer(string='舊捐款總額')
 
@@ -262,14 +263,25 @@ class DonateSingle(models.Model):
     def current_people(self):
         self.current_donate_people = 0
         self.current_donate_total = 0
+        self.current_donate_project = 0
         for line in self.family_check:
             if line.is_donate is True:
                 self.current_donate_people += 1
-                self.current_donate_total += line.bridge_money
-                self.current_donate_total += line.road_money
-                self.current_donate_total += line.coffin_money
-                self.current_donate_total += line.poor_help_money
-                self.current_donate_total += line.noassign_money
+                if line.bridge_money != 0:
+                    self.current_donate_project += 1
+                    self.current_donate_total += line.bridge_money
+                if line.road_money != 0:
+                    self.current_donate_project += 1
+                    self.current_donate_total += line.road_money
+                if line.coffin_money != 0:
+                    self.current_donate_project += 1
+                    self.current_donate_total += line.coffin_money
+                if line.poor_help_money != 0:
+                    self.current_donate_project += 1
+                    self.current_donate_total += line.poor_help_money
+                if line.noassign_money != 0:
+                    self.current_donate_project += 1
+                    self.current_donate_total += line.noassign_money
             elif line.is_donate is False:
                 line.bridge_money = 0
                 line.road_money = 0
@@ -283,34 +295,29 @@ class DonateSingle(models.Model):
         if self.family_check:
             for line in self.family_check.filtered(lambda  x :x.is_donate==True):
                 if self.bridge_money != 0:
-                    if line.bridge_money ==0:
-                        line.bridge_money = self.bridge_money
+                    line.bridge_money = self.bridge_money
                 elif self.bridge_money == 0:
-                    if line.bridge_money == 0:
+                    if line.bridge_money != 0:
                         line.bridge_money = self.bridge_money
                 if self.road_money != 0:
-                    if line.road_money == 0:
-                        line.road_money = self.road_money
+                    line.road_money = self.road_money
                 elif self.road_money == 0:
-                    if line.road_money == 0:
+                    if line.road_money != 0:
                         line.road_money = self.road_money
                 if self.coffin_money != 0:
-                    if line.coffin_money ==0:
-                        line.coffin_money = self.coffin_money
+                    line.coffin_money = self.coffin_money
                 elif self.coffin_money == 0:
-                    if line.coffin_money == 0:
+                    if line.coffin_money != 0:
                         line.coffin_money = self.coffin_money
                 if self.poor_help_money != 0:
-                    if line.poor_help_money ==0:
-                        line.poor_help_money = self.poor_help_money
+                    line.poor_help_money = self.poor_help_money
                 elif self.poor_help_money == 0:
-                    if line.poor_help_money ==0:
+                    if line.poor_help_money !=0:
                         line.poor_help_money = self.poor_help_money
                 if self.noassign_money != 0:
-                    if line.noassign_money ==0:
-                        line.noassign_money = self.noassign_money
+                    line.noassign_money = self.noassign_money
                 elif self.noassign_money == 0:
-                    if line.noassign_money == 0:
+                    if line.noassign_money != 0:
                         line.noassign_money = self.noassign_money
 
         for line in self.family_check:
