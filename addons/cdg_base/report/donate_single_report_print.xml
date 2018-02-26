@@ -32,7 +32,7 @@
                     "Name": "SaleOrderLines",
                     "Cols":[
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
-                        { "type": "str", "size": 10, "name": "捐款者姓名", "required": false },
+                        { "type": "str", "size": 50, "name": "捐款者姓名", "required": false },
                         { "type": "str", "size": 10, "name": "捐款種類", "required": false },
                         { "type": "str", "size": 10, "name": "捐款金額", "required": false },
                     ],
