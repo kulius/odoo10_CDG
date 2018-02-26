@@ -84,7 +84,7 @@
                                     <!--<field name="road"/>-->
                                     <field name="road_money" string="補路"/>
                                     <!--<field name="noassign" />-->
-                                    <field name="noassign_money" string="不指定"/>
+                                    <field name="noassign_money" string="一般捐款"/>
                                     <!--<field name="coffin"/>-->
                                     <field name="coffin_money" string="施棺"/>
                                 </group>

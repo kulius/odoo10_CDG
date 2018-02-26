@@ -47,7 +47,7 @@ class DonateSingle(models.Model):
     road = fields.Boolean(string='補路')
     coffin = fields.Boolean(string='施棺')
     poor_help = fields.Boolean(string='貧困扶助')
-    noassign = fields.Boolean(string='不指定')
+    noassign = fields.Boolean(string='一般捐款')
     bridge_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     road_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     coffin_money = fields.Integer(string='$', states={2: [('readonly', True)]})
@@ -369,7 +369,7 @@ class DonateSingle(models.Model):
                 if row.donate_type == 5:
                     str += " (%s %s %s )," % (row.donate_member.name,  u'貧困扶助',row.donate)
                 if row.donate_type == 6:
-                    str += " (%s %s %s )," % (row.donate_member.name,  u'不指定',row.donate)
+                    str += " (%s %s %s )," % (row.donate_member.name,  u'一般捐款',row.donate)
                 if row.donate_type == 99:
                     str += " (%s %s %s )," % (row.donate_member.name,  u'其他工程',row.donate)
             line.donate_family_list= str
@@ -390,7 +390,7 @@ class DonateSingle(models.Model):
                 if row.donate_type == 5:
                     str += " (%s %s %s )," % (row.donate_member.name,  u'貧困扶助',row.donate)
                 if row.donate_type == 6:
-                    str += " (%s %s %s )," % (row.donate_member.name,  u'不指定',row.donate)
+                    str += " (%s %s %s )," % (row.donate_member.name,  u'一般捐款',row.donate)
                 if row.donate_type == 99:
                     str += " (%s %s %s )," % (row.donate_member.name,  u'其他工程',row.donate)
             line.donate_family_list= str
@@ -538,4 +538,4 @@ class DonateSingleLine(models.Model):
     road_money = fields.Integer(string='補路')
     coffin_money = fields.Integer(string='施棺')
     poor_help_money = fields.Integer(string='貧困扶助')
-    noassign_money = fields.Integer(string='不指定')
+    noassign_money = fields.Integer(string='一般捐款')

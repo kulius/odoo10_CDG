@@ -48,6 +48,6 @@ class HandChecking(models.Model):
 #    name = fields.Char(string='捐款人姓名')
 #    donate_money = fields.Char(string='捐款總額')
 #    donate_date = fields.Date(string='捐款日期')
-#    donate_type = fields.Selection(selection=[(1,'造橋'),(2,'補路'),(3,'施棺'),(4,'窮困扶助'),(5,'不指定')],string='捐款項目')
+#    donate_type = fields.Selection(selection=[(1,'造橋'),(2,'補路'),(3,'施棺'),(4,'窮困扶助'),(5,'一般捐款')],string='捐款項目')
 #    ps = fields.Text(string='備註')
 #    hand_book = fields.Many2one(comodel_name='hand.checking',string='屬於哪本簿子')

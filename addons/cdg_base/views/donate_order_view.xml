@@ -94,7 +94,7 @@
                     <filter string="施棺" name="coffin" domain="[('donate_type','=','03')]"/>
                     <filter string="伙食費" name="food_costs" domain="[('donate_type','=','04')]"/>
                     <filter string="貧困扶助" name="poor_help" domain="[('donate_type','=','05')]"/>
-                    <filter string="不指定" name="others" domain="[('donate_type','=','06')]"/>
+                    <filter string="一般捐款" name="others" domain="[('donate_type','=','06')]"/>
                     <filter string="其他工程" name="others" domain="[('donate_type','=','99')]"/>
                 </search>
             </field>

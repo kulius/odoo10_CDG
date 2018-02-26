@@ -14,7 +14,7 @@ class DonateBatch(models.Model):
     tag_coffin = fields.Boolean(string='施棺')
     tag_food = fields.Boolean(string='伙食費')
     tag_allowance = fields.Boolean(string='窮困扶助')
-    tag_noassign = fields.Boolean(string='不指定')
+    tag_noassign = fields.Boolean(string='一般捐款')
     tag_other = fields.Boolean(string='其他工程')
     donate_price = fields.Integer(string='捐款金額')
     donate_total_price = fields.Integer(string='捐款總額', compute='compute_donate_total')
@@ -65,7 +65,7 @@ class DonateBatchLine(models.Model):
     donate_user = fields.Many2one(comodel_name='normal.p', string='捐款者')
     donate_user_id = fields.Char(string='團員編號', compute='compute_set_donate')
     donate_user_number = fields.Char(string='序號', compute='compute_set_donate')
-    donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (04, '伙食費'), (05, '貧困扶助'),(06, '不指定'), (99, '其他工程')],
+    donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (04, '伙食費'), (05, '貧困扶助'),(06, '一般捐款'), (99, '其他工程')],
                                    string='捐款種類', default=1, index=True)
     donate_price = fields.Integer(string='捐款金額')
     new_coding = fields.Char(string='新編捐款者編號', compute='compute_set_donate')
