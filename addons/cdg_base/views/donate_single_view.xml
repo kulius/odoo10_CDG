@@ -72,6 +72,8 @@
                             <field name="con_phone"/>
                             <field name="zip_code"/>
                             <field name="con_addr"/>
+                            <field name="zip"/>
+                            <field name="rec_addr"/>
                         </group>
                         <notebook>
                             <page string="捐款">

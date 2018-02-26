@@ -46,7 +46,7 @@
                     {
                         "收據編號":"<t t-esc="o.donate_id"/>",
                         "捐款者姓名":"<t t-esc="o.donate_member.name"/>",
-                        "住址":"<t t-esc="o.con_addr"/>",
+                        "住址":"<t t-esc="o.rec_addr"/>",
                         "捐款日期":"<t t-esc="o.donate_date"/>",
                         "團員編號":"<t t-esc="o.new_coding"/>",
                         "捐款金額":"<t t-esc="o.donate_total"/>",
@@ -132,7 +132,7 @@
                     {
                         "收據編號":"<t t-esc="o.title_doante_code"/>",
                         "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
-                        "住址":"<t t-esc="o.title_donate.con_addr"/>",
+                        "住址":"<t t-esc="o.title_donate.rec_addr"/>",
                         "捐款日期":"<t t-esc="o.title_doante_date"/>",
                         "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
                         "經手人":"<t t-esc="o.key_in_user.name"/>",
@@ -207,7 +207,7 @@
                     {
                         "收據編號":"<t t-esc="o.title_doante_code"/>",
                         "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
-                        "住址":"<t t-esc="o.title_donate.con_addr"/>",
+                        "住址":"<t t-esc="o.title_donate.rec_addr"/>",
                         "捐款日期":"<t t-esc="o.title_doante_date"/>",
                         "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
                         "經手人":"<t t-esc="o.key_in_user.name"/>",
@@ -276,7 +276,7 @@
                     {
                         "收據編號":"<t t-esc="o.title_doante_code"/>",
                         "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
-                        "住址":"<t t-esc="o.title_donate.con_addr"/>",
+                        "住址":"<t t-esc="o.title_donate.rec_addr"/>",
                         "捐款日期":"<t t-esc="o.title_doante_date"/>",
                         "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
                         "經手人":"<t t-esc="o.key_in_user.name"/>",
@@ -291,7 +291,7 @@
                     {
                         "收據編號":"<t t-esc="o.title_doante_code"/>",
                         "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
-                        "住址":"<t t-esc="o.title_donate.con_addr"/>",
+                        "住址":"<t t-esc="o.title_donate.rec_addr"/>",
                         "捐款日期":"<t t-esc="o.title_doante_date"/>",
                         "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
                         "經手人":"<t t-esc="o.key_in_user.name"/>",

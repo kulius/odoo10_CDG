@@ -105,6 +105,7 @@ class NormalP(models.Model):
     last_donate_money = fields.Integer('上次捐款金額')
     donate_batch_setting = fields.Boolean(string='確認捐款', default = False)
     postal_code_id = fields.Many2one(comodel_name='postal.code', string='郵遞區號關聯')
+    print_all_donor_list = fields.Boolean(string='列印願意捐助的眷屬')
 
     @api.onchange('last_donate_type')
     def set_default_last_donate_money(self):

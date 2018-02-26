@@ -3,7 +3,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 import datetime
 
-class CashierBlock(models.AbstractModel):
+class CashierBlock(models.Model):
     _name = 'cashier.block'
     block_num = fields.Integer('格子數量')
     from_target = fields.Many2many(comodel_name='normal.p')

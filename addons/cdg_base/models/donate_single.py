@@ -28,9 +28,10 @@ class DonateSingle(models.Model):
     self_iden = fields.Char(string='身分證字號', compute='set_donate_name', store=True)
     cellphone = fields.Char(string='手機', compute='set_donate_name', store=True)
     con_phone = fields.Char(string='聯絡電話', compute='set_donate_name', store=True)
-    zip_code = fields.Char(string='郵遞區號', compute='set_donate_name', store=True)
-    con_addr = fields.Char(string='聯絡地址', compute='set_donate_name', store=True)
-    rec_addr = fields.Char(string='收據地址') # 防錯的, 沒幹嘛
+    zip_code = fields.Char(string='報表郵遞區號', compute='set_donate_name', store=True)
+    con_addr = fields.Char(string='報表地址', compute='set_donate_name', store=True)
+    zip = fields.Char(string='收據郵遞區號', compute='set_donate_name')
+    rec_addr = fields.Char(string='收據地址', compute='set_donate_name')
 
     state = fields.Selection([(1, '已產生'), (2, '已列印'), (3, '已作廢')],
                              string='狀態', default=1, index=True)
@@ -214,6 +215,7 @@ class DonateSingle(models.Model):
         donate_user.rec_send = res_id.receipt_send #收據寄送
         donate_user.report_send = res_id.report_send #報表寄送
         donate_user.merge_report = res_id.year_receipt_send #年收據合併 開始捐款(年收據寄送) 已將年收據合併改為年收據寄送
+        donate_user.print_all_donor_list = res_id.print_all_donor_list
 
         user = self.env['res.users'].search([('login', '=', self.env.user.login)])
         user.payment_method = res_id.payment_method
@@ -518,9 +520,12 @@ class DonateSingle(models.Model):
             line.self_iden = normal_p.self_iden
             line.zip_code = normal_p.zip_code
             line.con_addr = normal_p.con_addr
+            line.zip = normal_p.zip
+            line.rec_addr = normal_p.rec_addr
             line.receipt_send = normal_p.rec_send
             line.report_send = normal_p.report_send
             line.year_receipt_send = normal_p.merge_report
+            line.print_all_donor_list = normal_p.print_all_donor_list
 
     def start_donate(self):
         action = self.env.ref('cdg_base.start_donate_action').read()[0]
