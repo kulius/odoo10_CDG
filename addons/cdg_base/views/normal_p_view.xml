@@ -351,6 +351,8 @@
             </field>
         </record>
 
+
+
         <record id="normal_p_action" model="ir.actions.act_window">
             <field name="name">捐款者基本資料</field>
             <field name="type">ir.actions.act_window</field>
@@ -420,7 +422,7 @@
         </record>
 
         <record id="cashier_block_action" model="ir.actions.server">
-            <field name="name">隨便我高興</field>
+            <field name="name">收費員捐款者名冊-新</field>
             <field name="model_id" ref="model_normal_p"/>
             <field name="code">
                 action =  object.cashier_block(context.get('active_ids', []))
@@ -429,8 +431,8 @@
 <!--object = normal_p -->
 
         <record model="ir.values" id="ir_values_cashier_block_button">
-            <field name="name">隨便我高興</field>
-            <field name="key2">client_print_multi</field>
+            <field name="name">收費員捐款者名冊-新</field>
+            <field name="key2">client_print_multi</field> <!-- key,key2是有特殊意義的不能隨意更改 -->
             <field name="value" eval="'ir.actions.server,%d'%cashier_block_action"/>
             <field name="key">action</field>
             <field name="object" eval="True"/>

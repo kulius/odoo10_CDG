@@ -139,8 +139,22 @@ class NormalP(models.Model):
         action = self.env.ref('cdg_base.donate_single_view_action').read()[0]
         action['context'] ={} # remove default domain condition in search box
         action['domain'] =[] # remove any value in search box
-        action['domain'] = ['&',('donate_member', '=', self.new_coding),('state','!=',3)] # set new domain condition to search data
+        action['domain'] = ['&',('donate_member.new_coding', '=', self.new_coding),('state','!=',3)]  # set new domain condition to search data
         return action
+
+    def cashier_block(self, ids):
+        res = []
+        for line in ids:
+            res.append([4,line])
+            wizard_data = self.env['cashier.block'].create({'from_target': res})
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'cashier.block',
+            'name': '收費員捐款者名冊-新',
+            'view_mode': 'form',
+            'res_id': wizard_data.id,
+            'target': 'new',
+        }
 
     def donate_batch(self,ids):
         res = []
@@ -159,21 +173,7 @@ class NormalP(models.Model):
             'target': 'new',
         }
 
-    def cashier_block(self, ids):
-        res = []
-        for line in ids:
-            res.append([4, line])
-            wizard_data = self.env['cashier.block'].create({
-                'from_target': res
-            })
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'cashier.block',
-            'name': '隨便我高興',
-            'view_mode': 'form',
-            'res_id': wizard_data.id,
-            'target': 'new',
-        }
+
 
     def check_batch_donate(self):
         if self.donate_batch_setting == True:
