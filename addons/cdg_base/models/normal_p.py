@@ -106,6 +106,11 @@ class NormalP(models.Model):
     donate_batch_setting = fields.Boolean(string='確認捐款', default = False)
     postal_code_id = fields.Many2one(comodel_name='postal.code', string='郵遞區號關聯')
 
+    @api.onchange('last_donate_type')
+    def set_default_last_donate_money(self):
+        if self.last_donate_type != False and self.last_donate_money == 0:
+            self.last_donate_money = 100
+
     @api.onchange('check_donate_order')
     def check_unlink(self):
         if self.check_donate_order:
