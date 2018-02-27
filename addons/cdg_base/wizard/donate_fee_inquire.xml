@@ -12,7 +12,7 @@
                     <field name="donate"/>
                     <field name="donate_type"/>
                     <field name="donate_date"/>
-                    <field name="clerk"/>
+                    <field name="cashier"/>
                 </tree>
             </field>
         </record>

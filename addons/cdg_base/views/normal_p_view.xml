@@ -299,6 +299,7 @@
                     <field name="con_phone"/>
                     <field name="cellphone"/>
                     <field name="rec_addr"/>
+                    <field name="con_addr"/>
                     <filter string="戶長" name="top_of_home" domain="[('donate_family1','!=', False)]"/>
                 </search>
             </field>
@@ -397,6 +398,8 @@
                     <field name="new_coding" string="捐款者編號"/>
                     <field name="name" string="捐款者姓名"/>
                     <field string="收費員" name="cashier_name" filter_domain="[('cashier_name', '=', self )]"/>
+                    <field name="rec_addr"/>
+                    <field name="con_addr"/>
 
                     <filter string="戶長" name="head" domain="[('donate_family1','!=', False)]" />
                 </search>

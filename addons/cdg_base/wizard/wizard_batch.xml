@@ -53,9 +53,10 @@
                             <field name="payment_method" />
                             <field name="work_id"/>
                         </group>
-                        <group col = "4">
+                        <group col = "6">
                             <field name="sum_donor_num"/>
                             <field name="sum_donate_total" />
+                            <field name="clean_all_check"/>
                         </group>
                     </sheet>
                     <footer>

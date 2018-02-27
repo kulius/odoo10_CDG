@@ -379,6 +379,7 @@ class NormalP(models.Model):
         if self.parent:
             self.zip = self.parent.zip
             self.rec_addr = self.parent.rec_addr
+            self.cashier_name = self.parent.cashier_name
 
 
     # def set_parent(self):

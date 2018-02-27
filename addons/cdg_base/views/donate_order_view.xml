@@ -47,6 +47,7 @@
                                 <!--<field name="city"/>-->
                             <field name="donate_type"/>
                             <field name="self_id"/>
+                            <field name="cashier"/>
                         </group>
                         <!--<span STYLE='FONT-SIZE:25PX'>捐款項目</span>-->
                         <!--<group col="4">-->

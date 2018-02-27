@@ -432,7 +432,7 @@ class DonateSingle(models.Model):
                     record.save_donate_list(5, line.donate_member, line.poor_help_money)
                 if line.noassign_money != 0:
                     record.save_donate_list(6, line.donate_member, line.noassign_money)
-                if self.print_all_donor_list and (line.bridge_money == 0 and line.road_money == 0 and line.coffin_money == 0 and line.poor_help_money == 0 and line.noassign_money == 0 ):
+                if record.print_all_donor_list and (line.bridge_money == 0 and line.road_money == 0 and line.coffin_money == 0 and line.poor_help_money == 0 and line.noassign_money == 0 ):
                     record.save_donate_list(6, line.donate_member, line.noassign_money)
         else:
             raise ValidationError(u'捐款名冊為空，無法進行捐款作業')
