@@ -636,7 +636,7 @@ class AppThemeConfigSettings(models.TransientModel):
             if j % 100 == 0:
                 print u"第%s筆 捐款編號: %s" % (j,line['捐款編號'])
             donate_total = line['max']
-            sql = "SELECT * FROM reorganization_table WHERE donate_id = '%s' ORDER BY donate_w_id_number" % (line['捐款編號'])
+            sql = "SELECT * FROM reorganization_table WHERE donate_id = '%s' AND donate_type = 3 ORDER BY donate_w_id_number" % (line['捐款編號'])
             self._cr.execute(sql)
             group_donate_data = self._cr.dictfetchall()
             num = len(group_donate_data)
@@ -680,7 +680,7 @@ class AppThemeConfigSettings(models.TransientModel):
             if j % 100 == 0:
                 print u"第%s筆 捐款編號: %s" % (j,line['捐款編號'])
             donate_total = line['max']
-            sql = "SELECT * FROM reorganization_table2 WHERE donate_id = '%s' ORDER BY donate_w_id_number" % (line['捐款編號'])
+            sql = "SELECT * FROM reorganization_table2 WHERE donate_id = '%s' AND donate_type = 3 ORDER BY donate_w_id_number" % (line['捐款編號'])
             self._cr.execute(sql)
             group_donate_data = self._cr.dictfetchall()
             num = len(group_donate_data)
