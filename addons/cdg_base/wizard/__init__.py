@@ -15,3 +15,4 @@ from . import cashier_empty
 from . import cashier_block
 from . import cashier_member
 from . import cashier_consultant
+from . import batch_change_print_state

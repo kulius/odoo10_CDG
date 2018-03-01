@@ -68,6 +68,7 @@
         'wizard/cashier_block_view.xml',
         'wizard/cashier_member_view.xml',
         'wizard/cashier_consultant_view.xml',
+        'wizard/batch_change_print_state.xml',
 
         'views/charity_view.xml',
 
