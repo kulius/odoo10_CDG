@@ -13,50 +13,17 @@
         <template id="receipt_empty_template">
             <t t-call="report.html_container">
                     <div class="page">
-                         <style type="text/css">
-                             h1{
-                                font-size: 40px;
-                                margin-left: 650px;
-                             }
-                         </style>
-                        <t t-set="i" t-value="1"/>
-                            <t t-if="num==1">
-                                <t t-foreach="20" t-as="i">
-                                    <h1 align="right">口</h1>
-                                    <t t-set="i" t-value="i+1"/>
-                                </t>
+                        <t t-set="i" t-value="1"></t>
+                          <t t-foreach="22" t-as="i">
+                            <t t-foreach="num" t-as="data">
+                                 <div style="float:right;display:inline-block;padding:20px;margin:5px;border: solid 2px black;"></div>
                             </t>
-                            <t t-elif="num==2">
-                                 <t t-foreach="20" t-as="i">
-                                    <h1 align="right">口口</h1>
-                                    <t t-set="i" t-value="i+1"/>
-                                </t>
-                            </t>
-                            <t t-elif="num==3">
-                                 <t t-foreach="20" t-as="i">
-                                    <h1 align="right">口口口</h1>
-                                    <t t-set="i" t-value="i+1"/>
-                                </t>
-                            </t>
-                            <t t-elif="num==4">
-                                 <t t-foreach="20" t-as="i">
-                                    <h1 align="right">口口口口</h1>
-                                    <t t-set="i" t-value="i+1"/>
-                                </t>
-                            </t>
-                            <t t-elif="num==5">
-                                 <t t-foreach="20" t-as="i">
-                                    <h1 align="right">口口口口口</h1>
-                                    <t t-set="i" t-value="i+1"/>
-                                </t>
-                            </t>
-                            <t t-else="">
-                                 <t t-foreach="20" t-as="i">
-                                    <h1 align="right">口口口口口口</h1>
-                                    <t t-set="i" t-value="i+1"/>
-                                </t>
-                            </t>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                          </t>
                     </div>
+                    <div style="clear:both;"></div>
             </t>
         </template>
 

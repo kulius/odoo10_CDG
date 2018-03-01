@@ -12,7 +12,6 @@ class ReportCashierRollDonor(models.AbstractModel):
         num = data['block_num']
         target = self.env['normal.p'].browse(data['from_target'])
 
-
         docargs = {
             'doc_ids': docids,
             'doc_model': 'normal.p',
