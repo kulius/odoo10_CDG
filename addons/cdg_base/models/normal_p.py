@@ -150,7 +150,35 @@ class NormalP(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'cashier.block',
-            'name': '收費員捐款者名冊-新',
+            'name': '收費員捐款者名冊',
+            'view_mode': 'form',
+            'res_id': wizard_data.id,
+            'target': 'new',
+        }
+
+    def cashier_member(self, ids):
+        res = []
+        for line in ids:
+            res.append([4,line])
+            wizard_data = self.env['cashier.member'].create({'from_target': res})
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'cashier.member',
+            'name': '收費員會員名冊',
+            'view_mode': 'form',
+            'res_id': wizard_data.id,
+            'target': 'new',
+        }
+
+    def cashier_consultant(self, ids):
+        res = []
+        for line in ids:
+            res.append([4,line])
+            wizard_data = self.env['cashier.consultant'].create({'from_target': res})
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'cashier.consultant',
+            'name': '收費員顧問名冊',
             'view_mode': 'form',
             'res_id': wizard_data.id,
             'target': 'new',

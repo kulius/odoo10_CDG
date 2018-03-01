@@ -13,4 +13,5 @@ from . import consultant_fee_generate
 from . import member_fee_generate
 from . import cashier_empty
 from . import cashier_block
-from . import batch_change_print_state
+from . import cashier_member
+from . import cashier_consultant
