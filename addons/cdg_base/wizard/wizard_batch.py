@@ -24,7 +24,7 @@ class WizardDonate(models.Model):
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]},default=lambda self: self.env.uid)
     sum_donor_num = fields.Integer(string='捐款人數',compute = 'compute_donate_data')
     sum_donate_total = fields.Integer(string='捐款總額',compute = 'compute_donate_data')
-    clean_all_check = fields.Boolean(string='是否清除所有 [確認] 按鈕')
+    clean_all_check = fields.Boolean(string='清除所有 [確認] 按鈕')
 
     def compute_donate_data(self):
         self.sum_donor_num = 0

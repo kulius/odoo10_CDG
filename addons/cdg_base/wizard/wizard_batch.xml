@@ -53,7 +53,7 @@
                             <field name="payment_method" />
                             <field name="work_id"/>
                         </group>
-                        <group col = "6">
+                        <group col = "9">
                             <field name="sum_donor_num"/>
                             <field name="sum_donate_total" />
                             <field name="clean_all_check"/>
