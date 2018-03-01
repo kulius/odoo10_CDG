@@ -300,6 +300,8 @@
                     <field name="cellphone"/>
                     <field name="rec_addr"/>
                     <field name="con_addr"/>
+                    <field string="上次捐款日期-起" name="last_donate_date" filter_domain="[('last_donate_date', '&gt;=',self )]"/>
+                    <field string="上次捐款日期-迄" name="last_donate_date" filter_domain="[('last_donate_date', '&lt;=',self)]"/>
                     <filter string="戶長" name="top_of_home" domain="[('donate_family1','!=', False)]"/>
                 </search>
             </field>
@@ -400,6 +402,7 @@
                     <field string="收費員" name="cashier_name" filter_domain="[('cashier_name', '=', self )]"/>
                     <field name="rec_addr"/>
                     <field name="con_addr"/>
+
 
                     <filter string="戶長" name="head" domain="[('donate_family1','!=', False)]" />
                 </search>
