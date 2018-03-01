@@ -148,7 +148,7 @@ class ReportDonateSinglePersonal(models.AbstractModel):
                 'title_doante_date':line.donate_date,
                 'work_id': line.cashier.id,
                 'title_Make_up_date': datetime.date.today(),
-                'title_state':line.state
+                'title_state':line.state,
             })
 
             line_data = []
@@ -243,18 +243,14 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 row.print_count += 1
                 row.print_date = datetime.date.today()
                 row.print_user = self.env.uid
-            flag = True
-
             for line in row.donate_list:
-                if line.donate_member.parent == row.donate_member.parent and flag == True:
+                if line.donate_member.parent == row.donate_member.parent:
                     merge_exist = False
                     for list in merge_res:
                         if list.donate_member == line.donate_member and list.donate_id == line.donate_id:
                             merge_exist = True
                     if merge_exist is False and line.donate_member.is_merge is True:
                         merge_res += line
-                        flag = False
-
                 if line.donate_member.is_merge is True:
                     merge_res_line += line
                 else:
@@ -268,7 +264,6 @@ class ReportDonateSingleDefault(models.AbstractModel):
 
         # 找出要合併列印的人，整理後放入報表用table
         for line in merge_res:
-
             tmp_id = report_line.create({
                 'title_donate': line.donate_member.id,
                 'title_doante_code': line.donate_id,
@@ -288,13 +283,10 @@ class ReportDonateSingleDefault(models.AbstractModel):
                         'donate_price': row.donate,
                         'is_merge':row.donate_member.is_merge
                     }])
-
-
             tmp_id.write({
                 'donate_line': line_data
             })
             report_line += tmp_id
-
 
         # 找出不合併列印的人，整理後放進報表用table
         for line in res:

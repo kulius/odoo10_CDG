@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="change_print_state_form" model="ir.ui.view">
+            <field name="name">change_state</field>
+            <field name="model">change.state</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="star_donate_id"/>
+                            <field name="end_donate_id"/>
+                            <field name="key_in_user"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="change_state" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="change_state_action" name="變更收據列印狀態" res_model="change.state"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>

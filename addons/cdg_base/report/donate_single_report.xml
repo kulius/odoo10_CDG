@@ -2,34 +2,34 @@
 <odoo>
     <data>
 
-        <report id="receipt_independent"
-                model="donate.single"
-                string="個人收據"
-                report_type="qweb-pdf"
-                name="cdg_base.receipt_single_independent_template"
-                paperformat="paper_form_cdg"
-        />
-        <report id="receipt_single_all"
-                model="donate.single"
-                string="合併收據"
-                report_type="qweb-pdf"
-                name="cdg_base.receipt_single_all_template"
-                paperformat="paper_form_cdg"
-        />
-        <report id="receipt_one_kind_one_person"
-                model="donate.single"
-                string="單獨收據"
-                report_type="qweb-pdf"
-                name="cdg_base.receipt_single_one_kind_one_person"
-                paperformat="paper_form_cdg"
-        />
-        <report id="receipt_default"
-                model="donate.single"
-                string="預設收據"
-                report_type="qweb-pdf"
-                name="cdg_base.receipt_single_default"
-                paperformat="paper_form_cdg"
-        />
+        <!--<report id="receipt_independent"-->
+                <!--model="donate.single"-->
+                <!--string="個人收據"-->
+                <!--report_type="qweb-pdf"-->
+                <!--name="cdg_base.receipt_single_independent_template"-->
+                <!--paperformat="paper_form_cdg"-->
+        <!--/>-->
+        <!--<report id="receipt_single_all"-->
+                <!--model="donate.single"-->
+                <!--string="合併收據"-->
+                <!--report_type="qweb-pdf"-->
+                <!--name="cdg_base.receipt_single_all_template"-->
+                <!--paperformat="paper_form_cdg"-->
+        <!--/>-->
+        <!--<report id="receipt_one_kind_one_person"-->
+                <!--model="donate.single"-->
+                <!--string="單獨收據"-->
+                <!--report_type="qweb-pdf"-->
+                <!--name="cdg_base.receipt_single_one_kind_one_person"-->
+                <!--paperformat="paper_form_cdg"-->
+        <!--/>-->
+        <!--<report id="receipt_default"-->
+                <!--model="donate.single"-->
+                <!--string="預設收據"-->
+                <!--report_type="qweb-pdf"-->
+                <!--name="cdg_base.receipt_single_default"-->
+                <!--paperformat="paper_form_cdg"-->
+        <!--/>-->
         <!--<report id="print_check"-->
                 <!--model="donate.single"-->
                 <!--string="預設收據_補單確認"-->

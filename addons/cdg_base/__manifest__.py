@@ -66,6 +66,7 @@
         'wizard/member_fee_generate.xml',
         'wizard/cashier_empty.xml',
         'wizard/cashier_block_view.xml',
+        'wizard/batch_change_print_state.xml',
 
         'views/charity_view.xml',
 

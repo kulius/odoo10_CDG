@@ -84,6 +84,11 @@
                   parent="first_categ"
                   action="collect_action"
                   sequence="5"/>
+        <menuitem id="change_state_menu"
+                  name="批次變更列印狀態"
+                  parent="first_categ"
+                  action="change_state_action"
+                  sequence="6"/>
         <!--<menuitem id="donate_batch"-->
                   <!--name="批次捐款"-->
                   <!--parent="first_categ"-->
