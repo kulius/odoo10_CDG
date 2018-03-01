@@ -23,6 +23,8 @@
                         { "type": "str", "size": 10, "name": "收費員", "required": false },
                         { "type": "str", "size": 50, "name": "捐款總額大寫", "required": false },
                         { "type": "str", "size": 20, "name": "捐款總額", "required": false },
+                        { "type": "str", "size": 20, "name": "列印日期", "required": false },
+                        { "type": "str", "size": 10, "name": "列印狀態", "required": false },
                     ],
                     "Data":[ ]
                 };
@@ -53,7 +55,9 @@
                         "經手人":"<t t-esc="o.key_in_user.name"/>",
                         "收費員":"<t t-esc="o.work_id.name"/>",
                         "捐款總額大寫":"<t t-esc="o.report_price_big"/>",
-                        "捐款總額":"<t t-esc="o.donate_total"/>"
+                        "捐款總額":"<t t-esc="o.donate_total"/>",
+                        "列印日期":"<t t-esc="o.print_date"/>" + " 補單",
+                        "列印狀態":"<t t-esc="o.state"/>"
                     });
                     <t t-foreach="o.donate_list" t-as="lines">
                         <t t-if="foo &lt; 23">
@@ -109,6 +113,8 @@
                         { "type": "str", "size": 10, "name": "收費員", "required": false },
                         { "type": "str", "size": 50, "name": "捐款總額大寫", "required": false },
                         { "type": "str", "size": 20, "name": "捐款總額", "required": false },
+                        { "type": "str", "size": 20, "name": "列印日期", "required": false },
+                        { "type": "str", "size": 10, "name": "列印狀態", "required": false },
                     ],
                     "Data":[ ]
                 };
@@ -138,7 +144,9 @@
                         "經手人":"<t t-esc="o.key_in_user.name"/>",
                         "收費員":"<t t-esc="o.work_id.name"/>",
                         "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
-                        "捐款總額":"<t t-esc="o.title_total_price"/>"
+                        "捐款總額":"<t t-esc="o.title_total_price"/>",
+                        "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
+                        "列印狀態":"<t t-esc="o.title_state"/>"
                     });
                     <t t-foreach="o.donate_line" t-as="lines">
                         <t t-if="foo &lt; 23">
@@ -197,6 +205,8 @@
                         { "type": "str", "size": 20, "name": "捐款總額", "required": false },
                         { "type": "str", "size": 10, "name": "捐款種類", "required": false },
                         { "type": "str", "size": 10, "name": "捐款金額", "required": false },
+                        { "type": "str", "size": 20, "name": "列印日期", "required": false },
+                        { "type": "str", "size": 10, "name": "列印狀態", "required": false },
                     ],
                     "Data":[ ]
                 };
@@ -216,6 +226,8 @@
                         "捐款總額":"<t t-esc="o.title_total_price"/>",
                         "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",
                         "捐款金額":"<t t-esc="lines.donate_price"/>",
+                        "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
+                        "列印狀態":"<t t-esc="o.title_state"/>"
                     });
                     </t>
                 </t>
@@ -252,6 +264,8 @@
                         { "type": "str", "size": 50, "name": "捐款總額大寫", "required": false },
                         { "type": "str", "size": 20, "name": "捐款總額", "required": false },
                         { "type": "str", "size": 20, "name": "是否合併收據", "required": false },
+                        { "type": "str", "size": 20, "name": "列印日期", "required": false },
+                        { "type": "str", "size": 10, "name": "列印狀態", "required": false },
                     ],
                     "Data":[ ]
                 };
@@ -284,6 +298,8 @@
                         "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
                         "捐款總額":"<t t-esc="o.title_total_price"/>",
                         "是否合併收據":"<t t-esc="1"/>",
+                        "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
+                        "列印狀態":"<t t-esc="o.title_state"/>"
                     });
                     </t>
                     <t t-if="o.title_donate.is_merge ==False">
@@ -299,12 +315,15 @@
                         "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
                         "捐款總額":"<t t-esc="o.title_total_price"/>",
                         "是否合併收據":"<t t-esc="o.title_donate.id"/>",
+                        "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
+                        "列印狀態":"<t t-esc="o.title_state"/>"
                     });
                     </t>
                     <t t-foreach="o.donate_line" t-as="lines">
                         <t t-if="foo &lt; 20">
                             <t t-if=" lines.is_merge ==True">
                                 <t t-set="foo" t-value="foo+1"/>
+                                <t t-if=" lines.donate_price != 0">
                                 _tableSaleOrderLines.Data.push(
                                 {
                                     "收據編號":"<t t-esc="lines.donate_id"/>",
@@ -313,6 +332,17 @@
                                     "捐款金額":"<t t-esc="lines.donate_price"/>",
                                     "是否合併收據":"<t t-esc="1"/>",
                                 });
+                                </t>
+                                <t t-if=" lines.donate_price == 0">
+                                _tableSaleOrderLines.Data.push(
+                                {
+                                    "收據編號":"<t t-esc="lines.donate_id"/>",
+                                    "捐款者姓名":"<t t-esc="lines.name"/>",
+                                    "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",
+                                    "捐款金額":" ",
+                                    "是否合併收據":"<t t-esc="1"/>",
+                                });
+                                </t>
                                 <t t-if="foo == 20">
                                     _tableSaleOrderLines.Data.push(
                                     {

@@ -28,7 +28,7 @@
                 <form class="o_sale_order">
                     <header>
                         <button name="button_to_cnacel_donate" string="作廢" type="object" class="oe_highlight"/>
-                        <field name="state" widget="statusbar" statusbar_visible="1,2,3"/>
+                        <field name="state" widget="statusbar" statusbar_visible="1,2,3" clickable="True"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
