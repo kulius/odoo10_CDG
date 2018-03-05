@@ -107,23 +107,6 @@ class NormalP(models.Model):
     postal_code_id = fields.Many2one(comodel_name='postal.code', string='郵遞區號關聯')
     print_all_donor_list = fields.Boolean(string='列印願意捐助的眷屬')
 
-    @api.multi
-    def consultant_fee_receipt_wizard(self):  # 會費收據列印的wizard
-        wizard_data = self.env['consultant.receipt'].create({
-            'cdg_consultant': self.id
-        })
-        action = self.env.ref('cdg_base.consultant_receipt_action').read()[0]
-        action['res_id'] = wizard_data.id
-        return action
-
-    @api.multi
-    def member_fee_receipt_wizard(self):  # 會費收據列印
-        # wizard_data = self.env['member.receipt'].create({
-        #     'cdg_member': self.id
-        # })
-        action = self.env.ref('cdg_base.member_receipt_action').read()[0]
-        return action
-
     @api.onchange('last_donate_type')
     def set_default_last_donate_money(self):
         if self.last_donate_type != False and self.last_donate_money == 0:

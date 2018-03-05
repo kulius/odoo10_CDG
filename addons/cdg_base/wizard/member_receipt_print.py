@@ -12,7 +12,6 @@ class memberreceiptprint(models.Model):
 
     def member_receipt_print(self):
         active_ids = self.env.context.get('active_ids')
-        member_id = self.env['normal.p'].browse(active_ids)
         datas = self.env['associatemember.fee'].search([('normal_p_id','=',active_ids),('year','=',self.pay_year)])
         if datas:
             if datas.fee_date == False:

@@ -11,6 +11,8 @@ class CashierListXlsx(ReportXlsx):
     def generate_xlsx_report(self,workbook,datas,env):
         sheet = workbook.add_worksheet()
 
+
+
         sheet.write(0, 0,u'捐款者編號')
         sheet.write(0, 1, u'舊團員編號')
         sheet.write(0, 2, u'姓名')

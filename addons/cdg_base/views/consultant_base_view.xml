@@ -23,7 +23,7 @@
                 <form class="o_sale_order">
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button name="consultant_fee_receipt_wizard" string="列印收據" type="object" class="oe_stat_button" icon="fa-file-text"></button>
+                            <button name="%(consultant_receipt_action)d" string="列印收據" type="action" class="oe_stat_button" icon="fa-file-text"></button>
                         </div>
                         <div class="oe_title">
                             <h1>

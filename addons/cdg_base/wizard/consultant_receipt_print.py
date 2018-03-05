@@ -11,7 +11,8 @@ class consultantreceiptprint(models.Model):
     print_user = fields.Many2one(comodel_name='res.users', string='列印人員', default=lambda self: self.env.uid)
 
     def consultant_receipt_print(self):
-        datas = self.env['consultant.fee'].search([('normal_p_id','=',self.cdg_consultant.id),('year','=',self.pay_year)])
+        active_ids = self.env.context.get('active_ids')
+        datas = self.env['consultant.fee'].search([('normal_p_id','=',active_ids),('year','=',self.pay_year)])
         if datas:
             if datas.fee_date == False:
                 raise ValidationError(u'請輸入繳費日期')
