@@ -126,13 +126,11 @@ class DonorSearch(models.Model):
         #     [self.env.ref('cdg_base.normal_p_tree').id, 'tree'],
         #     [self.env.ref('cdg_base.normal_p_form').id, 'form'],
         # ]
+        data_line = []
+        data = self.env['normal.p'].read([('report_send', '=' , True),('postal_code_id.city', '=', u'台北市')])
 
-        data = self.env['normal.p'].search([('report_send', '=' , True),('postal_code_id.city', '=', u'台北市')])
-
-        # action['limit'] = 1000
-        return True
-        # return {
-        #     'type': 'ir.actions.report.xml',
-        #     'report_name': 'cdg_base.cashier_list.xlsx',
-        #     'datas': env
-        # }
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'cdg_base.cashier_list.xlsx',
+            'datas': data_line
+        }

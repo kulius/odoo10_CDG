@@ -381,5 +381,62 @@
             </t>
         </template>
 
+        <template id="member_fee_print">
+            <t t-call="report.html_container">
+                <h1 class="col-12 text-center">繳費收據</h1>
+                <h3 class="col-12 text-center">正在列印輸出中，請稍候...</h3>
+                <script type="text/javascript">
+                var cfprint_addr = "127.0.0.1";   //列印伺服器監聽地址
+                var _delay_close = -1;          //列印完成後關閉視窗的延時時長(毫秒), -1則表示不關閉
+
+                var _tableSaleOrderLines = {
+                    "Name": "DonateSingleLines",
+                    "Cols":[
+                        { "type": "str", "size": 50, "name": "會員姓名", "required": false },
+                        { "type": "str", "size": 20, "name": "團員編號", "required": false },
+                        { "type": "str", "size": 50, "name": "住址", "required": false },
+                        { "type": "str", "size": 20, "name": "收據編號", "required": false },
+                        { "type": "str", "size": 10, "name": "捐款日期", "required": false },
+                        { "type": "str", "size": 10, "name": "經手人", "required": false },
+                        { "type": "str", "size": 10, "name": "收費員", "required": false },
+                        { "type": "str", "size": 50, "name": "捐款總額大寫", "required": false },
+                        { "type": "str", "size": 20, "name": "捐款總額", "required": false },
+                        { "type": "str", "size": 10, "name": "繳費種類", "required": false },
+                        { "type": "str", "size": 10, "name": "繳費金額", "required": false },
+                        { "type": "str", "size": 10, "name": "年份", "required": false },
+                    ],
+                    "Data":[ ]
+                };
+
+                <t t-foreach="docs" t-as="o">
+
+                    _tableSaleOrderLines.Data.push(
+                    {
+                        "會員姓名":"<t t-esc="o['member_name']"/>",
+                        "團員編號":"<t t-esc="o['new_coding']"/>",
+                        "住址":"<t t-esc="o['rec_addr']"/>",
+                        "收據編號":"<t t-esc="o['fee_code']"/>",
+                        "捐款日期":"<t t-esc="o['pay_date']"/>",
+                        "經手人":"<t t-esc="o['key_in_user']"/>",
+                        "收費員":"<t t-esc="o['cashier']"/>",
+                        "捐款總額大寫":"<t t-esc="o['price_big']"/>",
+                        "捐款總額":"<t t-esc="o['fee_payable']"/>",
+                        "繳費種類":"<t t-esc="o['type']"/>",
+                        "繳費金額":"<t t-esc="o['fee_payable']"/>"+"元",
+                        "年份":"民國"+"<t t-esc="o['year']"/>"+" 年",
+                    });
+
+                </t>
+                var _data = {"template": "member_receipt_print.fr3", "ver": 4, "Copies": 1, "Duplex": 0, "Preview": 1, "Tables":[]};
+
+                _data["Tables"].push(_tableSaleOrderLines);
+                var _reportData = JSON.stringify(_data);  //轉成json字元串
+
+                console.log(_reportData);
+                //生成資料之後，在cfprint_ext.js中會自動呼叫進行列印
+                </script>
+            </t>
+        </template>
+
     </data>
 </odoo>

@@ -774,11 +774,11 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 關聯資料共2814283筆, 花費133.597秒
         sql = " UPDATE associatemember_fee set key_in_user = a.id from res_users a where a.login = associatemember_fee.temp_key_in_user"
         self._cr.execute(sql)  #
-        sql = " UPDATE associatemember_fee set cashier_name = a.id from cashier_base a where a.c_id = associatemember_fee.clerk_id"
+        sql = " UPDATE associatemember_fee set cashier = a.id from cashier_base a where a.c_id = associatemember_fee.clerk_id"
         self._cr.execute(sql)  #
         sql = " UPDATE consultant_fee set key_in_user = a.id from res_users a where a.login = consultant_fee.temp_key_in_user"
         self._cr.execute(sql)  #
-        sql = " UPDATE consultant_fee set cashier_name = a.id from cashier_base a where a.c_id = consultant_fee.clerk_id"
+        sql = " UPDATE consultant_fee set cashier = a.id from cashier_base a where a.c_id = consultant_fee.clerk_id"
         self._cr.execute(sql)  #
         sql = " UPDATE coffin_base set key_in_user = a.id from res_users a where a.login = coffin_base.temp_key_in_user"
         self._cr.execute(sql)  #

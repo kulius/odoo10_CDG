@@ -2,9 +2,9 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 
 access_normal_p,access_normal_p,model_normal_p,cdg_base.cdg_employee,1,1,1,1
 access_c_worker,access_c_worker,model_c_worker,cdg_base.cdg_employee,1,1,1,1
-access_donate_single,access_donate_single,model_donate_single,cdg_base.cdg_employee,1,1,1,0
+access_donate_single,access_donate_single,model_donate_single,cdg_base.cdg_employee,1,1,1,1
 access_donate_family_line,access_donate_family_line,model_donate_family_line,cdg_base.cdg_employee,1,1,1,1
-access_donate_order,access_donate_order,model_donate_order,cdg_base.cdg_employee,1,1,1,0
+access_donate_order,access_donate_order,model_donate_order,cdg_base.cdg_employee,1,1,1,1
 access_c_worker,access_c_worker,model_c_worker,cdg_base.cdg_employee,1,1,1,1
 access_chang_donater,access_chang_donater,model_chang_donater,cdg_base.cdg_employee,1,1,1,1
 access_donate_single_report,access_donate_single_report,model_donate_single_report,cdg_base.cdg_employee,1,1,1,1
@@ -46,3 +46,4 @@ access_worker_data,access_worker_data,model_worker_data,cdg_base.cdg_employee,1,
 access_change_state,access_change_state,model_change_state,cdg_base.cdg_employee,1,1,1,1
 access_cashier_consultant,access_cashier_consultant,model_cashier_consultant,cdg_base.cdg_employee,1,1,1,1
 access_cashier_member,access_cashier_member,model_cashier_member,cdg_base.cdg_employee,1,1,1,1
+access_cf_template,access_cf_template,cfprint.model_cf_template,cdg_base.cdg_employee,1,1,1,1

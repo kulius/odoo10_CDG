@@ -319,3 +319,131 @@ class ReportDonateSingleDefault(models.AbstractModel):
             'docs': report_line,
         }
         return self.env['report'].render('cdg_base.donate_single_default', values=docargs)
+
+class ReportMemberReceiptPrint(models.AbstractModel):
+    _name = 'report.cdg_base.member_receipt_print'
+
+    @api.model
+    def render_html(self, docids, data=None):
+        target = self.env['associatemember.fee'].browse(data['member_id'])
+
+        line_data = []
+        for line in target:
+            # 金額大寫寫在這裡
+            money = self.convert(line.fee_payable)
+            line_data.append({
+                'member_name': line.member_name,
+                'pay_date': line.fee_date,
+                'fee_code':line.fee_code,
+                'year':line.year,
+                'fee_payable':line.fee_payable,
+                'cashier': line.cashier.name,
+                'rec_addr':line.rec_addr,
+                'new_coding': line.member_code,
+                'key_in_user': line.key_in_user.name,
+                'fee_payable':line.fee_payable,
+                'price_big': money,
+                'cashier':line.cashier.name,
+                'type': u'常年會費'
+            })
+
+        docargs = {
+            'docs': line_data,
+        }
+        return self.env['report'].render('cdg_base.member_fee_print', values=docargs)
+
+    def compute_price(self):
+        for line in self:
+            price = 0
+            for row in line.donate_line:
+                price += row.donate_price
+
+            line.title_total_price = price
+            line.title_total_price_big = self.convert(price)
+
+    def convert(self, n):
+        units = ['', '萬', '億']
+        nums = ['零', '壹', '貳', '參', '肆', '伍', '陸', '柒', '捌', '玖']
+        decimal_label = ['角', '分']
+        small_int_label = ['', '拾', '佰', '仟']
+        int_part, decimal_part = str(int(n)), str(n - int(n))[2:]  # 分离整数和小数部分
+
+        res = []
+        if decimal_part:
+            res.append(''.join([nums[int(x)] + y for x, y in zip(decimal_part, decimal_label) if x != '0']))
+
+        if int_part != '0':
+            while int_part:
+                small_int_part, int_part = int_part[-4:], int_part[:-4]
+                tmp = ''.join([nums[int(x)] + (y if x != '0' else '') for x, y in
+                               zip(small_int_part[::-1], small_int_label)[::-1]])
+                tmp = tmp.rstrip('零').replace('零零零', '零').replace('零零', '零')
+                unit = units.pop(0)
+                if tmp:
+                    tmp += unit
+                    res.append(tmp)
+        return ''.join(res[::-1])
+
+class ReportConsultantReceiptPrint(models.AbstractModel):
+    _name = 'report.cdg_base.consultant_receipt_print'
+
+    @api.model
+    def render_html(self, docids, data=None):
+        target = self.env['consultant.fee'].browse(data['consultant_id'])
+
+        line_data = []
+        for line in target:
+            # 金額大寫寫在這裡
+            money = self.convert(line.fee_payable)
+            line_data.append({
+                'member_name': line.consultant_name,
+                'pay_date': line.fee_date,
+                'fee_code':line.fee_code,
+                'year':line.year,
+                'fee_payable':line.fee_payable,
+                'cashier': line.cashier.name,
+                'rec_addr':line.rec_addr,
+                'new_coding': line.member_code,
+                'key_in_user': line.key_in_user.name,
+                'fee_payable':line.fee_payable,
+                'price_big': money,
+                'cashier':line.cashier.name,
+                'type': u'顧問費'
+            })
+
+        docargs = {
+            'docs': line_data,
+        }
+        return self.env['report'].render('cdg_base.member_fee_print', values=docargs)
+
+    def compute_price(self):
+        for line in self:
+            price = 0
+            for row in line.donate_line:
+                price += row.donate_price
+
+            line.title_total_price = price
+            line.title_total_price_big = self.convert(price)
+
+    def convert(self, n):
+        units = ['', '萬', '億']
+        nums = ['零', '壹', '貳', '參', '肆', '伍', '陸', '柒', '捌', '玖']
+        decimal_label = ['角', '分']
+        small_int_label = ['', '拾', '佰', '仟']
+        int_part, decimal_part = str(int(n)), str(n - int(n))[2:]  # 分离整数和小数部分
+
+        res = []
+        if decimal_part:
+            res.append(''.join([nums[int(x)] + y for x, y in zip(decimal_part, decimal_label) if x != '0']))
+
+        if int_part != '0':
+            while int_part:
+                small_int_part, int_part = int_part[-4:], int_part[:-4]
+                tmp = ''.join([nums[int(x)] + (y if x != '0' else '') for x, y in
+                               zip(small_int_part[::-1], small_int_label)[::-1]])
+                tmp = tmp.rstrip('零').replace('零零零', '零').replace('零零', '零')
+                unit = units.pop(0)
+                if tmp:
+                    tmp += unit
+                    res.append(tmp)
+        return ''.join(res[::-1])
