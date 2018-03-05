@@ -61,7 +61,7 @@ class ReportDonateSingle(models.AbstractModel):
         return ''.join(res[::-1])
 
 class DonateSingleReport(models.Model):
-    _name = 'donate.single.report.test'
+    _name = 'donate.single.report'
     _description = u'報表用來整理收據資料用table'
 
     title_donate = fields.Many2one(comodel_name='normal.p', string='收據收件人')
@@ -112,7 +112,7 @@ class DonateSingleReport(models.Model):
 
 
 class ReportLine(models.Model):
-    _name = 'report.line.test'
+    _name = 'report.line'
 
     parent_id = fields.Many2one(comodel_name='donate.single.report')
     name = fields.Char(string='捐款姓名')

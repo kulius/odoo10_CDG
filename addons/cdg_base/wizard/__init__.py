@@ -16,5 +16,3 @@ from . import cashier_block
 from . import cashier_member
 from . import cashier_consultant
 from . import batch_change_print_state
-from . import member_receipt_print
-from . import consultant_receipt_print

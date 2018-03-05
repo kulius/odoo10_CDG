@@ -107,22 +107,11 @@ class NormalP(models.Model):
     postal_code_id = fields.Many2one(comodel_name='postal.code', string='郵遞區號關聯')
     print_all_donor_list = fields.Boolean(string='列印願意捐助的眷屬')
 
-
-    @api.multi
-    def consultant_fee_receipt_wizard(self):  # 顧問費收據列印的wizard
-        wizard_data = self.env['consultant.receipt'].create({
-            'cdg_consultant': self.id
+    def member_fee_receipt_wizard(self): # 未完成
+        wizard_data = self.env['chang.donater'].create({
+            'from_target': self.id
         })
-        action = self.env.ref('cdg_base.consultant_receipt_action').read()[0]
-        action['res_id'] = wizard_data.id
-        return action
-
-    @api.multi
-    def member_fee_receipt_wizard(self): # 會費收據列印的wizard
-        wizard_data = self.env['member.receipt'].create({
-            'cdg_member': self.id
-        })
-        action = self.env.ref('cdg_base.member_receipt_action').read()[0]
+        action = self.env.ref('cdg_base.chang_donater_action').read()[0]
         action['res_id'] = wizard_data.id
         return action
 
@@ -169,7 +158,7 @@ class NormalP(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'cashier.block',
-            'name': '收費員捐款者名冊',
+            'name': '收費員捐款者名冊-新',
             'view_mode': 'form',
             'res_id': wizard_data.id,
             'target': 'new',
@@ -183,7 +172,7 @@ class NormalP(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'cashier.member',
-            'name': '收費員會員名冊',
+            'name': '收費員會員名冊-新',
             'view_mode': 'form',
             'res_id': wizard_data.id,
             'target': 'new',
@@ -197,7 +186,7 @@ class NormalP(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'cashier.consultant',
-            'name': '收費員顧問名冊',
+            'name': '收費員顧問名冊-新',
             'view_mode': 'form',
             'res_id': wizard_data.id,
             'target': 'new',

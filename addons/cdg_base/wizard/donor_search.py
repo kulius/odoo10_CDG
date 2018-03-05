@@ -119,12 +119,20 @@ class DonorSearch(models.Model):
         action['context'] = {}  # remove default domain condition in search box
         action['domain'] = []  # remove any value in search box
 
-        action['domain'] = [('report_send', '=' , True),('postal_code_id.city', '=', u'台北市')]
-        number = len(self.env['normal.p'].search([('report_send', '=' , True),('postal_code_id.city', '=', u'台北市')], order = "zip"))
+        # action['domain'] = [('report_send', '=' , True),('postal_code_id.city', '=', u'台北市')]
+        # number = len(self.env['normal.p'].search([('report_send', '=' , True),('postal_code_id.city', '=', u'台北市')], order = "zip"))
+        #
+        # action['views'] = [
+        #     [self.env.ref('cdg_base.normal_p_tree').id, 'tree'],
+        #     [self.env.ref('cdg_base.normal_p_form').id, 'form'],
+        # ]
 
-        action['views'] = [
-            [self.env.ref('cdg_base.normal_p_tree').id, 'tree'],
-            [self.env.ref('cdg_base.normal_p_form').id, 'form'],
-        ]
-        action['limit'] = 1000
-        return action
+        data = self.env['normal.p'].search([('report_send', '=' , True),('postal_code_id.city', '=', u'台北市')])
+
+        # action['limit'] = 1000
+        return True
+        # return {
+        #     'type': 'ir.actions.report.xml',
+        #     'report_name': 'cdg_base.cashier_list.xlsx',
+        #     'datas': env
+        # }

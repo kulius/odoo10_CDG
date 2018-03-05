@@ -25,17 +25,5 @@
                 report_type="qweb-html"
                 name="cdg_base.donate_single_default"
                 file="cdg_base.donate_single_default"/>
-        <report id="action_receipt_member_fee"
-                model="associatemember.fee"
-                string="會費收據"
-                report_type="qweb-html"
-                name="cdg_base.member_receipt_print"
-                file="cdg_base.member_receipt_print"/>
-        <report id="action_receipt_consultant_fee"
-                model="consultant.fee"
-                string="顧問費收據"
-                report_type="qweb-html"
-                name="cdg_base.consultant_receipt_print"
-                file="cdg_base.consultant_receipt_print"/>
     </data>
 </odoo>

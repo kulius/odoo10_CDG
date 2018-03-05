@@ -21,10 +21,10 @@
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
                 <form class="o_sale_order">
+                    <header>
+                        <button string="報表地址同收據地址" name="set_con_addr" type="object"></button>
+                    </header>
                     <sheet>
-                        <div class="oe_button_box" name="button_box">
-                            <button name="consultant_fee_receipt_wizard" string="列印收據" type="object" class="oe_stat_button" icon="fa-file-text"></button>
-                        </div>
                         <div class="oe_title">
                             <h1>
                                 <field name="new_coding" readonly="1"/>
@@ -70,14 +70,12 @@
                                 <field name="consultant_pay_history">
                                      <tree  editable="bottom">
                                          <field name="year"/>
-                                         <field name="fee_code"/>
                                          <field name="fee_date"/>
                                          <field name="fee_payable" context="{'default_fee_payable': active_id}"/>
                                          <field name="consultant_name"/>
                                          <field name="rec_addr"/>
                                          <field name="con_phone"/>
                                          <field name="cellphone"/>
-                                         <field name="cashier"/>
                                          <field name="normal_p_id" invisible = "1"/>
                                      </tree>
                                 </field>

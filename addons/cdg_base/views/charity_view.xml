@@ -290,11 +290,11 @@
                   parent="cashier_manage_categ"
                   action="hand_book_act"
                   sequence=""/>
-        <menuitem id="donate_list"
-                  name="收費名冊"
-                  parent="cashier_manage_categ"
-                  action="charity_view"
-                  sequence=""/>
+        <!--<menuitem id="donate_list"-->
+                  <!--name="收費名冊"-->
+                  <!--parent="cashier_manage_categ"-->
+                  <!--action="charity_view"-->
+                  <!--sequence=""/>-->
         <menuitem id="nothing_list"
                   name="空白收費名冊"
                   parent="cashier_manage_categ"
