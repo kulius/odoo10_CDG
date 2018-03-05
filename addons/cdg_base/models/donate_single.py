@@ -189,7 +189,7 @@ class DonateSingle(models.Model):
 
         historical_data_year = str(datetime.datetime.strptime(res_id.donate_date, '%Y-%m-%d').year) # 根據捐款日期取出捐款的年份
         historical_data_month = str(datetime.datetime.strptime(res_id.donate_date, '%Y-%m-%d').month) # 根據捐款日期取出捐款的月份
-        datas = self.env['donate.statistics'].search([('year','=',historical_data_year),('month','=',historical_data_month)]) # 搜尋計數器中有沒有資料
+        datas = self.env['donate.statistics'].search([('type','=','A'),('year','=',historical_data_year),('month','=',historical_data_month)]) # 搜尋計數器中有沒有資料
         if datas: # 如果有找到資料
             receipt_number = datas.receipt_number + 1
             res_id.write({
@@ -200,6 +200,7 @@ class DonateSingle(models.Model):
         else: # 如果沒有找到資料
             self.env['donate.statistics'].create({
                 'year': historical_data_year,
+                'type': 'A',
                 'month': historical_data_month,
                 'receipt_number' : 1,
                 'number' : i

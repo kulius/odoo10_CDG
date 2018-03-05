@@ -846,7 +846,7 @@ class AppThemeConfigSettings(models.TransientModel):
                 count_datas_households_number = len(self._cr.dictfetchall()) #依照捐款日期去計算已開出的收據張數並濾掉重複捐款團員編號, 確認該年該月份的捐款戶數
 
                 if count_datas_number != 0 or count_datas_receipt_number != 0:
-                    sql = " INSERT INTO donate_statistics(year, month, number, number_of_people, receipt_number, households) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')" % (y, m, count_datas_number, number_of_people, int(count_datas_receipt_number), count_datas_households_number)
+                    sql = " INSERT INTO donate_statistics(type, year, month, number, number_of_people, receipt_number, households) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')" % ('A', y, m, count_datas_number, number_of_people, int(count_datas_receipt_number), count_datas_households_number)
                     self._cr.execute(sql)
                 m = m + 1
             m = 1
