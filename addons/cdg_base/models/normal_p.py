@@ -109,7 +109,7 @@ class NormalP(models.Model):
 
 
     @api.multi
-    def consultant_fee_receipt_wizard(self):  # 會費收據列印的wizard
+    def consultant_fee_receipt_wizard(self):  # 顧問費收據列印的wizard
         wizard_data = self.env['consultant.receipt'].create({
             'cdg_consultant': self.id
         })
@@ -118,7 +118,7 @@ class NormalP(models.Model):
         return action
 
     @api.multi
-    def member_fee_receipt_wizard(self): # 會費收據列印
+    def member_fee_receipt_wizard(self): # 會費收據列印的wizard
         wizard_data = self.env['member.receipt'].create({
             'cdg_member': self.id
         })
