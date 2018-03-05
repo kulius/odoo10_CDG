@@ -114,24 +114,14 @@ class DonorSearch(models.Model):
             self.is_Nangan =False
 
     def search_area_donor(self):
-        number = 0
-        action = self.env.ref('cdg_base.normal_p_action').read()[0]
-        action['context'] = {}  # remove default domain condition in search box
-        action['domain'] = []  # remove any value in search box
+        ids = self.env['normal.p'].search([('report_send', '=' , True),('postal_code_id.city', '=', u'台北市')]).ids
 
-        # action['domain'] = [('report_send', '=' , True),('postal_code_id.city', '=', u'台北市')]
-        # number = len(self.env['normal.p'].search([('report_send', '=' , True),('postal_code_id.city', '=', u'台北市')], order = "zip"))
-        #
-        # action['views'] = [
-        #     [self.env.ref('cdg_base.normal_p_tree').id, 'tree'],
-        #     [self.env.ref('cdg_base.normal_p_form').id, 'form'],
-        # ]
-        data_line = []
-        data = self.env['normal.p'].search([('report_send', '=' , True),('postal_code_id.city', '=', u'台北市')])
-
+        docargs = {
+            'docs': ids,
+        }
 
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'cdg_base.cashier_list.xlsx',
-            'datas': data.ids
+            'datas': docargs
         }

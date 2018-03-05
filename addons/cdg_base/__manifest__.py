@@ -72,6 +72,7 @@
         'report/donate_single_report_print.xml',
         'report/empty_cashier_report.xml',
         'report/report_cashier_roll.xml',
+        'report/cashier_list_tree.xml',
 
         'views/charity_view.xml',
 
