@@ -14,18 +14,21 @@ class consultantfeegenerate(models.Model):
         for line in basic_setting:
             if line.key == 'Annual_consultants_fee':
                 Annual_consultants_fee = int(line.value)
-        if self.year == 4:
+        if len(str(self.year)) == 4:
             self.year = self.year - 1911
 
-        sql = "SELECT DISTINCT on (consultant_id) * FROM normal_p WHERE consultant_id <>'' and con_addr<>'' "
-        self._cr.execute(sql)
-        dict = self._cr.dictfetchall()
-        for i in range(len(dict)):
+        data_line = []
+        normal_p_consultants = self.env['normal.p'].search([('type.id','=',4)]).ids
+        consultant_fee_datas = self.env['consultant.fee'].search([('year','=',self.year)]).normal_p_id.ids
+
+        data_line = list(set(normal_p_consultants) - set(consultant_fee_datas))
+        target = self.env['normal.p'].browse(data_line)
+        for line in target:
             self.env['consultant.fee'].create({
                 'year':self.year,
                 'fee_payable':Annual_consultants_fee,
-                'normal_p_id': dict[i]['id'],
-                'cashier':dict[i]['cashier_name'],
-                'key_in_user':self.key_in_user.id
+                'normal_p_id': line.id,
+                'cashier':line.cashier.id,
+                'key_in_user': self.key_in_user.id
             })
         return True

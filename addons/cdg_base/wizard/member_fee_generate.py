@@ -14,18 +14,21 @@ class memnberfeegenerate(models.Model):
         for line in basic_setting:
             if line.key == 'Annual_membership_fee':
                 Annual_membership_fee = int(line.value)
-        if self.year == 4:
+        if len(str(self.year)) == 4:
             self.year = self.year - 1911
 
-        sql = "SELECT DISTINCT on (member_id) * FROM normal_p WHERE member_id <>'' and con_addr<>'' "
-        self._cr.execute(sql)
-        dict = self._cr.dictfetchall()
-        for i in range(len(dict)):
+        data_line = []
+        normal_p_members = self.env['normal.p'].search(['|',('type.id','=',2),('type.id','=',3)]).ids
+        member_fee_datas = self.env['associatemember.fee'].search([('year','=',self.year)]).normal_p_id.ids
+
+        data_line = list(set(normal_p_members) - set(member_fee_datas))
+        target = self.env['normal.p'].browse(data_line)
+        for line in target:
             self.env['associatemember.fee'].create({
-                'year': self.year,
-                'fee_payable': Annual_membership_fee,
-                'normal_p_id': dict[i]['id'],
-                'cashier': dict[i]['cashier_name'],
+                'year':self.year,
+                'fee_payable':Annual_membership_fee,
+                'normal_p_id': line.id,
+                'cashier':line.cashier.id,
                 'key_in_user': self.key_in_user.id
             })
         return True
