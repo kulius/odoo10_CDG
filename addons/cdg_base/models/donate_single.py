@@ -185,6 +185,8 @@ class DonateSingle(models.Model):
         if not is_donate_flag or not donate_total_flag:
             raise ValidationError(u'請至少有一人需要捐款')
 
+
+
         historical_data_year = str(datetime.datetime.strptime(res_id.donate_date, '%Y-%m-%d').year) # 根據捐款日期取出捐款的年份
         historical_data_month = str(datetime.datetime.strptime(res_id.donate_date, '%Y-%m-%d').month) # 根據捐款日期取出捐款的月份
         datas = self.env['donate.statistics'].search([('year','=',historical_data_year),('month','=',historical_data_month)]) # 搜尋計數器中有沒有資料
@@ -216,6 +218,7 @@ class DonateSingle(models.Model):
         donate_user.report_send = res_id.report_send #報表寄送
         donate_user.merge_report = res_id.year_receipt_send #年收據合併 開始捐款(年收據寄送) 已將年收據合併改為年收據寄送
         donate_user.print_all_donor_list = res_id.print_all_donor_list
+        donate_user.last_donate_date = res_id.donate_date # 上次捐款時間
 
         user = self.env['res.users'].search([('login', '=', self.env.user.login)])
         user.payment_method = res_id.payment_method
