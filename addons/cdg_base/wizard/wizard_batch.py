@@ -50,6 +50,7 @@ class WizardDonate(models.Model):
             if line.donate_batch_setting:
                 for row in line.donate_family1:
                     if row.is_donate is True:
+                        row.last_donate_date = self.donate_date
                         if row.last_donate_type == 1:
                             self.bridge_money = row.last_donate_money
                             self.bridge = True
@@ -91,7 +92,7 @@ class WizardDonate(models.Model):
                     'donate_date':self.donate_date,
                     'work_id':self.work_id.id,
                     'key_in_user':self.key_in_user.id,
-                    'payment_method':self.payment_method
+                    'payment_method':self.payment_method,
                 })
             if self.clean_all_check:
                 line.donate_batch_setting = False

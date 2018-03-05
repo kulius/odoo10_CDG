@@ -15,16 +15,23 @@
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
+        <record id="cdg_employee_coffin" model="res.groups">
+            <field name="name">施棺組</field>
+            <field name="category_id" ref="cdg_base.cdg_management"/>
+            <field name="implied_ids" eval="[(4, ref('cdg_base.cdg_employee'))]"/>
+        </record>
+
         <record id="cdg_donater" model="res.groups">
             <field name="name">捐款者</field>
             <field name="category_id" ref="cdg_base.cdg_management"/>
-            <field name="implied_ids" eval="[(4, ref('cdg_base.cdg_employee'))]"/>
+            <field name="implied_ids" eval="[(4, ref('cdg_base.cdg_employee_coffin'))]"/>
         </record>
 
         <record id="cdg_employee_donate_self" model="ir.rule">
             <field name="name">行善團員工看自己捐款</field>
             <field name="model_id" ref="cdg_base.model_donate_single"/>
-            <field name="domain_force">[('create_uid','=', user.id)]</field>
+            <field name="domain_force">[]</field>
+            <!--<field name="domain_force">[('create_uid','=', user.id)]</field>-->
             <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>
             <field name="perm_read" eval="1"/>
@@ -37,7 +44,8 @@
         <record id="cdg_donater_self" model="ir.rule">
             <field name="name">捐款者看自己的捐款</field>
             <field name="model_id" ref="cdg_base.model_donate_single"/>
-            <field name="domain_force">[('create_uid','=', user.id)]</field>
+            <field name="domain_force">[]</field>
+            <!--<field name="domain_force">[('create_uid','=', user.id)]</field>-->
             <field name="perm_write" eval="0"/>
             <field name="perm_create" eval="0"/>
             <field name="perm_read" eval="1"/>

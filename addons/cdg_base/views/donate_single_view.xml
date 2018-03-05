@@ -149,7 +149,7 @@
             <field name="model">donate.single</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="name"/>
+                    <field name="donate_member"/>
                     <field name="key_in_user"/>
                     <field name="work_id"/>
                     <field name="donate_id"/>
@@ -178,7 +178,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">donate.single</field>
             <field name="view_mode">tree,form</field>
-            <!--<!<field name="domain">[('create_uid','=',uid)]</field>-->
+            <field name="domain">[]</field>
             <field name="context">{'search_default_un_print_donate': 1}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">

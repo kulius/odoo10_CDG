@@ -101,11 +101,11 @@
                   <!--parent="first_categ"-->
                   <!--action="charity_view"-->
                   <!--sequence="7"/>-->
-        <!--<menuitem id="donor_search"-->
-                  <!--name="季報表名冊查詢"-->
-                  <!--parent="first_categ"-->
-                  <!--action="donor_search_action"-->
-                  <!--sequence="6"/>-->
+        <menuitem id="donor_search"
+                  name="季報表名冊查詢"
+                  parent="first_categ"
+                  action="donor_search_action"
+                  sequence="6"/>
 
         <!--<menuitem id="group_manage_root" name="團員管理" sequence=""/>
         <menuitem id="grouper_base"

@@ -17,6 +17,7 @@ class ConsultantFeeOnly(models.Model):
     clerk_id = fields.Char(string='收費員編號')
     normal_p_id = fields.Many2one(comodel_name='normal.p', string='關聯的顧問')
     consultant_name = fields.Char(string='顧問姓名', related='normal_p_id.name')
+    member_code = fields.Char(string='捐款者編號', related='normal_p_id.new_coding')
     rec_addr = fields.Char(string='收據地址', related='normal_p_id.rec_addr')
     con_phone = fields.Char(string='連絡電話', related='normal_p_id.con_phone')
     cellphone = fields.Char(string='手機', related='normal_p_id.cellphone')
