@@ -23,7 +23,7 @@ class donatefeeinquire(models.Model):
         action['domain'] = []  # remove any value in search box
 
         action['domain'] = [('donate_member.name', '=', self.donor_id.name)]
-        number = len(self.env['donate.order'].search([('donate_member.name', '=',self.donor_id.name)]))
+        number = len(self.env['donate.order'].search([('donate_member.id', '=',self.donor_id.id)]))
 
         action['views'] = [
             [self.env.ref('cdg_base.donate_order_inquire_tree').id, 'tree'],

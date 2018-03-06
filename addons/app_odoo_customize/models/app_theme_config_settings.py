@@ -872,7 +872,7 @@ class AppThemeConfigSettings(models.TransientModel):
     #             if len(line.zip) < 3:
     #                 s['999'] += 1  # 該郵遞區號出現次數 +1
     #                 line.new_coding = '999' + str(s.get('999')).zfill(5)  # 什麼都沒有的一般捐款者
-    #             elif len(line.zip) >= 3:
+    #             elif len(line.zip) >= 3 and (u'\u0030' <= line.zip[0] <= u'\u0039'):
     #                 for ch in line.zip:
     #                     if int(line.zip[0]) == 0:
     #                         flag = False
@@ -918,7 +918,7 @@ class AppThemeConfigSettings(models.TransientModel):
     #             if len(line.zip) < 3:
     #                 s['999'] += 1  # 該郵遞區號出現次數 +1
     #                 line.new_coding = '999' + str(s.get('999')).zfill(5)  # 什麼都沒有的一般捐款者
-    #             elif len(line.zip) >= 3:
+    #             elif len(line.zip) >= 3 and (u'\u0030' <= line.zip[0] <= u'\u0039'):
     #                 for ch in line.zip:
     #                     if int(line.zip[0]) == 0:
     #                         flag = False
