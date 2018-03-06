@@ -22,7 +22,7 @@ class donatefeeinquire(models.Model):
         action['context'] = {}  # remove default domain condition in search box
         action['domain'] = []  # remove any value in search box
 
-        action['domain'] = [('donate_member.name', '=', self.donor_id.name)]
+        action['domain'] = [('donate_member.id', '=', self.donor_id.id)]
         number = len(self.env['donate.order'].search([('donate_member.id', '=',self.donor_id.id)]))
 
         action['views'] = [
