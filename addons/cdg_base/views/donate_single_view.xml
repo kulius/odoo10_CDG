@@ -93,7 +93,8 @@
                                     <field name="print_all_donor_list"/>
                                 </group>
                                 <field name="family_check">
-                                    <tree editable="bottom">
+                                    <tree editable="bottom" default_order='sequence'>
+                                        <field name="sequence" widget="handle"/>
                                         <field name="donate_member" options="{'no_quick_create': True, 'no_create_edit' : True}" context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form', 'search_view_ref':'cdg_base.normal_p_search'}" readonly="1"/>
                                         <field name="is_donate"/>
                                         <field name="is_merge"/>

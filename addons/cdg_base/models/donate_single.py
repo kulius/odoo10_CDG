@@ -84,6 +84,8 @@ class DonateSingle(models.Model):
     clear_all_is_merge = fields.Boolean(string='清除 [是否合併收據]')
     set_today = fields.Boolean(string='今天')
 
+
+
     @api.onchange('set_today')
     def set_today_donate(self):
         if self.set_today == True:
@@ -549,3 +551,5 @@ class DonateSingleLine(models.Model):
     coffin_money = fields.Integer(string='施棺')
     poor_help_money = fields.Integer(string='貧困扶助')
     noassign_money = fields.Integer(string='一般捐款')
+
+    sequence = fields.Integer(string='排序')
