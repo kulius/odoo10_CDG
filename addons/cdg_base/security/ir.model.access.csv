@@ -47,3 +47,5 @@ access_change_state,access_change_state,model_change_state,cdg_base.cdg_employee
 access_cashier_consultant,access_cashier_consultant,model_cashier_consultant,cdg_base.cdg_employee,1,1,1,1
 access_cashier_member,access_cashier_member,model_cashier_member,cdg_base.cdg_employee,1,1,1,1
 access_cf_template,access_cf_template,cfprint.model_cf_template,cdg_base.cdg_employee,1,1,1,1
+access_consultant_receipt,access_consultant_receipt,model_consultant_receipt,cdg_base.cdg_employee,1,1,1,1
+access_member_receipt,access_member_receipt,model_member_receipt,cdg_base.cdg_employee,1,1,1,1

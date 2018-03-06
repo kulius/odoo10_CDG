@@ -33,7 +33,7 @@ class DonateOrderXlsx(ReportXlsx):
                     sheet.write(self.count, 4, u"鋪路")
                 elif line.donate_type == 3:
                     sheet.write(self.count, 4, u"施棺")
-                elif line.donate_type == 5:
+                elif line.donate_type == 4:
                     sheet.write(self.count, 4, u"伙食費")
                 elif line.donate_type == 5:
                     sheet.write(self.count, 4, u"貧困扶助")

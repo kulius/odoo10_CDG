@@ -101,7 +101,7 @@ class NormalP(models.Model):
     is_delete = fields.Boolean(string='未有捐款紀錄', default = False)
 
     last_donate_date = fields.Date('上次捐款日期')
-    last_donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (04, '伙食費'), (05, '貧困扶助'),(06, '一般捐款'), (99, '其他工程')],string='捐款種類')
+    last_donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (05, '貧困扶助'),(06, '一般捐款')],string='捐款種類')
     last_donate_money = fields.Integer('上次捐款金額')
     donate_batch_setting = fields.Boolean(string='確認捐款', default = False)
     postal_code_id = fields.Many2one(comodel_name='postal.code', string='郵遞區號關聯')
