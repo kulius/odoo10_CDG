@@ -49,6 +49,8 @@ class WizardDonate(models.Model):
             res_line = []
             if line.donate_batch_setting:
                 for row in line.donate_family1:
+                    if line.new_coding == row.new_coding and (row.is_donate is False or row.last_donate_type is False or row.last_donate_money == 0):
+                        raise ValidationError(u'捐款者編號 : %s，因戶長並無捐款意願，而無法透過 [收費員批次捐款] 捐款，請至 [捐款作業] 進行捐款，謝謝。 ' % line.new_coding)
                     if row.is_donate is True:
                         row.last_donate_date = self.donate_date
                         if row.last_donate_type == 1:

@@ -27,7 +27,7 @@
             <field name="name">normal_p_batch_tree</field>
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
-                <tree string="">
+                <tree default_order='new_coding'>
                     <field name="new_coding"/>
                     <field name="w_id"/>
                     <field name="name"/>
