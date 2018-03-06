@@ -113,7 +113,9 @@
                   <field name="con_addr"/>
                   <field name="user_iden"/>
                   <field name="geter_iden"/>
-                  <field string="領款日期" name="coffin_date" filter_domain="[('coffin_date', '=',self)]"/>
+
+                  <field string="領款日期-起" name="coffin_date" filter_domain="[('coffin_date', '&gt;=',self)]"/>
+                  <field string="領款日期-訖" name="coffin_date" filter_domain="[('coffin_date', '&lt;=',self)]"/>
                 </search>
             </field>
         </record>
