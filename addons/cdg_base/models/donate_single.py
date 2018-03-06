@@ -185,8 +185,6 @@ class DonateSingle(models.Model):
         if not is_donate_flag or not donate_total_flag:
             raise ValidationError(u'請至少有一人需要捐款')
 
-
-
         historical_data_year = str(datetime.datetime.strptime(res_id.donate_date, '%Y-%m-%d').year) # 根據捐款日期取出捐款的年份
         historical_data_month = str(datetime.datetime.strptime(res_id.donate_date, '%Y-%m-%d').month) # 根據捐款日期取出捐款的月份
         datas = self.env['donate.statistics'].search([('type','=','A'),('year','=',historical_data_year),('month','=',historical_data_month)]) # 搜尋計數器中有沒有資料

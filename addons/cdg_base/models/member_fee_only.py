@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 import logging, time
 from datetime import datetime
 
@@ -43,3 +44,11 @@ class MemberFeeOnly(models.Model):
         if flag == False:
             self.fee_payable = First_Annual_membership_fee
 
+    @api.model
+    def create(self, vals):
+        res_id = super(MemberFeeOnly, self).create(vals)
+        if res_id.year == 0:
+            raise ValidationError(u'請輸入繳費年度')
+        elif res_id.year != 0:
+            res_id.fee_code = 'F' + str(int(datetime.strptime(res_id.fee_date, '%Y-%m-%d').year) - 1911) + res_id.member_code
+        return res_id

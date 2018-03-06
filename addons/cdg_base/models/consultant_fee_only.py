@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 from datetime import datetime
 import logging, time
 
@@ -33,3 +34,12 @@ class ConsultantFeeOnly(models.Model):
             if line.key == 'Annual_consultants_fee':
                 Annual_consultants_fee = int(line.value)
         self.fee_payable = Annual_consultants_fee
+
+    @api.model
+    def create(self, vals):
+        res_id = super(ConsultantFeeOnly, self).create(vals)
+        if res_id.year == 0:
+            raise ValidationError(u'請輸入繳費年度')
+        elif res_id.year != 0:
+            res_id.fee_code = 'K' + str(int(datetime.strptime(res_id.fee_date, '%Y-%m-%d').year) - 1911) + res_id.member_code
+        return res_id
