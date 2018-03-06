@@ -114,7 +114,7 @@ class DonorSearch(models.Model):
             self.is_Nangan =False
 
     def search_area_donor(self):
-        ids = self.env['normal.p'].search([('report_send', '=' , True),('postal_code_id.city', '=', u'台北市')]).ids
+        ids = self.env['normal.p'].search([]).ids
 
         docargs = {
             'docs': ids,
