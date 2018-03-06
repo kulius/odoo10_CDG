@@ -184,6 +184,7 @@ class DonateSingle(models.Model):
                 i = i + 1
             if line.bridge_money or line.road_money or line.coffin_money or line.poor_help_money or line.noassign_money:
                 donate_total_flag = True
+
         if not is_donate_flag or not donate_total_flag:
             raise ValidationError(u'請至少有一人需要捐款')
 
@@ -423,7 +424,6 @@ class DonateSingle(models.Model):
         self.state = 3
 
     def add_to_list_create(self, record):
-
         if record.family_check:
             for line in record.family_check.filtered(lambda  x :x.is_donate==True):
                 if line.bridge_money != 0:
@@ -476,7 +476,8 @@ class DonateSingle(models.Model):
                     'payment_method': int(self.payment_method),
                     'available_balance': money,
                     'key_in_user': self.key_in_user.id,
-                    'cashier':self.work_id.id
+                    'cashier':self.work_id.id,
+                    'print_all_donor_list': self.print_all_donor_list
                 })]
             })
         else:
@@ -490,7 +491,8 @@ class DonateSingle(models.Model):
                     'self_id': member_id.self_iden,
                     'payment_method': int(self.payment_method),
                     'key_in_user': self.key_in_user.id,
-                    'cashier': self.work_id.id
+                    'cashier': self.work_id.id,
+                    'print_all_donor_list': self.print_all_donor_list
                 })]
             })
 

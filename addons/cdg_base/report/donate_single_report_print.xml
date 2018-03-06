@@ -213,22 +213,24 @@
                 <t t-set="donate_type" t-value="dict([(01,'造橋'),(02,'補路'),(03,'施棺'),(04,'伙食費'),(05,'貧困扶助'),(06,'一般捐款'),(99,'其他工程')])"/>
                 <t t-foreach="docs" t-as="o">
                     <t t-foreach="o.donate_line" t-as="lines">
-                    _tableSaleOrderLines.Data.push(
-                    {
-                        "收據編號":"<t t-esc="o.title_doante_code"/>",
-                        "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
-                        "住址":"<t t-esc="o.title_donate.rec_addr"/>",
-                        "捐款日期":"<t t-esc="o.title_doante_date"/>",
-                        "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
-                        "經手人":"<t t-esc="o.key_in_user.name"/>",
-                        "收費員":"<t t-esc="o.work_id.name"/>",
-                        "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
-                        "捐款總額":"<t t-esc="o.title_total_price"/>",
-                        "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",
-                        "捐款金額":"<t t-esc="lines.donate_price"/>",
-                        "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
-                        "列印狀態":"<t t-esc="o.title_state"/>"
-                    });
+                        <t t-if="lines.donate_price != 0">
+                            _tableSaleOrderLines.Data.push(
+                            {
+                                "收據編號":"<t t-esc="o.title_doante_code"/>",
+                                "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
+                                "住址":"<t t-esc="o.title_donate.rec_addr"/>",
+                                "捐款日期":"<t t-esc="o.title_doante_date"/>",
+                                "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
+                                "經手人":"<t t-esc="o.key_in_user.name"/>",
+                                "收費員":"<t t-esc="o.work_id.name"/>",
+                                "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
+                                "捐款總額":"<t t-esc="o.title_total_price"/>",
+                                "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",
+                                "捐款金額":"<t t-esc="lines.donate_price"/>",
+                                "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
+                                "列印狀態":"<t t-esc="o.title_state"/>"
+                            });
+                        </t>
                     </t>
                 </t>
                 var _data = {"template": "donate_single_one_kind_one_person.fr3", "ver": 4, "Copies": 1, "Duplex": 0, "Preview": 1, "Tables":[]};

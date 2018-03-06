@@ -64,6 +64,7 @@ class ReportLine(models.Model):
                                    string='捐款種類')
     donate_price = fields.Integer(string='捐款金額')
     is_merge = fields.Boolean(string='是否合併收據')
+    print_all_donor_list = fields.Boolean(string='列印願意捐助的眷屬')
 
 class ReportDonateSingleMerge(models.AbstractModel):
     _name = 'report.cdg_base.donate_single_merge'
@@ -244,12 +245,12 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 row.print_date = datetime.date.today()
                 row.print_user = self.env.uid
             for line in row.donate_list:
-                if line.donate_member.parent == row.donate_member.parent:
+                if line.donate_member == row.donate_member:
                     merge_exist = False
                     for list in merge_res:
                         if list.donate_member == line.donate_member and list.donate_id == line.donate_id:
                             merge_exist = True
-                    if merge_exist is False and line.donate_member.is_merge is True:
+                    if merge_exist is False:
                         merge_res += line
                 if line.donate_member.is_merge is True:
                     merge_res_line += line
@@ -281,7 +282,7 @@ class ReportDonateSingleDefault(models.AbstractModel):
                         'donate_member_id': line.donate_member.id,
                         'donate_type': row.donate_type,
                         'donate_price': row.donate,
-                        'is_merge':row.donate_member.is_merge
+                        'is_merge':row.donate_member.is_merge,
                     }])
             tmp_id.write({
                 'donate_line': line_data
@@ -306,7 +307,7 @@ class ReportDonateSingleDefault(models.AbstractModel):
                         'donate_member_id': line.donate_member.id,
                         'donate_type': row.donate_type,
                         'donate_price': row.donate,
-                        'is_merge': row.donate_member.is_merge
+                        'is_merge': row.donate_member.is_merge,
                     }])
             tmp_id.write({
                 'donate_line': line_data
