@@ -22,7 +22,7 @@
             <field name="arch" type="xml">
                 <form class="o_sale_order">
                     <header>
-                        <button string="匯入收費員檔" name="data_input_cashier" type="object"/>
+                        <!--<button string="匯入收費員檔" name="data_input_cashier" type="object"/>-->
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
