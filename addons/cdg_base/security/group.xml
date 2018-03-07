@@ -8,61 +8,23 @@
             <field name="sequence">1</field>
         </record>
 
-        <record model="ir.module.category" id="cdg_report_export">
-            <field name="name">報表匯出權限</field>
-            <field name="description">報表查詢及匯出檔案管理</field>
-            <field name="sequence">2</field>
-        </record>
-
-        <record model="ir.module.category" id="cdg_coffin_management">
-            <field name="name">施棺管理權限</field>
-            <field name="description">施棺管理權限</field>
-            <field name="sequence">3</field>
-        </record>
-
-        <record model="ir.module.category" id="cdg_member_management">
-            <field name="name">會員及顧問管理權限</field>
-            <field name="description">會員及顧問管理權限</field>
-            <field name="sequence">4</field>
-        </record>
-
-
-
         <!-- 定義群組底下的種類 -->
+        <record id="cdg_manager" model="res.groups">
+            <field name="name">管理者</field>
+            <field name="category_id" ref="cdg_base.cdg_management"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="cdg_export_employee" model="res.groups">
+            <field name="name">員工-報表</field>
+            <field name="category_id" ref="cdg_base.cdg_management"/>
+            <field name="implied_ids" eval="[(4, ref('cdg_base.cdg_manager'))]"/>
+        </record>
+
         <record id="cdg_employee" model="res.groups">
             <field name="name">員工</field>
             <field name="category_id" ref="cdg_base.cdg_management"/>
-            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-        </record>
-
-        <record id="cdg_donater" model="res.groups">
-            <field name="name">捐款者</field>
-            <field name="category_id" ref="cdg_base.cdg_management"/>
-            <field name="implied_ids" eval="[(4, ref('cdg_base.cdg_employee'))]"/>
-        </record>
-
-        <record id="cdg_report_access" model="res.groups">
-            <field name="name">權限開放</field>
-            <field name="category_id" ref="cdg_base.cdg_report_export"/>
-            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-        </record>
-
-        <record id="cdg_report_unaccess" model="res.groups">
-            <field name="name">權限關閉</field>
-            <field name="category_id" ref="cdg_base.cdg_report_export"/>
-            <field name="implied_ids" eval="[(4, ref('cdg_base.cdg_report_access'))]"/>
-        </record>
-
-        <record id="cdg_coffin_access" model="res.groups">
-            <field name="name">權限開放</field>
-            <field name="category_id" ref="cdg_base.cdg_coffin_management"/>
-            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-        </record>
-
-        <record id="cdg_coffin_unaccess" model="res.groups">
-            <field name="name">權限關閉</field>
-            <field name="category_id" ref="cdg_base.cdg_coffin_management"/>
-            <field name="implied_ids" eval="[(4, ref('cdg_base.cdg_coffin_access'))]"/>
+            <field name="implied_ids" eval="[(4, ref('cdg_base.cdg_export_employee'))]"/>
         </record>
 
         <record id="cdg_employee_donate_self" model="ir.rule">
@@ -75,21 +37,7 @@
             <field name="perm_read" eval="1"/>
             <field name="perm_unlink" eval="1"/>
             <!-- You can attach this rule to a specific group, Or make it Global -->
-            <field name="groups" eval="[(4, ref('cdg_base.cdg_employee'))]"/>
-            <!--<field name="global" eval="1"/> -->
-        </record>
-
-        <record id="cdg_donater_self" model="ir.rule">
-            <field name="name">捐款者看自己的捐款</field>
-            <field name="model_id" ref="cdg_base.model_donate_single"/>
-            <field name="domain_force">[]</field>
-            <!--<field name="domain_force">[('create_uid','=', user.id)]</field>-->
-            <field name="perm_write" eval="0"/>
-            <field name="perm_create" eval="0"/>
-            <field name="perm_read" eval="1"/>
-            <field name="perm_unlink" eval="0"/>
-            <!-- You can attach this rule to a specific group, Or make it Global -->
-            <field name="groups" eval="[(4, ref('cdg_base.cdg_donater'))]"/>
+            <field name="groups" eval="[(4, ref('cdg_base.cdg_manager'))]"/>
             <!--<field name="global" eval="1"/> -->
         </record>
 

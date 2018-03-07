@@ -3,7 +3,7 @@
     <data>
         <report id="cashier_list_xlsx"
                 model="normal.p"
-                string="匯出名冊"
+                string="匯出名冊-季報表"
                 report_type="xlsx"
                 name="cdg_base.cashier_list.xlsx"
                 file="收費員名冊.xlsx"
