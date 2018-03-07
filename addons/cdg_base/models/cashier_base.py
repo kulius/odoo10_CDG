@@ -29,8 +29,8 @@ class CashierBase(models.Model):
         action = self.env.ref('cdg_base.normal_p_action').read()[0]
         action['context'] ={} # remove default domain condition in search box
         action['domain'] =[] # remove any value in search box
-        action['domain'] = [('cashier_name','=',self.name)]
-        number = len(self.env['normal.p'].search([('cashier_name','=',self.name)]))
+        action['domain'] = [('cashier_name.id','=',self.id)]
+        number = len(self.env['normal.p'].search([('cashier_name.id','=',self.id)]))
         action['limit'] = number
         return action
 
@@ -39,8 +39,8 @@ class CashierBase(models.Model):
         action = self.env.ref('cdg_base.member_base_action').read()[0]
         action['context'] ={} # remove default domain condition in search box
         action['domain'] =[] # remove any value in search box
-        action['domain'] = [('member_id','!=',''),('cashier_name','=',self.name)]
-        number = len(self.env['normal.p'].search([('cashier_name', '=', self.name)]))
+        action['domain'] = [('member_id','!=',''),('cashier_name.id','=',self.id)]
+        number = len(self.env['normal.p'].search([('cashier_name.id', '=', self.id)]))
         action['limit'] = number
         return action
 
@@ -49,8 +49,8 @@ class CashierBase(models.Model):
         action = self.env.ref('cdg_base.consultant_base_action').read()[0]
         action['context'] = {}  # remove default domain condition in search box
         action['domain'] = []  # remove any value in search box
-        action['domain'] = [('consultant_id','!=', ''),('cashier_name', '=', self.name)]
-        number = len(self.env['normal.p'].search([('cashier_name', '=', self.name)]))
+        action['domain'] = [('consultant_id','!=', ''),('cashier_name.id', '=', self.id)]
+        number = len(self.env['normal.p'].search([('cashier_name.id', '=', self.id)]))
         action['limit'] = number
         return action
 

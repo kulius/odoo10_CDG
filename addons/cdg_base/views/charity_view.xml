@@ -295,6 +295,11 @@
                   parent="cashier_manage_categ"
                   action="cashier_empty_action"
                   sequence=""/>
+        <menuitem id="cashier_statistics_list"
+                  name="收費員收費統計表"
+                  parent="cashier_manage_categ"
+                  action="cashier_statistics_action"
+                  sequence=""/>
         <menuitem id="change_base_root" name="異動作業" sequence="9"/>
                 <menuitem id="donate_reciept_change"
                   name="捐款收據異動"

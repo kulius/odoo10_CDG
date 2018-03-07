@@ -15,7 +15,6 @@
             </field>
         </record>
 
-
         <record id="cashier_base_form" model="ir.ui.view">
             <field name="name">cashier base f</field>
             <field name="model">cashier.base</field>
@@ -95,5 +94,6 @@
           </p>
         </field>
     </record>
+
     </data>
 </odoo>
