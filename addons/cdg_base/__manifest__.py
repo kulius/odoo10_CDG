@@ -31,6 +31,7 @@
         'wizard/batch_change_print_state.xml',
         'wizard/member_receipt_print.xml',
         'wizard/consultant_receipt_print.xml',
+        'wizard/coffin_inquire.xml',
 
         'views/normal_p_view.xml',
         'views/member_base_view.xml',

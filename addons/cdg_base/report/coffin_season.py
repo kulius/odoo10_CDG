@@ -9,7 +9,7 @@ class CoffinSeasonXlsx(ReportXlsx):
     count = 2
     coffin_count = 1
 
-    def generate_xlsx_report(self, workbook, data, env):
+    def generate_xlsx_report(self, workbook, datas, env):
         sheet = workbook.add_worksheet()
         sheet.write(1, 0, u'序號')
         sheet.write(1, 1, u'死亡日期')
@@ -19,7 +19,8 @@ class CoffinSeasonXlsx(ReportXlsx):
         sheet.write(1, 5, u'處理者')
         sheet.write(1, 6, u'捐款者')
 
-        for line in env:
+        for data in datas['docs']:
+            line = self.env['coffin.base'].browse(data)
             if line.donate_apply_price == 30000:
                 sheet.write(self.count, 2, line.user)
             else:
