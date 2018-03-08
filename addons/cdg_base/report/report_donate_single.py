@@ -244,6 +244,7 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 row.print_count += 1
                 row.print_date = datetime.date.today()
                 row.print_user = self.env.uid
+            # 檢查捐款列表
             for line in row.donate_list:
                 if line.donate_member == row.donate_member:
                     merge_exist = False

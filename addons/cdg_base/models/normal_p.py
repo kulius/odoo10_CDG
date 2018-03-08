@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 class NormalP(models.Model):
     # 捐款人
     _name = 'normal.p'
-    _order = 'sequence'
+    # _order = 'sequence'
     _description = u'捐款者基本資料管理'
 
     new_coding = fields.Char(string='捐款者編號')
