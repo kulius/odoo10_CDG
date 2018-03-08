@@ -300,6 +300,7 @@
                     <field name="cellphone"/>
                     <field name="rec_addr"/>
                     <field name="con_addr"/>
+                    <field name="cashier_name"/>
                     <field string="上次捐款日期-起" name="last_donate_date" filter_domain="[('last_donate_date', '&gt;=',self )]"/>
                     <field string="上次捐款日期-迄" name="last_donate_date" filter_domain="[('last_donate_date', '&lt;=',self)]"/>
                     <filter string="戶長" name="top_of_home" domain="[('donate_family1','!=', False)]"/>

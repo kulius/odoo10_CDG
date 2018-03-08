@@ -80,9 +80,9 @@
                                 <span STYLE='FONT-SIZE:25PX'>捐款項目</span>
                                 <group col="6">
                                     <field name="bridge_money" string="造橋"/>
-                                    <field name="poor_help_money" string="貧困扶助"/>
                                     <field name="road_money" string="補路"/>
                                     <field name="coffin_money" string="施棺"/>
+                                    <field name="poor_help_money" string="貧困扶助"/>
                                     <field name="noassign_money" string="一般捐款"/>
                                 </group>
                                 <span STYLE='FONT-SIZE:25PX'>捐款名冊</span>
@@ -128,7 +128,8 @@
                             <!--</page>-->
                             <page string="捐款記錄明細">
                                 <field name="donate_list">
-                                    <tree editable="bottom">
+                                    <tree editable="bottom" default_order='sequence'>
+                                        <field name="sequence" widget="handle"/>
                                         <field name="state" />
                                         <field name="donate_id"/>
                                         <!--<field name="paid_id"/>-->

@@ -62,6 +62,8 @@ class DonateOrder(models.Model):
     available_balance = fields.Integer(string='可用餘額')
     used_money = fields.Integer(string='已用金額')
 
+    sequence = fields.Integer(string='排序')
+
     report_big = fields.Char()
     report_price = fields.Integer()
 

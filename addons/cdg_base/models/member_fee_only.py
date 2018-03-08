@@ -44,11 +44,20 @@ class MemberFeeOnly(models.Model):
         if flag == False:
             self.fee_payable = First_Annual_membership_fee
 
+        self.cashier = self.normal_p_id.cashier_name.id
+
+    @api.onchange('fee_date')
+    def set_receipt_code(self):
+        if self.fee_code is False and self.year != 0:
+            self.fee_code = 'F' + str(int(datetime.strptime(self.fee_date, '%Y-%m-%d').year) - 1911) + self.member_code
+
+
     @api.model
     def create(self, vals):
         res_id = super(MemberFeeOnly, self).create(vals)
         if res_id.year == 0:
             raise ValidationError(u'請輸入繳費年度')
         elif res_id.year != 0:
-            res_id.fee_code = 'F' + str(int(datetime.strptime(res_id.fee_date, '%Y-%m-%d').year) - 1911) + res_id.member_code
+            if res_id.fee_date:
+                res_id.fee_code = 'F' + str(int(datetime.strptime(res_id.fee_date, '%Y-%m-%d').year) - 1911) + res_id.member_code
         return res_id

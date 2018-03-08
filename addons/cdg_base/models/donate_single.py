@@ -84,7 +84,9 @@ class DonateSingle(models.Model):
     clear_all_is_merge = fields.Boolean(string='清除 [是否合併收據]')
     set_today = fields.Boolean(string='今天')
 
-
+    last_donate_date = fields.Date('上次捐款日期')
+    last_donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (05, '貧困扶助'), (06, '一般捐款')],string='捐款種類')
+    cashier_name = fields.Char(string='normal_p的收費員')
 
     @api.onchange('set_today')
     def set_today_donate(self):
