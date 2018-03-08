@@ -22,12 +22,14 @@
                   parent="charity_base_categ"
                   action="c_worker_action"
                   sequence="1"
+                  groups="cdg_member_manager"
         />
         <menuitem id="worker_base2"
-                  name="員工基本資料"
+                  name="員工基本資料2"
                   parent="charity_base_categ"
                   action="c_worker_employee_action"
-                  sequence="1"
+                  sequence="2"
+                  groups="cdg_employees"
         />
         <!--<menuitem id="bridge_base"-->
                   <!--name="橋梁資料作業"-->
@@ -113,6 +115,7 @@
                   parent="first_categ"
                   action="donor_search_action"
                   sequence="6"
+                  groups="cdg_member_manager"
         />
 
         <!--<menuitem id="group_manage_root" name="團員管理" sequence=""/>
@@ -163,12 +166,14 @@
                   parent="member_manage_categ"
                   action="member_fee_generate_action"
                   sequence="2"
+                  groups="cdg_member_manager"
          />
         <menuitem id="member_fee_inquire_menu"
                   name="會員費查詢"
                   parent="member_manage_categ"
                   action="member_fee_inquire_action"
                   sequence="3"
+                  groups="cdg_member_manager"
         />
         <!--<menuitem id="keepsake_menu"-->
                   <!--name="紀念品名冊"-->
@@ -227,18 +232,21 @@
                   parent="consultant_manage_categ"
                   action="consultant_fee_generate_action"
                   sequence="2"
+                  groups="cdg_member_manager"
         />
         <menuitem id="consultant_fee_inquire_menu"
                   name="顧問費查詢"
                   parent="consultant_manage_categ"
                   action="consultant_fee_inquire_action"
                   sequence="3"
+                  groups="cdg_member_manager"
         />
         <menuitem id="consultant_join_year_menu"
                   name="顧問聘僱年度查詢"
                   parent="consultant_manage_categ"
                   action="consultant_join_year_action"
                   sequence="4"
+                  groups="cdg_member_manager"
         />
         <!--<menuitem id="member_data_menu"
                   name="會員、顧問轉檔"
@@ -266,7 +274,9 @@
                   name="施棺報表"
                   parent="coffin_manage_root_categ"
                   action="coffin_inquire_action"
-                  sequence="2"/>
+                  sequence="2"
+                  groups="cdg_member_manager"
+         />
         <!--<menuitem id="coffin_funeral_order"-->
                   <!--name="施棺及喪葬費用明細表"-->
                   <!--parent="coffin_manage_root_categ"-->
@@ -318,6 +328,7 @@
                   parent="cashier_manage_categ"
                   action="cashier_statistics_action"
                   sequence=""
+                  groups="cdg_member_manager"
         />
         <!--<menuitem id="change_base_root" name="異動作業" sequence="9"/>-->
                 <!--<menuitem id="donate_reciept_change"-->

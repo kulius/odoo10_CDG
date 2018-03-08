@@ -8,6 +8,24 @@
             <field name="sequence">1</field>
         </record>
 
+        <record model="ir.module.category" id="cdg_member_management">
+            <field name="name">會員及顧問管理</field>
+            <field name="description">會員及顧問管理</field>
+            <field name="sequence">2</field>
+        </record>
+
+        <record model="ir.module.category" id="cdg_employees_management">
+            <field name="name">員工</field>
+            <field name="description">員工</field>
+            <field name="sequence">3</field>
+        </record>
+
+        <record model="ir.module.category" id="cdg_coffin_management">
+            <field name="name">施棺組</field>
+            <field name="description">施棺組</field>
+            <field name="sequence">4</field>
+        </record>
+
         <!-- 定義群組底下的種類 -->
         <record id="cdg_manager" model="res.groups">
             <field name="name">管理者</field>
@@ -15,16 +33,22 @@
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
-        <record id="cdg_export_employee" model="res.groups">
-            <field name="name">員工-報表</field>
-            <field name="category_id" ref="cdg_base.cdg_management"/>
-            <field name="implied_ids" eval="[(4, ref('cdg_base.cdg_manager'))]"/>
+        <record id="cdg_member_manager" model="res.groups">
+            <field name="name">會員及顧問管理者</field>
+            <field name="category_id" ref="cdg_base.cdg_member_management"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
-        <record id="cdg_employee" model="res.groups">
+        <record id="cdg_employees" model="res.groups">
             <field name="name">員工</field>
-            <field name="category_id" ref="cdg_base.cdg_management"/>
-            <field name="implied_ids" eval="[(4, ref('cdg_base.cdg_export_employee'))]"/>
+            <field name="category_id" ref="cdg_base.cdg_employees_management"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="cdg_coffin_employees" model="res.groups">
+            <field name="name">施棺組</field>
+            <field name="category_id" ref="cdg_base.cdg_coffin_management"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
         <record id="cdg_employee_donate_self" model="ir.rule">

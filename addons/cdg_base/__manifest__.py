@@ -74,10 +74,12 @@
         'report/report_cashier_roll.xml',
         'report/cashier_list_tree.xml',
 
-        'views/charity_view.xml',
-
         'security/group.xml',
         'security/ir.model.access.csv',
+
+        'views/charity_view.xml',
+
+
 
     ],
     'demo': [],

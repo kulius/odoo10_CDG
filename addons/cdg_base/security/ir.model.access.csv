@@ -19,7 +19,7 @@ access_member_fee,access_member_fee,model_member_fee,cdg_base.cdg_manager,1,1,1,
 access_cashier_base,access_cashier_base,model_cashier_base,cdg_base.cdg_manager,1,1,1,1
 access_coffin_donation,access_coffin_donation,model_coffin_donation,cdg_base.cdg_manager,1,1,1,1
 access_hand_checking,access_hand_checking,model_hand_checking,cdg_base.cdg_manager,1,1,1,1
-access_coffin_base,access_coffin_base,model_coffin_base,cdg_base.cdg_manager,1,1,1,1
+access_coffin_base,access_coffin_base,model_coffin_base,cdg_base.cdg_manager,1,0,0,0
 access_people_type,access_people_type,model_people_type,cdg_base.cdg_manager,1,1,1,1
 access_consultant_fee,access_consultant_fee,model_consultant_fee,cdg_base.cdg_manager,1,1,1,1
 access_associatemember_fee,access_associatemember_fee,model_associatemember_fee,cdg_base.cdg_manager,1,1,1,1
@@ -36,7 +36,7 @@ access_postal_code,access_postal_code,model_postal_code,cdg_base.cdg_manager,1,1
 access_consultant_source,access_consultant_source,model_consultant_source,cdg_base.cdg_manager,1,1,1,1
 access_donor_search,access_donor_search,model_donor_search,cdg_base.cdg_manager,1,1,1,1
 access_memnber_fee_inquire,access_memnber_fee_inquire,model_memnber_fee_inquire,cdg_base.cdg_manager,1,1,1,1
-access_coffin_batch,access_coffin_batch,model_coffin_batch,cdg_base.cdg_manager,1,1,1,1
+access_coffin_batch,access_coffin_batch,model_coffin_batch,cdg_base.cdg_manager,1,0,0,0
 access_consultant_fee_generate,access_consultant_fee_generate,model_consultant_fee_generate,cdg_base.cdg_manager,1,1,1,1
 access_poor_base,access_poor_base,model_poor_base,cdg_base.cdg_manager,1,1,1,1
 access_auto_donateid,access_auto_donateid,model_auto_donateid,cdg_base.cdg_manager,1,1,1,1
@@ -50,9 +50,13 @@ access_consultant_receipt,access_consultant_receipt,model_consultant_receipt,cdg
 access_member_receipt,access_member_receipt,model_member_receipt,cdg_base.cdg_manager,1,1,1,1
 access_res_users,access_res_users,model_res_users,cdg_base.cdg_manager,1,1,1,1
 
+access_coffin_batch_member_manager,access_coffin_batch,model_coffin_batch,cdg_base.cdg_member_manager,1,0,0,0
+access_coffin_batch_cdg_employees,access_coffin_batch,model_coffin_batch,cdg_base.cdg_employees,1,0,0,0
+access_coffin_base_member_manager,access_coffin_base,model_coffin_base,cdg_base.cdg_manager,1,0,0,0
+access_coffin_base_cdg_employees,access_coffin_base,model_coffin_base,cdg_base.cdg_manager,1,0,0,0
 
-access_c_worker,access_c_worker,model_c_worker,cdg_base.cdg_export_employee,1,0,0,0
-access_coffin_base,access_coffin_base,model_coffin_base,cdg_base.cdg_export_employee,1,0,0,0
-access_coffin_batch,access_coffin_batch,model_coffin_batch,cdg_base.cdg_export_employee,0,0,0,0
+access_coffin_batch_cdg_coffin_employees,access_coffin_batch,model_coffin_batch,cdg_base.cdg_coffin_employees,1,1,1,1
+access_coffin_batch_cdg_coffin_employees,access_coffin_batch,model_coffin_batch,cdg_base.cdg_coffin_employees,1,1,1,1
+access_coffin_base_cdg_coffin_employees,access_coffin_base,model_coffin_base,cdg_base.cdg_coffin_employees,1,1,1,1
 
 
