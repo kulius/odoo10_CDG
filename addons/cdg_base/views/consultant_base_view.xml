@@ -88,12 +88,25 @@
             </field>
         </record>
 
+        <record id="consultant_search" model="ir.ui.view">
+            <field name="name">consultant_search</field>
+            <field name="model">normal.p</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="new_coding"/>
+                    <field name="w_id"/>
+                    <field name="consultant_id" string="舊顧問編號"/>
+                </search>
+            </field>
+        </record>
 
         <record id="consultant_base_action" model="ir.actions.act_window">
             <field name="name">顧問基本資料</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">normal.p</field>
             <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="consultant_search"/>
             <field name="limit">10</field>
             <field name="domain">[('type.id','=', 4)]</field>
             <field name="view_ids"
