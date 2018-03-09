@@ -62,6 +62,7 @@
                             <field name="work_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                             <field name="payment_method"/>
                             <field name="history_donate_flag"/>
+                            <field name="year_fee"/>
                             <field name="donate_total"/>
                         </group>
                         <group col="4">

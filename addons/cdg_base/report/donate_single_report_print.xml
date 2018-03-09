@@ -25,6 +25,8 @@
                         { "type": "str", "size": 20, "name": "捐款總額", "required": false },
                         { "type": "str", "size": 20, "name": "列印日期", "required": false },
                         { "type": "str", "size": 10, "name": "列印狀態", "required": false },
+                        { "type": "str", "size": 10, "name": "年繳", "required": false },
+                        { "type": "str", "size": 20, "name": "年繳字串", "required": false },
                     ],
                     "Data":[ ]
                 };
@@ -43,6 +45,11 @@
                 <t t-set="donate_type" t-value="dict([(01,'造橋'),(02,'補路'),(03,'施棺'),(04,'伙食費'),(05,'貧困扶助'),(06,'一般捐款'),(99,'其他工程')])"/>
                 <t t-foreach="docs" t-as="o">
                     <t t-set="foo" t-value="0"/>
+                    <t t-set="single_state" t-value="0"/>
+                    <t t-if="o.year_fee == True">
+                    <t t-set="single_state" t-value="1"></t></t>
+                    <t t-if="o.year_fee == False">
+                    <t t-set="single_state" t-value="2"></t></t>
                     /*增加主表記錄*/
                     _tableOrder.Data.push(
                     {
@@ -57,7 +64,9 @@
                         "捐款總額大寫":"<t t-esc="o.report_price_big"/>",
                         "捐款總額":"<t t-esc="o.donate_total"/>",
                         "列印日期":"<t t-esc="o.print_date"/>" + " 補單",
-                        "列印狀態":"<t t-esc="o.state"/>"
+                        "列印狀態":"<t t-esc="o.state"/>",
+                        "年繳":"<t t-esc="single_state"/>",
+                        "年繳字串":"年繳:  " + "<t t-esc="o.key_in_user.name"/>"
                     });
                     <t t-foreach="o.donate_list" t-as="lines">
                         <t t-if="foo &lt; 23">
@@ -115,6 +124,8 @@
                         { "type": "str", "size": 20, "name": "捐款總額", "required": false },
                         { "type": "str", "size": 20, "name": "列印日期", "required": false },
                         { "type": "str", "size": 10, "name": "列印狀態", "required": false },
+                        { "type": "str", "size": 10, "name": "年繳", "required": false },
+                        { "type": "str", "size": 20, "name": "年繳字串", "required": false },
                     ],
                     "Data":[ ]
                 };
@@ -146,7 +157,9 @@
                         "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
                         "捐款總額":"<t t-esc="o.title_total_price"/>",
                         "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
-                        "列印狀態":"<t t-esc="o.title_state"/>"
+                        "列印狀態":"<t t-esc="o.title_state"/>",
+                        "年繳":"<t t-esc="o.title_year_fee"/>",
+                        "年繳字串":"年繳:  " + "<t t-esc="o.key_in_user.name"/>"
                     });
                     <t t-foreach="o.donate_line" t-as="lines">
                         <t t-if="foo &lt; 23">
@@ -207,6 +220,8 @@
                         { "type": "str", "size": 10, "name": "捐款金額", "required": false },
                         { "type": "str", "size": 20, "name": "列印日期", "required": false },
                         { "type": "str", "size": 10, "name": "列印狀態", "required": false },
+                        { "type": "str", "size": 10, "name": "年繳", "required": false },
+                        { "type": "str", "size": 20, "name": "年繳字串", "required": false },
                     ],
                     "Data":[ ]
                 };
@@ -228,7 +243,9 @@
                                 "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",
                                 "捐款金額":"<t t-esc="lines.donate_price"/>",
                                 "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
-                                "列印狀態":"<t t-esc="o.title_state"/>"
+                                "列印狀態":"<t t-esc="o.title_state"/>",
+                                "年繳":"<t t-esc="o.title_year_fee"/>",
+                                "年繳字串":"年繳:  " + "<t t-esc="o.key_in_user.name"/>"
                             });
                         </t>
                     </t>
@@ -268,6 +285,8 @@
                         { "type": "str", "size": 20, "name": "是否合併收據", "required": false },
                         { "type": "str", "size": 20, "name": "列印日期", "required": false },
                         { "type": "str", "size": 10, "name": "列印狀態", "required": false },
+                        { "type": "str", "size": 10, "name": "年繳", "required": false },
+                        { "type": "str", "size": 20, "name": "年繳字串", "required": false },
                     ],
                     "Data":[ ]
                 };
@@ -301,7 +320,9 @@
                         "捐款總額":"<t t-esc="o.title_total_price"/>",
                         "是否合併收據":"<t t-esc="1"/>",
                         "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
-                        "列印狀態":"<t t-esc="o.title_state"/>"
+                        "列印狀態":"<t t-esc="o.title_state"/>",
+                        "年繳":"<t t-esc="o.title_year_fee"/>",
+                        "年繳字串":"年繳:  " + "<t t-esc="o.key_in_user.name"/>"
                     });
                     </t>
                     <t t-if="o.title_donate.is_merge ==False">
@@ -318,7 +339,9 @@
                         "捐款總額":"<t t-esc="o.title_total_price"/>",
                         "是否合併收據":"<t t-esc="o.title_donate.id"/>",
                         "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
-                        "列印狀態":"<t t-esc="o.title_state"/>"
+                        "列印狀態":"<t t-esc="o.title_state"/>",
+                        "年繳":"<t t-esc="o.title_year_fee"/>",
+                        "年繳字串":"年繳:  " + "<t t-esc="o.key_in_user.name"/>"
                     });
                     </t>
                     <t t-foreach="o.donate_line" t-as="lines">

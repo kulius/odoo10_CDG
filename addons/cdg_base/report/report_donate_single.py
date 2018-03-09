@@ -17,6 +17,7 @@ class DonateSingleReport(models.Model):
     donate_line = fields.One2many(comodel_name='report.line',inverse_name='parent_id', string='個人捐款明細')
     title_total_price = fields.Integer(string='捐款總金額', compute='compute_price', store=True)
     title_total_price_big = fields.Char(string='金額大寫', compute='compute_price', store=True)
+    title_year_fee = fields.Integer(string='年繳')
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]},default=lambda self: self.env.uid)
     work_id = fields.Many2one(comodel_name='cashier.base', string='收費員', states={2: [('readonly', True)]})
 
@@ -143,13 +144,19 @@ class ReportDonateSinglePersonal(models.AbstractModel):
                 if exist is False:
                     res += line
         for line in res:
+            single_state = 0
+            if line.donate_list_id.year_fee:
+                single_state = 1
+            elif not line.donate_list_id.year_fee:
+                single_state = 2
             tmp_id = report_line.create({
                 'title_donate': line.donate_member.id,
                 'title_doante_code': line.donate_id,
                 'title_doante_date':line.donate_date,
                 'work_id': line.cashier.id,
                 'title_Make_up_date': datetime.date.today(),
-                'title_state':line.state,
+                'title_state':line.donate_list_id.state,
+                'title_year_fee': single_state
             })
 
             line_data = []
@@ -196,10 +203,17 @@ class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
             for line in row.donate_list:
                 res += line
         for line in res:
+            single_state = 0
+            if line.donate_list_id.year_fee:
+                single_state = 1
+            elif not line.donate_list_id.year_fee:
+                single_state = 2
             tmp_id = report_line.create({
                 'title_donate': line.donate_member.id,
                 'title_doante_code': line.donate_id,
-                'work_id': line.cashier.id
+                'work_id': line.cashier.id,
+                'title_state': line.donate_list_id.state,
+                'title_year_fee': single_state
             })
 
             line_data = []
@@ -209,7 +223,7 @@ class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
                 'donate_price': line.donate
             }])
             for line in target:
-                tmp_id.write({'title_doante_date': line.donate_date,'title_work_id': line.work_id.name,'title_Make_up_date': datetime.date.today(),'title_state':line.state})
+                tmp_id.write({'title_doante_date': line.donate_date,'title_work_id': line.work_id.name,'title_Make_up_date': datetime.date.today()})
 
             tmp_id.write({
                 'donate_line': line_data
@@ -256,6 +270,11 @@ class ReportDonateSingleDefault(models.AbstractModel):
                     if exist is False:
                         res += line
             # 直接針對donate_single的資料進行整理
+            single_state = 0
+            if line.donate_list_id.year_fee:
+                single_state = 1
+            elif not line.donate_list_id.year_fee:
+                single_state = 2
             tmp_id = report_line.create({
                 'title_donate': row.donate_member.id,
                 'title_doante_code': row.donate_id,
@@ -263,7 +282,8 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 'title_doante_date': row.donate_date,
                 'title_work_id': row.work_id.name,
                 'title_Make_up_date': datetime.date.today(),
-                'title_state': row.state
+                'title_state': row.state,
+                'title_year_fee': single_state
             })
 
             line_data = []
@@ -284,6 +304,11 @@ class ReportDonateSingleDefault(models.AbstractModel):
             # 找出不合併列印的人，整理後放進報表用table
 
             for line in res:
+                single_state = 0
+                if line.donate_list_id.year_fee:
+                    single_state = 1
+                elif not line.donate_list_id.year_fee:
+                    single_state = 2
                 not_merge_tmp_id = report_line.create({
                     'title_donate': line.donate_member.id,
                     'title_doante_code': line.donate_id,
@@ -291,7 +316,8 @@ class ReportDonateSingleDefault(models.AbstractModel):
                     'title_doante_date': line.donate_date,
                     'title_work_id': line.cashier.name,
                     'title_Make_up_date': datetime.date.today(),
-                    'title_state': line.state
+                    'title_state': line.state,
+                    'title_year_fee': single_state
                 })
                 line_data = []
                 for row_one in res_line:

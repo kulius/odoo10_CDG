@@ -67,6 +67,7 @@ class DonateSingle(models.Model):
     temp_key_in_user = fields.Char(string='輸入人員')
     print_user = fields.Many2one(comodel_name='res.users', string='列印人員', states={2: [('readonly', True)]})
     ps = fields.Text('備註')
+    year_fee = fields.Boolean(string='年繳')
 
 
     history_donate_flag = fields.Boolean(string='是否上次捐款')
@@ -212,7 +213,9 @@ class DonateSingle(models.Model):
             res_id.write({
                 'donate_id': 'A' + str(historical_data_year)[2:] + str(historical_data_month).zfill(2) + str(receipt_number).zfill(5)
             })
-
+        res_id.write({
+            'year_fee': res_id.year_fee
+        })
         self.add_to_list_create(res_id)
         self.compute_family_list_create()
 
