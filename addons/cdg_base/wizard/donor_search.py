@@ -49,69 +49,6 @@ class DonorSearch(models.Model):
             self.is_South = False
             self.is_East = False
 
-    @api.onchange('is_North')
-    def is_all_North(self):
-        if self.is_North is True:
-           self.is_Taipei = True
-           self.is_Xinbei = True
-           self.is_Taoyuan = True
-           self.is_Hsinchu = True
-           self.is_Hsinchu2 = True
-           self.is_Keelung = True
-        else:
-           self.is_Taipei = False
-           self.is_Xinbei = False
-           self.is_Taoyuan = False
-           self.is_Hsinchu = False
-           self.is_Hsinchu2 = False
-           self.is_Keelung = False
-
-    @api.onchange('is_Central')
-    def is_all_Central(self):
-        if self.is_Central is True:
-            self.is_Taichung = True
-            self.is_Changhua = True
-            self.is_Yunlin = True
-            self.is_Miaoli = True
-            self.is_Nantou = True
-            self.is_Yilan = True
-        else:
-            self.is_Taichung = False
-            self.is_Changhua = False
-            self.is_Yunlin = False
-            self.is_Miaoli = False
-            self.is_Nantou = False
-            self.is_Yilan = False
-
-    @api.onchange('is_South')
-    def is_all_South(self):
-        if self.is_South is True:
-            self.is_Tainan = True
-            self.is_Kaohsiung = True
-            self.is_Chiayi = True
-            self.is_Chiayi2 = True
-            self.is_Pingtung = True
-        else:
-            self.is_Tainan = False
-            self.is_Kaohsiung = False
-            self.is_Chiayi = False
-            self.is_Chiayi2 = False
-            self.is_Pingtung = False
-
-    @api.onchange('is_East')
-    def is_all_East(self):
-        if self.is_East is True:
-            self.is_Taitung = True
-            self.is_Hualien = True
-            self.is_Penghu = True
-            self.is_Kimen = True
-            self.is_Nangan = True
-        else:
-            self.is_Taitung = False
-            self.is_Hualien = False
-            self.is_Penghu = False
-            self.is_Kimen = False
-            self.is_Nangan =False
 
     def search_area_donor(self):
      if self.is_Taiwan:

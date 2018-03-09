@@ -409,15 +409,38 @@ class NormalP(models.Model):
             self.rec_addr = self.parent.rec_addr
             self.cashier_name = self.parent.cashier_name
 
-    @api.onchange('zip')
+    @api.onchange('zip','zip_code')
     def set_postal_code_id(self):
+        flag = True
         if self.zip:
-            if len(self.zip) > 3 or len(self.zip) < 3:
+            for ch in self.zip:
+                if not u'\u0030' <= ch <=u'\u0039':
+                    raise ValidationError(u'收據郵遞區號輸入格式錯誤，請重新輸入')
+                if int(self.zip[0]) == 0:
+                    raise ValidationError(u'收據郵遞區號輸入格式錯誤，請重新輸入')
+
+            if len(self.zip) < 3:
                 raise ValidationError(u'收據郵遞區號為三碼，請重新輸入')
             else:
                 for line in self.postal_code_id:
                     if self.zip == line.zip:
                         self.postal_code_id = line.id
+
+        if self.zip_code:
+            for ch in self.zip_code:
+                if not u'\u0030' <= ch <= u'\u0039':
+                    raise ValidationError(u'收據郵遞區號輸入格式錯誤，請重新輸入')
+                if int(self.zip_code[0]) == 0:
+                    raise ValidationError(u'收據郵遞區號輸入格式錯誤，請重新輸入')
+
+            if len(self.zip_code) < 3:
+                raise ValidationError(u'報表郵遞區號為三碼，請重新輸入')
+            else:
+                for line in self.postal_code_id:
+                    if self.zip_code == line.zip:
+                        self.postal_code_id = line.id
+
+
 
 
     # def set_parent(self):
@@ -524,7 +547,21 @@ class NormalP(models.Model):
 
         if res_id.zip is False: #使用者如果沒有填收據寄送地址郵遞區號, 則編碼前3碼為 '999'
             raise ValidationError(u'收據郵遞區號不能為空白')
-        elif res_id.zip and len(res_id.zip) < 3: # 使用者有輸入收據寄送地址的郵遞區號但不足3碼
+        elif res_id.zip == True or res_id.zip_code == True:
+
+            for ch in res_id.zip:
+                if not u'\u0030' <= ch <= u'\u0039':
+                    raise ValidationError(u'收據郵遞區號輸入格式錯誤，請重新輸入')
+                if int(res_id.zip[0]) == 0:
+                    raise ValidationError(u'收據郵遞區號輸入格式錯誤，請重新輸入')
+
+            for ch in res_id.zip_code:
+                if not u'\u0030' <= ch <= u'\u0039':
+                    raise ValidationError(u'報表郵遞區號輸入格式錯誤，請重新輸入')
+                if int(res_id.zip_code[0]) == 0:
+                    raise ValidationError(u'報表郵遞區號輸入格式錯誤，請重新輸入')
+
+        elif (res_id.zip and len(res_id.zip) < 3) or (res_id.zip_code and len(res_id.zip_code) < 3): # 使用者有輸入收據寄送地址的郵遞區號但不足3碼
             raise ValidationError(u'收據寄送地址的郵遞區號填寫錯誤，請至少填3碼的郵遞區號!')
         elif res_id.zip and len(res_id.zip) >= 3: # 使用者可以填3+2郵遞區號, 但是少要填3碼的郵遞區號
             compute_code = self.env['auto.donateid'].search([('zip', '=', res_id.zip[0:3])]) # 搜尋計數器裡符合使用者填入郵遞區號的資料
