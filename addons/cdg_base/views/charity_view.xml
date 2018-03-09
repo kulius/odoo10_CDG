@@ -38,7 +38,7 @@
                   <!--sequence="2"/>-->
         <menuitem id="charity_check"
                   name="各項捐款統計查詢"
-                  parent="charity_base_categ"
+                  parent="charity_base_root"
                   action="charity_view"
                   sequence="3"/>
         <menuitem id="receipt_analysis_menu"
