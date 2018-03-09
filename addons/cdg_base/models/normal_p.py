@@ -409,6 +409,16 @@ class NormalP(models.Model):
             self.rec_addr = self.parent.rec_addr
             self.cashier_name = self.parent.cashier_name
 
+    @api.onchange('zip')
+    def set_postal_code_id(self):
+        if self.zip:
+            if len(self.zip) > 3 or len(self.zip) < 3:
+                raise ValidationError(u'收據郵遞區號為三碼，請重新輸入')
+            else:
+                for line in self.postal_code_id:
+                    if self.zip == line.zip:
+                        self.postal_code_id = line.id
+
 
     # def set_parent(self):
     #     member = self.search([('w_id', '!=', None), ('number', '=', '1')])

@@ -9,63 +9,63 @@
                     <sheet>
                         <group>
                             <field name="is_Taiwan"/>
-                            <field name="is_North" invisible="True"/>
-                            <field name="is_Central" invisible="True"/>
-                            <field name="is_South" invisible="True"/>
-                            <field name="is_East" invisible="True"/>
+                            <!--<field name="is_North" invisible="True"/>-->
+                            <!--<field name="is_Central" invisible="True"/>-->
+                            <!--<field name="is_South" invisible="True"/>-->
+                            <!--<field name="is_East" invisible="True"/>-->
                         </group>
-                        <notebook>
-                            <page string="北部地區">
-                                <group>
-                                    <field name="is_North"/>
-                                </group>
-                                <group col="8">
-                                    <field name="is_Taipei"/>
-                                    <field name="is_Xinbei"/>
-                                    <field name="is_Taoyuan"/>
-                                    <field name="is_Hsinchu"/>
-                                    <field name="is_Hsinchu2"/>
-                                    <field name="is_Keelung"/>
-                                </group>
-                            </page>
-                             <page  string="中部地區">
-                                <group>
-                                    <field name="is_Central"/>
-                                </group>
-                                <group col="8">
-                                    <field name="is_Taichung"/>
-                                    <field name="is_Changhua"/>
-                                    <field name="is_Yunlin"/>
-                                    <field name="is_Miaoli"/>
-                                    <field name="is_Nantou"/>
-                                    <field name="is_Yilan"/>
-                                </group>
-                            </page>
-                            <page  string="南部地區">
-                                 <group>
-                                    <field name="is_South"/>
-                                </group>
-                                <group col="8">
-                                    <field name="is_Chiayi"/>
-                                    <field name="is_Chiayi2"/>
-                                    <field name="is_Tainan"/>
-                                    <field name="is_Kaohsiung"/>
-                                    <field name="is_Pingtung"/>
-                                </group>
-                            </page>
-                             <page  string="東部地區">
-                                  <group>
-                                    <field name="is_East"/>
-                                  </group>
-                                  <group col="8">
-                                    <field name="is_Taitung"/>
-                                    <field name="is_Hualien"/>
-                                    <field name="is_Penghu"/>
-                                    <field name="is_Kimen"/>
-                                    <field name="is_Nangan"/>
-                                  </group>
-                            </page>
-                        </notebook>
+                        <!--<notebook>-->
+                            <!--<page string="北部地區">-->
+                                <!--<group>-->
+                                    <!--<field name="is_North"/>-->
+                                <!--</group>-->
+                                <!--<group col="8">-->
+                                    <!--<field name="is_Taipei"/>-->
+                                    <!--<field name="is_Xinbei"/>-->
+                                    <!--<field name="is_Taoyuan"/>-->
+                                    <!--<field name="is_Hsinchu"/>-->
+                                    <!--<field name="is_Hsinchu2"/>-->
+                                    <!--<field name="is_Keelung"/>-->
+                                <!--</group>-->
+                            <!--</page>-->
+                             <!--<page  string="中部地區">-->
+                                <!--<group>-->
+                                    <!--<field name="is_Central"/>-->
+                                <!--</group>-->
+                                <!--<group col="8">-->
+                                    <!--<field name="is_Taichung"/>-->
+                                    <!--<field name="is_Changhua"/>-->
+                                    <!--<field name="is_Yunlin"/>-->
+                                    <!--<field name="is_Miaoli"/>-->
+                                    <!--<field name="is_Nantou"/>-->
+                                    <!--<field name="is_Yilan"/>-->
+                                <!--</group>-->
+                            <!--</page>-->
+                            <!--<page  string="南部地區">-->
+                                 <!--<group>-->
+                                    <!--<field name="is_South"/>-->
+                                <!--</group>-->
+                                <!--<group col="8">-->
+                                    <!--<field name="is_Chiayi"/>-->
+                                    <!--<field name="is_Chiayi2"/>-->
+                                    <!--<field name="is_Tainan"/>-->
+                                    <!--<field name="is_Kaohsiung"/>-->
+                                    <!--<field name="is_Pingtung"/>-->
+                                <!--</group>-->
+                            <!--</page>-->
+                             <!--<page  string="東部地區">-->
+                                  <!--<group>-->
+                                    <!--<field name="is_East"/>-->
+                                  <!--</group>-->
+                                  <!--<group col="8">-->
+                                    <!--<field name="is_Taitung"/>-->
+                                    <!--<field name="is_Hualien"/>-->
+                                    <!--<field name="is_Penghu"/>-->
+                                    <!--<field name="is_Kimen"/>-->
+                                    <!--<field name="is_Nangan"/>-->
+                                  <!--</group>-->
+                            <!--</page>-->
+                        <!--</notebook>-->
                     </sheet>
                     <footer>
                         <button type="object" name="search_area_donor" string="確定" class="oe_highlight"/>
@@ -75,7 +75,7 @@
             </field>
         </record>
 
-        <act_window id="donor_search_action" name="捐款者搜尋" res_model="donor.search"
+        <act_window id="donor_search_action" name="季報表名冊" res_model="donor.search"
                     view_mode="form" target="new" multi="False"/>
     </data>
 </odoo>

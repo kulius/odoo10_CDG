@@ -114,7 +114,11 @@ class DonorSearch(models.Model):
             self.is_Nangan =False
 
     def search_area_donor(self):
-        ids = self.env['normal.p'].search([('con_addr','like','台北市'),('report_send','=','True')]).ids
+     if self.is_Taiwan:
+
+        ids = self.env['normal.p'].search([('postal_code_id','>=', 369),('postal_code_id','<=', 736),('report_send','=',True)],order="postal_code_id asc").ids
+
+
 
         docargs = {
             'docs': ids,
@@ -125,3 +129,5 @@ class DonorSearch(models.Model):
             'report_name': 'cdg_base.cashier_list.xlsx',
             'datas': docargs
         }
+     else:
+         raise ValidationError(u'全臺灣請打勾')
