@@ -38,6 +38,19 @@ class CWorker(models.Model):
   #   consultant_cash1 = fields.One2many(comodel_name='normal.p', string='顧問繳費名冊')
   #   consultant_cash = fields.One2many(comodel_name='normal.p',inverse_name='cashier_name',string='顧問繳費名冊')
 
+    @api.model
+    def create(self, vals):
+
+        res_id = super(CWorker, self).create(vals)
+
+        self.env['res.users'].create({
+            'login': res_id.w_id,
+            'password': res_id.w_id,
+            'name': res_id.name,
+        })
+
+        return res_id
+
     @api.multi
     def write(self,vals):
         c_worker = self.env['res.users'].search([('login', '=', self.w_id)])
