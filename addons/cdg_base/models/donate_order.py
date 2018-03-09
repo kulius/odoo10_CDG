@@ -8,6 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class DonateOrder(models.Model):
     _name = 'donate.order'
+    _order = 'sequence'
     _description = u'捐款明細管理'
 
     # name = fields.Many2one(comodel_name='normal.p',string='姓名')
@@ -62,7 +63,7 @@ class DonateOrder(models.Model):
     available_balance = fields.Integer(string='可用餘額')
     used_money = fields.Integer(string='已用金額')
 
-    sequence = fields.Integer(string='排序')
+    sequence = fields.Integer(string='排序',default=1)
 
     report_big = fields.Char()
     report_price = fields.Integer()

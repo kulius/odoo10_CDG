@@ -230,13 +230,12 @@ class ReportDonateSingleDefault(models.AbstractModel):
     def render_html(self, docids, data=None):
         Report = self.env['report']
         target = self.env['donate.single'].browse(docids)
-        res = self.env['donate.order']
-        merge_res= self.env['donate.order']
-        merge_res_line = self.env['donate.order']
-        res_line = self.env['donate.order']
         report_line = self.env['donate.single.report']
 
         for row in target:
+            res = self.env['donate.order']
+            merge_res_line = self.env['donate.order']
+            res_line = self.env['donate.order']
             if row.state == 3:
                 raise ValidationError(u'本捐款單已經作廢')
             elif row.state == 1:
@@ -246,75 +245,69 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 row.print_user = self.env.uid
             # 檢查捐款列表
             for line in row.donate_list:
-                if line.donate_member == row.donate_member:
-                    merge_exist = False
-                    for list in merge_res:
-                        if list.donate_member == line.donate_member and list.donate_id == line.donate_id:
-                            merge_exist = True
-                    if merge_exist is False:
-                        merge_res += line
                 if line.donate_member.is_merge is True:
                     merge_res_line += line
                 else:
                     res_line += line
                     exist = False
-                    for list in res:
-                        if list.donate_member == line.donate_member and list.donate_id == line.donate_id:
+                    for list_one in res:
+                        if list_one.donate_member == line.donate_member and list_one.donate_id == line.donate_id:
                             exist = True
                     if exist is False:
                         res += line
-
-        # 找出要合併列印的人，整理後放入報表用table
-        for line in merge_res:
+            # 直接針對donate_single的資料進行整理
             tmp_id = report_line.create({
-                'title_donate': line.donate_member.id,
-                'title_doante_code': line.donate_id,
-                'work_id': line.cashier.id
+                'title_donate': row.donate_member.id,
+                'title_doante_code': row.donate_id,
+                'work_id': row.work_id.id,
+                'title_doante_date': row.donate_date,
+                'title_work_id': row.work_id.name,
+                'title_Make_up_date': datetime.date.today(),
+                'title_state': row.state
             })
-            for lines in target:
-                tmp_id.write({'title_doante_date': lines.donate_date,'title_work_id': lines.work_id.name,'title_Make_up_date': datetime.date.today(),'title_state':lines.state})
 
             line_data = []
-            for row in merge_res_line:
-                if row.donate_id == line.donate_id :
-                    line_data.append([0, 0, {
-                        'donate_id': row.donate_id,
-                        'name': row.donate_member.name,
-                        'donate_member_id': line.donate_member.id,
-                        'donate_type': row.donate_type,
-                        'donate_price': row.donate,
-                        'is_merge':row.donate_member.is_merge,
-                    }])
+            for line in merge_res_line:
+                line_data.append([0, 0, {
+                    'donate_id': line.donate_id,
+                    'name': line.donate_member.name,
+                    'donate_member_id': line.donate_member.id,
+                    'donate_type': line.donate_type,
+                    'donate_price': line.donate,
+                    'is_merge': line.donate_member.is_merge
+                }])
             tmp_id.write({
                 'donate_line': line_data
             })
             report_line += tmp_id
 
-        # 找出不合併列印的人，整理後放進報表用table
-        for line in res:
-            tmp_id = report_line.create({
-                'title_donate': line.donate_member.id,
-                'title_doante_code': line.donate_id,
-                'work_id': line.cashier.id
-            })
-            for lines in target:
-                tmp_id.write({'title_doante_date': lines.donate_date,'title_work_id': lines.work_id.name,'title_Make_up_date': datetime.date.today(),'title_state':lines.state})
-            line_data = []
-            for row in res_line:
-                if row.donate_id == line.donate_id and line.donate_member == row.donate_member:
-                    line_data.append([0, 0, {
-                        'donate_id': row.donate_id,
-                        'name': row.donate_member.name,
-                        'donate_member_id': line.donate_member.id,
-                        'donate_type': row.donate_type,
-                        'donate_price': row.donate,
-                        'is_merge': row.donate_member.is_merge,
-                    }])
-            tmp_id.write({
-                'donate_line': line_data
-            })
-            report_line += tmp_id
+            # 找出不合併列印的人，整理後放進報表用table
 
+            for line in res:
+                not_merge_tmp_id = report_line.create({
+                    'title_donate': line.donate_member.id,
+                    'title_doante_code': line.donate_id,
+                    'work_id': line.cashier.id,
+                    'title_doante_date': line.donate_date,
+                    'title_work_id': line.cashier.name,
+                    'title_Make_up_date': datetime.date.today(),
+                    'title_state': line.state
+                })
+                line_data = []
+                for row_one in res_line:
+                    if line.donate_member == row_one.donate_member:
+                        line_data.append([0, 0, {
+                            'donate_id': row_one.donate_id,
+                            'name': row_one.donate_member.name,
+                            'donate_member_id': row_one.donate_member.id,
+                            'donate_type': row_one.donate_type,
+                            'donate_price': row_one.donate,
+                            'is_merge': row_one.donate_member.is_merge,
+                    }])
+                not_merge_tmp_id.write({
+                    'donate_line': line_data
+                })
+                report_line += not_merge_tmp_id
         docargs = {
             'doc_ids': docids,
             'doc_model': 'donate.single',

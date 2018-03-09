@@ -129,7 +129,7 @@
                             <page string="捐款記錄明細">
                                 <field name="donate_list">
                                     <tree editable="bottom" default_order='sequence'>
-                                        <field name="sequence"/>
+                                        <field name="sequence" widget="handle"/>
                                         <field name="state" />
                                         <field name="donate_id"/>
                                         <!--<field name="paid_id"/>-->

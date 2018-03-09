@@ -118,7 +118,7 @@
                                     </div>
                                     <field name="donate_family1" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form', 'default_rec_addr': rec_addr,'default_zip': zip,'default_cashier': cashier_name}">
                                         <tree default_order='sequence'>
-                                            <field name="sequence"/>
+                                            <field name="sequence" widget="handle"/>
                                             <field name="new_coding"/>
                                             <field name="name"/>
                                             <field name="is_donate"/>
@@ -238,7 +238,7 @@
                                     </div>
                                     <field name="donate_family1" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form'}">
                                         <tree editable="bottom">
-                                            <field name="sequence"/>
+                                            <field name="sequence" widget="handle"/>
                                             <field name="new_coding"/>
                                             <field name="name"/>
                                             <field name="is_donate"/>

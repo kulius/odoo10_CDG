@@ -556,4 +556,4 @@ class DonateSingleLine(models.Model):
     poor_help_money = fields.Integer(string='貧困扶助')
     noassign_money = fields.Integer(string='一般捐款')
 
-    sequence = fields.Integer(string='排序')
+    sequence = fields.Integer(string='排序',default=1)

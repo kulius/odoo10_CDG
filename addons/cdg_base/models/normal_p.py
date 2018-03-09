@@ -88,7 +88,7 @@ class NormalP(models.Model):
     member_id = fields.Char(string='會員編號')
     consultant_id = fields.Char(string='顧問編號')
 
-    sequence = fields.Integer(string='排序')
+    sequence = fields.Integer(string='排序',default=1)
 
     is_donate = fields.Boolean(string='是否捐助', default=True)
     is_merge = fields.Boolean(string='是否合併收據', default=True)
