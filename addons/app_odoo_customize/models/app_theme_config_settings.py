@@ -967,7 +967,8 @@ class AppThemeConfigSettings(models.TransientModel):
     #     return True
 
     def postal_code_normal_p(self):
-        sql = "UPDATE normal_p SET postal_code_id = a.id FROM postal_code a WHERE a.zip = normal_p.zip"
+
+        sql = "UPDATE normal_p SET postal_code_id = a.id FROM postal_code a WHERE SUBSTRING(a.zip, 1, 3)  = normal_p.zip"
         self._cr.execute(sql) # 共726082筆資料, 花費35.212秒
         return True
 
