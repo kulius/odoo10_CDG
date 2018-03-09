@@ -38,6 +38,14 @@ class CWorker(models.Model):
   #   consultant_cash1 = fields.One2many(comodel_name='normal.p', string='顧問繳費名冊')
   #   consultant_cash = fields.One2many(comodel_name='normal.p',inverse_name='cashier_name',string='顧問繳費名冊')
 
+    @api.multi
+    def write(self,vals):
+        c_worker = self.env['res.users'].search([('login', '=', self.w_id)])
+        res = super(CWorker, self).write(vals)
+        c_worker.partner_id.name = self.name
+        c_worker.login = self.w_id
+        return res
+
     def data_input_from_database(self):
         data = self.env['base.external.dbsource'].search([])
         lines = data.execute('SELECT * FROM 員工檔')

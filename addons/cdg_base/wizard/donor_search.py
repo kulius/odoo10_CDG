@@ -55,8 +55,6 @@ class DonorSearch(models.Model):
 
         ids = self.env['normal.p'].search([('postal_code_id','>=', 369),('postal_code_id','<=', 736),('report_send','=',True)],order="postal_code_id asc").ids
 
-
-
         docargs = {
             'docs': ids,
         }
