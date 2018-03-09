@@ -27,8 +27,9 @@ class consultantfeegenerate(models.Model):
             self.env['consultant.fee'].create({
                 'year':self.year,
                 'fee_payable':Annual_consultants_fee,
+                'fee_code': 'F' + str(self.year) + line.new_coding,
                 'normal_p_id': line.id,
-                'cashier':line.cashier.id,
+                'cashier':line.cashier_name.id,
                 'key_in_user': self.key_in_user.id
             })
         return True

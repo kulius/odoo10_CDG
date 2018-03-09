@@ -10,6 +10,7 @@ class CWorker(models.Model):
     _description = u'員工基本資料管理'
 
     w_id = fields.Char(string='員工編號')
+    employee_id = fields.Char(string='新員工編號')
     name = fields.Char(string='姓名')
     con_phone = fields.Char(string='連絡電話')
     con_phone2 = fields.Char(string='連絡電話(二)')

@@ -20,36 +20,34 @@
             <field name="name">c worker f</field>
             <field name="model">c.worker</field>
             <field name="arch" type="xml">
-                <form string="">
+                <form class="o_sale_order">
                     <header>
                         <button string="匯入資料試試看" name="data_input_from_database" type="object"/>
                     </header>
                     <sheet>
-                        <group col="7">
-                            <field name="w_id" colspan="2"/>
-                            <field name="name" colspan="2"/>
-                            <field name="create_date1" colspan="3"/>
-                        </group>
-                        <notebook>
-                            <page string="基本資料">
-                                <group col="4">
-                                    <field name="self_iden"/>
-                                    <field name="sex"/>
-                                    <field name="birth"/>
-                                    <field name="now_job"/>
-                                    <field name="come_date"/>
-                                    <field name="lev_date"/>
-                                    <field name="con_phone"/>
-                                    <field name="cellphone"/>
-                                    <field name="highest_stu"/>
-                                </group>
-                                <group col="4">
-                                    <field name="email"/>
-                                    <field name="con_addr"/>
-                                    <field name="ps"/>
-                                </group>
-                            </page>
-                        </notebook>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="employee_id" />
+                            </h1>
+                        </div>
+                            <group col="4">
+                                <field name="w_id"/>
+                                <field name="name"/>
+                                <field name="self_iden"/>
+                                <field name="sex"/>
+                                <field name="birth"/>
+                                <field name="now_job"/>
+                                <field name="come_date"/>
+                                <field name="lev_date"/>
+                                <field name="con_phone"/>
+                                <field name="cellphone"/>
+                                <field name="highest_stu"/>
+                            </group>
+                            <group col="4">
+                                <field name="email"/>
+                                <field name="con_addr"/>
+                                <field name="ps"/>
+                            </group>
                     </sheet>
                 </form>
             </field>

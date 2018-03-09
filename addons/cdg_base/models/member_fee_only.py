@@ -12,7 +12,7 @@ class MemberFeeOnly(models.Model):
     member_id = fields.Char(string='會員編號')
     member_note_code = fields.Char(string='會員名冊編號')
     year = fields.Integer(string='年度')
-    fee_code = fields.Char(string='收費編號')
+    fee_code = fields.Char(string='收費編號',readonly =True)
     fee_payable = fields.Integer(string='應繳金額')
     fee_date = fields.Date(string='收費日期')
     cashier = fields.Many2one(comodel_name='cashier.base', string='收費員')
@@ -45,12 +45,6 @@ class MemberFeeOnly(models.Model):
             self.fee_payable = First_Annual_membership_fee
 
         self.cashier = self.normal_p_id.cashier_name.id
-
-    @api.onchange('fee_date')
-    def set_receipt_code(self):
-        if self.fee_code is False and self.year != 0:
-            self.fee_code = 'F' + str(int(datetime.strptime(self.fee_date, '%Y-%m-%d').year) - 1911) + self.member_code
-
 
     @api.model
     def create(self, vals):
