@@ -6,6 +6,7 @@
             <field name="model">c.worker</field>
             <field name="arch" type="xml">
                 <tree string="">
+                    <field name="employee_id"/>
                     <field name="w_id"/>
                     <field name="name"/>
                     <field name="now_job"/>
@@ -53,7 +54,18 @@
             </field>
         </record>
 
-
+        <record id="c_worker_search" model="ir.ui.view">
+            <field name="name">c_worker_search</field>
+            <field name="model">c.worker</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="w_id"/>
+                    <filter string="新員工編號" name="new_employee_id" domain="[('employee_id','!=',False)]"/>
+                </search>
+            </field>
+        </record>
 
           <record id="c_worker_action" model="ir.actions.act_window">
             <field name="name">員工基本資料</field>
@@ -61,6 +73,7 @@
             <field name="res_model">c.worker</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
+            <field name="context">{'search_default_new_employee_id': 1}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     <!-- Add Text Here -->
@@ -76,7 +89,9 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">c.worker</field>
             <field name="view_mode">tree</field>
+            <field name="search_view_id" ref="c_worker_search"/>
             <field name="domain">[]</field>
+            <field name="context">{'search_default_new_employee_id': 1}</field>
             <field name="view_ids"
                        eval="[(5, 0, 0),
                        (0, 0, {'view_mode': 'tree', 'view_id': ref('c_worker_tree')}),
