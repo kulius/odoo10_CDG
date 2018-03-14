@@ -60,7 +60,7 @@ class NormalP(models.Model):
     bank = fields.Char(string='扣款銀行')
     bank_id2 = fields.Char(string='扣款分行代碼')
     bank2 = fields.Char(string='扣款分行')
-    account = fields.Char(string='扣款帳號')
+    account = fields.Char(string='銀行帳號')
     bank_check = fields.Boolean(string='銀行核印')
     ps2 = fields.Text(string='備註')
 

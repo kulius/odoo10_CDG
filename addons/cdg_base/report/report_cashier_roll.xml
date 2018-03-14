@@ -40,6 +40,31 @@
                                 <t t-set="print_once" t-value="2"></t>
                             </strong>
                           </t>
+
+                          <!--1.當只有一個人的時候不打星號-->
+                          <!--2.當有複數資料的話 單獨打星號  合併不打星號-->
+                          <!--3.-->
+
+                          <!--if 姓名<7-->
+                            <!--if len(資料長度) == 1-->
+                                <!--print-->
+                            <!--else-->
+                               <!--if 是否合併 打勾-->
+                                 <!--print-->
+                               <!--else-->
+                                 <!--print-->
+
+                          <!--elif 姓名>10-->
+                            <!--if len(資料長度)-->
+                                <!--print-->
+                            <!--else-->
+                               <!--if 是否合併 打勾-->
+                                 <!--print-->
+                               <!--else-->
+                                 <!--print-->
+
+                          <!--★-->
+
                           <div style="margin:5px;">
                             <h4 style="display:inline;"><t t-esc= "data.new_coding"/>(<t t-esc= "data.w_id"/>)</h4>
                             <h3 style="display:inline;margin-left:85px;">(<t t-esc= "data.zip"/>)<t t-esc= "data.rec_addr"/></h3>
@@ -49,11 +74,44 @@
                             <t t-if="familyname.is_donate">
                                 <div>
                                     <t t-if="len(familyname.name) &lt; 7">
-                                        <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                        <t t-esc="len(data.donate_family1.ids)" />
+                                        <t t-if="len(data.donate_family1) == 1">
+                                            <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                        </t>
+                                        <t t-else="">
+                                             <t t-if="familyname.is_merge == True">
+                                                 <t t-if = "data.name == familyname.name">
+                                                     <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                                 </t>
+                                                 <t t-else="">
+                                                     <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
+                                                 </t>
+                                             </t>
+                                             <t t-else="">
+                                                <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
+                                             </t>
+                                        </t>
                                     </t>
                                     <t t-elif="len(familyname.name) &gt; 10">
-                                        <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                        <t t-esc="len(data.donate_family1.ids)" />
+                                        <t t-if="len(data.donate_family1.ids) == 1">
+                                            <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                        </t>
+                                        <t t-else="">
+                                             <t t-if="familyname.is_merge == True">
+                                                 <t t-if = "data.name == familyname.name">
+                                                     <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                                 </t>
+                                                 <t t-else="">
+                                                     <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
+                                                 </t>
+                                             </t>
+                                             <t t-else="">
+                                                <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
+                                             </t>
+                                        </t>
                                     </t>
+
                                         <t t-foreach="block_num" t-as="num_block">
                                                 <div style="float:right;display:inline-block;padding:20px;margin:5px;border: solid 2px black;"></div>
                                                 <t t-if="num_block % 6 == 5">
