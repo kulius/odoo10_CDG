@@ -26,6 +26,11 @@
                         <!--<button string="匯入資料試試看" name="data_input_from_database" type="object"/>-->
                     </header>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="Reset_Password" string="重置密碼"
+                                    type="object" class="oe_stat_button" icon="fa-dollar" attrs="{'invisible': [('name', '=', False)]}"/>
+                        </div>
+
                         <div class="oe_title">
                             <h1>
                                 <field name="employee_id" />

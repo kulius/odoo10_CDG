@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
 from odoo import models, fields, api
+from passlib.context import CryptContext
 import datetime
 
 #員工基本檔
@@ -101,8 +102,9 @@ class CWorker(models.Model):
                 'job_type': 2,
             })
 
-    def change_password(self):
-        print 'yes'
+    def Reset_Password(self):
+        crypt_context = CryptContext(['pbkdf2_sha512', 'md5_crypt'], deprecated=['md5_crypt'])
+        self.env['res.users'].search([('login', '=', self.w_id)]).password_crypt = crypt_context.encrypt(self.w_id)
 
     def check_db_date(self, date):
         if date:

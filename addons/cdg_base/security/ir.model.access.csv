@@ -30,6 +30,7 @@ access_donate_fee_inquire,access_donate_fee_inquire,model_donate_fee_inquire,cdg
 access_old_coffin_donation,access_old_coffin_donation,model_old_coffin_donation,cdg_base.cdg_manager,1,1,1,1
 access_cashier_empty,access_cashier_empty,model_cashier_empty,cdg_base.cdg_manager,1,1,1,1
 access_cashier_block,access_cashier_block,model_cashier_block,cdg_base.cdg_manager,1,1,1,1
+
 access_memnber_fee_generate,access_memnber_fee_generate,model_memnber_fee_generate,cdg_base.cdg_manager,1,1,1,1
 access_consultant_fee_inquire,access_consultant_fee_inquire,model_consultant_fee_inquire,cdg_base.cdg_manager,1,1,1,1
 access_postal_code,access_postal_code,model_postal_code,cdg_base.cdg_manager,1,1,1,1
@@ -58,5 +59,8 @@ access_coffin_base_cdg_employees,access_coffin_base,model_coffin_base,cdg_base.c
 access_coffin_batch_cdg_coffin_employees,access_coffin_batch,model_coffin_batch,cdg_base.cdg_coffin_employees,1,1,1,1
 access_coffin_batch_cdg_coffin_employees,access_coffin_batch,model_coffin_batch,cdg_base.cdg_coffin_employees,1,1,1,1
 access_coffin_base_cdg_coffin_employees,access_coffin_base,model_coffin_base,cdg_base.cdg_coffin_employees,1,1,1,1
+
+access_change_password,access_change_password,model_change_password,cdg_base.cdg_manager,1,1,1,1
+
 
 

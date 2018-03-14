@@ -35,7 +35,6 @@
                   name="修改密碼"
                   parent="charity_base_categ"
                   action="action_change_password"
-                  sequence="3"
         />
         <!--<menuitem id="bridge_base"-->
                   <!--name="橋梁資料作業"-->
