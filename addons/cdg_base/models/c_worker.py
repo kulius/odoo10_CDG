@@ -101,6 +101,9 @@ class CWorker(models.Model):
                 'job_type': 2,
             })
 
+    def change_password(self):
+        print 'yes'
+
     def check_db_date(self, date):
         if date:
             try:

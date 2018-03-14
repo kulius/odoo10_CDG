@@ -25,11 +25,17 @@
                   groups="cdg_member_manager"
         />
         <menuitem id="worker_base2"
-                  name="員工基本資料2"
+                  name="員工基本資料"
                   parent="charity_base_categ"
                   action="c_worker_employee_action"
                   sequence="2"
                   groups="cdg_employees"
+        />
+        <menuitem id="worker_password"
+                  name="修改密碼"
+                  parent="charity_base_categ"
+                  action="action_change_password"
+                  sequence="3"
         />
         <!--<menuitem id="bridge_base"-->
                   <!--name="橋梁資料作業"-->

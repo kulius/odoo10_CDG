@@ -18,3 +18,4 @@ from . import batch_change_print_state
 from . import member_receipt_print
 from . import consultant_receipt_print
 from . import coffin_inquire
+from . import change_password
