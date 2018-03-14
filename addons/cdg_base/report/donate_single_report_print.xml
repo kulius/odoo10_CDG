@@ -55,7 +55,12 @@
                     {
                         "收據編號":"<t t-esc="o.donate_id"/>",
                         "捐款者姓名":"<t t-esc="o.donate_member.name"/>",
-                        "住址":"<t t-esc="o.rec_addr"/>",
+                        <t t-if="o.donate_member.rec_send == True">
+                            "住址":"<t t-esc="o.rec_addr"/>",
+                        </t>
+                         <t t-else="">
+                            "住址":"[收據不寄送]" + "<t t-esc="o.rec_addr"/>",
+                        </t>
                         "捐款日期":"<t t-esc="o.donate_date"/>",
                         "團員編號":"<t t-esc="o.new_coding"/>",
                         "捐款金額":"<t t-esc="o.donate_total"/>",
@@ -149,7 +154,12 @@
                     {
                         "收據編號":"<t t-esc="o.title_doante_code"/>",
                         "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
-                        "住址":"<t t-esc="o.title_donate.rec_addr"/>",
+                        <t t-if="o.title_donate.rec_send == True">
+                            "住址":"<t t-esc="o.title_donate.rec_addr"/>",
+                        </t>
+                         <t t-else="">
+                            "住址":"[收據不寄送]"+ "<t t-esc="o.title_donate.rec_addr"/>",
+                        </t>
                         "捐款日期":"<t t-esc="o.title_doante_date"/>",
                         "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
                         "經手人":"<t t-esc="o.key_in_user.name"/>",
@@ -233,7 +243,12 @@
                             {
                                 "收據編號":"<t t-esc="o.title_doante_code"/>",
                                 "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
-                                "住址":"<t t-esc="o.title_donate.rec_addr"/>",
+                                <t t-if="o.title_donate.rec_send == True">
+                                    "住址":"<t t-esc="o.title_donate.rec_addr"/>",
+                                </t>
+                                 <t t-else="">
+                                    "住址":"[收據不寄送]"+ "<t t-esc="o.title_donate.rec_addr"/>",
+                                </t>
                                 "捐款日期":"<t t-esc="o.title_doante_date"/>",
                                 "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
                                 "經手人":"<t t-esc="o.key_in_user.name"/>",
@@ -311,7 +326,12 @@
                     {
                         "收據編號":"<t t-esc="o.title_doante_code"/>",
                         "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
-                        "住址":"<t t-esc="o.title_donate.rec_addr"/>",
+                        <t t-if="o.title_donate.rec_send == True">
+                            "住址":"<t t-esc="o.title_donate.rec_addr"/>",
+                        </t>
+                         <t t-else="">
+                            "住址":"[收據不寄送]"+ "<t t-esc="o.title_donate.rec_addr"/>",
+                        </t>
                         "捐款日期":"<t t-esc="o.title_doante_date"/>",
                         "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
                         "經手人":"<t t-esc="o.key_in_user.name"/>",
@@ -330,7 +350,12 @@
                     {
                         "收據編號":"<t t-esc="o.title_doante_code"/>",
                         "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
-                        "住址":"<t t-esc="o.title_donate.rec_addr"/>",
+                        <t t-if="o.title_donate.rec_send == True">
+                            "住址":"<t t-esc="o.title_donate.rec_addr"/>",
+                        </t>
+                         <t t-else="">
+                            "住址":"[收據不寄送]"+ "<t t-esc="o.title_donate.rec_addr"/>",
+                        </t>
                         "捐款日期":"<t t-esc="o.title_doante_date"/>",
                         "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
                         "經手人":"<t t-esc="o.key_in_user.name"/>",
@@ -439,7 +464,12 @@
                     {
                         "會員姓名":"<t t-esc="o['member_name']"/>",
                         "團員編號":"<t t-esc="o['new_coding']"/>",
-                        "住址":"<t t-esc="o['rec_addr']"/>",
+                        <t t-if="o['rec_send'] == True">
+                            "住址":"<t t-esc="o['rec_addr']"/>",
+                        </t>
+                         <t t-else="">
+                            "住址": "[收據不寄送]"+ "<t t-esc="o['rec_addr']"/>",
+                        </t>
                         "收據編號":"<t t-esc="o['fee_code']"/>",
                         "捐款日期":"<t t-esc="o['pay_date']"/>",
                         "經手人":"<t t-esc="o['key_in_user']"/>",
