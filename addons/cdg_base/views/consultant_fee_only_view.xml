@@ -21,7 +21,7 @@
                 <tree>
                     <field name="year"/>
                     <field name="fee_date"/>
-                    <field name="normal_p_id"/>
+                    <field name="consultant_name"/>
                     <field name="rec_addr"/>
                     <field name="con_phone"/>
                     <field name="cellphone"/>

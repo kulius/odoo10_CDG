@@ -80,10 +80,12 @@ class ReportDonateSingleMerge(models.AbstractModel):
             if line.state == 3:
                 raise ValidationError(u'本捐款單已經作廢')
             elif line.state == 1:
-                # line.state = 2
+                line.state = 2
                 line.print_count+=1
                 line.print_date = datetime.date.today()
                 line.print_user = self.env.uid
+            elif line.state == 2:
+                line.print_date = datetime.date.today()
             line.report_price_big = self.convert(line.donate_total)
 
         docargs = {
@@ -130,7 +132,7 @@ class ReportDonateSinglePersonal(models.AbstractModel):
             if row.state == 3:
                 raise ValidationError(u'本捐款單已經作廢')
             elif row.state == 1:
-                # row.state = 2
+                row.state = 2
                 row.print_count += 1
                 row.print_date = datetime.date.today()
                 row.print_user = self.env.uid
@@ -195,7 +197,7 @@ class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
             if row.state == 3:
                 raise ValidationError(u'本捐款單已經作廢')
             elif row.state == 1:
-                # row.state = 2
+                row.state = 2
                 row.print_count += 1
                 row.print_date=datetime.date.today()
                 row.print_user = self.env.uid
@@ -253,7 +255,7 @@ class ReportDonateSingleDefault(models.AbstractModel):
             if row.state == 3:
                 raise ValidationError(u'本捐款單已經作廢')
             elif row.state == 1:
-                # row.state = 2
+                row.state = 2
                 row.print_count += 1
                 row.print_date = datetime.date.today()
                 row.print_user = self.env.uid

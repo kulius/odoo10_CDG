@@ -151,13 +151,13 @@
                     <group string="odoo客製化">
                         <label string="團員檔"/>
                         <div>
-                            <button string="1.轉檔" type="object" name="data_transfer" class="oe_highlight"/>
+                            <button string="2.轉檔" type="object" name="data_transfer" class="oe_highlight"/>
                             |
-                            <button string="2.設戶長" type="object" name="set_leader" class="oe_highlight"/>
+                            <button string="3.設戶長" type="object" name="set_leader" class="oe_highlight"/>
                         </div>
                         <label string="捐款檔"/>
                         <div>
-                            <button string="3.捐款檔轉檔" type="object" name="receipt_transfer" class="oe_highlight"/>
+                            <button string="1.捐款檔轉檔" type="object" name="receipt_transfer" class="oe_highlight"/>
                             |
                             <button string="4.設定捐款者" type="object" name="set_donor" class="oe_highlight"/>
                             |

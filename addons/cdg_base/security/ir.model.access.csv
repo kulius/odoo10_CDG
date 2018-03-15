@@ -50,6 +50,7 @@ access_cf_template,access_cf_template,cfprint.model_cf_template,cdg_base.cdg_man
 access_consultant_receipt,access_consultant_receipt,model_consultant_receipt,cdg_base.cdg_manager,1,1,1,1
 access_member_receipt,access_member_receipt,model_member_receipt,cdg_base.cdg_manager,1,1,1,1
 access_res_users,access_res_users,model_res_users,cdg_base.cdg_manager,1,1,1,1
+access_ir_ui_view,access_ir_ui_view,base.model_ir_ui_view,cdg_base.cdg_manager,1,1,1,0
 
 access_coffin_batch_member_manager,access_coffin_batch,model_coffin_batch,cdg_base.cdg_member_manager,1,0,0,0
 access_coffin_batch_cdg_employees,access_coffin_batch,model_coffin_batch,cdg_base.cdg_employees,1,0,0,0

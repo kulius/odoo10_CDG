@@ -5,7 +5,7 @@ class memnberfeegenerate(models.Model):
     _name = 'memnber.fee.generate'
     _description = u'會員費產生'
 
-    year = fields.Integer(string='繳費年度')
+    year = fields.Char(string='繳費年度')
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', default=lambda self: self.env.uid)
 
     def start_member_batch(self):
@@ -14,8 +14,8 @@ class memnberfeegenerate(models.Model):
         for line in basic_setting:
             if line.key == 'Annual_membership_fee':
                 Annual_membership_fee = int(line.value)
-        if len(str(self.year)) == 4:
-            self.year = self.year - 1911
+        if len(self.year) == 4:
+            self.year = str(int(self.year) - 1911)
 
         data_line = []
         normal_p_members = self.env['normal.p'].search(['|',('type.id','=',2),('type.id','=',3)]).ids

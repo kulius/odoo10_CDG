@@ -71,7 +71,7 @@
                         "列印日期":"<t t-esc="o.print_date"/>" + " 補單",
                         "列印狀態":"<t t-esc="o.state"/>",
                         "年繳":"<t t-esc="single_state"/>",
-                        "年繳字串":"年繳:  " + "<t t-esc="o.key_in_user.name"/>"
+                        "年繳字串":"年繳"
                     });
                     <t t-foreach="o.donate_list" t-as="lines">
                         <t t-if="foo &lt; 23">
@@ -169,7 +169,7 @@
                         "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
                         "列印狀態":"<t t-esc="o.title_state"/>",
                         "年繳":"<t t-esc="o.title_year_fee"/>",
-                        "年繳字串":"年繳:  " + "<t t-esc="o.key_in_user.name"/>"
+                        "年繳字串":"年繳"
                     });
                     <t t-foreach="o.donate_line" t-as="lines">
                         <t t-if="foo &lt; 23">
@@ -260,7 +260,7 @@
                                 "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
                                 "列印狀態":"<t t-esc="o.title_state"/>",
                                 "年繳":"<t t-esc="o.title_year_fee"/>",
-                                "年繳字串":"年繳:  " + "<t t-esc="o.key_in_user.name"/>"
+                                "年繳字串":"年繳"
                             });
                         </t>
                     </t>
@@ -342,7 +342,7 @@
                         "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
                         "列印狀態":"<t t-esc="o.title_state"/>",
                         "年繳":"<t t-esc="o.title_year_fee"/>",
-                        "年繳字串":"年繳:  " + "<t t-esc="o.key_in_user.name"/>"
+                        "年繳字串":"年繳"
                     });
                     </t>
                     <t t-if="o.title_donate.is_merge ==False">
@@ -366,7 +366,7 @@
                         "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
                         "列印狀態":"<t t-esc="o.title_state"/>",
                         "年繳":"<t t-esc="o.title_year_fee"/>",
-                        "年繳字串":"年繳:  " + "<t t-esc="o.key_in_user.name"/>"
+                        "年繳字串":"年繳"
                     });
                     </t>
                     <t t-foreach="o.donate_line" t-as="lines">

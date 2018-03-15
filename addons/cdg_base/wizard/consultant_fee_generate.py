@@ -5,7 +5,7 @@ class consultantfeegenerate(models.Model):
     _name = 'consultant.fee.generate'
     _description = u'顧問費產生'
 
-    year = fields.Integer(string='繳費年度')
+    year = fields.Char(string='繳費年度')
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員',default=lambda self: self.env.uid)
 
     def start_consultant_batch(self):
@@ -14,8 +14,8 @@ class consultantfeegenerate(models.Model):
         for line in basic_setting:
             if line.key == 'Annual_consultants_fee':
                 Annual_consultants_fee = int(line.value)
-        if len(str(self.year)) == 4:
-            self.year = self.year - 1911
+        if len(self.year) == 4:
+            self.year = str(int(self.year) - 1911)
 
         data_line = []
         normal_p_consultants = self.env['normal.p'].search([('type.id','=',4)]).ids

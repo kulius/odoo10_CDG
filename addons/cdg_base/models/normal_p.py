@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 class NormalP(models.Model):
     # 捐款人
     _name = 'normal.p'
-    # _order = 'sequence'
+    _order = 'sequence'
     _description = u'捐款者基本資料管理'
 
     new_coding = fields.Char(string='捐款者編號')
@@ -106,6 +106,7 @@ class NormalP(models.Model):
     donate_batch_setting = fields.Boolean(string='確認捐款', default = False)
     postal_code_id = fields.Many2one(comodel_name='postal.code', string='郵遞區號關聯')
     print_all_donor_list = fields.Boolean(string='列印願意捐助的眷屬')
+    head_of_household = fields.Integer('我是戶長')
 
     @api.onchange('last_donate_type')
     def set_default_last_donate_money(self):

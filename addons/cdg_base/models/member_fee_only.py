@@ -11,7 +11,7 @@ class MemberFeeOnly(models.Model):
 
     member_id = fields.Char(string='會員編號')
     member_note_code = fields.Char(string='會員名冊編號')
-    year = fields.Integer(string='年度')
+    year = fields.Char(string='年度')
     fee_code = fields.Char(string='收費編號',readonly =True)
     fee_payable = fields.Integer(string='應繳金額')
     fee_date = fields.Date(string='收費日期')
@@ -49,9 +49,9 @@ class MemberFeeOnly(models.Model):
     @api.model
     def create(self, vals):
         res_id = super(MemberFeeOnly, self).create(vals)
-        if res_id.year == 0:
+        if res_id.year is False:
             raise ValidationError(u'請輸入繳費年度')
-        elif res_id.year != 0:
+        elif not res_id.year is False:
             if res_id.fee_date:
                 res_id.fee_code = 'F' + str(int(datetime.strptime(res_id.fee_date, '%Y-%m-%d').year) - 1911) + res_id.member_code
         return res_id

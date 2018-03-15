@@ -2,6 +2,7 @@
 import time
 from odoo import models, fields, api
 from passlib.context import CryptContext
+from odoo.exceptions import ValidationError
 import datetime
 
 #員工基本檔
@@ -41,12 +42,12 @@ class CWorker(models.Model):
 
     @api.model
     def create(self, vals):
-
         res_id = super(CWorker, self).create(vals)
-
+        if res_id.employee_id is False:
+            raise ValidationError(u'請輸入新員工編號')
         self.env['res.users'].create({
-            'login': res_id.w_id,
-            'password': res_id.w_id,
+            'login': res_id.employee_id,
+            'password': res_id.employee_id,
             'name': res_id.name,
         })
 

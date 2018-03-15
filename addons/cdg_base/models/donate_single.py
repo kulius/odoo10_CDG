@@ -30,8 +30,8 @@ class DonateSingle(models.Model):
     con_phone = fields.Char(string='聯絡電話', compute='set_donate_name', store=True)
     zip_code = fields.Char(string='報表郵遞區號', compute='set_donate_name', store=True)
     con_addr = fields.Char(string='報表地址', compute='set_donate_name', store=True)
-    zip = fields.Char(string='收據郵遞區號', compute='set_donate_name')
-    rec_addr = fields.Char(string='收據地址', compute='set_donate_name')
+    zip = fields.Char(string='收據郵遞區號', compute='set_donate_name', store=True)
+    rec_addr = fields.Char(string='收據地址', compute='set_donate_name', store=True)
 
     state = fields.Selection([(1, '已產生'), (2, '已列印'), (3, '已作廢')],
                              string='狀態', default=1, index=True)
@@ -546,6 +546,7 @@ class DonateSingle(models.Model):
 
 class DonateSingleLine(models.Model):
     _name = 'donate.family.line'
+    _order = 'sequence'
 
     parent_id = fields.Many2one(comodel_name='donate.single')
     family_new_coding = fields.Char(string='捐款者編號',related='donate_member.new_coding', readonly=True)
@@ -559,4 +560,4 @@ class DonateSingleLine(models.Model):
     poor_help_money = fields.Integer(string='貧困扶助')
     noassign_money = fields.Integer(string='一般捐款')
 
-    sequence = fields.Integer(string='排序',default=1)
+    sequence = fields.Integer(string='排序', related='donate_member.sequence')

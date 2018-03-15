@@ -462,78 +462,138 @@ class AppThemeConfigSettings(models.TransientModel):
 
 
     def data_transfer(self): #轉團員檔及團員眷屬檔
-        # 轉團員眷屬檔, 其中團員編號為空的資料共334筆未轉入
         sql = "INSERT INTO normal_p(w_id, number, name, cellphone, con_phone, con_phone2, zip, rec_addr, habbit_donate, is_merge, is_donate, temp_key_in_user, db_chang_date) "\
-              " SELECT 團員編號, 序號, 姓名, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, cast(捐助種類編號 as Integer), case when 收據寄送='N' then TRUE else FALSE end as 收據寄送, case when 是否捐助='N' then FALSE else TRUE end as 是否捐助, 輸入人員, case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期 FROM 團員眷屬檔 WHERE 團員編號 <>'' "
-        self._cr.execute(sql) # 輸入765486筆資料, 花費9.687秒
+              " SELECT 團員編號, 序號, 姓名, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, cast(捐助種類編號 as Integer), case when 收據寄送='N' then TRUE else FALSE end as 收據寄送, case when 是否捐助='N' then FALSE else TRUE end as 是否捐助, 輸入人員, case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期 FROM 新團員眷屬檔 WHERE 團員編號 <>'' "
+        self._cr.execute(sql) # 輸入769339筆資料, 花費14.961秒
 
-        #轉入不在眷屬檔，在團員檔的資料，共7848筆, 花費7.251秒
-        sql = "INSERT INTO normal_p(w_id, name) "\
-              " SELECT 團員編號, 姓名 FROM 團員檔"\
-              " EXCEPT "\
-              " SELECT 團員編號, 姓名 FROM 團員眷屬檔"
-        self._cr.execute(sql)
+        sql = " DELETE FROM 舊團員眷屬檔 WHERE 團員編號 IN (SELECT a.團員編號 FROM 舊團員眷屬檔 a INNER JOIN 新團員眷屬檔 b ON a.團員編號=b.團員編號 AND a.序號 = b.序號)"
+        self._cr.execute(sql)  # 刪除舊團員眷屬檔與新新團員眷屬檔重複資料 共645386筆 花費約17.766秒
 
-        # 團員檔的資料比較齊全，因此把團員檔的資料寫入normal.p, 更新255014筆資料, 共花費8.871秒
-        sql = "UPDATE normal_p " \
-              " SET cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, donate_cycle = cast(a.捐助週期 as Integer), zip_code = a.郵遞區號, con_addr = a.通訊地址, " \
-              " merge_report = case when a.年收據='N' then FALSE else TRUE end, ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, report_send = case when a.報表寄送='N' then FALSE else TRUE end," \
-              " thanks_send = case when a.感謝狀寄送='N' then FALSE else TRUE end, prints = case when a.銀行核印='N' then FALSE else TRUE end, prints_id = a.核印批號, self_iden = a.身份證號, bank_id = a.扣款銀行代碼, bank = a.扣款銀行," \
-              " bank_id2 = a.扣款分行代碼, bank2 = a.扣款分行, account = a.銀行帳號, prints_date = a.核印日期," \
-              " ps2 = a.約定轉帳備註, temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end" \
-              " FROM 團員檔 a WHERE a.團員編號 = normal_p.w_id and a.姓名 = normal_p.name"
-        self._cr.execute(sql) # 全資料共773334筆
-        sql = "UPDATE normal_p SET temp_cashier = a.收費員編號 FROM 團員檔 a WHERE a.團員編號 = normal_p.w_id"
-        self._cr.execute(sql) # 更新772197筆資料, 花費17.647秒
-        sql = "UPDATE normal_p  SET active = TRUE"
-        self._cr.execute(sql)  # 把所有捐款者資料的active設為TRUE, 不然基本資料會什麼都看不見, 共773334筆 花費11.692秒
+        sql = "INSERT INTO normal_p(w_id, number, name, cellphone, con_phone, con_phone2, zip, rec_addr, habbit_donate, is_merge, is_donate, temp_key_in_user, db_chang_date) "\
+              " SELECT 團員編號, 序號, 姓名, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, cast(捐助種類編號 as Integer), case when 收據寄送='N' then TRUE else FALSE end as 收據寄送, case when 是否捐助='N' then FALSE else TRUE end as 是否捐助, 輸入人員, case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期 FROM 舊團員眷屬檔 WHERE 團員編號 <>''"
+        self._cr.execute(sql) # 轉入舊團員眷屬檔資料共11筆, 花費0.061秒
+
+        sql = "SELECT a.* INTO 暫存新團員檔 FROM 新團員檔 a  LEFT JOIN 新團員眷屬檔 b ON a.團員編號 = b.團員編號 AND a.姓名=b.姓名  WHERE b.姓名 IS NULL"
+        self._cr.execute(sql) # 找出沒有在新團員眷屬檔卻在新團員檔的資料, 此資料一定是戶長, 共7885筆 花費大約0.702秒
+
+        sql = "UPDATE 暫存新團員檔 SET 戶長 = '1'"
+        self._cr.execute(sql)  # 將這些資料的戶長欄位寫入 1 , 以利以後做戶長的判斷
+
+        sql = "INSERT INTO normal_p(head_of_household, w_id, name, cellphone, con_phone, con_phone2, zip_code, con_addr, habbit_donate, rec_send, donate_cycle, rec_type, create_date,"\
+              "ps, report_send, thanks_send, self, bank_check, prints_id, self_iden, bank_id, bank, bank_id2, bank2, account, prints_date, ps2, temp_key_in_user, db_chang_date)"\
+              "SELECT CAST(戶長 AS INTEGER), 團員編號, 姓名, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, cast(捐助種類編號 as Integer), case when 收據寄送='Y' then TRUE else FALSE end, CAST(捐助週期 AS INTEGER), case when 年收據='N' then 1 else 2 end, case when 建檔日期='' then NULL else cast(建檔日期 as date) end,"\
+              "備註, case when 報表寄送='N' then FALSE else TRUE end,case when 感謝狀寄送='N' then FALSE else TRUE end, 自訂排序, case when 銀行核印='N' then FALSE else TRUE end,核印批號, 身份證號, 扣款銀行代碼, 扣款銀行, 扣款分行代碼, 扣款分行, 銀行帳號, 核印日期, 約定轉帳備註,"\
+              "輸入人員, case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期 FROM 暫存新團員檔 WHERE 團員編號 <>''"
+        self._cr.execute(sql) # 轉入找出沒有在新團員眷屬檔卻在新團員檔的資料, 共 7885 筆, 花費 0.118 秒
+
+        sql = " DELETE FROM 新團員檔 WHERE 團員編號 IN (SELECT a.團員編號 FROM 暫存新團員檔 a INNER JOIN 新團員檔 b ON a.團員編號=b.團員編號 AND a.姓名=b.姓名)"
+        self._cr.execute(sql)  # 刪除 7885 筆資料, 花費 0.590 秒
+
+        sql = "DROP TABLE 暫存新團員檔"
+        self._cr.execute(sql) # 刪除暫存表
+
+        sql = "SELECT a.* INTO 暫存新團員檔 FROM 新團員檔 a "\
+              " LEFT JOIN 新團員眷屬檔 b ON a.團員編號 = b.團員編號 AND b.序號='1' AND a.姓名=b.姓名 "\
+              " WHERE b.姓名 IS NOT NULL"
+        self._cr.execute(sql) # 找出新團員眷屬檔與新團員檔且序號為 1 的戶長, 共 234816 筆, 花費 1.116  秒
+
+        sql = "UPDATE 暫存新團員檔 SET 戶長 = '1'"
+        self._cr.execute(sql)  # 將這些資料的戶長欄位寫入 1 , 以利以後做戶長的判斷
+
+        sql = "UPDATE normal_p "\
+              " SET head_of_household = CAST(a.戶長 AS INTEGER), cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, donate_cycle = cast(a.捐助週期 as Integer), zip_code = a.郵遞區號, con_addr = a.通訊地址, "\
+              " merge_report = case when a.年收據='N' then FALSE else TRUE end, ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, report_send = case when a.報表寄送='N' then FALSE else TRUE end, "\
+              " thanks_send = case when a.感謝狀寄送='N' then FALSE else TRUE end, prints = case when a.銀行核印='N' then FALSE else TRUE end, prints_id = a.核印批號, self_iden = a.身份證號, bank_id = a.扣款銀行代碼, bank = a.扣款銀行, "\
+              " bank_id2 = a.扣款分行代碼, bank2 = a.扣款分行, account = a.銀行帳號, prints_date = a.核印日期, "\
+              " ps2 = a.約定轉帳備註, temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end "\
+              " FROM 暫存新團員檔 a WHERE a.團員編號 = normal_p.w_id and a.姓名 = normal_p.name AND normal_p.number = '1'"
+        self._cr.execute(sql) # 更新新團員眷屬檔與新團員檔且序號為 1 的戶長資料, 共 234816 筆 , 花費  9.097  秒
+
+        sql = " DELETE FROM 新團員檔 WHERE 團員編號 IN (SELECT a.團員編號 FROM 暫存新團員檔 a INNER JOIN 新團員檔 b ON a.團員編號=b.團員編號 AND a.姓名=b.姓名)"
+        self._cr.execute(sql)  # 刪除 234816 筆資料, 花費 4.315 秒
+
+        sql = "DROP TABLE 暫存新團員檔"
+        self._cr.execute(sql)  # 刪除暫存表
+
+        sql = "UPDATE 新團員檔 SET 戶長 = '1'"
+        self._cr.execute(sql)  # 將這些資料的戶長欄位寫入 1 , 共 12464 筆, 花費 0.047 秒
+
+        sql = "SELECT normal_p.w_id, normal_p.name, MAX(normal_p.id) INTO 暫存新團員檔 FROM normal_p, 新團員檔 a WHERE a.團員編號 = normal_p.w_id and a.姓名 = normal_p.name GROUP BY normal_p.w_id, normal_p.name"
+        self._cr.execute(sql) # 篩選 normal_p 重複資料, 共 12464 筆 , 花費 0.531 秒
+
+        sql = "UPDATE normal_p "\
+              " SET head_of_household = CAST(a.戶長 AS INTEGER), cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, donate_cycle = cast(a.捐助週期 as Integer), zip_code = a.郵遞區號, con_addr = a.通訊地址,"\
+              " merge_report = case when a.年收據='N' then FALSE else TRUE end, ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, report_send = case when a.報表寄送='N' then FALSE else TRUE end,"\
+              " thanks_send = case when a.感謝狀寄送='N' then FALSE else TRUE end, prints = case when a.銀行核印='N' then FALSE else TRUE end, prints_id = a.核印批號, self_iden = a.身份證號, bank_id = a.扣款銀行代碼, bank = a.扣款銀行,"\
+              " bank_id2 = a.扣款分行代碼, bank2 = a.扣款分行, account = a.銀行帳號, prints_date = a.核印日期,"\
+              " ps2 = a.約定轉帳備註, temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end"\
+              " FROM 新團員檔 a, 暫存新團員檔 b WHERE a.團員編號 = normal_p.w_id and a.姓名 = normal_p.name AND normal_p.id = b.max"
+        self._cr.execute(sql) # 轉入最後的戶長資料, 共 12464 筆, 花費 18.82 秒
+
+        sql = "DROP TABLE 暫存新團員檔"
+        self._cr.execute(sql)  # 刪除暫存表
+
+        sql = "UPDATE normal_p SET temp_cashier = a.收費員編號 FROM 新團員檔2 a WHERE a.團員編號 = normal_p.w_id"
+        self._cr.execute(sql) # 更新 776087 筆資料, 花費22.857秒
+        sql = "UPDATE normal_p SET active = TRUE"
+        self._cr.execute(sql)  # 把所有捐款者資料的active設為TRUE, 不然基本資料會什麼都看不見, 共777235筆 花費15.163秒
         sql = "UPDATE normal_p SET new_coding = '' "
-        self._cr.execute(sql) #將所有的捐款者編號全部設為空 而並非是NULL
+        self._cr.execute(sql) # 將所有的捐款者編號全部設為空 而並非是NULL, 共777235筆資料, 花費14.094秒
         return True
 
     def set_leader(self): # 設定戶長
-        sql = " UPDATE normal_p SET parent = a.id FROM normal_p a WHERE a.w_id = normal_p.w_id and a.number='1' "
-        self._cr.execute(sql) #更新770896筆資料, 花費47.314秒
+        sql = " UPDATE normal_p SET parent = a.id FROM normal_p a WHERE a.w_id = normal_p.w_id and a.head_of_household = 1 "
+        self._cr.execute(sql) #更新776087筆資料, 花費51.029秒
         return True
 
     def receipt_transfer(self): # 轉捐款檔
-        sql = " INSERT INTO donate_order(paid_id,donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,report_year,clerk,db_chang_date, temp_key_in_user,create_date) SELECT 收費編號,捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,case when 捐款日期='' then NULL WHEN 捐款日期='.' THEN NULL else cast(捐款日期 as date) end as 捐款日期,case when 收據年度開立 = 'N' then FALSE else TRUE end as report_year,收費員編號, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期, 輸入人員,case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期 FROM 新捐款歷史檔"
-        self._cr.execute(sql)  # 捐款歷史檔 共91917筆資料, 轉入91917筆, 花費2.849秒
+        sql = " INSERT INTO donate_order(paid_id,donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,report_year,clerk,db_chang_date, temp_key_in_user) SELECT 收費編號,捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,case when 捐款日期='' then NULL WHEN 捐款日期='.' THEN NULL else cast(捐款日期 as date) end as 捐款日期,case when 收據年度開立 = 'N' then FALSE else TRUE end as report_year,收費員編號, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期, 輸入人員 FROM 新捐款歷史檔"
+        self._cr.execute(sql)  # 新捐款歷史檔 共92022筆資料, 轉入91917筆, 花費1.156秒
 
-        sql = " INSERT INTO donate_order(paid_id,donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,report_year,clerk,db_chang_date, temp_key_in_user,create_date) SELECT 收費編號,捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,case when 捐款日期='' then NULL WHEN 捐款日期='.' THEN NULL else cast(捐款日期 as date) end as 捐款日期,case when 收據年度開立 = 'N' then FALSE else TRUE end as report_year,收費員編號, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期, 輸入人員,case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期 FROM 新捐款檔"
-        self._cr.execute(sql) # 捐款檔 共2975829筆 花費約91.279秒
+        sql = " INSERT INTO donate_order(paid_id,donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,report_year,clerk,db_chang_date, temp_key_in_user) SELECT 收費編號,捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,case when 捐款日期='' then NULL WHEN 捐款日期='.' THEN NULL else cast(捐款日期 as date) end as 捐款日期,case when 收據年度開立 = 'N' then FALSE else TRUE end as report_year,收費員編號, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期, 輸入人員 FROM 新捐款檔"
+        self._cr.execute(sql) # 新捐款檔 共2979309筆 花費約58.03秒
 
-        sql = " INSERT INTO donate_order(paid_id) "\
-              " SELECT 收費編號 FROM 舊捐款檔"\
-              " EXCEPT"\
-              " SELECT 收費編號 FROM 新捐款檔"
-        self._cr.execute(sql)  # 捐款檔 共5313853筆 花費約160.705秒
+        sql = " DELETE FROM 舊捐款檔 WHERE 收費編號 IN (SELECT a.收費編號 FROM 舊捐款檔 a INNER JOIN 新捐款檔 b ON a.收費編號=b.收費編號)"
+        self._cr.execute(sql)  # 刪除舊捐款檔與新捐款檔重複資料 共850090筆 花費約15.044秒
 
-        sql = "UPDATE donate_order SET donate_id = a.捐款編號, donate_w_id = a.團員編號, donate_w_id_number = a.序號, donate_type = cast(a.捐助種類編號 as Integer), donate = a.捐款金額, donate_total = a.捐款總額, donate_date = case when a.捐款日期='' then NULL WHEN a.捐款日期='.' THEN NULL else cast(a.捐款日期 as date) END, report_year = case when 收據年度開立 = 'N' then FALSE else TRUE END, temp_key_in_user =  a.輸入人員, clerk = a.收費員編號, db_chang_date = case when a.異動日期='' then NULL WHEN a.異動日期='.' THEN NULL else cast(a.異動日期 as date) END  FROM 舊捐款檔 a WHERE paid_id IN (SELECT CAST(收費編號 AS VARCHAR) FROM 舊捐款檔 EXCEPT SELECT CAST(收費編號 AS VARCHAR) FROM 新捐款檔)"
-        self._cr.execute(sql)  # 捐款檔 共5313853筆 花費約160.705秒
+        sql = " INSERT INTO donate_order(paid_id, donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,report_year,clerk,db_chang_date, temp_key_in_user) SELECT 收費編號, 捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,case when 捐款日期='' then NULL WHEN 捐款日期='.' THEN NULL else cast(捐款日期 as date) end as 捐款日期,case when 收據年度開立 = 'N' then FALSE else TRUE end as report_year,收費員編號, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期, 輸入人員 FROM 舊捐款檔"
+        self._cr.execute(sql)  # 轉入舊捐款檔 共5313853筆 花費約115.047秒
 
+        sql = " INSERT INTO donate_order(paid_id, donate_book_code, donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,clerk, state, ps, db_chang_date, temp_key_in_user) SELECT 收費編號, 簿冊編號, 捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,case when 捐款日期='' then NULL WHEN 捐款日期='.' THEN NULL else cast(捐款日期 as date) end as 捐款日期,收費員編號, case when 作廢 = 'N' then 2 else 1 end, 備註, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期, 輸入人員 FROM 新手寫捐款檔"
+        self._cr.execute(sql)  # 轉入新手寫捐款檔 共198638筆 花費約2.676秒
+
+        sql = " DELETE FROM 舊手寫捐款檔 WHERE 收費編號 IN (SELECT a.收費編號 FROM 舊手寫捐款檔 a INNER JOIN 新手寫捐款檔 b ON a.收費編號=b.收費編號)"
+        self._cr.execute(sql)  # 刪除舊手寫捐款檔與新手寫捐款檔)重複資料 共152006筆 花費約0.546秒
+
+        sql = " INSERT INTO donate_order(paid_id, donate_book_code, donate_id,donate_w_id,donate_w_id_number,donate_type,donate,donate_total,donate_date,clerk, state, ps, db_chang_date, temp_key_in_user) SELECT 收費編號, 簿冊編號, 捐款編號,團員編號,序號,cast(捐助種類編號 as Integer),捐款金額,捐款總額,case when 捐款日期='' then NULL WHEN 捐款日期='.' THEN NULL else cast(捐款日期 as date) end as 捐款日期,收費員編號, case when 作廢 = 'N' then 2 else 1 end, 備註, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期, 輸入人員 FROM 舊手寫捐款檔"
+        self._cr.execute(sql)  # 轉入舊手寫捐款檔 共17筆 花費約0.021秒
+
+        sql = "INSERT INTO hand_book(book_code,name,take_date,recycle_date,key_in_total_money,build_date,ps,key_in_user_data) "\
+              " SELECT 簿冊編號,領取人,case when 領取日期='' then Null else cast(領取日期 as Date) end as 領取日期,case when 回收日期='' then Null else cast(回收日期 as Date) end as 回收日期,已收總金額,case when 建檔日期='' then Null else cast(建檔日期 as Date) end as 建檔日期,備註,輸入人員 from 新手寫簿冊檔"
+        self._cr.execute(sql) # 轉入1539 筆資料, 花費 0.023 秒
+        # donate_order 全資料共8580254筆
         return True
 
     def set_donor(self): # normal.p 關聯捐款檔 設定捐款者
         sql = " UPDATE donate_order SET donate_member = a.id FROM normal_p a WHERE a.w_id = donate_order.donate_w_id AND a.number = donate_order.donate_w_id_number AND donate_order.donate_w_id_number <> '' "
-        self._cr.execute(sql) # 全資料共3001165筆, 關聯資料共3000603 筆 花費662.986秒, 序號為空的資料共10筆, 全部共差 562 筆資料(donate_member is None)
+        self._cr.execute(sql) # 關聯資料共8569293筆 花費4599.777秒
         return True
 
     def set_last_donate_data(self):
-        sql = "SELECT MAX(donate_id), donate_member INTO search_last_order FROM donate_order WHERE donate_member IN (SELECT id FROM normal_p) GROUP BY donate_member"
-        self._cr.execute(sql)  # 篩選出所有捐款者的最後一次捐款紀錄 共 390150 筆, 花費5.224秒
-        sql = "SELECT a.donate_id, a.donate_member, a.donate_date, a.donate, a.donate_type INTO get_last_order FROM donate_order a , search_last_order b WHERE a.donate_id = b.max AND a.donate_member = b.donate_member ORDER BY a.donate_member"
-        self._cr.execute(sql)  # 從donate_order 篩選出 資料共 391336 筆, 花費2.437秒
+        sql = "SELECT MAX(donate_date), donate_member INTO search_last_order FROM donate_order WHERE donate_member IN (SELECT id FROM normal_p) GROUP BY donate_member"
+        self._cr.execute(sql)  # 篩選出所有捐款者的最後一次捐款紀錄 共 735419 筆, 花費17.776秒
+        sql = "SELECT a.donate_id, a.donate_member, a.donate_date, a.donate, a.donate_type INTO get_last_order FROM donate_order a , search_last_order b WHERE a.donate_date = b.max AND a.donate_member = b.donate_member ORDER BY a.donate_member"
+        self._cr.execute(sql)  # 從donate_order 篩選出 資料共 839969 筆, 花費15.693秒
         sql = "UPDATE normal_p SET last_donate_date = a.donate_date, last_donate_type = a.donate_type, last_donate_money = a.donate FROM get_last_order a WHERE a.donate_member = normal_p.id"
-        self._cr.execute(sql) # 更新normal_p 欄位資料, 共 390150 筆, 花費14.053秒
+        self._cr.execute(sql) # 更新normal_p 欄位資料, 共 735415 筆, 花費33.123秒
         return True
 
-    def set_worker(self): #員工檔轉進 res.users
+    def set_worker(self): #員工檔轉進 res.users 大約15秒
         sql = "INSERT INTO worker_data(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
-              " SELECT 職稱, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期,性別, 電話二, 身份證號,case when 離職日期='' then NULL else cast(離職日期 as date) end as 離職日期, 員工編號, 通訊地址,備註,手機,姓名, 電話一,最高學歷,case when 到職日期='' then NULL else cast(到職日期 as date) end as 到職日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 員工檔"
+              " SELECT 職稱, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期,性別, 電話二, 身份證號,case when 離職日期='' then NULL else cast(離職日期 as date) end as 離職日期, 員工編號, 通訊地址,備註,手機,姓名, 電話一,最高學歷,case when 到職日期='' then NULL else cast(到職日期 as date) end as 到職日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 新員工檔"
         self._cr.execute(sql)
         sql = "INSERT INTO c_worker(now_job,birth,sex,con_phone2,self_iden,lev_date,w_id,con_addr,ps,cellphone,name,con_phone,highest_stu,come_date,db_chang_date) " \
-              " SELECT 職稱, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期,性別, 電話二, 身份證號,case when 離職日期='' then NULL else cast(離職日期 as date) end as 離職日期, 員工編號, 通訊地址,備註,手機,姓名, 電話一,最高學歷,case when 到職日期='' then NULL else cast(到職日期 as date) end as 到職日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 員工檔"
+              " SELECT 職稱, case when 出生日期='' then NULL else cast(出生日期 as date) end as 出生日期,性別, 電話二, 身份證號,case when 離職日期='' then NULL else cast(離職日期 as date) end as 離職日期, 員工編號, 通訊地址,備註,手機,姓名, 電話一,最高學歷,case when 到職日期='' then NULL else cast(到職日期 as date) end as 到職日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期  FROM 新員工檔"
         self._cr.execute(sql)
         employee_data = self.env['worker.data'].search([])
         for line in employee_data:
@@ -562,70 +622,74 @@ class AppThemeConfigSettings(models.TransientModel):
 
     def set_worker_associated(self):  # normal_p 關聯 res.users
         sql = " UPDATE normal_p set key_in_user = a.id from res_users a where a.login = normal_p.temp_key_in_user"
-        self._cr.execute(sql) # 關聯資料共 714017 筆,  共59316筆資料未關聯到, 其中59315筆 輸入人員欄位有資料, 但其輸入人員已不在現職的員工名單之中, 其中有1名捐款者原資料的輸入人員欄位為空
+        self._cr.execute(sql) # 關聯資料共 718112 筆,  花費35.628秒
         return True
 
     def set_coffin_data(self): # 施棺檔轉入 coffin_base 共 14256筆, 花費0.21秒
-        sql = "UPDATE 施棺檔 SET 施棺日期='2009-06-30' WHERE 施棺日期='2009-06-31' "
+        sql = "UPDATE 新施棺檔 SET 施棺日期='2009-06-30' WHERE 施棺日期='2009-06-31' "
         self._cr.execute(sql)
-        sql = "UPDATE 施棺檔 SET 施棺日期='2010-08-27' WHERE 施棺日期='2010-80-27' "
+        sql = "UPDATE 新施棺檔 SET 施棺日期='2010-08-27' WHERE 施棺日期='2010-80-27' "
         self._cr.execute(sql)
         sql = "INSERT INTO coffin_base(coffin_id, donate_type, create_date, donate_price, finish, \"user\", coffin_date_year, coffin_date_group, coffin_date, geter, dealer, cellphone, con_phone, con_phone2, zip_code, con_addr, donater_ps, ps, temp_key_in_user, db_chang_date) " \
-              " SELECT 施棺編號, 捐助方式, case when 建檔日期='' then NULL WHEN 建檔日期='.' THEN NULL else cast(建檔日期 as date) end as 建檔日期, CAST(已捐總額 AS INTEGER), case when 結案='N' then FALSE else TRUE end as 結案, 受施者, 年度, case when 期別='' then NULL else CAST(期別 AS INTEGER) end as 期別, case when 施棺日期='' then NULL WHEN 施棺日期='.' THEN NULL else cast(施棺日期 as date) end as 施棺日期, 領款人, 處理者, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, 捐款者備註, 備註, 輸入人員, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期 FROM 施棺檔"
-        self._cr.execute(sql) # 輸入共14768筆資料,花費0.180秒
+              " SELECT 施棺編號, 捐助方式, case when 建檔日期='' then NULL WHEN 建檔日期='.' THEN NULL else cast(建檔日期 as date) end as 建檔日期, CAST(已捐總額 AS INTEGER), case when 結案='N' then FALSE else TRUE end as 結案, 受施者, 年度, case when 期別='' then NULL else CAST(期別 AS INTEGER) end as 期別, case when 施棺日期='' then NULL WHEN 施棺日期='.' THEN NULL else cast(施棺日期 as date) end as 施棺日期, 領款人, 處理者, 手機, 電話一, 電話二, 郵遞區號, 通訊地址, 捐款者備註, 備註, 輸入人員, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期 FROM 新施棺檔"
+        self._cr.execute(sql) # 輸入共15117筆資料,花費0.186秒
         # 施棺編號 00236 之施棺日期為 2009-06-31, 修改為2009-06-30
         # 施棺編號 01944, 01945, 01946, 01947 之施棺日期為 2010-80-27  修改為2010-08-27
         sql = "UPDATE coffin_base set dead_date = a.coffin_date from coffin_base a where a.id = coffin_base.id"
-        self._cr.execute(sql)  # 計算資料共14768筆, 花費0.151秒 ; 舊資料設定領款日期等餘死亡日期
+        self._cr.execute(sql)  # 計算資料共15102筆, 花費0.111秒 ; 舊資料設定領款日期等餘死亡日期
         sql = "UPDATE coffin_base set donate_apply_price = a.donate_price from coffin_base a where a.id = coffin_base.id and a.finish IS TRUE"
-        self._cr.execute(sql)  # 計算資料共12102筆, 花費 0.126秒 ; 已結案的舊資料設定累積金額等於申請金額
+        self._cr.execute(sql)  # 計算資料共12408筆, 花費 0.098秒 ; 已結案的舊資料設定累積金額等於申請金額
         return True
 
     def set_coffin_donate(self): # 施棺捐款檔轉入 old_coffin_donation
-        sql = "INSERT INTO old_coffin_donation(coffin_id, donate_id, donate_price) SELECT 施棺編號, 捐款編號, CAST(捐款金額 AS INTEGER) FROM 施棺捐款檔"
-        self._cr.execute(sql) # 施棺捐款檔轉入 old_coffin_donation 共180220筆, 花費1.322秒
+        sql = "INSERT INTO old_coffin_donation(coffin_id, donate_id, donate_price) SELECT 施棺編號, 捐款編號, CAST(捐款金額 AS INTEGER) FROM 新施棺捐款檔"
+        self._cr.execute(sql) # 施棺捐款檔轉入 old_coffin_donation 共185261筆, 花費3.333秒
         return True
 
     def set_donate_single(self): # 捐款檔及捐款歷史檔篩選捐款編號作為唯一值, 以便做關聯
-        sql = "SELECT 捐款編號,MIN(序號) INTO temp_table2 FROM 捐款歷史檔 WHERE 序號<>'' GROUP BY 捐款編號"
-        self._cr.execute(sql)  # 挑選捐款編號作為唯一值, 並挑出序號值最小的資料共32004筆, 花費0.107秒
-        sql = "INSERT INTO donate_single(donate_id,donate_member_number) SELECT 捐款編號,min FROM temp_table2"
-        self._cr.execute(sql)  # 寫入收據編號及舊團員序號資料共32004筆, 花費約0.366秒
-        sql = "UPDATE donate_single SET donate_member_w_id = a.團員編號,old_donate_total = a.捐款總額, donate_date = case when a.捐款日期='' then NULL WHEN a.捐款日期='.' THEN NULL else cast(a.捐款日期 as date) end, temp_work_id=a.收費員編號,year_receipt_send =case when a.收據年度開立='N' then FALSE else TRUE end,paid_id=a.收費編號,temp_key_in_user = a.輸入人員 FROM 捐款歷史檔 a WHERE donate_single.donate_id = a.捐款編號 AND donate_single.donate_member_number = a.序號"
-        self._cr.execute(sql)  # 更新資料共35446筆, 花費約3.597秒
+        sql = "SELECT 捐款編號,團員編號,MIN(序號) INTO temp_table2 FROM 新捐款歷史檔 WHERE 序號<>'' GROUP BY 捐款編號, 團員編號"
+        self._cr.execute(sql)  # 挑選捐款編號作為唯一值, 並挑出序號值最小的資料共33589筆, 花費0.175秒
+        sql = "INSERT INTO donate_single(donate_id,donate_member_w_id,donate_member_number) SELECT 捐款編號,團員編號, min FROM temp_table2"
+        self._cr.execute(sql)  # 寫入收據編號及舊團員序號資料共33589筆, 花費約0.368秒
+        sql = "UPDATE donate_single SET donate_member_w_id = a.團員編號,old_donate_total = a.捐款總額, donate_date = case when a.捐款日期='' then NULL WHEN a.捐款日期='.' THEN NULL else cast(a.捐款日期 as date) end, temp_work_id=a.收費員編號,year_receipt_send =case when a.收據年度開立='N' then FALSE else TRUE end,paid_id=a.收費編號,temp_key_in_user = a.輸入人員 FROM 新捐款歷史檔 a WHERE donate_single.donate_id = a.捐款編號 AND donate_single.donate_member_number = a.序號"
+        self._cr.execute(sql)  # 更新資料共33589筆, 花費約0.536秒
+        sql = "UPDATE donate_single SET donate_member_w_id = a.團員編號,old_donate_total = a.捐款總額, donate_date = case when a.捐款日期='' then NULL WHEN a.捐款日期='.' THEN NULL else cast(a.捐款日期 as date) end, temp_work_id=a.收費員編號,year_receipt_send =case when a.收據年度開立='N' then FALSE else TRUE end,paid_id=a.收費編號,temp_key_in_user = a.輸入人員 FROM 舊捐款歷史檔 a WHERE donate_single.donate_id = a.捐款編號 AND donate_single.donate_member_number = a.序號"
+        self._cr.execute(sql)  # 更新資料共8249筆, 花費約0.138秒
         sql = "UPDATE donate_single SET name = a.name, self_iden = a.self_iden, cellphone = a.cellphone, con_phone = a.con_phone, zip_code = a.zip_code ,con_addr = a.con_addr FROM normal_p a WHERE a.w_id = donate_single.donate_member_w_id AND a.number = donate_single.donate_member_number"
-        self._cr.execute(sql)  # 更新資料共1146809筆, 花費約44.808秒
+        self._cr.execute(sql)  # 更新資料共33331筆, 花費約3.543秒
 
-        sql = "SELECT 捐款編號,MIN(序號) INTO temp_table FROM 捐款檔 WHERE 序號<>'' GROUP BY 捐款編號"
-        self._cr.execute(sql) # 挑選捐款編號作為唯一值, 並挑出序號值最小的資料共1115080筆, 花費26.740秒
+        sql = "SELECT 捐款編號,團員編號,MIN(序號) INTO temp_table FROM 新捐款檔 WHERE 序號<>'' GROUP BY 捐款編號, 團員編號"
+        self._cr.execute(sql) # 挑選捐款編號作為唯一值, 並挑出序號值最小的資料共1143346筆, 花費29.174秒
         sql = "INSERT INTO donate_single(donate_id,donate_member_number) SELECT 捐款編號,\"min\" FROM temp_table"
-        self._cr.execute(sql)  # 寫入收據編號及舊團員序號資料共1115080筆, 花費約13.957秒
-        sql = "UPDATE donate_single SET donate_member_w_id = a.團員編號,old_donate_total = a.捐款總額, donate_date = case when a.捐款日期='' then NULL WHEN a.捐款日期='.' THEN NULL else cast(a.捐款日期 as date) end, temp_work_id=a.收費員編號,year_receipt_send =case when a.收據年度開立='N' then FALSE else TRUE end,paid_id=a.收費編號,temp_key_in_user = a.輸入人員 FROM 捐款檔 a WHERE donate_single.donate_id = a.捐款編號 AND donate_single.donate_member_number = a.序號"
-        self._cr.execute(sql)  # 更新資料共1115080筆, 花費約28.725秒
+        self._cr.execute(sql)  # 寫入收據編號及舊團員序號資料共1143346筆, 花費約15.639秒
+        sql = "UPDATE donate_single SET donate_member_w_id = a.團員編號,old_donate_total = a.捐款總額, donate_date = case when a.捐款日期='' then NULL WHEN a.捐款日期='.' THEN NULL else cast(a.捐款日期 as date) end, temp_work_id=a.收費員編號,year_receipt_send =case when a.收據年度開立='N' then FALSE else TRUE end,paid_id=a.收費編號,temp_key_in_user = a.輸入人員 FROM 新捐款檔 a WHERE donate_single.donate_id = a.捐款編號 AND donate_single.donate_member_number = a.序號"
+        self._cr.execute(sql)  # 更新資料共1147001筆, 花費約37.46秒
+        sql = "UPDATE donate_single SET donate_member_w_id = a.團員編號,old_donate_total = a.捐款總額, donate_date = case when a.捐款日期='' then NULL WHEN a.捐款日期='.' THEN NULL else cast(a.捐款日期 as date) end, temp_work_id=a.收費員編號,year_receipt_send =case when a.收據年度開立='N' then FALSE else TRUE end,paid_id=a.收費編號,temp_key_in_user = a.輸入人員 FROM 舊捐款檔 a WHERE donate_single.donate_id = a.捐款編號 AND donate_single.donate_member_number = a.序號"
+        self._cr.execute(sql)  # 更新資料共174筆, 花費約15.837秒
         sql = "UPDATE donate_single SET name = a.name, self_iden = a.self_iden, cellphone = a.cellphone, con_phone = a.con_phone, zip_code = a.zip_code ,con_addr = a.con_addr FROM normal_p a WHERE a.w_id = donate_single.donate_member_w_id AND a.number = donate_single.donate_member_number"
-        self._cr.execute(sql)  # 更新資料共1115055筆, 花費約63.721秒
+        self._cr.execute(sql)  # 更新資料共1176658筆, 花費約83.591秒
 
         sql = "UPDATE donate_single SET donate_member = a.id, receipt_send = a.rec_send, report_send = a.report_send, year_receipt_send = a.merge_report FROM normal_p a WHERE donate_single.donate_member_w_id = a.w_id AND donate_single.donate_member_number = a.number"
-        self._cr.execute(sql)  # 更新資料共1146809筆, 花費約54.058秒
+        self._cr.execute(sql)  # 更新donate_single的收據寄送,報表寄送,年收據 資料共1176658筆, 花費約79.462秒
         return True
 
-    def set_donate_single_associated(self): # donate_single 關聯 donate_order
+    def set_donate_single_associated(self): # donate_single 關聯 donate_order 45分鐘
         sql = "UPDATE donate_order SET donate_list_id = a.id FROM donate_single a WHERE a.donate_id = donate_order.donate_id"
-        self._cr.execute(sql) # 關聯資料共3001165筆, 花費547.055秒
-        sql = "UPDATE donate_order SET state = 1 " # 將所有的捐款明細的狀態設為已產生
-        self._cr.execute(sql) # 資料共3001165筆, 花費166.141秒
+        self._cr.execute(sql) # 關聯資料共3121828筆, 花費1180.985秒
+        sql = "UPDATE donate_order SET state = 1 WHERE state IS NULL" # 將所有的捐款明細的狀態設為已產生
+        self._cr.execute(sql) # 資料共8580254筆, 花費595.396秒
         sql = "UPDATE donate_single SET state = 2 "  # 將所有的捐款檔的狀態設為已列印
-        self._cr.execute(sql)  # 資料共1147084筆, 花費28.811秒
+        self._cr.execute(sql)  # 資料共1175533筆, 花費34.633秒
         return True
 
     def set_coffin_id(self): # 舊施棺明細關聯施棺檔
         sql = "UPDATE old_coffin_donation SET old_coffin_donation_id = a.id FROM coffin_base a WHERE a.coffin_id = old_coffin_donation.coffin_id"
-        self._cr.execute(sql)  # 關聯資料共180207筆, 花費3.048秒, 差13筆資料未關聯到, 因為沒有施棺編號
+        self._cr.execute(sql)  # 關聯資料共185248筆, 花費7.249秒
         return True
 
     def set_coffin_donate_single_associated(self): # 舊施棺明細關聯donate_single
         sql = "UPDATE old_coffin_donation SET donate_single_id = a.id FROM donate_single a WHERE a.donate_id = old_coffin_donation.donate_id"
-        self._cr.execute(sql)  # 關聯資料共162068筆, 花費7.007秒
+        self._cr.execute(sql)  # 關聯資料共167109筆, 花費16.387秒
         return True
 
     def compute_coffin_donate(self): # 計算 coffin_donation的捐款編號與donate_order的捐款編號相符者, 將可用餘額(available_balance)設為 0 ; 不相符者則將可用餘額設為捐款金額(donate)
@@ -714,41 +778,51 @@ class AppThemeConfigSettings(models.TransientModel):
                             self._cr.execute(sql)
 
         sql = "UPDATE donate_order SET available_balance = donate_order.donate"
-        self._cr.execute(sql)  # 計算資料共3001165筆, 花費101.806秒
+        self._cr.execute(sql)  # 計算資料共8583839筆, 花費753.942秒
         sql = "UPDATE donate_order SET available_balance = 0 FROM old_coffin_donation a WHERE a.donate_id = donate_order.donate_id AND donate_order.donate_type = 3"
-        self._cr.execute(sql)  # 計算資料共298074筆, 花費40.667秒 ;  共303549筆資料施棺的捐款金額為 0
+        self._cr.execute(sql)  # 計算資料共343073筆, 花費153.616秒 ;  共303549筆資料施棺的捐款金額為 0
         sql = "UPDATE donate_order SET use_amount = TRUE WHERE available_balance = 0 and donate_type = 3"
-        self._cr.execute(sql)  # 計算資料共303549筆, 花費15.818秒
+        self._cr.execute(sql)  # 計算資料共379630筆, 花費75.850秒
         sql = "UPDATE donate_order SET used_money = donate_order.donate WHERE available_balance = 0 and donate_type = 3"
-        self._cr.execute(sql)  # 計算資料共303549筆, 花費6.952秒
+        self._cr.execute(sql)  # 計算資料共379630筆, 花費38.293秒
         return True
 
-    def set_consultant_data(self): # 轉顧問檔資料進normal.p, 顧問檔共199筆資料
-        sql = "INSERT INTO normal_p(name , con_addr) SELECT 姓名, 戶籍通訊地址 FROM 顧問檔 EXCEPT SELECT name, con_addr FROM normal_p"
-        self._cr.execute(sql) # 轉入顧問檔有資料但normal.p沒有資料的, 共有71筆資料, 轉入資料共128筆
+    def set_consultant_data(self): # 轉顧問檔資料進normal.p, 顧問檔共131筆資料
+        sql = "INSERT INTO normal_p(name , con_addr) SELECT 姓名, 戶籍通訊地址 FROM 新顧問檔 EXCEPT SELECT name, con_addr FROM normal_p"
+        self._cr.execute(sql) #  轉入資料共130 筆, 花費4.790秒
         sql = "UPDATE normal_p " \
               " SET consultant_id = a.顧問編號, cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, zip_code = a.戶籍郵遞區號, con_addr = a.戶籍通訊地址, zip = a.郵遞區號, rec_addr = a.通訊地址, hire_date = case when a.聘顧日期='' then NULL else cast(a.聘顧日期 as date) end, build_date = case when a.建檔日期='' then NULL else cast(a.建檔日期 as date) end, " \
               " ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, report_send = case when a.報表寄送='N' then FALSE else TRUE end, thanks_send = case when a.感謝狀寄送='N' then FALSE else TRUE end, self = a.自訂排序,temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end " \
-              " FROM 顧問檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
-        self._cr.execute(sql) #顧問檔更新normal.p的資料共199筆, 花費 0.574 秒
+              " FROM 新顧問檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
+        self._cr.execute(sql) #顧問檔更新normal.p的資料共202筆, 花費 0.637 秒
         return True
 
     def set_member_data(self): # 轉會員檔資料進normal.p, 會員檔共7303筆資料
-        sql = "INSERT INTO normal_p(name , con_addr) SELECT 姓名, 戶籍通訊地址 FROM 會員檔 EXCEPT SELECT name, con_addr FROM normal_p"
-        self._cr.execute(sql)  # 轉入會員檔有資料但normal.p沒有資料的, 共有4688筆資料, 花費0.603 秒
+        sql = "INSERT INTO normal_p(name , con_addr) SELECT 姓名, 戶籍通訊地址 FROM 新會員檔 EXCEPT SELECT name, con_addr FROM normal_p"
+        self._cr.execute(sql)  # 轉入新會員檔有資料但normal.p沒有資料的, 共有4730筆資料, 花費0.701 秒
+        sql = " DELETE FROM 舊會員檔 WHERE 會員編號 IN (SELECT a.會員編號 FROM 舊會員檔 a INNER JOIN 新會員檔 b ON a.會員編號=b.會員編號)"
+        self._cr.execute(sql)  # 刪除舊會員檔與新會員檔重複的資料, 共有6451筆資料, 花費0.040秒
+        sql = "INSERT INTO normal_p(name , con_addr) SELECT 姓名, 戶籍通訊地址 FROM 舊會員檔 EXCEPT SELECT name, con_addr FROM normal_p"
+        self._cr.execute(sql)  # 轉入資料0筆
+
         sql = "UPDATE normal_p " \
               " SET member_id = a.會員編號, cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, zip_code = a.戶籍郵遞區號, con_addr = a.戶籍通訊地址, zip = a.郵遞區號, rec_addr = a.通訊地址, build_date = case when a.建檔日期='' then NULL else cast(a.建檔日期 as date) end, self_iden = a.身份證號, member_type = case when 會員種類編號='' then NULL else CAST(會員種類編號 AS INTEGER) end, " \
               " ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, booklist = case when a.名冊列印='N' then FALSE else TRUE end, self = a.自訂排序,temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end " \
-              " FROM 會員檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
-        self._cr.execute(sql)  # 會員檔更新normal.p的資料共7349筆, 花費1.074 秒
+              " FROM 新會員檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
+        self._cr.execute(sql)  # 會員檔更新normal.p的資料共7399筆, 花費1.331 秒
+        sql = "UPDATE normal_p " \
+              " SET member_id = a.會員編號, cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, zip_code = a.戶籍郵遞區號, con_addr = a.戶籍通訊地址, zip = a.郵遞區號, rec_addr = a.通訊地址, build_date = case when a.建檔日期='' then NULL else cast(a.建檔日期 as date) end, self_iden = a.身份證號, member_type = case when 會員種類編號='' then NULL else CAST(會員種類編號 AS INTEGER) end, " \
+              " ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, booklist = case when a.名冊列印='N' then FALSE else TRUE end, self = a.自訂排序,temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end " \
+              " FROM 舊會員檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
+        self._cr.execute(sql)  # 共2筆
         return True
 
     def set_consultant(self): #顧問收費檔轉檔
         sql = "INSERT INTO consultant_fee(consultant_id,year,fee_code,fee_payable,fee_date,clerk_id,temp_key_in_user,create_date) " \
-              " SELECT 顧問編號,cast(年度 as Integer),收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 收費日期,收費員編號,輸入人員,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期 from 顧問收費檔 "
-        self._cr.execute(sql)  # 顧問收費檔共508筆資料, 花費0.030秒
+              " SELECT 顧問編號,年度,收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 收費日期,收費員編號,輸入人員,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期 from 新顧問收費檔 "
+        self._cr.execute(sql)  # 顧問收費檔共516筆資料, 花費0.013秒
         sql = "UPDATE consultant_fee SET normal_p_id = a.id FROM normal_p a WHERE a.consultant_id = consultant_fee.consultant_id"
-        self._cr.execute(sql) # 更新顧問收費檔共507筆資料, 花費0.4 秒, 顧問編號 V00198在normal_p沒有找到, 顧問檔也沒有找到
+        self._cr.execute(sql) # 更新顧問收費檔共515筆資料, 花費0.614 秒, 顧問編號 V00198在normal_p沒有找到, 顧問檔也沒有找到
         return True
 
     def set_member(self): #會員收費檔轉檔
@@ -758,54 +832,65 @@ class AppThemeConfigSettings(models.TransientModel):
         # SELECT member_id FROM normal_p GROUP BY member_id HAVING (COUNT(*) > 1)  篩選出現不只一次的資料有49筆
         sql = ''
         sql = "INSERT INTO associatemember_fee(member_id,member_note_code,year,fee_code,fee_payable,fee_date,clerk_id,temp_key_in_user,create_date) " \
-              " SELECT 會員編號, 會員名冊編號,cast(年度 as Integer),收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 日期,收費員編號,輸入人員,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期 from 會員收費檔 "
-        self._cr.execute(sql)  # 會員收費檔 65416筆資料, 花費 0.485 秒
+              " SELECT 會員編號, 會員名冊編號,年度,收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 日期,收費員編號,輸入人員,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期 from 新會員收費檔 "
+        self._cr.execute(sql)  # 會員收費檔 65499筆資料, 花費 2.440 秒
+        sql = " DELETE FROM 舊會員收費檔 WHERE 收費編號 IN (SELECT a.收費編號 FROM 舊會員收費檔 a INNER JOIN 新會員收費檔 b ON a.收費編號=b.收費編號)"
+        self._cr.execute(sql)  # 刪除舊會員收費檔與新會員收費檔重複的資料,共43552筆 花費0.259秒
+        sql = "INSERT INTO associatemember_fee(member_id,member_note_code,year,fee_code,fee_payable,fee_date,clerk_id,temp_key_in_user,create_date) " \
+              " SELECT 會員編號, 會員名冊編號,年度,收費編號,應繳金額,case when 收費日期='' then NULL else cast(收費日期 as date) end as 日期,收費員編號,輸入人員,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期 from 舊會員收費檔 "
+        self._cr.execute(sql)  # 轉入舊會員收費檔 232 筆資料, 花費 0.012 秒
         sql = "SELECT DISTINCT on (member_id) * into member_temp FROM normal_p WHERE member_id <>'' "
-        self._cr.execute(sql) # 共7286筆資料, 花費0.313秒
+        self._cr.execute(sql) # 共7352筆資料, 花費0.448秒
         sql = " UPDATE associatemember_fee SET normal_p_id = b.id FROM member_temp b WHERE associatemember_fee.member_id = b.member_id"
-        self._cr.execute(sql)  # 篩選不重複資料的7286筆資料寫入臨時創建的資料表中, 並與normal.p進行關聯共65195筆資料, 花費1.324 秒
+        self._cr.execute(sql)  # 篩選不重複資料的7342筆資料寫入臨時創建的資料表中, 並與normal.p進行關聯共65525筆資料, 花費1.275 秒
         return True
 
     def set_cashier_data(self): # 收費員檔轉入 cashier_base 及收費員&輸入人員對各資料表的關聯
         sql = "INSERT INTO cashier_base(c_id, name, self_iden, con_phone, con_phone2, cellphone, zip_code, con_addr, build_date, ps, temp_key_in_user, db_chang_date) "\
-              " SELECT 收費員編號, 姓名, 身份證號, 電話一, 電話二, 手機, 郵遞區號, 通訊地址, case when 建檔日期='' then NULL WHEN 建檔日期='.' THEN NULL else cast(建檔日期 as date) end as 建檔日期, 備註, 輸入人員, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期 from 收費員檔"
-        self._cr.execute(sql) # 收費員檔共輸入 1385 筆資料, 花費0.037秒
+              " SELECT 收費員編號, 姓名, 身份證號, 電話一, 電話二, 手機, 郵遞區號, 通訊地址, case when 建檔日期='' then NULL WHEN 建檔日期='.' THEN NULL else cast(建檔日期 as date) end as 建檔日期, 備註, 輸入人員, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期 from 新收費員檔"
+        self._cr.execute(sql) # 收費員檔共輸入1385 筆資料, 花費0.041秒
+        sql = " DELETE FROM 舊收費員檔 WHERE 收費員編號 IN (SELECT a.收費員編號 FROM 舊收費員檔 a INNER JOIN 新收費員檔 b ON a.收費員編號=b.收費員編號)"
+        self._cr.execute(sql)  # 刪除舊收費員檔與新收費員檔共1259筆 資料, 花費0.020秒
+        sql = "INSERT INTO cashier_base(c_id, name, self_iden, con_phone, con_phone2, cellphone, zip_code, con_addr, build_date, ps, temp_key_in_user, db_chang_date) " \
+              " SELECT 收費員編號, 姓名, 身份證號, 電話一, 電話二, 手機, 郵遞區號, 通訊地址, case when 建檔日期='' then NULL WHEN 建檔日期='.' THEN NULL else cast(建檔日期 as date) end as 建檔日期, 備註, 輸入人員, case when 異動日期='' then NULL WHEN 異動日期='.' THEN NULL else cast(異動日期 as date) end as 異動日期 from 舊收費員檔"
+        self._cr.execute(sql)  # 轉入舊收費員檔共輸入 19 筆資料, 花費0.002秒
+
         sql = " UPDATE cashier_base set key_in_user = a.id from res_users a where a.login = cashier_base.temp_key_in_user"
-        self._cr.execute(sql)  # 更新資料共1374筆, 花費0.031秒
+        self._cr.execute(sql)  # 更新資料共1392筆, 花費0.028秒
         sql = " UPDATE normal_p set cashier_name = a.id from cashier_base a where a.c_id = normal_p.temp_cashier"
-        self._cr.execute(sql)  # 更新資料共762123筆, 花費22.080秒
+        self._cr.execute(sql)  # 更新資料共765990筆, 花費30.648秒
         sql = " UPDATE donate_single set work_id = a.id from cashier_base a where a.c_id = donate_single.temp_work_id"
-        self._cr.execute(sql)  # 更新資料共1147032筆, 花費44.450秒
+        self._cr.execute(sql)  # 更新資料共1176934筆, 花費71.453秒
         sql = " UPDATE donate_order set cashier = a.id from cashier_base a where a.c_id = donate_order.clerk"
-        self._cr.execute(sql)  # 關聯資料共3001037筆, 花費113.045秒
+        self._cr.execute(sql)  # 關聯資料共8564753筆, 花費808.112秒
         sql = " UPDATE donate_single set key_in_user = a.id from res_users a where a.login = donate_single.temp_key_in_user"
-        self._cr.execute(sql)  # 關聯資料共1072573筆, 花費46.664秒
+        self._cr.execute(sql)  # 關聯資料共1102275筆, 花費63.011秒
         sql = " UPDATE donate_order set key_in_user = a.id from res_users a where a.login = donate_order.temp_key_in_user"
-        self._cr.execute(sql)  # 關聯資料共2814283筆, 花費133.597秒
+        self._cr.execute(sql)  # 關聯資料共7918211筆, 花費996.898秒
         sql = " UPDATE associatemember_fee set key_in_user = a.id from res_users a where a.login = associatemember_fee.temp_key_in_user"
-        self._cr.execute(sql)  #
+        self._cr.execute(sql)  # 關聯資料共64613筆, 花費1.247秒
         sql = " UPDATE associatemember_fee set cashier = a.id from cashier_base a where a.c_id = associatemember_fee.clerk_id"
-        self._cr.execute(sql)  #
+        self._cr.execute(sql)  # 關聯資料共50254筆, 花費0.785秒
         sql = " UPDATE consultant_fee set key_in_user = a.id from res_users a where a.login = consultant_fee.temp_key_in_user"
-        self._cr.execute(sql)  #
+        self._cr.execute(sql)  # 關聯資料共514筆, 花費0.018秒
         sql = " UPDATE consultant_fee set cashier = a.id from cashier_base a where a.c_id = consultant_fee.clerk_id"
-        self._cr.execute(sql)  #
+        self._cr.execute(sql)  # 關聯資料共413筆, 花費 0.017 秒
         sql = " UPDATE coffin_base set key_in_user = a.id from res_users a where a.login = coffin_base.temp_key_in_user"
-        self._cr.execute(sql)  #
+        self._cr.execute(sql)  # 關聯資料共15114筆, 花費0.342秒
         return True
 
     def set_donate_family_line(self): # 關聯歷史捐款者名冊
         sql = "INSERT INTO donate_family_line(parent_id, donate_member) SELECT donate_list_id, donate_member FROM donate_order order by donate_list_id"
-        self._cr.execute(sql) # 關聯資料共3001177筆, 花費153.007秒
+        self._cr.execute(sql) # 關聯資料共8583839筆, 花費459.388秒
         return True
 
     def active_data(self):
         sql = "UPDATE normal_p  SET active = TRUE"
         self._cr.execute(sql)  # 把所有捐款者資料的active設為TRUE, 不然基本資料會什麼都看不見, 共778150筆 花費15.093秒
         sql = " UPDATE normal_p set key_in_user = a.id from res_users a where a.login = normal_p.temp_key_in_user"
-        self._cr.execute(sql)  # 關聯資料共 718619 筆,花費17.781秒
+        self._cr.execute(sql)  # 關聯資料共 722760 筆,花費29.335秒
         sql = " UPDATE normal_p set member_type = '2' where member_type = '99' "
-        self._cr.execute(sql) # 修改資料共6609 筆, 花費0.569秒
+        self._cr.execute(sql) # 修改資料共6639 筆, 花費0.715秒
         return True
 
     def set_people_type(self): # 人員種類關聯
@@ -820,14 +905,14 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
     def set_donate_id(self):
-        y = 2003 # 資料庫存在的最早資料是2003年9月
-        m = 8
+        y = 2018 # 轉檔太久了! 所以從2018年1月份開始
+        m = 3
         now_month = int(datetime.datetime.strptime(str(datetime.date.today()), '%Y-%m-%d').month)
         end_while = True
         while y<=2018:
-            if y == 2018 and m == 2:
+            if y == 2018 and m == 3:
                 end_while = False
-            while m<=12:
+            while m<=3:
                 if m == 1 or m == 3 or m == 5 or m == 7 or m == 8 or m == 10 or m == 12:
                     d2 = 31
                 elif m == 2:
@@ -861,14 +946,13 @@ class AppThemeConfigSettings(models.TransientModel):
                 m = m + 1
             m = 1
             y = y + 1
-            # 總共費時約 12 分鐘, 資料追朔至2003年
         return True
 
     # def set_postal_code1(self):  # 花費時間約18分鐘
     #     lines = self.env['normal.p'].search([])
     #     s = collections.Counter()
     #     zip = ''
-    #     for line in lines[0:400000]:
+    #     for line in lines[0:420000]:
     #         zip = ''
     #         flag = True
     #         if line.rec_addr is False and line.con_addr:  # 收據地址為空, 但卻有報表寄送地址
@@ -914,7 +998,7 @@ class AppThemeConfigSettings(models.TransientModel):
     #         s[zip] += int(row.area_number)
     #     zip = ''
     #
-    #     for line in lines[400000:]:
+    #     for line in lines[420000:]:
     #         zip = ''
     #         flag = True
     #         if line.rec_addr is False and line.con_addr:  # 收據地址為空, 但卻有報表寄送地址
@@ -978,8 +1062,8 @@ class AppThemeConfigSettings(models.TransientModel):
 
     def postal_code_normal_p(self):
 
-        sql = "UPDATE normal_p SET postal_code_id = a.id FROM postal_code a WHERE SUBSTRING(a.zip, 1, 3)  = normal_p.zip"
-        self._cr.execute(sql) # 共726082筆資料, 花費35.212秒
+        sql = "UPDATE normal_p SET postal_code_id = a.id FROM postal_code a WHERE SUBSTRING(a.zip, 1, 3)  = normal_p.zip_code"
+        self._cr.execute(sql) # 共231242筆資料, 花費20.747秒
         return True
 
     def postal_code_database(self):
