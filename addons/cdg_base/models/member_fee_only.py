@@ -20,6 +20,7 @@ class MemberFeeOnly(models.Model):
     normal_p_id = fields.Many2one(comodel_name='normal.p', string='關聯的會員')
     member_name = fields.Char(string='會員姓名', related='normal_p_id.name')
     member_code = fields.Char(string='捐款者編號', related='normal_p_id.new_coding')
+    zip = fields.Char(string='收據郵遞區號', related='normal_p_id.zip')
     rec_addr = fields.Char(string='收據地址', related='normal_p_id.rec_addr')
     con_phone = fields.Char(string='連絡電話', related='normal_p_id.con_phone')
     cellphone = fields.Char(string='手機', related='normal_p_id.cellphone')
@@ -45,6 +46,8 @@ class MemberFeeOnly(models.Model):
             self.fee_payable = First_Annual_membership_fee
 
         self.cashier = self.normal_p_id.cashier_name.id
+        self.key_in_user = self.env.uid
+
 
     @api.model
     def create(self, vals):

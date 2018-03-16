@@ -80,7 +80,7 @@ class ReportDonateSingleMerge(models.AbstractModel):
             if line.state == 3:
                 raise ValidationError(u'本捐款單已經作廢')
             elif line.state == 1:
-                line.state = 2
+                # line.state = 2
                 line.print_count+=1
                 line.print_date = datetime.date.today()
                 line.print_user = self.env.uid
@@ -277,31 +277,32 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 single_state = 1
             elif not line.donate_list_id.year_fee:
                 single_state = 2
-            tmp_id = report_line.create({
-                'title_donate': row.donate_member.id,
-                'title_doante_code': row.donate_id,
-                'work_id': row.work_id.id,
-                'title_doante_date': row.donate_date,
-                'title_work_id': row.work_id.name,
-                'title_Make_up_date': datetime.date.today(),
-                'title_state': row.state,
-                'title_year_fee': single_state
-            })
-
-            line_data = []
-            for line in merge_res_line:
-                line_data.append([0, 0, {
-                    'donate_id': line.donate_id,
-                    'name': line.donate_member.name,
-                    'donate_member_id': line.donate_member.id,
-                    'donate_type': line.donate_type,
-                    'donate_price': line.donate,
-                    'is_merge': line.donate_member.is_merge
-                }])
-            tmp_id.write({
-                'donate_line': line_data
-            })
-            report_line += tmp_id
+            # 判定是否有人需要印合併收據。
+            if len(merge_res_line) !=0:
+                tmp_id = report_line.create({
+                    'title_donate': row.donate_member.id,
+                    'title_doante_code': row.donate_id,
+                    'work_id': row.work_id.id,
+                    'title_doante_date': row.donate_date,
+                    'title_work_id': row.work_id.name,
+                    'title_Make_up_date': datetime.date.today(),
+                    'title_state': row.state,
+                    'title_year_fee': single_state
+                })
+                line_data = []
+                for line in merge_res_line:
+                    line_data.append([0, 0, {
+                        'donate_id': line.donate_id,
+                        'name': line.donate_member.name,
+                        'donate_member_id': line.donate_member.id,
+                        'donate_type': line.donate_type,
+                        'donate_price': line.donate,
+                        'is_merge': line.donate_member.is_merge
+                    }])
+                tmp_id.write({
+                    'donate_line': line_data
+                })
+                report_line += tmp_id
 
             # 找出不合併列印的人，整理後放進報表用table
 
@@ -361,6 +362,7 @@ class ReportMemberReceiptPrint(models.AbstractModel):
                 'year':line.year,
                 'fee_payable':line.fee_payable,
                 'cashier': line.cashier.name,
+                'zip': line.zip,
                 'rec_addr':line.rec_addr,
                 'new_coding': line.member_code,
                 'key_in_user': line.key_in_user.name,
@@ -425,6 +427,7 @@ class ReportConsultantReceiptPrint(models.AbstractModel):
                 'year':line.year,
                 'fee_payable':line.fee_payable,
                 'cashier': line.cashier.name,
+                'zip':line.zip,
                 'rec_addr':line.rec_addr,
                 'new_coding': line.member_code,
                 'key_in_user': line.key_in_user.name,

@@ -539,6 +539,10 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 把所有捐款者資料的active設為TRUE, 不然基本資料會什麼都看不見, 共777235筆 花費15.163秒
         sql = "UPDATE normal_p SET new_coding = '' "
         self._cr.execute(sql) # 將所有的捐款者編號全部設為空 而並非是NULL, 共777235筆資料, 花費14.094秒
+        sql = " UPDATE normal_p set key_in_user = a.id from res_users a where a.login = normal_p.temp_key_in_user"
+        self._cr.execute(sql)  # 關聯資料共 722760 筆,花費29.335秒
+        sql = " UPDATE normal_p set member_type = '2' where member_type = '99' "
+        self._cr.execute(sql)  # 修改資料共6639 筆, 花費0.715秒
         return True
 
     def set_leader(self): # 設定戶長
@@ -887,10 +891,7 @@ class AppThemeConfigSettings(models.TransientModel):
     def active_data(self):
         sql = "UPDATE normal_p  SET active = TRUE"
         self._cr.execute(sql)  # 把所有捐款者資料的active設為TRUE, 不然基本資料會什麼都看不見, 共778150筆 花費15.093秒
-        sql = " UPDATE normal_p set key_in_user = a.id from res_users a where a.login = normal_p.temp_key_in_user"
-        self._cr.execute(sql)  # 關聯資料共 722760 筆,花費29.335秒
-        sql = " UPDATE normal_p set member_type = '2' where member_type = '99' "
-        self._cr.execute(sql) # 修改資料共6639 筆, 花費0.715秒
+
         return True
 
     def set_people_type(self): # 人員種類關聯

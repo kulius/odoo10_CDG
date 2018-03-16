@@ -53,13 +53,13 @@ class CWorker(models.Model):
 
         return res_id
 
-    @api.multi
-    def write(self,vals):
-        c_worker = self.env['res.users'].search([('login', '=', self.w_id)])
-        res = super(CWorker, self).write(vals)
-        c_worker.partner_id.name = self.name
-        c_worker.login = self.w_id
-        return res
+    # @api.multi
+    # def write(self,vals):
+    #     c_worker = self.env['res.users'].search([('login', '=', self.w_id)])
+    #     res = super(CWorker, self).write(vals)
+    #     c_worker.partner_id.name = self.name
+    #     c_worker.login = self.w_id
+    #     return res
 
     def data_input_from_database(self):
         data = self.env['base.external.dbsource'].search([])
@@ -105,7 +105,7 @@ class CWorker(models.Model):
 
     def Reset_Password(self):
         crypt_context = CryptContext(['pbkdf2_sha512', 'md5_crypt'], deprecated=['md5_crypt'])
-        self.env['res.users'].search([('login', '=', self.w_id)]).password_crypt = crypt_context.encrypt(self.w_id)
+        self.env['res.users'].search([('login', '=', self.employee_id)]).password_crypt = crypt_context.encrypt(self.employee_id)
 
     def check_db_date(self, date):
         if date:

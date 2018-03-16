@@ -7,12 +7,9 @@
             <field name="arch" type="xml">
                 <tree string="">
                     <field name="employee_id"/>
-                    <field name="w_id"/>
                     <field name="name"/>
                     <field name="now_job"/>
-                    <field name="con_phone"/>
                     <field name="cellphone"/>
-                    <field name="email"/>
                 </tree>
             </field>
         </record>
