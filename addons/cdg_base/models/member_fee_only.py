@@ -24,7 +24,7 @@ class MemberFeeOnly(models.Model):
     rec_addr = fields.Char(string='收據地址', related='normal_p_id.rec_addr')
     con_phone = fields.Char(string='連絡電話', related='normal_p_id.con_phone')
     cellphone = fields.Char(string='手機', related='normal_p_id.cellphone')
-    key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]},default=lambda self: self.env.uid)
+    key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', default=lambda self: self.env.uid)
     temp_key_in_user = fields.Char(string='temp_輸入人員')
 
     @api.onchange('normal_p_id')
@@ -46,6 +46,10 @@ class MemberFeeOnly(models.Model):
             self.fee_payable = First_Annual_membership_fee
 
         self.cashier = self.normal_p_id.cashier_name.id
+
+
+    @api.onchange('fee_date')
+    def set_fee_date(self):
         self.key_in_user = self.env.uid
 
 

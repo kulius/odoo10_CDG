@@ -79,6 +79,7 @@
                                              <field name="cellphone"/>
                                              <field name="cashier"/>
                                              <field name="normal_p_id" invisible = "1"/>
+                                             <field name="key_in_user" readonly="1"/>
                                          </tree>
                                      </field>
                                 </page>

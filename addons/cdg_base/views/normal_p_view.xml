@@ -59,7 +59,7 @@
                                     type="object" class="oe_stat_button" icon="fa-dollar" attrs="{'invisible': [('name', '=', False)]}">
                             </button>
                             <button name="historypersonal" string="歷史捐款"
-                                    type="object" class="oe_stat_button" icon="fa-book" attrs="{'invisible': [('name', '=', False)]}">
+                                    type="object" class="oe_stat_button" icon="fa-book" >
                             </button>
                             <button name="action_chang_donater_wizard" string="合併捐款者"
                                     type="object" class="oe_stat_button" icon="fa-exchange" attrs="{'invisible': [('name', '=', False)]}">

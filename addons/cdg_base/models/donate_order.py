@@ -12,7 +12,7 @@ class DonateOrder(models.Model):
     _description = u'捐款明細管理'
 
     # name = fields.Many2one(comodel_name='normal.p',string='姓名')
-    donate_list_id = fields.Many2one(comodel_name='donate.single')
+    donate_list_id = fields.Many2one(comodel_name='donate.single', ondelete='cascade')
     con_phone = fields.Char(string='連絡電話')
     p_type = fields.Char(string='人員種類')
     donate = fields.Integer(string='捐款金額')
@@ -21,6 +21,7 @@ class DonateOrder(models.Model):
                                    string='捐款種類')
     state = fields.Selection([(1, '已產生'), (2, '已作廢')],
                              string='狀態', default=1, index=True)
+    active = fields.Boolean(default=True)
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款人姓名')
     paid_id = fields.Char(string='收費編號')
     donate_id = fields.Char(string='收據編號')

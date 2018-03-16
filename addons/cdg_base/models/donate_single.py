@@ -57,6 +57,7 @@ class DonateSingle(models.Model):
     poor_help_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     noassign_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     payment_method = fields.Selection( [(1,'現金'),(2,'郵政劃撥'),(3,'信用卡扣款'),(4,'銀行轉帳'),(5,'支票')], string='繳費方式')
+    active = fields.Boolean(default=True)
 #    cash = fields.Boolean(string='現金', states={2: [('readonly', True)]})
     person_check = fields.Many2many(comodel_name="normal.p", string="捐款人名冊")
     family_check = fields.One2many(comodel_name='donate.family.line',inverse_name='parent_id', string='捐款人名冊', states={2: [('readonly', True)]})
@@ -88,6 +89,7 @@ class DonateSingle(models.Model):
     last_donate_date = fields.Date('上次捐款日期')
     last_donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (05, '貧困扶助'), (06, '一般捐款')],string='捐款種類')
     cashier_name = fields.Char(string='normal_p的收費員')
+    donor_show = fields.Boolean(string='只顯示捐款眷屬', default = True)
 
     @api.onchange('set_today')
     def set_today_donate(self):
@@ -352,10 +354,15 @@ class DonateSingle(models.Model):
                 self.current_donate_total += line.poor_help_money
                 self.current_donate_total += line.noassign_money
 
-    @api.onchange('donate_member')
+    @api.onchange('donate_member','donor_show')
     def show_family(self):
         r = []
-        for line in self.donate_member.parent.donate_family1:
+        family=None
+        if self.donor_show :
+            family = self.donate_member.parent.donate_family1.filtered(lambda r: r.is_donate)
+        else:
+            family = self.donate_member.parent.donate_family1
+        for line in family:
             r.append([0, 0, {
                 'donate_member': line.id
             }])
@@ -426,7 +433,9 @@ class DonateSingle(models.Model):
 
         for line in self.donate_list:
             line.state = 2
+            line.active = False
         self.state = 3
+        self.active = False
 
     def add_to_list_create(self, record):
         if record.family_check:

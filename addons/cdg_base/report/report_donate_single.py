@@ -255,10 +255,11 @@ class ReportDonateSingleDefault(models.AbstractModel):
             if row.state == 3:
                 raise ValidationError(u'本捐款單已經作廢')
             elif row.state == 1:
-                row.state = 2
+                # row.state = 2
                 row.print_count += 1
                 row.print_date = datetime.date.today()
                 row.print_user = self.env.uid
+
             # 檢查捐款列表
             for line in row.donate_list:
                 if line.donate_member.is_merge is True:
@@ -342,6 +343,9 @@ class ReportDonateSingleDefault(models.AbstractModel):
             'doc_model': 'donate.single',
             'docs': report_line,
         }
+        for row in target:
+            if row.state == 1:
+                row.state = 2
         return self.env['report'].render('cdg_base.donate_single_default', values=docargs)
 
 class ReportMemberReceiptPrint(models.AbstractModel):

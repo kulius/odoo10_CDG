@@ -37,6 +37,10 @@ class ConsultantFeeOnly(models.Model):
         self.fee_payable = Annual_consultants_fee
         self.cashier = self.normal_p_id.cashier_name.id
 
+    @api.onchange('fee_date')
+    def set_fee_date(self):
+        self.key_in_user = self.env.uid
+
     @api.model
     def create(self, vals):
         res_id = super(ConsultantFeeOnly, self).create(vals)
