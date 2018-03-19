@@ -108,10 +108,10 @@
             <field name="model">consultant.fee</field>
             <field name="arch" type="xml">
                 <search>
-                    <filter string="今日" name="today" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('create_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>
+                    <filter string="今日" name="today" domain="[('fee_date', '=', datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
                 </search>
             </field>
-        </record>
+         </record>
 
         <record id="consultant_base_action" model="ir.actions.act_window">
             <field name="name">顧問基本資料</field>

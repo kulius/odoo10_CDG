@@ -2,7 +2,7 @@
     'name': "CDG",
     'version': '1.0',
     'depends': [
-        'report','report_xlsx','havelock_backend_theme','cfprint','st_dynamic_list'
+        'report','report_xlsx','havelock_backend_theme','st_dynamic_list'
     ],
     'author': "先捷電腦",
     'website': "http://www.alltop.com/",
