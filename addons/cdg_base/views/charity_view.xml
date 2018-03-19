@@ -180,6 +180,13 @@
                   sequence="3"
                   groups="cdg_member_manager"
         />
+        <menuitem id="member_list_menu"
+                  name="會員名冊"
+                  parent="member_manage_categ"
+                  action="member_list_action"
+                  sequence="4"
+                  groups="cdg_member_manager"
+        />
         <!--<menuitem id="keepsake_menu"-->
                   <!--name="紀念品名冊"-->
                   <!--parent="member_manage_categ"-->

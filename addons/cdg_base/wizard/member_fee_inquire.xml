@@ -30,6 +30,7 @@
                     </sheet>
                     <footer>
                         <button type="object" name="memnber_fee_search" string="確定" class="oe_highlight"/>
+                        <button type="object" name="print_excel" string="會員名冊" class="oe_highlight"/>
                         <button special="cancel" string="取消"/>
                     </footer>
                 </form>
