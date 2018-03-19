@@ -93,6 +93,8 @@ class WizardDonate(models.Model):
                     'work_id':self.work_id.id,
                     'key_in_user':self.key_in_user.id,
                     'payment_method':self.payment_method,
+                    'receipt_send': line.rec_send,
+                    'report_send':line.report_send,
                 })
             if self.clean_all_check:
                 line.donate_batch_setting = False
