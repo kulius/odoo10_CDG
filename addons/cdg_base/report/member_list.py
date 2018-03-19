@@ -10,8 +10,6 @@ class MemberListXlsx(ReportXlsx):
     def generate_xlsx_report(self,workbook,data,env):
 
         array = self.env['associatemember.fee']
-        # data['data_id']
-
         sheet = workbook.add_worksheet()
         count = 1
 

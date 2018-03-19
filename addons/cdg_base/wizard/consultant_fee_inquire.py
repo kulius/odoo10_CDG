@@ -2,6 +2,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 import datetime
+import collections
 
 class consultantfeeinquire(models.Model):
     _name = 'consultant.fee.inquire'
@@ -36,3 +37,50 @@ class consultantfeeinquire(models.Model):
         ]
         action['limit'] = number
         return action
+
+    def print_excel(self):
+        star_time = int(self.star_year)
+        end_time = int(self.end_year)
+        data_id = []
+        temp_list = []
+        number = end_time - star_time + 1
+
+        if self.star_year is False or self.end_year is False:
+            raise ValidationError(u'請正確輸入繳費年度!')
+        if star_time > end_time:
+            raise ValidationError(u'[繳費年度-起] 不得大於 [繳費年度-訖]')
+        if self.payment is False:
+            raise ValidationError(u'請設定及繳費狀況')
+
+        if self.payment == 1:
+            data = self.env['consultant.fee'].search([('year', '>=', star_time), ('year', '<=', end_time), ('normal_p_id.type.id', '=', 4),('fee_date', '!=', False)], order='normal_p_id asc')
+            s = collections.Counter()
+            for line in data:
+                s[line.normal_p_id.id] += 1
+                if s[line.normal_p_id.id] == number:
+                    data_id.append(line.id)
+            docargs = {
+                'docs': data_id,
+            }
+            s.clear()
+            return {
+                'type': 'ir.actions.report.xml',
+                'report_name': 'cdg_base.consultant_list.xlsx',
+                'datas': docargs
+            }
+        elif self.payment == 2:
+            data = self.env['consultant.fee'].search([('year', '>=', star_time), ('year', '<=', end_time), ('normal_p_id.type.id', '=', 4),('fee_date', '=', False)], order='normal_p_id asc')
+            for line in data:
+                if line.normal_p_id.id in temp_list:
+                    continue
+                else:
+                    data_id.append(line.id)
+                temp_list.append(line.normal_p_id.id)
+            docargs = {
+                'docs': data_id,
+            }
+            return {
+                'type': 'ir.actions.report.xml',
+                'report_name': 'cdg_base.consultant_list.xlsx',
+                'datas': docargs
+            }

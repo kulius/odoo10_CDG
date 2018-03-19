@@ -15,6 +15,7 @@
                     </sheet>
                     <footer>
                         <button type="object" name="consultant_fee_search" string="確定" class="oe_highlight"/>
+                        <button type="object" name="print_excel" string="顧問名冊" class="oe_highlight"/>
                         <button special="cancel" string="取消"/>
                     </footer>
                 </form>
