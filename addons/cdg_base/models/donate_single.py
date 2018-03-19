@@ -66,6 +66,7 @@ class DonateSingle(models.Model):
     temp_work_id = fields.Char(string='收費員')
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]}, default=lambda self: self.env.uid)
     temp_key_in_user = fields.Char(string='輸入人員')
+    
     print_user = fields.Many2one(comodel_name='res.users', string='列印人員', states={2: [('readonly', True)]})
     ps = fields.Text('備註')
     year_fee = fields.Boolean(string='年繳')

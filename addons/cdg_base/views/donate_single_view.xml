@@ -63,9 +63,9 @@
                             <field name="payment_method"/>
                             <field name="history_donate_flag"/>
                             <field name="year_fee"/>
-                            <field name="donor_show" attrs="{'invisible': [('donate_id', '!=', False)]}"/>
+                            <field name="key_in_user" readonly="1"/>
                             <field name="donate_total"/>
-                            <!--<field name="active"/>-->
+                            <field name="donor_show" attrs="{'invisible': [('donate_id', '!=', False)]}"/>
                         </group>
                         <group col="4">
                             <field name="name"/>
