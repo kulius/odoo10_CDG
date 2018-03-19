@@ -93,9 +93,6 @@ class ReportDonateSingleMerge(models.AbstractModel):
             'doc_model': 'donate.single',
             'docs': docs,
         }
-        for row in docs:
-            if row.state == 1:
-                row.state = 2
         return self.env['report'].render('cdg_base.donate_single_merge', values=docargs)
 
     def convert(self, n):
