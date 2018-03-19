@@ -93,7 +93,9 @@ class ReportDonateSingleMerge(models.AbstractModel):
             'doc_model': 'donate.single',
             'docs': docs,
         }
-
+        for row in docs:
+            if row.state == 1:
+                row.state = 2
         return self.env['report'].render('cdg_base.donate_single_merge', values=docargs)
 
     def convert(self, n):
@@ -132,7 +134,7 @@ class ReportDonateSinglePersonal(models.AbstractModel):
             if row.state == 3:
                 raise ValidationError(u'本捐款單已經作廢')
             elif row.state == 1:
-                row.state = 2
+                # row.state = 2
                 row.print_count += 1
                 row.print_date = datetime.date.today()
                 row.print_user = self.env.uid
@@ -182,6 +184,9 @@ class ReportDonateSinglePersonal(models.AbstractModel):
             'doc_model': 'donate.single',
             'docs': report_line,
         }
+        for row in target:
+            if row.state == 1:
+                row.state = 2
         return self.env['report'].render('cdg_base.donate_single_personal', values=docargs)
 
 class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
@@ -197,7 +202,7 @@ class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
             if row.state == 3:
                 raise ValidationError(u'本捐款單已經作廢')
             elif row.state == 1:
-                row.state = 2
+                # row.state = 2
                 row.print_count += 1
                 row.print_date=datetime.date.today()
                 row.print_user = self.env.uid
@@ -237,6 +242,9 @@ class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
             'doc_model': 'donate.single',
             'docs': report_line,
         }
+        for row in target:
+            if row.state == 1:
+                row.state = 2
         return self.env['report'].render('cdg_base.donate_single_one_kind_one_person', values=docargs)
 
 class ReportDonateSingleDefault(models.AbstractModel):
