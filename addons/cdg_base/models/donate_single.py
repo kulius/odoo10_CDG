@@ -36,7 +36,7 @@ class DonateSingle(models.Model):
     state = fields.Selection([(1, '已產生'), (2, '已列印'), (3, '已作廢')],
                              string='狀態', default=1, index=True)
 
-    donate_total = fields.Integer(string='捐款總額')
+    donate_total = fields.Integer(string='捐款總額', compute='compute_total',store=True)
     current_donate_total = fields.Integer('捐款總額小計', readonly="1")
     current_donate_people = fields.Integer('捐款人數小計', readonly="1")
     current_donate_project = fields.Integer('捐款項目小計', readonly="1")
