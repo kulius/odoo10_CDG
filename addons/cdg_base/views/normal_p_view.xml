@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
         <record id="normal_p_tree" model="ir.ui.view">
             <field name="name">normal p t</field>
             <field name="model">normal.p</field>

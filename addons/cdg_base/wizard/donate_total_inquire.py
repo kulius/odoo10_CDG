@@ -14,7 +14,7 @@ class donatetotalinquire(models.Model):
     def inquire_donate_total(self):
         star_time = datetime.datetime.strptime(str(str(int(self.star_year) + 1911)+'-01-01'), '%Y-%m-%d').strftime('%Y-%m-%d')
         end_time = datetime.datetime.strptime(str(str(int(self.end_year) + 1911)+'-12-31'), '%Y-%m-%d').strftime('%Y-%m-%d')
-        data = self.env['donate.single'].search([('donate_date', '>=', star_time), ('donate_date', '<=', end_time),('old_donate_total', '>=', self.donate_total)],order='donate_date asc').ids
+        data = self.env['donate.single'].search([('donate_date', '>=', star_time), ('donate_date', '<=', end_time),('donate_total', '>=', self.donate_total)],order='donate_date asc').ids
 
         docargs = {
             'docs': data,
