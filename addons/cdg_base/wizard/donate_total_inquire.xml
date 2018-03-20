@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="donate_total_inquire_form" model="ir.ui.view">
+            <field name="name">donate total inquire form</field>
+            <field name="model">donate.total.inquire</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="star_year" string="捐款日期-起"/>
+                            <field name="end_year" string="捐款日期-訖"/>
+                            <field name="donate_total" string="查詢金額"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="inquire_donate_total" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="donate_total_inquire_action" name="捐款金額查詢" res_model="donate.total.inquire"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>

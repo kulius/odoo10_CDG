@@ -103,6 +103,11 @@
                   parent="first_categ"
                   action="change_state_action"
                   sequence="6"/>
+        <menuitem id="change_state_menu"
+                  name="捐款金額查詢"
+                  parent="first_categ"
+                  action="donate_total_inquire_action"
+                  sequence="7"/>
         <!--<menuitem id="donate_batch"-->
                   <!--name="批次捐款"-->
                   <!--parent="first_categ"-->

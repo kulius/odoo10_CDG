@@ -33,6 +33,7 @@
         'wizard/consultant_receipt_print.xml',
         'wizard/coffin_inquire.xml',
         'wizard/change_password_view.xml',
+        'wizard/donate_total_inquire.xml',
 
         'views/normal_p_view.xml',
         'views/member_base_view.xml',
