@@ -36,7 +36,7 @@ class DonateSingle(models.Model):
     state = fields.Selection([(1, '已產生'), (2, '已列印'), (3, '已作廢')],
                              string='狀態', default=1, index=True)
 
-    donate_total = fields.Integer(string='捐款總額')
+    donate_total = fields.Integer(string='捐款總額',compute='compute_total', store = True ,readonly='1')
     current_donate_total = fields.Integer('捐款總額小計', readonly="1")
     current_donate_people = fields.Integer('捐款人數小計', readonly="1")
     current_donate_project = fields.Integer('捐款項目小計', readonly="1")
@@ -77,7 +77,7 @@ class DonateSingle(models.Model):
     report_price_big = fields.Char(string='報表用大寫金額')
     report_donate = fields.Char(string='報表用捐款日期')
     donate_date = fields.Date('捐款日期')
-    sreceipt_number = fields.Integer(string='收據筆數', compute='compute_total', store=True)
+    sreceipt_number = fields.Integer(string='收據筆數', compute='compute_donate_total', store=True)
     print_count = fields.Integer(string='列印筆數',store=True)
     print_date = fields.Date('列印日期')
     donate_family_list = fields.Char('眷屬列表',compute='compute_family_list')
@@ -244,6 +244,7 @@ class DonateSingle(models.Model):
         banks = self.search(domain + args, limit=limit)
         return banks.name_get()
 
+
     @api.onchange('history_donate_flag')
     def get_history_donate(self):
 
@@ -306,6 +307,8 @@ class DonateSingle(models.Model):
                 line.poor_help_money = 0
                 line.noassign_money = 0
 
+            self.donate_total = self.current_donate_total
+
     @api.onchange('bridge_money','road_money','coffin_money','poor_help_money','noassign_money')
     def compute_donate_total(self):
         self.current_donate_total = 0
@@ -337,6 +340,7 @@ class DonateSingle(models.Model):
                     if line.noassign_money != 0:
                         line.noassign_money = self.noassign_money
 
+
         for line in self.family_check:
             if line.is_donate is True:
                 if line.bridge_money !=0:
@@ -354,6 +358,8 @@ class DonateSingle(models.Model):
                 self.current_donate_total += line.coffin_money
                 self.current_donate_total += line.poor_help_money
                 self.current_donate_total += line.noassign_money
+
+                self.donate_total = self.current_donate_total
 
     @api.onchange('donate_member','donor_show')
     def show_family(self):
@@ -476,6 +482,8 @@ class DonateSingle(models.Model):
                     self.save_donate_list(6, line.donate_member, line.noassign_money)
         else:
             raise ValidationError(u'捐款名冊為空，無法進行捐款作業')
+
+
 
 
     def save_donate_list(self, donate_type, member_id, money):  # 將明細產生
