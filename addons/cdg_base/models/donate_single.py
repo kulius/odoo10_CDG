@@ -36,7 +36,7 @@ class DonateSingle(models.Model):
     state = fields.Selection([(1, '已產生'), (2, '已列印'), (3, '已作廢')],
                              string='狀態', default=1, index=True)
 
-    donate_total = fields.Integer(string='捐款總額',compute='compute_total', store = True )
+    donate_total = fields.Integer(string='捐款總額')
     current_donate_total = fields.Integer('捐款總額小計', readonly="1")
     current_donate_people = fields.Integer('捐款人數小計', readonly="1")
     current_donate_project = fields.Integer('捐款項目小計', readonly="1")
@@ -77,7 +77,7 @@ class DonateSingle(models.Model):
     report_price_big = fields.Char(string='報表用大寫金額')
     report_donate = fields.Char(string='報表用捐款日期')
     donate_date = fields.Date('捐款日期')
-    sreceipt_number = fields.Integer(string='收據筆數', compute='compute_donate_total', store=True)
+    sreceipt_number = fields.Integer(string='收據筆數', compute='compute_total', store=True)
     print_count = fields.Integer(string='列印筆數',store=True)
     print_date = fields.Date('列印日期')
     donate_family_list = fields.Char('眷屬列表',compute='compute_family_list')
@@ -217,7 +217,8 @@ class DonateSingle(models.Model):
                 'donate_id': 'A' + str(historical_data_year)[2:] + str(historical_data_month).zfill(2) + str(receipt_number).zfill(5)
             })
         res_id.write({
-            'year_fee': res_id.year_fee
+            'year_fee': res_id.year_fee,
+            'donate_total': res_id.donate_total
         })
         self.add_to_list_create(res_id)
         self.compute_family_list_create()
@@ -307,7 +308,6 @@ class DonateSingle(models.Model):
                 line.poor_help_money = 0
                 line.noassign_money = 0
 
-            self.donate_total = self.current_donate_total
 
     @api.onchange('bridge_money','road_money','coffin_money','poor_help_money','noassign_money')
     def compute_donate_total(self):
@@ -359,7 +359,7 @@ class DonateSingle(models.Model):
                 self.current_donate_total += line.poor_help_money
                 self.current_donate_total += line.noassign_money
 
-                self.donate_total = self.current_donate_total
+        self.donate_total = self.current_donate_total
 
     @api.onchange('donate_member','donor_show')
     def show_family(self):
@@ -459,6 +459,7 @@ class DonateSingle(models.Model):
                     record.save_donate_list(6, line.donate_member, line.noassign_money)
                 if record.print_all_donor_list and (line.bridge_money == 0 and line.road_money == 0 and line.coffin_money == 0 and line.poor_help_money == 0 and line.noassign_money == 0 ):
                     record.save_donate_list(6, line.donate_member, line.noassign_money)
+
         else:
             raise ValidationError(u'捐款名冊為空，無法進行捐款作業')
 

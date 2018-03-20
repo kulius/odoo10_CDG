@@ -64,6 +64,7 @@
                             <field name="history_donate_flag"/>
                             <field name="year_fee"/>
                             <field name="key_in_user" readonly="1"/>
+                            <field name="donate_total"/>
                             <field name="donor_show" attrs="{'invisible': [('donate_id', '!=', False)]}"/>
                         </group>
                         <group col="4">
@@ -86,7 +87,7 @@
                                     <field name="coffin_money" string="施棺"/>
                                     <field name="poor_help_money" string="貧困扶助"/>
                                     <field name="noassign_money" string="一般捐款"/>
-                                    <field name="donate_total"/>
+
                                 </group>
                                 <span STYLE='FONT-SIZE:25PX'>捐款名冊</span>
                                 <group col="8">
