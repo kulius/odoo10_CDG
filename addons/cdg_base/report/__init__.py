@@ -11,3 +11,4 @@ from . import report_donate_single
 from . import empty_cashier
 from . import report_cashier_roll
 from . import cashier_list_tree
+from . import donate_totally

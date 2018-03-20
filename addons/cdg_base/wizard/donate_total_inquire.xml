@@ -14,7 +14,7 @@
                         </group>
                     </sheet>
                     <footer>
-                        <button type="object" name="inquire_donate_total" string="確定" class="oe_highlight"/>
+                        <button type="object" name="inquire_donate_total" string="捐款金額資料匯出" class="oe_highlight"/>
                         <button special="cancel" string="取消"/>
                     </footer>
                 </form>

@@ -122,6 +122,7 @@ class NormalP(models.Model):
                 elif (len(line.donate_history_ids) ==0 and len(line.donate_single_history_ids) == 0) is True:
                     line.is_delete = True
 
+
     def action_chang_donater_wizard(self):
         wizard_data = self.env['chang.donater'].create({
             'from_target': self.id
