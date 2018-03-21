@@ -23,8 +23,7 @@ class CoffinBase(models.Model):
     geter = fields.Char(string='領款人')
     geter_iden = fields.Char('領款者身份證字號')
     dealer = fields.Char(string='處理者')
-    donor = fields.Char('舊資料捐款者', compute='get_donate_name')
-    new_donor = fields.Char('新資料捐款者')
+    donor = fields.Char('捐款者', compute='get_donate_name')
     con_phone = fields.Char(string='聯絡電話')
     con_phone2 = fields.Char(string='聯絡電話(二)')
     cellphone = fields.Char(string='手機')
@@ -300,12 +299,6 @@ class CoffinBase(models.Model):
                     elif (donate_number > 6):
                         str_build = u"眾善士"
                     i.donor = str_build
-
-    def get_old_donate_name(self):
-        if not self.old_batch_donate:
-            for line in self.old_batch_donate:
-                data = self.env['donate.order'].search([('donate_id','=',line.donate_id)])
-                self.old_donor = data.donate_member.name
 
 
 
