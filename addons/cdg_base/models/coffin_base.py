@@ -275,7 +275,17 @@ class CoffinBase(models.Model):
                     donate_number += 1
                     if (donate_number <= 6):
                         if line.donate_order_id.donate_member.name is True:
-                          str_build += line.donate_order_id.donate_member.name
+                          str_build += line.donate_order_id.donate_member.name + ', '
+                        else:
+                          continue
+                    elif (donate_number > 6):
+                        str_build = u"眾善士"
+            elif i.old_batch_donate:
+                for line in i.old_batch_donate:
+                    donate_number += 1
+                    if (donate_number <= 6):
+                        if line.donor:
+                          str_build += line.donor + ', '
                         else:
                           continue
                     elif (donate_number > 6):
@@ -342,3 +352,4 @@ class OldCoffinDonation(models.Model):
 
     old_coffin_donation_id = fields.Many2one(comodel_name='coffin.base')
     donate_single_id = fields.Many2one(comodel_name='donate.single', string='捐款編號')
+    donor = fields.Char(string='捐款者', related = 'donate_single_id.name')

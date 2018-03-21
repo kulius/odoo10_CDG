@@ -81,6 +81,7 @@
                             <page string="捐助資料">
                                 <field name="batch_donate">
                                     <tree editable="bottom">
+                                        <field name="donate_id"/>
                                         <field name="donate_order_id"/>
                                         <field name="donate_price"/>
                                     </tree>
@@ -91,6 +92,7 @@
                                     <tree>
                                         <field name="coffin_id"/>
                                         <field name="donate_id"/>
+                                        <field name="donor"/>
                                         <field name="donate_price"/>
                                     </tree>
                                 </field>
