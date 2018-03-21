@@ -45,6 +45,7 @@ class CoffinBase(models.Model):
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
 
+
     @api.model
     def create(self, vals):
         res_id = super(CoffinBase, self).create(vals)
