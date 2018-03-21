@@ -84,6 +84,9 @@
                                         <field name="donate_id"/>
                                         <field name="donate_order_id"/>
                                         <field name="donate_price"/>
+                                        <field name="donate" invisible = "1"/>
+                                        <field name="use_amount" invisible = "1"/>
+                                        <field name="available_balance" invisible = "1"/>
                                     </tree>
                                 </field>
                             </page>
@@ -108,6 +111,7 @@
             <field name="model">coffin.base</field>
             <field name="arch" type="xml">
                 <search>
+                  <field name="coffin_id"/>
                   <field name="dealer"/>
                   <field name="user"/>
                   <field name="geter"/>
