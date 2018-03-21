@@ -129,6 +129,7 @@ class CoffinBase(models.Model):
 
         Cumulative_amount = self.donate_apply_price - int(float(self.donate_price)) #計算已累積金額與施棺滿足額的差額
         flag = False # 後續程式判讀使否結案用
+
         if Cumulative_amount == 0:  # 初始判斷累積金額是否已滿足施棺滿足額
             self.finish = True
             flag = True
@@ -240,7 +241,7 @@ class CoffinBase(models.Model):
                                 })
                                 line.used_money = line.available_balance - (line.available_balance - Cumulative_amount) # 已用金額
                                 line.available_balance = line.available_balance - Cumulative_amount # 捐款金額減掉施棺滿足額的差額, 再把餘額寫回可用餘額之中
-                                self.donate_price = int(float(self.donate_price)) + Cumulative_amount - line.available_balance
+                                self.donate_price = int(float(self.donate_price)) + Cumulative_amount
                                 Cumulative_amount = 0 # 達到施棺滿足額, 所以差額歸0
 
         if Cumulative_amount != 0:
