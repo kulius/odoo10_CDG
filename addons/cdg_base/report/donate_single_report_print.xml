@@ -101,7 +101,7 @@
                 _data["Tables"].push(_tableSaleOrderLines);
                 var _reportData = JSON.stringify(_data);  //轉成json字元串
                 <t t-foreach="docs" t-as="o">
-                    <t t-esc="o.state"  t-value="2"/>
+                    <t t-set="o.state"  t-value="2"/>
                 </t>
                 console.log(_reportData);
                 //生成資料之後，在cfprint_ext.js中會自動呼叫進行列印
