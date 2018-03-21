@@ -678,7 +678,7 @@ class AppThemeConfigSettings(models.TransientModel):
         # 以上全程花費1620.507秒, 約 27 分鐘
         return True
 
-    def set_donate_single_associated(self): # donate_single 關聯 donate_order 45分鐘
+    def set_donate_single_associated(self): # donate_single 關聯 donate_order
         sql = "UPDATE donate_order SET donate_list_id = a.id FROM donate_single a WHERE a.donate_id = donate_order.donate_id"
         self._cr.execute(sql) # 關聯資料共8572314筆, 花費6040.240秒
         sql = "UPDATE donate_order SET state = 1 , active = TRUE WHERE state IS NULL" # 將所有的捐款明細的狀態設為已產生
@@ -1019,7 +1019,7 @@ class AppThemeConfigSettings(models.TransientModel):
         sql = "UPDATE normal_p SET postal_code_id = a.id FROM postal_code a WHERE SUBSTRING(a.zip, 1, 3)  = normal_p.zip_code"
         self._cr.execute(sql) # 共231242筆資料, 花費44.597秒
         return True
-
+    # 全部轉檔程式費時358.4分鐘, 約 6 小時
     def postal_code_database(self):
         sql = " INSERT INTO postal_code (city, area, zip) VALUES " \
                 "('台北市', '中正區', '100')," \

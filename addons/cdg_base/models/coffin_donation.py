@@ -5,7 +5,7 @@ class CoffinDonation(models.Model):
     _name = 'coffin.donation'
 
     name = fields.Char(string='捐款者姓名', related='donate_order_id.donate_member.name')
-    donate_price = fields.Integer(string='施棺捐款金額', related='donate_order_id.used_money')
+    donate_price = fields.Integer(string='施棺捐款金額', related='donate_order_id.donate')
 
     coffin_donation_id = fields.Many2one(comodel_name='coffin.base')
     old_coffin_donation_id = fields.Many2one(comodel_name='coffin.base')
