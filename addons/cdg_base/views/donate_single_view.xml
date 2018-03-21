@@ -5,18 +5,18 @@
             <field name="name">donate single tree</field>
             <field name="model">donate.single</field>
             <field name="arch" type="xml">
-                <tree>
-                    <field name="state"/>
-                    <field name="donate_id"/>
-                    <field name="donate_member_w_id"/>
-                    <field name="donate_member_new_coding"/>
-                    <field name="name"/>
-                    <field name="donate_date" string="捐款日期"/>
-                    <field name="donate_family_list"/>
-                    <field name="donate_total"/>
-                    <field name="receipt_send"/>
-                    <field name="work_id"/>
-                    <field name="donate_member" invisible = "1"/>
+                <tree string="abc">
+                        <field name="state"/>
+                        <field name="donate_id"/>
+                        <field name="donate_member_w_id"/>
+                        <field name="donate_member_new_coding"/>
+                        <field name="name"/>
+                        <field name="donate_date" string="捐款日期"/>
+                        <field name="donate_family_list"/>
+                        <field name="donate_total"/>
+                        <field name="receipt_send"/>
+                        <field name="work_id"/>
+                        <field name="donate_member" invisible = "1"/>
                 </tree>
             </field>
         </record>
@@ -48,7 +48,7 @@
                         </div>
                         <div class="oe_title">
                             <h1>
-                                <field name="donate_id" readonly="1"/>
+                                    <field name="donate_id" readonly="1"/>
                             </h1>
                         </div>
                         <group col="9">
