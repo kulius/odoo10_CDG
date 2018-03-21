@@ -82,7 +82,7 @@ class CoffinBase(models.Model):
             'target': 'new',
         }
 
-    @api.depends('batch_donate')
+    # @api.depends('batch_donate')
     def compute_money(self):
         for line in self: # 從捐助資料表中, 計算目前的累積金額
             if line.batch_donate and len(line.old_batch_donate) == 0:
@@ -212,7 +212,7 @@ class CoffinBase(models.Model):
                             Cumulative_amount = Cumulative_amount - line.available_balance  # 施棺滿足額 減掉 捐款額
                             line.available_balance = 0  # 該筆捐款金額歸 0
                 else:
-                    lines = self.env['donate.order'].search(['|',('donate_type', '=', 3),('donate_type', '=', 6),('available_balance', '<', 10000),('use_amount', '=', False),('donate_date','<',self.coffin_date)])
+                    lines = self.env['donate.order'].search(['|',('donate_type', '=', 3),('available_balance', '<', 10000),('use_amount', '=', False),('donate_date','<',self.coffin_date)])
                     if lines and flag == False:
                         for line in lines:
                             if Cumulative_amount == 0:  # 達到施棺滿足額
@@ -232,6 +232,7 @@ class CoffinBase(models.Model):
                                 self.donate_price = int(float(self.donate_price)) + line.available_balance  # 將捐款金額加入累積金額
                                 Cumulative_amount = Cumulative_amount - line.available_balance  # 施棺滿足額 減掉 捐款額
                                 line.available_balance = 0  # 該筆捐款金額歸 0
+
                             elif int(line.available_balance) > Cumulative_amount and flag == False:  # 單筆捐款大於施棺滿足額的差額
                                 self.write({
                                     'batch_donate': [(0, 0, {
