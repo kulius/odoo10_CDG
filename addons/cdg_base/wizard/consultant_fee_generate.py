@@ -18,8 +18,11 @@ class consultantfeegenerate(models.Model):
             self.year = str(int(self.year) - 1911)
 
         data_line = []
+        temp = []
         normal_p_consultants = self.env['normal.p'].search([('type.id','=',4)]).ids
-        consultant_fee_datas = self.env['consultant.fee'].search([('year','=',self.year)]).normal_p_id.ids
+        consultant_fee_datas = self.env['consultant.fee'].search([('year','=',self.year)])
+        for line in consultant_fee_datas:
+            temp.append(line.normal_p_id.id)
 
         data_line = list(set(normal_p_consultants) - set(consultant_fee_datas))
         target = self.env['normal.p'].browse(data_line)

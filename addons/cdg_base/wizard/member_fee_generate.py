@@ -18,10 +18,13 @@ class memnberfeegenerate(models.Model):
             self.year = str(int(self.year) - 1911)
 
         data_line = []
+        temp = []
         normal_p_members = self.env['normal.p'].search(['|',('type.id','=',2),('type.id','=',3)]).ids
-        member_fee_datas = self.env['associatemember.fee'].search([('year','=',self.year)]).normal_p_id.ids
+        member_fee_datas = self.env['associatemember.fee'].search([('year','=',self.year)])
+        for line in member_fee_datas:
+            temp.append(line.normal_p_id.id)
 
-        data_line = list(set(normal_p_members) - set(member_fee_datas))
+        data_line = list(set(normal_p_members) - set(temp))
         target = self.env['normal.p'].browse(data_line)
         for line in target:
             self.env['associatemember.fee'].create({
