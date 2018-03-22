@@ -537,12 +537,7 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql) # 更新 776087 筆資料, 花費22.857秒
         sql = "UPDATE normal_p SET active = TRUE"
         self._cr.execute(sql)  # 把所有捐款者資料的active設為TRUE, 不然基本資料會什麼都看不見, 共777235筆 花費15.163秒
-        sql = "UPDATE normal_p SET new_coding = '' "
-        self._cr.execute(sql) # 將所有的捐款者編號全部設為空 而並非是NULL, 共777235筆資料, 花費14.094秒
-        sql = " UPDATE normal_p set key_in_user = a.id from res_users a where a.login = normal_p.temp_key_in_user"
-        self._cr.execute(sql)  # 關聯資料共 722760 筆,花費29.335秒
-        sql = " UPDATE normal_p set member_type = '2' where member_type = '99' "
-        self._cr.execute(sql)  # 修改資料共6639 筆, 花費0.715秒
+
         # 以上全程150.288秒, 約 3 分鐘
         return True
 
@@ -765,12 +760,21 @@ class AppThemeConfigSettings(models.TransientModel):
     def set_member_data(self): # 轉會員檔資料進normal.p, 會員檔共7303筆資料
         sql = "INSERT INTO normal_p(name , con_addr) SELECT 姓名, 戶籍通訊地址 FROM 新會員檔 EXCEPT SELECT name, con_addr FROM normal_p"
         self._cr.execute(sql)  # 轉入新會員檔有資料但normal.p沒有資料的, 共有4730筆資料, 花費0.701 秒
+        sql = " DELETE FROM 舊會員檔 WHERE 會員編號 IN (SELECT a.會員編號 FROM 舊會員檔 a INNER JOIN 新會員檔 b ON a.會員編號=b.會員編號)"
+        self._cr.execute(sql)  # 刪除舊會員檔與新會員檔重複的資料, 共有6451筆資料, 花費0.040秒
+        sql = "INSERT INTO normal_p(name , con_addr) SELECT 姓名, 戶籍通訊地址 FROM 舊會員檔 EXCEPT SELECT name, con_addr FROM normal_p"
+        self._cr.execute(sql)  # 轉入資料0筆
 
         sql = "UPDATE normal_p " \
               " SET member_id = a.會員編號, cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, zip_code = a.戶籍郵遞區號, con_addr = a.戶籍通訊地址, zip = a.郵遞區號, rec_addr = a.通訊地址, build_date = case when a.建檔日期='' then NULL else cast(a.建檔日期 as date) end, self_iden = a.身份證號, member_type = case when 會員種類編號='' then NULL else CAST(會員種類編號 AS INTEGER) end, " \
               " ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, booklist = case when a.名冊列印='N' then FALSE else TRUE end, self = a.自訂排序,temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end " \
               " FROM 新會員檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
         self._cr.execute(sql)  # 會員檔更新normal.p的資料共7399筆, 花費1.331 秒
+        sql = "UPDATE normal_p " \
+              " SET member_id = a.會員編號, cellphone = a.手機, con_phone = a.電話一, con_phone2 = a.電話二, zip_code = a.戶籍郵遞區號, con_addr = a.戶籍通訊地址, zip = a.郵遞區號, rec_addr = a.通訊地址, build_date = case when a.建檔日期='' then NULL else cast(a.建檔日期 as date) end, self_iden = a.身份證號, member_type = case when 會員種類編號='' then NULL else CAST(會員種類編號 AS INTEGER) end, " \
+              " ps = a.備註, temp_cashier = a.收費員編號, rec_send = case when a.收據寄送='N' then FALSE else TRUE end, booklist = case when a.名冊列印='N' then FALSE else TRUE end, self = a.自訂排序,temp_key_in_user = a.輸入人員, db_chang_date = case when a.異動日期='' then NULL else cast(a.異動日期 as date) end " \
+              " FROM 舊會員檔 a WHERE a.姓名 = normal_p.name and a.戶籍通訊地址 = normal_p.con_addr"
+        self._cr.execute(sql)  # 共2筆
         return True
 
     def set_consultant(self): #顧問收費檔轉檔
@@ -817,6 +821,8 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 更新資料共1392筆, 花費0.028秒
         sql = " UPDATE normal_p set cashier_name = a.id from cashier_base a where a.c_id = normal_p.temp_cashier"
         self._cr.execute(sql)  # 更新資料共765990筆, 花費49.222秒
+        sql = " UPDATE normal_p set key_in_user = a.id from res_users a where a.login = normal_p.temp_key_in_user"
+        self._cr.execute(sql)  # 關聯資料共 722760 筆,花費29.335秒
         sql = " UPDATE donate_single set work_id = a.id from cashier_base a where a.c_id = donate_single.temp_work_id"
         self._cr.execute(sql)  # 更新資料共3099319筆, 花費144.298秒
         sql = " UPDATE donate_order set cashier = a.id from cashier_base a where a.c_id = donate_order.clerk"
@@ -846,6 +852,10 @@ class AppThemeConfigSettings(models.TransientModel):
     def active_data(self):
         sql = "UPDATE normal_p  SET active = TRUE"
         self._cr.execute(sql)  # 把所有捐款者資料的active設為TRUE, 不然基本資料會什麼都看不見, 共782095筆 花費49.790秒
+        sql = "UPDATE normal_p SET new_coding = '' "
+        self._cr.execute(sql)  # 將所有的捐款者編號全部設為空 而並非是NULL, 共777235筆資料, 花費14.094秒
+        sql = " UPDATE normal_p set member_type = '2' where member_type = '99' "
+        self._cr.execute(sql)  # 修改資料共6639 筆, 花費0.715秒
         return True
 
     def set_people_type(self): # 人員種類關聯
@@ -950,7 +960,7 @@ class AppThemeConfigSettings(models.TransientModel):
     #     zip = ''
     #     for row in last_time_data:  # 將資料庫計數器的資料撈出來, 放入python 的 counter之中, 以便繼續統計個郵遞區號的出現次數
     #         zip = row.zip
-    #         s[zip] += int(row.area_number)
+    #         s[zip] = int(row.area_number)
     #     zip = ''
     #
     #     for line in lines[420000:]:
@@ -1000,18 +1010,32 @@ class AppThemeConfigSettings(models.TransientModel):
     #     zip = ''
     #     for row in last_time_data:  # 將資料庫計數器的資料撈出來, 放入python 的 counter之中, 以便繼續統計個郵遞區號的出現次數
     #         zip = row.zip
-    #         s[zip] += int(row.area_number)
+    #         s[zip] = int(row.area_number)
     #     zip = ''
     #
     #     for line in lines:
-    #         s['999'] += 1
-    #         line.new_coding = '999' + str(s.get('999')).zfill(5)
+    #         if len(line.zip) >= 3 and (u'\u0030' <= line.zip[0] <= u'\u0039'):
+    #             for ch in line.zip:
+    #                 if int(line.zip[0]) == 0:
+    #                     flag = False
+    #                 if not u'\u0030' <= ch <= u'\u0039':
+    #                     flag = False
+    #             if flag:
+    #                 zip = line.zip[0:3]
+    #                 s[zip] += 1  # 該郵遞區號的出現次數 +1
+    #                 line.new_coding = zip + str(s.get(zip)).zfill(5)
+    #         else:
+    #             s['999'] += 1
+    #             line.new_coding = '999' + str(s.get('999')).zfill(5)
     #
     #     postal_code_list = list(s.items())
     #     for i in range(len(postal_code_list)):
-    #         postal_code_data = self.env['auto.donateid'].search([('zip', '=', '999')])  # 搜尋資料庫的計數器是否具有該郵遞區號
+    #         postal_code_data = self.env['auto.donateid'].search([('zip', '=', postal_code_list[i][0])])  # 搜尋資料庫的計數器是否具有該郵遞區號
     #         if postal_code_data:
     #             postal_code_data.area_number = postal_code_data.area_number + int(postal_code_list[i][1])  # 有搜尋到 則更新資料庫計數器的數量
+    #         else:
+    #             sql = " INSERT INTO auto_donateid(zip, area_number) VALUES ('%s', '%s')" % (postal_code_list[i][0], postal_code_list[i][1])  # 沒有搜尋到則重新建立該郵遞區號的資料
+    #             self._cr.execute(sql)
     #     s.clear()
     #     return True
 

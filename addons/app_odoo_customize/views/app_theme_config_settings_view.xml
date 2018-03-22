@@ -215,12 +215,12 @@
                         <div>
                             <button string="22.收據編號匯入及統計" type="object" name="set_donate_id" class="oe_highlight"/>
                             |
-                            <!--<button string="郵遞區號編號1" type="object" name="set_postal_code1" class="oe_highlight"/>-->
-                            <!--|-->
-                            <!--<button string="郵遞區號編號2" type="object" name="set_postal_code2" class="oe_highlight"/>-->
-                            <!--|-->
-                            <!--<button string="郵遞區號編號3" type="object" name="set_postal_code3" class="oe_highlight"/>-->
-                            <!--|-->
+                            <button string="郵遞區號編號1" type="object" name="set_postal_code1" class="oe_highlight"/>
+                            |
+                            <button string="郵遞區號編號2" type="object" name="set_postal_code2" class="oe_highlight"/>
+                            |
+                            <button string="郵遞區號編號3" type="object" name="set_postal_code3" class="oe_highlight"/>
+                            |
                             <button string="郵遞區號資料庫匯入" type="object" name="postal_code_database" class="oe_highlight"/>
                         </div>
                     </group>
