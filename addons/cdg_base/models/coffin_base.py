@@ -138,7 +138,7 @@ class CoffinBase(models.Model):
             raise ValidationError(u'已結案，無法再更改')
         elif self.finish == False:
             if self.donate_price == 0  and default_price_flag == True and self.exception_case == False: # 沒有任何的捐助明細,而且確認申請金額是讀取基本設定檔的施棺滿足額, 而不是使用者自行輸入的特殊案例,
-                lines = self.env['donate.order'].search([('donate_type', '=', 3),('available_balance', '=', self.donate_apply_price),('use_amount', '=', False),('donate_date','<',self.coffin_date)])
+                lines = self.env['donate.order'].search([('donate_type', '=', 3),('available_balance', '=', self.donate_apply_price),('donate_date','<',self.coffin_date)], limit= 1 )
                 if lines: # 有單筆3萬元的捐助資料
                     for line in lines:
                         if Cumulative_amount == 0:  # 達到施棺滿足額
@@ -159,7 +159,7 @@ class CoffinBase(models.Model):
                             self.finish = True  # 結案
                             flag = True  # 結案
                 if flag == False: # 沒有單筆三萬元的捐款, 找大於1萬元的捐款
-                    lines = self.env['donate.order'].search([('donate_type', '=', 3),('available_balance', '>=', 10000),('use_amount', '=', False),('donate_date', '<', self.coffin_date)])
+                    lines = self.env['donate.order'].search([('donate_type', '=', 3),('available_balance', '>=', 10000),('donate_date', '<', self.coffin_date)], limit= 3 )
                     num = len(lines)
                     if num >= 3:
                         for line in lines:
@@ -212,7 +212,7 @@ class CoffinBase(models.Model):
                             Cumulative_amount = Cumulative_amount - line.available_balance  # 施棺滿足額 減掉 捐款額
                             line.available_balance = 0  # 該筆捐款金額歸 0
                 else:
-                    lines = self.env['donate.order'].search(['|',('donate_type', '=', 3),('available_balance', '<', 10000),('use_amount', '=', False),('donate_date','<',self.coffin_date)])
+                    lines = self.env['donate.order'].search([('donate_type', '=', 3),('available_balance', '<', 10000),('use_amount', '=', False),('donate_date','<',self.coffin_date)])
                     if lines and flag == False:
                         for line in lines:
                             if Cumulative_amount == 0:  # 達到施棺滿足額
