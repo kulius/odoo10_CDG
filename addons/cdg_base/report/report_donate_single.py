@@ -3,6 +3,20 @@ from odoo import models, api,fields
 from odoo.exceptions import ValidationError
 import datetime
 
+class ReportLine(models.Model):
+    _name = 'report.line'
+
+    parent_id = fields.Many2one(comodel_name='donate.single.report')
+    donate_id = fields.Char(string='捐款編號')
+    donate_member_id = fields.Many2one(comodel_name='normal.p', string='收據收件人')
+    name = fields.Char(string='捐款姓名')
+    donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (05, '貧困扶助'), (06, '一般捐款')],
+                                   string='捐款種類')
+    donate_price = fields.Integer(string='捐款金額')
+    is_merge = fields.Boolean(string='是否合併收據')
+    print_all_donor_list = fields.Boolean(string='列印願意捐助的眷屬')
+
+
 class DonateSingleReport(models.Model):
     _name = 'donate.single.report'
     _description = u'報表用來整理收據資料用table'
@@ -54,18 +68,6 @@ class DonateSingleReport(models.Model):
                     res.append(tmp)
         return ''.join(res[::-1])
 
-class ReportLine(models.Model):
-    _name = 'report.line'
-
-    parent_id = fields.Many2one(comodel_name='donate.single.report')
-    donate_id = fields.Char(string='捐款編號')
-    donate_member_id = fields.Many2one(comodel_name='normal.p', string='收據收件人')
-    name = fields.Char(string='捐款姓名')
-    donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (05, '貧困扶助'), (06, '一般捐款')],
-                                   string='捐款種類')
-    donate_price = fields.Integer(string='捐款金額')
-    is_merge = fields.Boolean(string='是否合併收據')
-    print_all_donor_list = fields.Boolean(string='列印願意捐助的眷屬')
 
 class ReportDonateSingleMerge(models.AbstractModel):
     _name = 'report.cdg_base.donate_single_merge'
@@ -73,27 +75,73 @@ class ReportDonateSingleMerge(models.AbstractModel):
     @api.multi
     def render_html(self, docids, data=None):
         self.model = self.env.context.get('active_model')
-        docs = self.env['donate.single'].browse(docids)
+        target = self.env['donate.single'].browse(docids)
 
-        for line in docs:
-            line.report_donate = line.donate_date
-            if line.state == 3:
+        res = self.env['donate.order']
+        res_line = self.env['donate.order']
+        report_line = self.env['donate.single.report']
+
+        for row in target:
+            if row.state == 3:
                 raise ValidationError(u'本捐款單已經作廢')
-            elif line.state == 1:
-                # line.state = 2
-                line.print_count+=1
-                line.print_date = datetime.date.today()
-                line.print_user = self.env.uid
-            elif line.state == 2:
-                line.print_date = datetime.date.today()
-            line.report_price_big = self.convert(line.donate_total)
+            elif row.state == 1:
+                # row.state = 2
+                row.print_count += 1
+                row.print_date = datetime.date.today()
+                row.print_user = self.env.uid
+
+            for line in row.donate_list:
+                res_line += line
+                exist = False
+                for list in res:
+                    if list.donate_member == line.donate_member and list.donate_id == line.donate_id:
+                        exist = True
+                if exist is False:
+                    res += line
+
+        for line in res:
+            single_state = 0
+            if line.donate_list_id.year_fee:
+                single_state = 1
+            elif not line.donate_list_id.year_fee:
+                single_state = 2
+            tmp_id = report_line.create({
+                'title_donate': line.donate_member.id,
+                'title_doante_code': line.donate_id,
+                'title_doante_date': line.donate_date,
+                'work_id': line.cashier.id,
+                'title_Make_up_date': datetime.date.today(),
+                'title_state': line.donate_list_id.state,
+                'title_year_fee': single_state
+            })
+
+            line_data = []
+            for row in res_line:
+                if row.donate_member == line.donate_member and row.donate_id == line.donate_id:
+                    line_data.append([0, 0, {
+                        'donate_id': row.donate_id,
+                        'donate_member_id': line.donate_member.id,
+                        'name': row.donate_member.name,
+                        'donate_type': row.donate_type,
+                        'donate_price': row.donate,
+                    }])
+
+            tmp_id.write({
+                'donate_line': line_data
+            })
+            report_line += tmp_id
 
         docargs = {
             'doc_ids': docids,
             'doc_model': 'donate.single',
-            'docs': docs,
+            'docs': report_line,
         }
+        for row in target:
+            if row.state == 1:
+                row.state = 2
+
         return self.env['report'].render('cdg_base.donate_single_merge', values=docargs)
+
 
     def convert(self, n):
         units = ['', '萬', '億']

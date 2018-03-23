@@ -43,66 +43,66 @@
                     "Data":[ ]
                 };
                 <t t-set="donate_type" t-value="dict([(01,'造橋'),(02,'補路'),(03,'施棺'),(04,'伙食費'),(05,'貧困扶助'),(06,'一般捐款'),(99,'其他工程')])"/>
+                <t t-set="is_print" t-value="False"/>
                 <t t-foreach="docs" t-as="o">
+                    <t t-if="is_print == False">
                     <t t-set="foo" t-value="0"/>
                     <t t-set="single_state" t-value="0"/>
-                    <t t-if="o.year_fee == True">
-                    <t t-set="single_state" t-value="1"></t></t>
-                    <t t-if="o.year_fee == False">
-                    <t t-set="single_state" t-value="2"></t></t>
+                    <t t-if="o.title_year_fee == True">
+                        <t t-set="single_state" t-value="1"></t>
+                    </t>
+                    <t t-else="">
+                    </t>
                     /*增加主表記錄*/
                     _tableOrder.Data.push(
                     {
-                        "收據編號":"<t t-esc="o.donate_id"/>",
-                        "捐款者姓名":"<t t-esc="o.donate_member.name"/>",
-                        <t t-if="o.donate_member.rec_send == True">
-                            "住址":"<t t-esc="o.rec_addr"/>",
+                        "收據編號":"<t t-esc="o.title_doante_code"/>",
+                        "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
+                        <t t-if="o.title_donate.rec_send == True">
+                            "住址":"<t t-esc="o.title_donate.zip"/>" + "<t t-esc="o.title_donate.rec_addr"/>",
                         </t>
-                         <t t-else="">
-                            "住址":"[收據不寄送]" + "<t t-esc="o.rec_addr"/>",
+                         <t t-if="o.title_donate.rec_send == False">
+                            "住址":"[收據不寄送]"+ "<t t-esc="o.title_donate.rec_addr"/>",
                         </t>
-                        "捐款日期":"<t t-esc="o.donate_date"/>",
-                        "團員編號":"<t t-esc="o.new_coding"/>",
-                        "捐款金額":"<t t-esc="o.donate_total"/>",
+                        "捐款日期":"<t t-esc="o.title_doante_date"/>",
+                        "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
                         "經手人":"<t t-esc="o.key_in_user.name"/>",
                         "收費員":"<t t-esc="o.work_id.name"/>",
-                        "捐款總額大寫":"<t t-esc="o.report_price_big"/>",
-                        "捐款總額":"<t t-esc="o.donate_total"/>",
-                        "列印日期":"<t t-esc="o.print_date"/>" + " 補單",
-                        "列印狀態":"<t t-esc="o.state"/>",
-                        "年繳":"<t t-esc="single_state"/>",
+                        "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
+                        "捐款總額":"<t t-esc="o.title_total_price"/>",
+                        "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
+                        "列印狀態":"<t t-esc="o.title_state"/>",
+                        "年繳":"<t t-esc="o.title_year_fee"/>",
                         "年繳字串":"年繳"
                     });
-
-                    <t t-foreach="o.donate_list" t-as="lines">
+                        <t t-set="is_print" t-value="True"/>
+                    </t>
+                    <t t-foreach="o.donate_line" t-as="lines">
                         <t t-if="foo &lt; 23">
                             _tableSaleOrderLines.Data.push(
                             {
-                                "收據編號":"<t t-esc="o.donate_id"/>",
-                                "捐款者姓名":"<t t-esc="lines.donate_member.name"/>",
+                                "收據編號":"<t t-esc="lines.donate_id"/>",
+                                "捐款者姓名":"<t t-esc="lines.name"/>",
                                 "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",
-                                "捐款金額":"<t t-esc="lines.donate"/>",
+                                "捐款金額":"<t t-esc="lines.donate_price"/>",
                             });
                         </t>
                         <t t-if="foo == 23">
                             _tableSaleOrderLines.Data.push(
                             {
-                                "收據編號":"<t t-esc="o.donate_id"/>",
+                                "收據編號":"<t t-esc="lines.donate_id"/>",
                                 "捐款者姓名":"感恩",
                                 "捐款種類":"眾善士",
                                 "捐款金額":"．．．",
                             });
                         </t>
                         <t t-set="foo" t-value="foo+1"/>
-                    </t>
+                        </t>
                 </t>
                 var _data = {"template": "donate_single_merge.fr3", "ver": 4, "Copies": 1, "Duplex": 0, "Preview": 1, "Tables":[]};
                 _data["Tables"].push(_tableOrder);
                 _data["Tables"].push(_tableSaleOrderLines);
                 var _reportData = JSON.stringify(_data);  //轉成json字元串
-                <t t-foreach="docs" t-as="o">
-                    <t t-set="o.state"  t-value="2"/>
-                </t>
                 console.log(_reportData);
                 //生成資料之後，在cfprint_ext.js中會自動呼叫進行列印
                 </script>
