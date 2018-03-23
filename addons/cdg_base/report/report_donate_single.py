@@ -115,7 +115,6 @@ class ReportDonateSingleMerge(models.AbstractModel):
             }
             res_doc.append(temp)
 
-
         docargs = {
             'doc_ids': docids,
             'doc_model': 'donate.single',
