@@ -72,9 +72,7 @@ class ReportDonateSingleMerge(models.AbstractModel):
 
     @api.multi
     def render_html(self, docids, data=None):
-        self.model = self.env.context.get('active_model')
         docs = self.env['donate.single'].browse(docids)
-
         for line in docs:
             line.report_donate = line.donate_date
             if line.state == 3:
@@ -86,13 +84,45 @@ class ReportDonateSingleMerge(models.AbstractModel):
                 line.print_user = self.env.uid
             elif line.state == 2:
                 line.print_date = datetime.date.today()
+
+        res_doc= []
+        for line in docs:
+            order_doc = []
+            for order_line in line.donate_list:
+                order_temp = {
+                    'donate_id':order_line.donate_id,
+                    'donate_member':order_line.donate_member.name,
+                    'donate_type':dict(order_line.fields_get(allfields=['donate_type'])['donate_type']['selection'])[order_line.donate_type],
+                    'donate':order_line.donate,
+                }
+                order_doc.append(order_temp)
             line.report_price_big = self.convert(line.donate_total)
+            temp = {
+                'donate_id': line.donate_id,
+                'donate_member': line.donate_member.name,
+                'rec_addr': line.rec_addr,
+                'new_coding': line.donate_member.new_coding,
+                'donate_date': line.donate_date,
+                'donate_total': line.donate_total,
+                'key_in_user': line.key_in_user.name,
+                'work_id': line.work_id.name,
+                'report_price_big': line.report_price_big,
+                'print_date': line.print_date,
+                'state': line.state,
+                'year_fee': line.year_fee,
+                'rec_send':line.donate_member.rec_send,
+                'order_line':order_doc
+            }
+            res_doc.append(temp)
 
         docargs = {
             'doc_ids': docids,
             'doc_model': 'donate.single',
-            'docs': docs,
+            'docs': res_doc,
         }
+        for row in docs:
+            if row.state == 1:
+                row.state = 2
         return self.env['report'].render('cdg_base.donate_single_merge', values=docargs)
 
     def convert(self, n):
