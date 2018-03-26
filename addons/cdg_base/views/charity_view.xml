@@ -108,6 +108,11 @@
                   parent="first_categ"
                   action="donate_total_inquire_action"
                   sequence="7"/>
+        <menuitem id="change_state_menu"
+                  name="舊案查詢(民國100年以前)"
+                  parent="first_categ"
+                  action="old_donate_single_view_action"
+                  sequence="8"/>
         <!--<menuitem id="donate_batch"-->
                   <!--name="批次捐款"-->
                   <!--parent="first_categ"-->

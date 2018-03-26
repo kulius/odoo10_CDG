@@ -195,6 +195,23 @@
             </field>
         </record>
 
+        <record id="old_donate_single_view_action" model="ir.actions.act_window">
+            <field name="name">舊案查詢</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">donate.single</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('donate_date','&lt;=','2011-12-31')]</field>
+
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
         <record id="start_donate_action" model="ir.actions.act_window">
             <field name="name">捐款作業</field>
             <field name="type">ir.actions.act_window</field>
