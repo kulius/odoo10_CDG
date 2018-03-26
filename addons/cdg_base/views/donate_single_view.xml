@@ -168,6 +168,7 @@
 
                     <!--<filter string="未列印的捐款" name="un_print_donate" domain="[('state','=',1)]"/>-->
                     <filter string="今日" name="today" domain="[('donate_date', '=', datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
+                    <filter string="最近1年" name="year" domain="[('donate_date', '=', (datetime.date.today() - relativedelta(years=1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
                     <!--<filter string="捐款日期" name="donate_date_today" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('create_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>-->
                     <filter string="捐款來源-現金" name="payment_method" domain="[('payment_method','=','1')]"/>
                     <filter string="捐款來源-郵政劃撥" name="payment_method" domain="[('payment_method','=','2')]"/>
@@ -200,7 +201,8 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">donate.single</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('donate_date','&lt;=','2016-12-31'),('state', '=', 2)]</field>
+            <field name="domain">[('state', '=', 2)]</field>
+            <field name="context">{'search_default_year': 1}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     <!-- Add Text Here -->
