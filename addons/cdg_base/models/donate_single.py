@@ -16,7 +16,7 @@ class DonateSingle(models.Model):
     paid_id = fields.Char(string='收費編號', readonly=True)
     donate_id = fields.Char(string='收據編號', readonly=True)
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者',
-                                    states={2: [('readonly', True)]})  # demo用
+                                    states={2: [('readonly', True)]}, required = True)  # demo用
     w_id = fields.Char('舊團員編號', related='donate_member.w_id')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛了
     new_coding = fields.Char('新捐款者編號', related='donate_member.new_coding')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛了
 
@@ -37,9 +37,9 @@ class DonateSingle(models.Model):
                              string='狀態', default=1, index=True)
 
     donate_total = fields.Integer(string='捐款總額', compute='compute_total',store=True)
-    current_donate_total = fields.Integer('捐款總額小計', readonly="1")
-    current_donate_people = fields.Integer('捐款人數小計', readonly="1")
-    current_donate_project = fields.Integer('捐款項目小計', readonly="1")
+    current_donate_total = fields.Integer('捐款總額小計')
+    current_donate_people = fields.Integer('捐款人數小計')
+    current_donate_project = fields.Integer('捐款項目小計')
 
     old_donate_total = fields.Integer(string='舊捐款總額')
 
@@ -56,13 +56,13 @@ class DonateSingle(models.Model):
     coffin_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     poor_help_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     noassign_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    payment_method = fields.Selection( [(1,'現金'),(2,'郵政劃撥'),(3,'信用卡扣款'),(4,'銀行轉帳'),(5,'支票')], string='繳費方式')
+    payment_method = fields.Selection( [(1,'現金'),(2,'郵政劃撥'),(3,'信用卡扣款'),(4,'銀行轉帳'),(5,'支票')], string='繳費方式', required = True)
     active = fields.Boolean(default=True)
 #    cash = fields.Boolean(string='現金', states={2: [('readonly', True)]})
     person_check = fields.Many2many(comodel_name="normal.p", string="捐款人名冊")
     family_check = fields.One2many(comodel_name='donate.family.line',inverse_name='parent_id', string='捐款人名冊', states={2: [('readonly', True)]})
     donate_list = fields.One2many(comodel_name='donate.order', inverse_name='donate_list_id', string='捐款明細', states={2: [('readonly', True)]})
-    work_id = fields.Many2one(comodel_name='cashier.base', string='收費員', states={2: [('readonly', True)]})
+    work_id = fields.Many2one(comodel_name='cashier.base', string='收費員', states={2: [('readonly', True)]},required = True)
     temp_work_id = fields.Char(string='收費員')
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]}, default=lambda self: self.env.uid)
     temp_key_in_user = fields.Char(string='輸入人員')
@@ -91,6 +91,16 @@ class DonateSingle(models.Model):
     last_donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (05, '貧困扶助'), (06, '一般捐款')],string='捐款種類')
     cashier_name = fields.Char(string='normal_p的收費員')
     donor_show = fields.Boolean(string='只顯示捐款眷屬', default = True)
+
+    @api.depends('donate_list')
+    def compute_total(self):
+        for line in self:
+            temp_money = 0
+            for row in line.donate_list:
+                temp_money += row.donate
+
+            line.sreceipt_number += 1
+            line.donate_total = temp_money
 
     @api.onchange('set_today')
     def set_today_donate(self):
@@ -174,66 +184,52 @@ class DonateSingle(models.Model):
     @api.model
     def create(self, vals):
         res_id = super(DonateSingle, self).create(vals)
-        if res_id.donate_member.id is False:
-            raise ValidationError(u'需要選取捐款人!')
-        elif res_id.payment_method is not 1 and res_id.payment_method is not 2 and res_id.payment_method is not 3 and res_id.payment_method is not 4 and res_id.payment_method is not 5:
-            raise ValidationError(u'支付方法至少選取一個')
-        elif res_id.work_id.name is False:
-            raise ValidationError(u'必須選取收費員')
+        i = res_id.current_donate_people
+        donate_date = res_id.donate_date
 
-        i = 0
-        is_donate_flag = False
-        donate_total_flag = False
-        for line in res_id.family_check: # 計算該捐款者眷屬有多少人是願意捐款的
-            if line.is_donate:
-                is_donate_flag = True
-                i = i + 1
-            if line.bridge_money or line.road_money or line.coffin_money or line.poor_help_money or line.noassign_money:
-                donate_total_flag = True
-
-        if not is_donate_flag or not donate_total_flag:
+        if res_id.current_donate_total == 0:
             raise ValidationError(u'請至少有一人需要捐款')
 
-        historical_data_year = str(datetime.datetime.strptime(res_id.donate_date, '%Y-%m-%d').year) # 根據捐款日期取出捐款的年份
-        historical_data_month = str(datetime.datetime.strptime(res_id.donate_date, '%Y-%m-%d').month) # 根據捐款日期取出捐款的月份
-        datas = self.env['donate.statistics'].search([('type','=','A'),('year','=',historical_data_year),('month','=',historical_data_month)]) # 搜尋計數器中有沒有資料
+        historical_data_year = str(datetime.datetime.strptime(donate_date, '%Y-%m-%d').year) # 根據捐款日期取出捐款的年份
+        historical_data_month = str(datetime.datetime.strptime(donate_date, '%Y-%m-%d').month) # 根據捐款日期取出捐款的月份
+        datas = self.env['donate.statistics'].search([('year','=',historical_data_year),('month','=',historical_data_month)]) # 搜尋計數器中有沒有資料
         if datas: # 如果有找到資料
             receipt_number = datas.receipt_number + 1
             res_id.write({
-                'donate_id': 'A' + str(historical_data_year)[2:] + str(historical_data_month).zfill(2) + str(receipt_number).zfill(5)
+                'donate_id': 'A' + str(historical_data_year)[2:] + str(historical_data_month).zfill(2) + str(receipt_number).zfill(5),
+                'year_fee': res_id.year_fee,
             })
-            datas.receipt_number = receipt_number # 捐款的收據張數寫回計數器
+            # datas.receipt_number = receipt_number # 捐款的收據張數寫回計數器
             datas.number = datas.number + i # 捐款人數要寫回計數器
         else: # 如果沒有找到資料
             self.env['donate.statistics'].create({
                 'year': historical_data_year,
-                'type': 'A',
                 'month': historical_data_month,
                 'receipt_number' : 1,
                 'number' : i
             })
             receipt_number = 1
             res_id.write({
-                'donate_id': 'A' + str(historical_data_year)[2:] + str(historical_data_month).zfill(2) + str(receipt_number).zfill(5)
+                'donate_id': 'A' + str(historical_data_year)[2:] + str(historical_data_month).zfill(2) + str(receipt_number).zfill(5),
+                'year_fee': res_id.year_fee
             })
-        res_id.write({
-            'year_fee': res_id.year_fee,
-            'donate_total': res_id.donate_total
-        })
-        self.add_to_list_create(res_id)
-        self.compute_family_list_create()
 
-        #donate_single(Create保存).donate_member(normal.p的資料).(欄位) = donate_single.(欄位)
+        self.add_to_list_create(res_id)
+
         donate_user = self.env['normal.p'].search([('id', '=', res_id.donate_member.id)])
-        donate_user.rec_send = res_id.receipt_send #收據寄送
-        donate_user.report_send = res_id.report_send #報表寄送
-        donate_user.merge_report = res_id.year_receipt_send #年收據合併 開始捐款(年收據寄送) 已將年收據合併改為年收據寄送
-        donate_user.print_all_donor_list = res_id.print_all_donor_list
-        donate_user.last_donate_date = res_id.donate_date # 上次捐款時間
+        donate_user.write({
+            'rec_send':res_id.receipt_send, #收據寄送
+            'report_send':res_id.report_send, #報表寄送
+            'merge_report':res_id.year_receipt_send, #年收據合併 開始捐款(年收據寄送) 已將年收據合併改為年收據寄送
+            'print_all_donor_list':res_id.print_all_donor_list,
+            'last_donate_date':res_id.last_donate_date # 上次捐款時間
+        })
 
         user = self.env['res.users'].search([('login', '=', self.env.user.login)])
-        user.payment_method = res_id.payment_method
-        user.last_donate_date = res_id.donate_date
+        user.write({
+            'payment_method':res_id.payment_method,
+            'last_donate_date':res_id.donate_date
+        })
         return res_id
 
     @api.model
@@ -381,12 +377,7 @@ class DonateSingle(models.Model):
         self.payment_method = user.payment_method
         self.donate_date = user.last_donate_date
 
-    @api.depends('donate_list')
-    def compute_total(self):
-        for line in self:
-            for row in line.donate_list:
-                line.sreceipt_number += 1
-                line.donate_total += row.donate
+
 
     @api.depends('donate_list')
     def compute_family_list(self):
@@ -459,7 +450,6 @@ class DonateSingle(models.Model):
                     record.save_donate_list(6, line.donate_member, line.noassign_money)
                 if record.print_all_donor_list and (line.bridge_money == 0 and line.road_money == 0 and line.coffin_money == 0 and line.poor_help_money == 0 and line.noassign_money == 0 ):
                     record.save_donate_list(6, line.donate_member, line.noassign_money)
-
         else:
             raise ValidationError(u'捐款名冊為空，無法進行捐款作業')
 
@@ -485,8 +475,6 @@ class DonateSingle(models.Model):
             raise ValidationError(u'捐款名冊為空，無法進行捐款作業')
 
 
-
-
     def save_donate_list(self, donate_type, member_id, money):  # 將明細產生
         if donate_type == 3:
             self.write({
@@ -501,8 +489,8 @@ class DonateSingle(models.Model):
                     'available_balance': money,
                     'key_in_user': self.key_in_user.id,
                     'cashier':self.work_id.id,
-                    'print_all_donor_list': self.print_all_donor_list
-                })]
+                })],
+                'print_all_donor_list': self.print_all_donor_list
             })
         else:
             self.write({
@@ -516,8 +504,8 @@ class DonateSingle(models.Model):
                     'payment_method': int(self.payment_method),
                     'key_in_user': self.key_in_user.id,
                     'cashier': self.work_id.id,
-                    'print_all_donor_list': self.print_all_donor_list
-                })]
+                })],
+                'print_all_donor_list': self.print_all_donor_list
             })
 
     def parent_list_creat(self):
