@@ -168,7 +168,7 @@
 
                     <!--<filter string="未列印的捐款" name="un_print_donate" domain="[('state','=',1)]"/>-->
                     <filter string="今日" name="today" domain="[('donate_date', '=', datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
-                    <filter string="最近1年" name="year" domain="[('donate_date', '=', (datetime.date.today() - relativedelta(years=1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                    <filter string="最近1年" name="year" domain="[('donate_date', '&gt;=', (datetime.date.today() - relativedelta(years=1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
                     <!--<filter string="捐款日期" name="donate_date_today" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('create_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>-->
                     <filter string="捐款來源-現金" name="payment_method" domain="[('payment_method','=','1')]"/>
                     <filter string="捐款來源-郵政劃撥" name="payment_method" domain="[('payment_method','=','2')]"/>
