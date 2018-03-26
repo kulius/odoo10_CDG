@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="bridge_data_tree" model="ir.ui.view">
+            <field name="name">bridge data tree</field>
+            <field name="model">bridge.data</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="bridge_code"/>
+                    <field name="name"/>
+                    <field name="length"/>
+                    <field name="width"/>
+                    <field name="height"/>
+                    <field name="bridge_addr"/>
+                    <field name="numbers"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="bridge_data_form" model="ir.ui.view">
+            <field name="name">bridge data form</field>
+            <field name="model">bridge.data</field>
+            <field name="arch" type="xml">
+                <form class="o_sale_order">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="bridge_code"/>
+                            </h1>
+                        </div>
+                        <group col="8">
+                            <field name="name"/>
+                        </group>
+                        <notebook>
+                            <page string="橋梁資料">
+                                 <group col="9">
+                                    <field name="length"/><h5>公尺</h5>
+                                    <field name="width"/><h5>公尺</h5>
+                                    <field name="height"/><h5>公尺</h5>
+                                </group>
+                                <group col="8">
+                                    <field name="donate_date_start"/>
+                                    <field name="donate_date_end"/>
+                                </group>
+                                <group col="8">
+                                    <field name="build_date"/>
+                                    <field name="completed_date"/>
+                                </group>
+                                <group>
+                                    <field name="bridge_addr"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="bridge_data_search" model="ir.ui.view">
+            <field name="name">bridge data search</field>
+            <field name="model">bridge.data</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="bridge_addr"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="bridge_data_action" model="ir.actions.act_window">
+            <field name="name">橋梁資料作業</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bridge.data</field>
+            <field name="view_mode">tree,form</field>
+            <field name="limit">10</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

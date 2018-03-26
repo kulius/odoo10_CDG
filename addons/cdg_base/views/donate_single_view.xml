@@ -5,7 +5,7 @@
             <field name="name">donate single tree</field>
             <field name="model">donate.single</field>
             <field name="arch" type="xml">
-                <tree string="abc">
+                <tree>
                         <field name="state"/>
                         <field name="donate_id"/>
                         <field name="donate_member_w_id"/>

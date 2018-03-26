@@ -36,11 +36,10 @@
                   parent="charity_base_categ"
                   action="action_change_password"
         />
-        <!--<menuitem id="bridge_base"-->
-                  <!--name="橋梁資料作業"-->
-                  <!--parent="charity_base_categ"-->
-                  <!--action="charity_view"-->
-                  <!--sequence="2"/>-->
+        <menuitem id="bridge_base"
+                  name="橋梁資料作業"
+                  parent="charity_base_categ"
+                  action="bridge_data_action"/>
         <menuitem id="charity_check"
                   name="各項捐款統計查詢"
                   parent="charity_base_root"

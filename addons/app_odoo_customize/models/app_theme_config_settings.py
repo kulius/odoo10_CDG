@@ -1053,6 +1053,17 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql) # 共231242筆資料, 花費44.597秒
         return True
     # 全部轉檔程式費時358.4分鐘, 約 6 小時
+
+    def bridge_transfer(self):
+        sql = "INSERT INTO bridge_data(bridge_code,name,length,width,height,bridge_addr,donate_date_start,donate_date_end,build_date,completed_date,db_change_date,temp_key_in_user)"\
+              "SELECT 橋樑編號,橋樑名稱,長度,寬度,高度,橋樑地址,case when 募捐起日='' then NULL else cast(募捐起日 as date) end as 募捐起日,case when 募捐迄日='' then NULL else cast(募捐迄日 as date) end as 募捐迄日,case when 建造日期='' then NULL else cast(建造日期 as date) end as 建造日期,case when 完工日期='' then NULL else cast(完工日期 as date) end as 完工日期,case when 異動日期='' then NULL else cast(異動日期 as date) end as 異動日期,輸入人員 FROM 橋樑檔"
+        self._cr.execute(sql)
+        sql = "UPDATE bridge_data SET key_in_user = res_users.id FROM res_users WHERE bridge_data.temp_key_in_user = res_users.w_id"
+        self._cr.execute(sql)
+        return True
+
+
+
     def postal_code_database(self):
         sql = " INSERT INTO postal_code (city, area, zip) VALUES " \
                 "('台北市', '中正區', '100')," \
