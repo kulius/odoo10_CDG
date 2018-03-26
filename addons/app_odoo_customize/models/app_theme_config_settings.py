@@ -854,8 +854,10 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 把所有捐款者資料的active設為TRUE, 不然基本資料會什麼都看不見, 共782095筆 花費49.790秒
         sql = "UPDATE normal_p SET new_coding = '' "
         self._cr.execute(sql)  # 將所有的捐款者編號全部設為空 而並非是NULL, 共777235筆資料, 花費14.094秒
-        sql = " UPDATE normal_p set member_type = '2' where member_type = '99' "
+        sql = "UPDATE normal_p set member_type = '2' where member_type = '99' "
         self._cr.execute(sql)  # 修改資料共6639 筆, 花費0.715秒
+        sql = 'UPDATE normal_p SET sequence = 1' # 團員眷屬排序用的, 將 sequence
+        self._cr.execute(sql)  # 修改資料共782095 筆, 花費10.469秒
         return True
 
     def set_people_type(self): # 人員種類關聯
