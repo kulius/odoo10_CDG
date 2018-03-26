@@ -9,9 +9,7 @@ class CashierListXlsx(ReportXlsx):
 
     def generate_xlsx_report(self,workbook, datas, env):
         data_count = 1
-        area = ""
         zip = 0
-        count = 1
 
 
         donor_data = self.env['normal.p'].browse(datas['docs'])

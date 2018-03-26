@@ -53,7 +53,7 @@ class DonorSearch(models.Model):
     def search_area_donor(self):
      if self.is_Taiwan:
 
-        ids = self.env['normal.p'].search([('postal_code_id','>=', 369),('postal_code_id','<=', 736),('report_send','=',True)],order="postal_code_id asc").ids
+        ids = self.env['normal.p'].search([('postal_code_id','>=', 1),('postal_code_id','<=', 368),('report_send','=',True)],order="postal_code_id asc").ids
 
         docargs = {
             'docs': ids,
