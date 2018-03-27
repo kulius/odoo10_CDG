@@ -377,19 +377,19 @@
                 </field>
         </record>
 
-        <record id="collect_search" model="ir.ui.view">
-            <field name="name">collect_search</field>
-            <field name="model">normal.p</field>
-            <field name="arch" type="xml">
-                <search>
-                    <field name="name"/>
-                    <field name="cashier_name"/>
+        <!--<record id="collect_search" model="ir.ui.view">-->
+            <!--<field name="name">collect_search</field>-->
+            <!--<field name="model">normal.p</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<search>-->
+                    <!--<field name="name"/>-->
+                    <!--<field name="cashier_name"/>-->
 
-                    <filter string="基本會員" name="member_type" domain="[('member_type','=',1 )]"/>
-                    <filter string="贊助會員" name="member_type" domain="[('member_type','=',2 )]"/>
-                </search>
-            </field>
-        </record>
+                    <!--<filter string="基本會員" name="member_type" domain="[('member_type','=',1 )]"/>-->
+                    <!--<filter string="贊助會員" name="member_type" domain="[('member_type','=',2 )]"/>-->
+                <!--</search>-->
+            <!--</field>-->
+        <!--</record>-->
 
         <record id="batch_donate_search" model="ir.ui.view">
             <field name="name">batch_donate_search</field>

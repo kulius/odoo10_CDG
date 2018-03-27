@@ -29,7 +29,7 @@ class memnberfeegenerate(models.Model):
         for line in target:
             self.env['associatemember.fee'].create({
                 'year':self.year,
-                'fee_code':'F' + str(self.year) + line.new_coding,
+                'fee_code': 'F' + str(self.year) + str(line.new_coding),
                 'fee_payable':Annual_membership_fee,
                 'normal_p_id': line.id,
                 'cashier':line.cashier_name.id,
