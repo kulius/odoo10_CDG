@@ -384,7 +384,6 @@
                 <!--<search>-->
                     <!--<field name="name"/>-->
                     <!--<field name="cashier_name"/>-->
-
                     <!--<filter string="基本會員" name="member_type" domain="[('member_type','=',1 )]"/>-->
                     <!--<filter string="贊助會員" name="member_type" domain="[('member_type','=',2 )]"/>-->
                 <!--</search>-->
