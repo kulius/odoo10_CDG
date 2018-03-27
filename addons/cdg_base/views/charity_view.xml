@@ -40,6 +40,10 @@
                   name="橋梁資料作業"
                   parent="charity_base_categ"
                   action="bridge_data_action"/>
+        <menuitem id="items_donate_base"
+                  name="實物捐贈"
+                  parent="charity_base_categ"
+                  action="items_donate_action"/>
         <menuitem id="charity_check"
                   name="各項捐款統計查詢"
                   parent="charity_base_root"

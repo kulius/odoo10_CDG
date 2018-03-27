@@ -60,6 +60,7 @@
         'views/member_fee_only_view.xml',
         'views/hand_checking_view.xml',
         'views/bridge_view.xml',
+        'views/items_donate_view.xml',
 
 
         'report/paper.xml',

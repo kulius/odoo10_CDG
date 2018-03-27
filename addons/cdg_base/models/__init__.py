@@ -23,3 +23,4 @@ from . import poor_base
 from . import donate_statistics
 from . import postal_code
 from . import bridge_data
+from . import items_donate

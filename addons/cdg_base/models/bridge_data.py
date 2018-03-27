@@ -29,6 +29,10 @@ class BridgeData(models.Model):
     @api.model
     def create(self, vals):
         res_id = super(BridgeData, self).create(vals)
+
+        if res_id.name is False:
+            raise ValidationError(u'橋樑名稱不得為空')
+
         res_id.bridge_code = self.env['ir.sequence'].next_by_code('bridge.data')
         res_id.key_in_user = self.env.uid
         return res_id
