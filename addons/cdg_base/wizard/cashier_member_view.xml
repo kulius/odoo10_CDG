@@ -18,6 +18,7 @@
                 </form>
             </field>
         </record>
+
         <act_window id="action_cashier_member" name="收費員會員名冊" res_model="cashier.member"
                     view_mode="form" target="new" multi="False"/>
     </data>

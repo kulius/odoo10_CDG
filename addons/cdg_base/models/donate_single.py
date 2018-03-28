@@ -188,8 +188,6 @@ class DonateSingle(models.Model):
         i = res_id.current_donate_people
         donate_date = res_id.donate_date
 
-        if res_id.current_donate_total == 0:
-            raise ValidationError(u'請至少有一人需要捐款')
 
         historical_data_year = str(datetime.datetime.strptime(donate_date, '%Y-%m-%d').year) # 根據捐款日期取出捐款的年份
         historical_data_month = str(datetime.datetime.strptime(donate_date, '%Y-%m-%d').month) # 根據捐款日期取出捐款的月份
