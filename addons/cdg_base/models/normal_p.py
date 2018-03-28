@@ -36,9 +36,6 @@ class NormalP(models.Model):
     type = fields.Many2many(comodel_name='people.type', string='人員種類')
     self_iden = fields.Char(string='身分證字號')
 
-#    send_addr = fields.Char(string='寄送地址')
-#    address = fields.Char(string='通訊地址')
-    sex = fields.Selection(selection=[(1, '男生'), (2, '女生')], string='性別')
     come_date = fields.Date(string='到職日期')
     lev_date = fields.Date(string='離職日期')
     ps = fields.Text(string='備註')
@@ -119,7 +116,7 @@ class NormalP(models.Model):
             for line in self.donate_family1:
                 if (len(line.donate_history_ids) != 0 or len(line.donate_single_history_ids) != 0 ) is True:
                     line.is_delete = False
-                elif (len(line.donate_history_ids) ==0 and len(line.donate_single_history_ids) == 0) is True:
+                elif (len(line.donate_history_ids) == 0 and len(line.donate_single_history_ids) == 0) is True:
                     line.is_delete = True
 
 
@@ -136,6 +133,11 @@ class NormalP(models.Model):
         user = self.env['res.users'].search([('login', '=', self.env.user.login)])
         action['context'] = {'default_donate_member':self.id, 'default_payment_method':user.payment_method}
         return action
+
+    def start(self):
+        action = self.env.ref('cdg_base.start_donate_action').read()[0]
+        user = self.env['res.users'].search
+
 
     def historypersonal(self):
         action = self.env.ref('cdg_base.donate_single_view_action').read()[0]
