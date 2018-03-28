@@ -348,6 +348,21 @@
                   sequence=""
                   groups="cdg_member_manager"
         />
+        <menuitem id="old_data_root" name="舊案查詢" sequence="9"/>
+        <menuitem id="old_data_cate"
+                  name="舊案查詢"
+                  parent="old_data_root"
+                  sequence=""/>
+        <menuitem id="old_donate_single_data"
+                  name="捐款作業查詢"
+                  parent="old_data_cate"
+                  action="old_donate_single_action"
+                  sequence=""/>
+        <menuitem id="old_donate_order_data"
+                  name="捐款明細查詢"
+                  parent="old_data_cate"
+                  action="old_donate_order_action"
+                  sequence=""/>
         <!--<menuitem id="change_base_root" name="異動作業" sequence="9"/>-->
                 <!--<menuitem id="donate_reciept_change"-->
                   <!--name="捐款收據異動"-->

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <record id="old_donate_single_tree" model="ir.ui.view">
+            <field name="name">donate single tree</field>
+            <field name="model">old.donate.single</field>
+            <field name="arch" type="xml">
+                <tree>
+                        <field name="state"/>
+                        <field name="donate_id"/>
+                        <field name="donate_member_w_id"/>
+                        <field name="donate_member_new_coding"/>
+                        <field name="name"/>
+                        <field name="donate_date" string="捐款日期"/>
+                        <field name="donate_family_list"/>
+                        <field name="donate_total"/>
+                        <field name="receipt_send"/>
+                        <field name="work_id"/>
+                        <field name="donate_member" invisible = "1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="old_donate_single_view_form" model="ir.ui.view">
+            <field name="name">old donate single form</field>
+            <field name="model">old.donate.single</field>
+            <field name="arch" type="xml">
+                <form class="o_sale_order">
+                    <header>
+                        <button name="button_to_cnacel_donate" string="作廢" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="1,2,3" clickable="True"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <!--<button name="bring_last_history" string="上次捐款紀錄" type="object" class="oe_stat_button"-->
+                                    <!--icon="fa-level-up">-->
+                            <!--</button>-->
+                            <button name="start_donate" string="捐款作業"
+                                    type="object" class="oe_stat_button" icon="fa-dollar" attrs="{'invisible': [('donate_id', '=', False)]}">
+                            </button>
+                            <button name="parent_list_creat" string="載入眷屬" type="object" class="oe_stat_button"
+                                    icon="fa-users">
+                                <!--將該成員眷屬列出-->
+                            </button>
+                            <button name="add_to_list" string="產生捐款明細" type="object" class="oe_stat_button"
+                                    icon="fa-list" attrs="{'invisible': [('state', '=', 2)]}">
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                    <field name="donate_id" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="9">
+                            <!--<field name="donate_id" colspan="2"/>-->
+                            <field name="donate_member" colspan="4" options="{'no_quick_create': True}"
+                                   context="{'tree_view_ref' : 'cdg_base.normal_p_doante_single_tree','form_view_ref' : 'cdg_base.normal_p_form', 'search_view_ref':'cdg_base.normal_p_search'}"/>
+                            <field name="donate_date" colspan="3"/>
+                            <field name="set_today"/>
+                        </group>
+                        <group col="4">
+                            <field name="work_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                            <field name="payment_method"/>
+                            <field name="history_donate_flag"/>
+                            <field name="year_fee"/>
+                            <field name="key_in_user" readonly="1"/>
+                            <field name="donate_total"/>
+                            <field name="donor_show" attrs="{'invisible': [('donate_id', '!=', False)]}"/>
+                        </group>
+                        <group col="4">
+                            <field name="name"/>
+                            <!--  options="{'no_quick_create': True, 'no_create_edit' : True} 用來調整能不能在關聯來的欄位作新增 -->
+                            <field name="self_iden"/>
+                            <field name="cellphone"/>
+                            <field name="con_phone"/>
+                            <field name="zip_code"/>
+                            <field name="con_addr"/>
+                            <field name="zip"/>
+                            <field name="rec_addr"/>
+                        </group>
+                        <notebook>
+                            <page string="捐款">
+                                <span STYLE='FONT-SIZE:25PX'>捐款項目</span>
+                                <group col="6">
+                                    <field name="bridge_money" string="造橋"/>
+                                    <field name="road_money" string="補路"/>
+                                    <field name="coffin_money" string="施棺"/>
+                                    <field name="poor_help_money" string="貧困扶助"/>
+                                    <field name="noassign_money" string="一般捐款"/>
+
+                                </group>
+                                <span STYLE='FONT-SIZE:25PX'>捐款名冊</span>
+                                <group col="8">
+                                    <field name="current_donate_people"/>
+                                    <field name="current_donate_project"/>
+                                    <field name="current_donate_total"/>
+                                    <field name="print_all_donor_list"/>
+                                </group>
+                                <field name="family_check">
+                                    <tree editable="bottom" default_order='sequence'>
+                                        <field name="donate_member" options="{'no_quick_create': True, 'no_create_edit' : True}" context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form', 'search_view_ref':'cdg_base.normal_p_search'}" readonly="1"/>
+                                        <field name="is_donate"/>
+                                        <field name="is_merge"/>
+                                        <field name="bridge_money"/>
+                                        <field name="road_money"/>
+                                        <field name="coffin_money"/>
+                                        <field name="poor_help_money"/>
+                                        <field name="noassign_money"/>
+                                    </tree>
+                                </field>
+                                <group col="4">
+                                    <field name="clear_all_is_donate"/>
+                                    <field name="clear_all_is_merge"/>
+                                </group>
+                                <span STYLE='FONT-SIZE:25PX'>寄送方式</span>
+                                <group col="6">
+                                    <field name="receipt_send"/>
+                                    <field name="report_send"/>
+                                    <field name="year_receipt_send"/>
+                                </group>
+                                <group>
+                                    <field name="ps"/>
+                                </group>
+                            </page>
+                            <!--<page string="眷屬明細">-->
+                                <!--<field name="person_check">-->
+                                    <!--<field name="new_coding"/>-->
+                                    <!--<field name="name"/>-->
+                                    <!--<field name="birth"/>-->
+                                <!--</field>-->
+                            <!--</page>-->
+                            <page string="捐款記錄明細">
+                                <field name="donate_list">
+                                    <tree editable="bottom" default_order='sequence'>
+                                        <field name="state"/>
+                                        <field name="donate_id"/>
+                                        <!--<field name="paid_id"/>-->
+                                        <field name="donate_member"/>
+                                        <field name="donate_type"/>
+                                        <field name="donate"/>
+                                        <field name="used_money"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+         <record id="old_donate_single_search" model="ir.ui.view">
+            <field name="name">old_donate_single_view_search</field>
+            <field name="model">old.donate.single</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="donate_member"/>
+                    <field name="key_in_user"/>
+                    <field name="work_id"/>
+                    <field name="donate_id"/>
+                    <field name="donate_member_w_id"/>
+                    <field name="donate_member_new_coding"/>
+                    <field name="rec_addr"/>
+                    <field name="con_addr"/>
+                    <field string="收據編號-起" name="donate_id" filter_domain="[('donate_id', '&gt;=',self )]"/>
+                    <field string="收據編號-迄" name="donate_id" filter_domain="[('donate_id', '&lt;=',self)]"/>
+                    <field string="捐款日期-起" name="donate_date" filter_domain="[('donate_date', '&gt;=',self )]"/>
+                    <field string="捐款日期-迄" name="donate_date" filter_domain="[('donate_date', '&lt;=',self)]"/>
+
+                    <!--<filter string="未列印的捐款" name="un_print_donate" domain="[('state','=',1)]"/>-->
+                    <filter string="今日" name="today" domain="[('donate_date', '=', datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
+                    <filter string="最近1年" name="year" domain="[('donate_date', '&gt;=', (datetime.date.today() - relativedelta(years=1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                    <!--<filter string="捐款日期" name="donate_date_today" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('create_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>-->
+                    <filter string="捐款來源-現金" name="payment_method" domain="[('payment_method','=','1')]"/>
+                    <filter string="捐款來源-郵政劃撥" name="payment_method" domain="[('payment_method','=','2')]"/>
+                    <filter string="捐款來源-信用卡" name="payment_method" domain="[('payment_method','=','3')]"/>
+                    <filter string="捐款來源-銀行轉帳" name="payment_method" domain="[('payment_method','=','4')]"/>
+                    <filter string="捐款來源-支票" name="payment_method" domain="[('payment_method','=','4')]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="old_donate_single_action" model="ir.actions.act_window">
+            <field name="name">捐款作業</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">old.donate.single</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

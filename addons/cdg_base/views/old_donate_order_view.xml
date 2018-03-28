@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="old_donate_order_tree" model="ir.ui.view">
+            <field name="name">donate order t</field>
+            <field name="model">old.donate.order</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="state"/>
+                    <field name="donate_id"/>
+                    <field name="donate_w_id"/>
+                    <field name="donate_new_coding"/>
+                    <field name="donate_name"/>
+                    <field name="con_phone"/>
+                    <field name="donate"/>
+                    <field name="donate_type"/>
+                    <field name="use_amount" colspan="1"/>
+                    <field name="donate_date"/>
+                    <field name="donate_member" invisible = "1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="old_donate_order_form" model="ir.ui.view">
+            <field name="name">donate order f</field>
+            <field name="model">old.donate.order</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="1,2"/>
+                    </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="donate_id"/>
+                            <field name="paid_id"/>
+                            <field name="donate_w_id"/>
+                            <field name="donate_w_id_number"/>
+                            <field name="donate_member" context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
+                            <field name="con_phone"/>
+                            <field name="p_type"/>
+                            <field name="donate"/>
+                            <field name="donate_total"/>
+                            <field name="donate_type"/>
+                            <field name="self_id"/>
+                            <field name="cashier"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+         <record id="old_donate_order_search" model="ir.ui.view">
+            <field name="name">old donate order s</field>
+            <field name="model">old.donate.order</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="donate_id"/>
+                    <field name="donate_w_id"/>
+                    <field name="donate_member"/>
+                    <field name="cashier"/>
+                    <field name="key_in_user"/>
+
+                    <field string="收據編號-起" name="donate_id" filter_domain="[('donate_id', '&gt;=',self )]"/>
+                    <field string="收據編號-迄" name="donate_id" filter_domain="[('donate_id', '&lt;=',self)]"/>
+                    <field string="捐款日期-起" name="donate_date" filter_domain="[('donate_date', '&gt;=',self )]"/>
+                    <field string="捐款日期-迄" name="donate_date" filter_domain="[('donate_date', '&lt;=',self)]"/>
+
+                    <filter string="造橋" name="bridge" domain="[('donate_type','=','01')]"/>
+                    <filter string="補路" name="road" domain="[('donate_type','=','02')]"/>
+                    <filter string="施棺" name="coffin" domain="[('donate_type','=','03')]"/>
+                    <filter string="伙食費" name="food_costs" domain="[('donate_type','=','04')]"/>
+                    <filter string="貧困扶助" name="poor_help" domain="[('donate_type','=','05')]"/>
+                    <filter string="一般捐款" name="others" domain="[('donate_type','=','06')]"/>
+                    <filter string="其他工程" name="others" domain="[('donate_type','=','99')]"/>
+                    <filter string="今日" name="today" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('create_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="old_donate_order_action" model="ir.actions.act_window">
+            <field name="name">捐款明細</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">old.donate.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="limit">10</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                       (0, 0, {'view_mode': 'tree', 'view_id': ref('donate_order_tree')}),
+                       (0, 0, {'view_mode': 'form', 'view_id': ref('donate_order_form')}),
+                       ]"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

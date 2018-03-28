@@ -24,3 +24,5 @@ from . import donate_statistics
 from . import postal_code
 from . import bridge_data
 from . import items_donate
+from . import old_donate_order
+from . import old_donate_single

@@ -35,8 +35,7 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="data_input_form_DB" string="轉會員收費檔" type="object"/>
-                        <button name="connect_to_normal_p" string="收費關聯到捐款者" type="object"/>
+
                     </header>
                     <sheet>
                         <group>

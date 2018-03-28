@@ -61,6 +61,8 @@
         'views/hand_checking_view.xml',
         'views/bridge_view.xml',
         'views/items_donate_view.xml',
+        'views/old_donate_order_view.xml',
+        'views/old_donate_single_view.xml',
 
 
         'report/paper.xml',
