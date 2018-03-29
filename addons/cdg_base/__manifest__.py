@@ -4,7 +4,7 @@
     'depends': [
         'report','report_xlsx','havelock_backend_theme','st_dynamic_list'
     ],
-    'author': "先捷電腦",
+    'author': "先傑電腦",
     'website': "http://www.alltop.com/",
     'category': '',
     'description': """
