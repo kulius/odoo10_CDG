@@ -30,6 +30,14 @@ access_donate_fee_inquire,access_donate_fee_inquire,model_donate_fee_inquire,cdg
 access_old_coffin_donation,access_old_coffin_donation,model_old_coffin_donation,cdg_base.cdg_manager,1,1,1,1
 access_cashier_empty,access_cashier_empty,model_cashier_empty,cdg_base.cdg_manager,1,1,1,1
 access_cashier_block,access_cashier_block,model_cashier_block,cdg_base.cdg_manager,1,1,1,1
+access_donate_total_inquire,access_donate_total_inquire,model_donate_total_inquire,cdg_base.cdg_manager,1,1,1,1
+access_bridge_data,access_bridge_data,model_bridge_data,cdg_base.cdg_manager,1,1,1,1
+access_items_donate,access_items_donate,model_items_donate,cdg_base.cdg_manager,1,1,1,1
+access_old_donate_order,access_old_donate_order,model_old_donate_order,cdg_base.cdg_manager,1,1,1,0
+access_old_donate_single,access_old_donate_single,model_old_donate_single,cdg_base.cdg_manager,1,1,1,0
+access_old_donate_family_line,access_old_donate_family_line,model_old_donate_family_line,cdg_base.cdg_manager,1,0,0,0
+access_old_donate_single_report,access_old_donate_single_report,model_old_donate_single_report,cdg_base.cdg_manager,1,1,1,1
+access_old_report_line,access_old_report_line,model_old_report_line,cdg_base.cdg_manager,1,1,1,1
 
 access_memnber_fee_generate,access_memnber_fee_generate,model_memnber_fee_generate,cdg_base.cdg_manager,1,1,1,1
 access_consultant_fee_inquire,access_consultant_fee_inquire,model_consultant_fee_inquire,cdg_base.cdg_manager,1,1,1,1

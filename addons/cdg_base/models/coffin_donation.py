@@ -12,7 +12,7 @@ class CoffinDonation(models.Model):
 
     coffin_donation_id = fields.Many2one(comodel_name='coffin.base')
     old_coffin_donation_id = fields.Many2one(comodel_name='coffin.base')
-    donate_single_id = fields.Many2one(comodel_name='donate.single', string='捐款編號')
+    # donate_single_id = fields.Many2one(comodel_name='donate.single', string='捐款編號')
     donate_order_id = fields.Many2one(comodel_name='donate.order', string='捐款者 (可用餘額)' , domain=[('donate_type', '=', 3),('available_balance', '!=', 0)])
     donate_id =  fields.Char(string='捐款編號', related='donate_order_id.donate_id')
 

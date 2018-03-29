@@ -112,7 +112,7 @@
                   action="donate_total_inquire_action"
                   sequence="7"/>
         <menuitem id="change_state_menu"
-                  name="舊案查詢"
+                  name="已列印收據查詢"
                   parent="first_categ"
                   action="old_donate_single_view_action"
                   sequence="8"/>

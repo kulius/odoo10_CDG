@@ -12,7 +12,7 @@ class DonateOrder(models.Model):
     _description = u'捐款明細管理'
 
     # name = fields.Many2one(comodel_name='normal.p',string='姓名')
-    donate_list_id = fields.Many2one(comodel_name='donate.single', ondelete='cascade')
+    donate_list_id = fields.Many2one(comodel_name='old.donate.single', ondelete='cascade')
     con_phone = fields.Char(string='連絡電話')
     p_type = fields.Char(string='人員種類')
     donate = fields.Integer(string='捐款金額')

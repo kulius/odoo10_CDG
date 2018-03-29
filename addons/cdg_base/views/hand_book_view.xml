@@ -42,7 +42,7 @@
                           </page>
                           <page string="簿冊收費清單">
                               <group>
-                                <field name="onate_order_id" nolabel="1"/>
+                                <field name="donate_order_id" nolabel="1"/>
                               </group>
                           </page>
                       </notebook>

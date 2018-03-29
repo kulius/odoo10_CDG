@@ -17,7 +17,7 @@ class DonateSingle(models.Model):
     paid_id = fields.Char(string='收費編號', readonly=True)
     donate_id = fields.Char(string='收據編號', readonly=True)
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者',
-                                    states={2: [('readonly', True)]}, required = True)  # demo用
+                                    states={2: [('readonly', True)]}, required = True)  # demo用  轉檔時, 要把required = True 拿掉
     w_id = fields.Char('舊團員編號', related='donate_member.w_id')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛了
     new_coding = fields.Char('新捐款者編號', related='donate_member.new_coding')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛了
 
@@ -57,13 +57,13 @@ class DonateSingle(models.Model):
     coffin_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     poor_help_money = fields.Integer(string='$', states={2: [('readonly', True)]})
     noassign_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    payment_method = fields.Selection( [(1,'現金'),(2,'郵政劃撥'),(3,'信用卡扣款'),(4,'銀行轉帳'),(5,'支票')], string='繳費方式', required = True)
+    payment_method = fields.Selection( [(1,'現金'),(2,'郵政劃撥'),(3,'信用卡扣款'),(4,'銀行轉帳'),(5,'支票')], string='繳費方式', required = True) # 轉檔時, 要把required = True 拿掉
     active = fields.Boolean(default=True)
 #    cash = fields.Boolean(string='現金', states={2: [('readonly', True)]})
     person_check = fields.Many2many(comodel_name="normal.p", string="捐款人名冊")
     family_check = fields.One2many(comodel_name='donate.family.line',inverse_name='parent_id', string='捐款人名冊', states={2: [('readonly', True)]})
     donate_list = fields.One2many(comodel_name='donate.order', inverse_name='donate_list_id', string='捐款明細', states={2: [('readonly', True)]})
-    work_id = fields.Many2one(comodel_name='cashier.base', string='收費員', states={2: [('readonly', True)]},required = True)
+    work_id = fields.Many2one(comodel_name='cashier.base', string='收費員', states={2: [('readonly', True)]},required = True) # 轉檔時, 要把required = True 拿掉
     temp_work_id = fields.Char(string='收費員')
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]}, default=lambda self: self.env.uid)
     temp_key_in_user = fields.Char(string='輸入人員')
@@ -77,7 +77,7 @@ class DonateSingle(models.Model):
 #    history_payment_method = fields.Boolean('是否上次捐款方式')
     report_price_big = fields.Char(string='報表用大寫金額')
     report_donate = fields.Char(string='報表用捐款日期')
-    donate_date = fields.Date('捐款日期')
+    donate_date = fields.Date('捐款日期', index = True)
     sreceipt_number = fields.Integer(string='收據筆數', compute='compute_total', store=True)
     print_count = fields.Integer(string='列印筆數',store=True)
     print_date = fields.Date('列印日期')
@@ -187,7 +187,6 @@ class DonateSingle(models.Model):
         res_id = super(DonateSingle, self).create(vals)
         i = res_id.current_donate_people
         donate_date = res_id.donate_date
-
 
         historical_data_year = str(datetime.datetime.strptime(donate_date, '%Y-%m-%d').year) # 根據捐款日期取出捐款的年份
         historical_data_month = str(datetime.datetime.strptime(donate_date, '%Y-%m-%d').month) # 根據捐款日期取出捐款的月份

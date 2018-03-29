@@ -164,7 +164,7 @@
             <field name="view_mode">pivot</field>
             <field name="search_view_id" ref="donate_order_search"/>
             <field name="context">{'search_default_today': 1}</field>
-            <field name="domain">[('key_in_user','=',uid),('donate_type','!=','04'),('donate_type','!=','99'),('state','!=',2)]</field>
+            <field name="domain">[('donate_type','!=','04'),('donate_type','!=','99'),('state','!=',2)]</field>
             <field name="view_ids"
                eval="[(5, 0, 0),
                (0, 0, {'view_mode': 'pivot', 'view_id': ref('donate_statistics_pivot')}) ]"/>
