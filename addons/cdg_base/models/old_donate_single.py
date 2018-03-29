@@ -16,8 +16,7 @@ class DonateSingle(models.Model):
 
     paid_id = fields.Char(string='收費編號', readonly=True)
     donate_id = fields.Char(string='收據編號', readonly=True)
-    donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者',
-                                    states={2: [('readonly', True)]})  # demo用
+    donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者')  # demo用
     w_id = fields.Char('舊團員編號', related='donate_member.w_id')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛了
     new_coding = fields.Char('新捐款者編號', related='donate_member.new_coding')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛了
 
@@ -52,26 +51,23 @@ class DonateSingle(models.Model):
     coffin = fields.Boolean(string='施棺')
     poor_help = fields.Boolean(string='貧困扶助')
     noassign = fields.Boolean(string='一般捐款')
-    bridge_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    road_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    coffin_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    poor_help_money = fields.Integer(string='$', states={2: [('readonly', True)]})
-    noassign_money = fields.Integer(string='$', states={2: [('readonly', True)]})
+    bridge_money = fields.Integer(string='$')
+    road_money = fields.Integer(string='$')
+    coffin_money = fields.Integer(string='$')
+    poor_help_money = fields.Integer(string='$')
+    noassign_money = fields.Integer(string='$')
     payment_method = fields.Selection([(1, '現金'), (2, '郵政劃撥'), (3, '信用卡扣款'), (4, '銀行轉帳'), (5, '支票')], string='繳費方式')
     active = fields.Boolean(default=True)
     #    cash = fields.Boolean(string='現金', states={2: [('readonly', True)]})
     person_check = fields.Many2many(comodel_name="normal.p", string="捐款人名冊")
-    family_check = fields.One2many(comodel_name='old.donate.family.line', inverse_name='parent_id', string='捐款人名冊',
-                                   states={2: [('readonly', True)]})
-    donate_list = fields.One2many(comodel_name='old.donate.order', inverse_name='donate_list_id', string='捐款明細',
-                                  states={2: [('readonly', True)]})
-    work_id = fields.Many2one(comodel_name='cashier.base', string='收費員', states={2: [('readonly', True)]})
+    family_check = fields.One2many(comodel_name='old.donate.family.line', inverse_name='parent_id', string='捐款人名冊')
+    donate_list = fields.One2many(comodel_name='old.donate.order', inverse_name='donate_list_id', string='捐款明細')
+    work_id = fields.Many2one(comodel_name='cashier.base', string='收費員')
     temp_work_id = fields.Char(string='收費員')
-    key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]},
-                                  default=lambda self: self.env.uid)
+    key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員',default=lambda self: self.env.uid)
     temp_key_in_user = fields.Char(string='輸入人員')
 
-    print_user = fields.Many2one(comodel_name='res.users', string='列印人員', states={2: [('readonly', True)]})
+    print_user = fields.Many2one(comodel_name='res.users', string='列印人員')
     ps = fields.Text('備註')
     year_fee = fields.Boolean(string='年繳')
 
