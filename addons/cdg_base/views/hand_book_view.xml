@@ -51,6 +51,17 @@
           </field>
       </record>
 
+      <record id="hand_book_search" model="ir.ui.view">
+            <field name="name">hand book s</field>
+            <field name="model">hand.book</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="book_code"/>
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
         <act_window id="hand_book_act" name="手開簿冊管理" res_model="hand.book" view_mode="tree,form"/>
 
     </data>

@@ -66,6 +66,7 @@ class DonateOrder(models.Model):
 
     sequence = fields.Integer(string='排序', related='donate_member.sequence', store=True)
     donate_book_code = fields.Char(string='簿冊編號')
+    handbook_code = fields.Many2one(comodel_name='hand.book', string='簿冊編號')
     ps = fields.Char(string='備註')
 
 

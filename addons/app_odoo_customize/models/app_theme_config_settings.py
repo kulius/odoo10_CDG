@@ -841,6 +841,8 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 關聯資料共413筆, 花費 0.017 秒
         sql = " UPDATE coffin_base set key_in_user = a.id from res_users a where a.login = coffin_base.temp_key_in_user"
         self._cr.execute(sql)  # 關聯資料共15114筆, 花費0.342秒
+        sql = " UPDATE donate_order set handbook_code = a.id from hand_book a where a.book_code = donate_order.donate_book_code"
+        self._cr.execute(sql)  # 關聯資料共145112筆, 花費29.627秒
         # 以上全程花費3056.401秒, 約 51 分鐘
         return True
 
