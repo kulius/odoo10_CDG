@@ -197,7 +197,7 @@ class DonateSingle(models.Model):
                 'donate_id': 'A' + str(historical_data_year)[2:] + str(historical_data_month).zfill(2) + str(receipt_number).zfill(5),
                 'year_fee': res_id.year_fee,
             })
-            # datas.receipt_number = receipt_number # 捐款的收據張數寫回計數器
+            datas.receipt_number = receipt_number # 捐款的收據張數寫回計數器
             datas.number = datas.number + i # 捐款人數要寫回計數器
         else: # 如果沒有找到資料
             self.env['donate.statistics'].create({
