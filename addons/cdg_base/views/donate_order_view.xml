@@ -96,7 +96,8 @@
                     <filter string="貧困扶助" name="poor_help" domain="[('donate_type','=','05')]"/>
                     <filter string="一般捐款" name="others" domain="[('donate_type','=','06')]"/>
                     <filter string="其他工程" name="others" domain="[('donate_type','=','99')]"/>
-                    <filter string="今日" name="today" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('create_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>
+                    <filter string="今日" name="today" domain="[('donate_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d')),('donate_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
+                    <filter string="近3個月" name="three_months" domain="[('donate_date', '&gt;=', (datetime.date.today() - relativedelta(months=3)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
                 </search>
             </field>
         </record>
@@ -165,7 +166,7 @@
             <field name="res_model">donate.order</field>
             <field name="view_mode">pivot</field>
             <field name="search_view_id" ref="donate_order_search"/>
-            <field name="context">{'search_default_today': 1}</field>
+            <field name="context">{'search_default_three_months': 1}</field>
             <field name="domain">[('donate_type','!=','04'),('donate_type','!=','99'),('state','!=',2)]</field>
             <field name="view_ids"
                eval="[(5, 0, 0),
