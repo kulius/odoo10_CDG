@@ -40,6 +40,7 @@ class AppThemeConfigSettings(models.TransientModel):
     Annual_consultants_fee = fields.Char(string="顧問年費")
     coffin_amount = fields.Char(string="施棺滿足額")
     exception_coffin_amount = fields.Char(string="特案施棺滿足額")
+    move_data_year = fields.Char(string="轉移資料年份")
 
     def save_setting(self):
         basic_setting = self.env['ir.config_parameter'].search([])
@@ -87,6 +88,7 @@ class AppThemeConfigSettings(models.TransientModel):
         Annual_consultants_fee = ir_config.get_param('Annual_consultants_fee', default='10000')
         coffin_amount = ir_config.get_param('coffin_amount', default='30000')
         exception_coffin_amount = ir_config.get_param('exception_coffin_amount', default='60000')
+        move_data_year = ir_config.get_param('move_data_year')
 
         return dict(
             app_system_name=app_system_name,
@@ -109,7 +111,8 @@ class AppThemeConfigSettings(models.TransientModel):
             Annual_membership_fee = Annual_membership_fee,
             Annual_consultants_fee= Annual_consultants_fee,
             coffin_amount = coffin_amount,
-            exception_coffin_amount = exception_coffin_amount
+            exception_coffin_amount = exception_coffin_amount,
+            move_data_year = move_data_year,
         )
 
     @api.multi
@@ -141,6 +144,7 @@ class AppThemeConfigSettings(models.TransientModel):
         ir_config.set_param("Annual_consultants_fee",self.Annual_consultants_fee or '10000')
         ir_config.set_param("coffin_amount",self.coffin_amount or '30000')
         ir_config.set_param("exception_coffin_amount", self.exception_coffin_amount or '60000')
+        ir_config.set_param("move_data_year", self.move_data_year)
         return True
 
     @api.multi
@@ -1065,12 +1069,19 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
     def move_donate_data(self): # 把捐款資料轉移至舊案查詢系統的資料表
+        basic_setting = self.env['ir.config_parameter'].search([])
+        year =''
+        for line in basic_setting:
+            if line.key == 'move_data_year':
+                line.value = self.move_data_year
+                year = str(int(line.value) + 1911) + '-12-31'
+
         sql = "INSERT INTO old_donate_single (id, bridge, create_date, write_date, payment_method, noassign, write_uid, old_donate_total, report_donate, donate_member, temp_work_id, key_in_user, noassign_money, donate_id, ps, self_iden, current_donate_project, donate_date, state, print_date, paid_id, print_user, print_count, report_price_big, current_donate_total, create_uid, con_addr, last_donate_type, cashier_name, set_today, year_receipt_send, temp_key_in_user, last_donate_date, coffin_money, cellphone, clear_all_is_merge, clear_all_is_donate, current_donate_people, name, receipt_send, con_phone, road_money, poor_help, poor_help_money, road, bridge_money, year_fee, report_send, zip_code, sreceipt_number, coffin, work_id, print_all_donor_list, rec_addr, zip, donor_show, active, donate_total, donate_member_w_id, donate_member_number)"\
-              " SELECT id, bridge, create_date, write_date, payment_method, noassign, write_uid, old_donate_total, report_donate, donate_member, temp_work_id, key_in_user, noassign_money, donate_id, ps, self_iden, current_donate_project, donate_date, state, print_date, paid_id, print_user, print_count, report_price_big, current_donate_total, create_uid, con_addr, last_donate_type, cashier_name, set_today, year_receipt_send, temp_key_in_user, last_donate_date, coffin_money, cellphone, clear_all_is_merge, clear_all_is_donate, current_donate_people, name, receipt_send, con_phone, road_money, poor_help, poor_help_money, road, bridge_money, year_fee, report_send, zip_code, sreceipt_number, coffin, work_id, print_all_donor_list, rec_addr, zip, donor_show, active, donate_total, donate_member_w_id, donate_member_number FROM donate_single WHERE donate_date BETWEEN '2014-01-01' AND '2014-12-31'"
+              " SELECT id, bridge, create_date, write_date, payment_method, noassign, write_uid, old_donate_total, report_donate, donate_member, temp_work_id, key_in_user, noassign_money, donate_id, ps, self_iden, current_donate_project, donate_date, state, print_date, paid_id, print_user, print_count, report_price_big, current_donate_total, create_uid, con_addr, last_donate_type, cashier_name, set_today, year_receipt_send, temp_key_in_user, last_donate_date, coffin_money, cellphone, clear_all_is_merge, clear_all_is_donate, current_donate_people, name, receipt_send, con_phone, road_money, poor_help, poor_help_money, road, bridge_money, year_fee, report_send, zip_code, sreceipt_number, coffin, work_id, print_all_donor_list, rec_addr, zip, donor_show, active, donate_total, donate_member_w_id, donate_member_number FROM donate_single WHERE donate_date BETWEEN '1911-01-01' AND '%s'" % (year)
         self._cr.execute(sql) # 搬移 donate_single 1年份的資料至old_donate_single, ex: 2014年 共285374筆, 花費32.222秒
         sql = "ALTER TABLE donate_single DISABLE TRIGGER ALL"
         self._cr.execute(sql)  # 解除 donate_single 所有的觸發器, 不然會超級慢, 刪資料會刪到天荒地老
-        sql = "DELETE FROM donate_single WHERE donate_date BETWEEN '2014-01-01' AND '2014-12-31'"
+        sql = "DELETE FROM donate_single WHERE donate_date BETWEEN '1911-01-01' AND '%s'" % (year)
         self._cr.execute(sql)  # 刪除 donate_single 1年份的資料 ex: 2014年 共285374筆, 花費24.627秒
         sql = "ALTER TABLE donate_single ENABLE TRIGGER ALL"
         self._cr.execute(sql)  # 啟動 donate_single 所有的觸發器, 很重要!

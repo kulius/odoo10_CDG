@@ -226,6 +226,17 @@
                             <button string="橋梁檔匯入" type="object" name="bridge_transfer" class="oe_highlight"/>
                         </div>
                     </group>
+                    <group string="資料轉移">
+                        <div>
+                            <group>
+                                <font style="display:block" color="red">請輸入民國年</font>
+                                <group col="4">
+                                    <field name="move_data_year" colspan="3"/>
+                                    <button string="確定" type="object" name="move_donate_data" class="oe_highlight"/>
+                                </group>
+                            </group>
+                        </div>
+                    </group>
                 </form>
             </field>
         </record>

@@ -87,5 +87,9 @@
             <field name="key">exception_coffin_amount</field>
             <field name="value">60000</field>
         </record>
+        <record id="move_data_year" model="ir.config_parameter">
+            <field name="key">move_data_year</field>
+            <field name="value">100</field>
+        </record>
     </data>
 </openerp>
