@@ -106,12 +106,12 @@
                   parent="first_categ"
                   action="change_state_action"
                   sequence="6"/>
-        <menuitem id="change_state_menu"
+        <menuitem id="donate_search_single"
                   name="捐款金額查詢"
                   parent="first_categ"
                   action="donate_total_inquire_action"
                   sequence="7"/>
-        <menuitem id="change_state_menu"
+        <menuitem id="print_receipt"
                   name="已列印收據查詢"
                   parent="first_categ"
                   action="old_donate_single_view_action"
