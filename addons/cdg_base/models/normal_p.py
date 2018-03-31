@@ -105,10 +105,12 @@ class NormalP(models.Model):
     print_all_donor_list = fields.Boolean(string='列印願意捐助的眷屬')
     head_of_household = fields.Integer('我是戶長')
 
+    # 設定上一筆捐款 如果捐款種類有選擇 金額帶入100
     @api.onchange('last_donate_type')
     def set_default_last_donate_money(self):
         if self.last_donate_type != False and self.last_donate_money == 0:
             self.last_donate_money = 100
+
 
     @api.onchange('check_donate_order')
     def check_unlink(self):
@@ -119,7 +121,7 @@ class NormalP(models.Model):
                 elif (len(line.donate_history_ids) == 0 and len(line.donate_single_history_ids) == 0) is True:
                     line.is_delete = True
 
-
+    # 合併捐款者功能
     def action_chang_donater_wizard(self):
         wizard_data = self.env['chang.donater'].create({
             'from_target': self.id
@@ -128,15 +130,12 @@ class NormalP(models.Model):
         action['res_id'] = wizard_data.id
         return action
 
+
     def start_donate(self):
         action = self.env.ref('cdg_base.start_donate_action').read()[0]
         user = self.env['res.users'].search([('login', '=', self.env.user.login)])
         action['context'] = {'default_donate_member':self.id, 'default_payment_method':user.payment_method}
         return action
-
-    def start(self):
-        action = self.env.ref('cdg_base.start_donate_action').read()[0]
-        user = self.env['res.users'].search
 
 
     def historypersonal(self):
