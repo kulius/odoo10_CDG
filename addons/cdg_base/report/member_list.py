@@ -24,7 +24,7 @@ class MemberListXlsx(ReportXlsx):
             else:
                 sheet.write(count, 0, data.member_code)
                 sheet.write(count, 1, data.member_name)
-                sheet.write(count, 2, data.fee_code)
+                sheet.write(count, 2, data.rec_addr)
                 count += 1
 
         # sheet.set_column(1, 1, 12)
