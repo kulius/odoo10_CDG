@@ -6,16 +6,12 @@ from odoo.addons.report_xlsx.report.report_xlsx import ReportXlsx
 
 class CashierListXlsx(ReportXlsx):
 
-
     def generate_xlsx_report(self,workbook, datas, env):
         data_count = 1
         zip = 0
-
-
         donor_data = self.env['normal.p'].browse(datas['docs'])
 
         for data in donor_data:
-
             if zip != data.postal_code_id.zip:
                 data_count = 1
                 zip = data.postal_code_id.zip
@@ -33,6 +29,5 @@ class CashierListXlsx(ReportXlsx):
             sheet.write(data_count, 4, data.cellphone)
             sheet.write(data_count, 5, data.zip_code + data.con_addr)
             data_count += 1
-
 
 CashierListXlsx('report.cdg_base.cashier_list.xlsx', 'normal.p')

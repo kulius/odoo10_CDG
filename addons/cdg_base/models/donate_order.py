@@ -29,7 +29,7 @@ class DonateOrder(models.Model):
     donate_name = fields.Char(string='姓名', related='donate_member.name')
     donate_w_id = fields.Char(string='團員編號')
     donate_w_id_number = fields.Char(string='序號')
-    donate_date = fields.Date(string='捐款日期')
+    donate_date = fields.Date(string='捐款日期', index = True)
     self_id = fields.Char(string='身分證字號')
     cashier = fields.Many2one(comodel_name='cashier.base', string='收費員')
     clerk = fields.Char(string='收費員編號')

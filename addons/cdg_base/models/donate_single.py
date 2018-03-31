@@ -77,7 +77,7 @@ class DonateSingle(models.Model):
 #    history_payment_method = fields.Boolean('是否上次捐款方式')
     report_price_big = fields.Char(string='報表用大寫金額')
     report_donate = fields.Char(string='報表用捐款日期')
-    donate_date = fields.Date('捐款日期', index = True)
+    donate_date = fields.Date('捐款日期', index = True ,required = True) # 轉檔時, 要把required = True 拿掉
     sreceipt_number = fields.Integer(string='收據筆數', compute='compute_total', store=True)
     print_count = fields.Integer(string='列印筆數',store=True)
     print_date = fields.Date('列印日期')

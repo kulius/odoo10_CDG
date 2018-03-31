@@ -669,7 +669,7 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql)  # 更新資料共3105505筆, 花費約223.496秒
         # 共有 2392 筆 捐款資料關聯不到normal_p, 也就是依照團員編號還是找不到人
 
-        sql = "UPDATE donate_single SET active = TRUE, state = 2"
+        sql = "UPDATE donate_single SET active = TRUE, state = 2, sreceipt_number = 1"
         self._cr.execute(sql) # 更新 3107913 筆資料, 花費195.532秒
         sql = "DROP TABLE temp_table2"
         self._cr.execute(sql)  # 刪除暫存表
