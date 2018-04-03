@@ -22,7 +22,7 @@ class DonateOrder(models.Model):
     state = fields.Selection([(1, '已產生'), (2, '已作廢')],
                              string='狀態', default=1, index=True)
     active = fields.Boolean(default=True)
-    donate_member = fields.Many2one(comodel_name='normal.p', string='捐款人姓名')
+    donate_member = fields.Many2one(comodel_name='normal.p', string='捐款人姓名', index =True)
     paid_id = fields.Char(string='收費編號')
     donate_id = fields.Char(string='收據編號')
     donate_new_coding = fields.Char(string='新捐款者編號', related='donate_member.new_coding')

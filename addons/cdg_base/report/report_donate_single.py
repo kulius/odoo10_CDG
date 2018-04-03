@@ -309,9 +309,9 @@ class ReportDonateSingleDefault(models.AbstractModel):
                         res += line
             # 直接針對donate_single的資料進行整理
             single_state = 0
-            if line.donate_list_id.year_fee:
+            if row.year_fee:
                 single_state = 1
-            elif not line.donate_list_id.year_fee:
+            elif not row.year_fee:
                 single_state = 2
             # 判定是否有人需要印合併收據。
             if len(merge_res_line) !=0:

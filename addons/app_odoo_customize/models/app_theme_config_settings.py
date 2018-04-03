@@ -1108,6 +1108,19 @@ class AppThemeConfigSettings(models.TransientModel):
         self._cr.execute(sql) # 刪除資料後, 資料庫不一定會刪得很乾淨, 要用 Vacuum 重新清理一次資料表
         return True
 
+    def reset_newcoding(self):
+        postal_code_collection = self.env['postal.code'].search([])
+        for line in postal_code_collection:
+            sql = "update normal_p a "\
+                  " set new_coding = b.rownubmer "\
+                  " from (select id, "\
+                  " SUBSTRING(cast(zip as text),1,3) || LPAD(CAST(ROW_NUMBER () OVER (ORDER BY build_date,db_chang_date) AS text), 5, '0') as rownubmer "\
+                  " from normal_p "\
+                  " where zip like '%s' "\
+                  " ) b "\
+                  "where a.id = b.id and a.zip like '%s' " % (line.zip + '%', line.zip + '%')
+            self._cr.execute(sql)
+
     def postal_code_database(self):
         sql = " INSERT INTO postal_code (city, area, zip) VALUES " \
                 "('台北市', '中正區', '100')," \

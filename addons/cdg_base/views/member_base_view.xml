@@ -98,6 +98,10 @@
                     <field name="name"/>
                     <field name="new_coding"/>
                     <field name="w_id"/>
+                    <field name="con_phone"/>
+                    <field name="cellphone"/>
+                    <field name="rec_addr"/>
+                    <field name="con_addr"/>
                     <field name="member_id" string="舊會員編號"/>
                 </search>
             </field>

@@ -39,6 +39,7 @@
                             <field name="donate_member" context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
                             <field name="con_phone"/>
                             <field name="p_type"/>
+                            <field name="donate_date"/>
                             <field name="donate"/>
                             <field name="donate_total"/>
                             <!--<field name="address"/>-->

@@ -55,15 +55,10 @@
                                         </t>
                                         <t t-else="">
                                              <t t-if="familyname.is_merge == True">
-                                                 <t t-if = "data.name == familyname.name">
-                                                     <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
-                                                 </t>
-                                                 <t t-else="">
-                                                     <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
-                                                 </t>
-                                             </t>
+                                                <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                              </t>
                                              <t t-else="">
-                                                <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
+                                                 <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
                                              </t>
                                         </t>
                                     </t>
@@ -72,16 +67,11 @@
                                             <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
                                         </t>
                                         <t t-else="">
-                                             <t t-if="familyname.is_merge == True">
-                                                 <t t-if = "data.name == familyname.name">
-                                                     <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
-                                                 </t>
-                                                 <t t-else="">
-                                                     <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
-                                                 </t>
-                                             </t>
+                                            <t t-if="familyname.is_merge == True">
+                                                <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                              </t>
                                              <t t-else="">
-                                                <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
+                                                 <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
                                              </t>
                                         </t>
                                     </t>

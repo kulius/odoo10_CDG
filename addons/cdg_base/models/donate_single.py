@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 class DonateSingle(models.Model):
     _name = 'donate.single'
     _rec_name = 'donate_id'
-    _order = 'donate_date desc'
+    _order = 'donate_id'
     _description = u'捐款作業管理'
 
     # name = fields.Many2one(comodel_name='normal.p',string='姓名')
@@ -17,7 +17,7 @@ class DonateSingle(models.Model):
     paid_id = fields.Char(string='收費編號', readonly=True)
     donate_id = fields.Char(string='收據編號', readonly=True)
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者',
-                                    states={2: [('readonly', True)]}, required = True)  # demo用  轉檔時, 要把required = True 拿掉
+                                    states={2: [('readonly', True)]}, required = True, index = True)  # demo用  轉檔時, 要把required = True 拿掉
     w_id = fields.Char('舊團員編號', related='donate_member.w_id')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛了
     new_coding = fields.Char('新捐款者編號', related='donate_member.new_coding')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛了
 
@@ -186,7 +186,7 @@ class DonateSingle(models.Model):
     def create(self, vals):
         res_id = super(DonateSingle, self).create(vals)
         i = res_id.current_donate_people
-        donate_date = res_id.donate_date
+        donate_date = datetime.date.today().strftime('%Y-%m-%d')
 
         historical_data_year = str(datetime.datetime.strptime(donate_date, '%Y-%m-%d').year) # 根據捐款日期取出捐款的年份
         historical_data_month = str(datetime.datetime.strptime(donate_date, '%Y-%m-%d').month) # 根據捐款日期取出捐款的月份

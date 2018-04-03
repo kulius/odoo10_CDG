@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 class NormalP(models.Model):
     # 捐款人
     _name = 'normal.p'
-    _order = 'sequence'
+    _order = 'sequence,new_coding'
     _description = u'捐款者基本資料管理'
 
     new_coding = fields.Char(string='捐款者編號')
@@ -73,7 +73,7 @@ class NormalP(models.Model):
     hire_date = fields.Date(string='雇用日期')
     merge_report = fields.Boolean(string='年收據寄送', help='將捐款者的收據整合進該住址') # help 可以在開發者模式下的欄位看到內容
     #團員檔及團員眷屬檔設定戶長之功能
-    parent = fields.Many2one(comodel_name='normal.p', string='戶長', ondelete='cascade')
+    parent = fields.Many2one(comodel_name='normal.p', string='戶長', ondelete='cascade', index = True)
     donate_family1 = fields.One2many(comodel_name='normal.p', inverse_name='parent', string='團員眷屬')
     # 來判斷你是不是老大
     member_data_ids = fields.Many2one(comodel_name='member.data', string='關聯的顧問會員檔')

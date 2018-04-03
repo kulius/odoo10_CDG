@@ -5,8 +5,8 @@ from odoo.exceptions import ValidationError
 class ChangDonater(models.Model):
     _name = 'chang.donater'
 
-    new_target = fields.Many2one(comodel_name='normal.p', string='目標捐款人')
-    from_target = fields.Many2one(comodel_name='normal.p', string='原始捐款人')
+    new_target = fields.Many2one(comodel_name='normal.p', string='保留捐款人')
+    from_target = fields.Many2one(comodel_name='normal.p', string='不保留捐款人')
 
     def active_to_transfer(self):
         if(self.new_target.name != self.from_target.name):

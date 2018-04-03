@@ -46,16 +46,16 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-set="foo" t-value="0"/>
                     <t t-set="single_state" t-value="0"/>
-                    <t t-if="o['year_fee'] == 'True'">
+                    <t t-if="o['year_fee'] == True">
                     <t t-set="single_state" t-value="1"></t></t>
-                    <t t-if="o['year_fee']  == 'False'">
+                    <t t-if="o['year_fee']  == False">
                     <t t-set="single_state" t-value="2"></t></t>
                     /*增加主表記錄*/
                     _tableOrder.Data.push(
                     {
                         "收據編號":"<t t-esc="o['donate_id']"/>",
                         "捐款者姓名":"<t t-esc="o['donate_member']"/>",
-                        <t t-if="o['rec_send'] == 'True'">
+                        <t t-if="o['rec_send'] == True">
                             "住址":"<t t-esc="o['rec_addr']"/>",
                         </t>
                          <t t-else="">
