@@ -15,7 +15,7 @@ class CoffinBase(models.Model):
     coffin_date = fields.Date(string='領款日期',default=datetime.today())
     dead_date = fields.Date('死亡日期',default=datetime.today())
     coffin_date_year = fields.Char(string='年度',default=datetime.today().year - 1911)
-    coffin_date_group = fields.Selection([(1,'01'),(2,'02'),(3,'03'),(4,'04'),(5,'05'),(6,'06'),(7,'07'),(8,'08'),(9,'09'),(10,'10'),(11,'11'),(12,'12')],'月份')
+    coffin_date_group = fields.Selection([(1,'01'),(2,'02'),(3,'03'),(4,'04')],'季別')
     coffin_season = fields.Char('期別')
     bank_account = fields.Char('匯款帳號')
     user = fields.Char(string='受施者')
@@ -51,10 +51,6 @@ class CoffinBase(models.Model):
         res_id = super(CoffinBase, self).create(vals)
         if res_id.coffin_date < res_id.dead_date:
             raise ValidationError(u'領款日期不得早於死亡日期')
-        elif not res_id.coffin_date_group: # 若使用者未設定施棺期別的月份, 則由系統將領款日期的月份帶入
-            res_id.coffin_date_group = datetime.strptime(res_id.coffin_date, '%Y-%m-%d').month
-        elif res_id.coffin_date_group != datetime.strptime(res_id.coffin_date, '%Y-%m-%d').month:
-            raise ValidationError(u'施棺期別設定錯誤')
 
         array = []
         data = self.env['coffin.base'].search([('coffin_id','!=','Null')])
