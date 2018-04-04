@@ -220,7 +220,7 @@ class DonateSingle(models.Model):
             'report_send':res_id.report_send, #報表寄送
             'merge_report':res_id.year_receipt_send, #年收據合併 開始捐款(年收據寄送) 已將年收據合併改為年收據寄送
             'print_all_donor_list':res_id.print_all_donor_list,
-            'last_donate_date':res_id.last_donate_date # 上次捐款時間
+            'last_donate_date':res_id.donate_date # 上次捐款時間
         })
 
         user = self.env['res.users'].search([('login', '=', self.env.user.login)])
