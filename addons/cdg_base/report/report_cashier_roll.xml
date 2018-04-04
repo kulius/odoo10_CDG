@@ -29,7 +29,7 @@
                 <div class="page" style="margin:0px;padding:0px;">
                   <t t-set="print_once" t-value="1"></t>
                   <t t-set="print_block" t-value="0"></t>
-                  <t t-foreach="docs" t-as="data">
+                  <t t-foreach="docs.sorted(key=lambda b: b.new_coding)" t-as="data">
                       <t t-if=" data.donate_family1">
                           <t t-if="print_once == 1">
                             <strong>
@@ -46,6 +46,7 @@
                             <h3 style="display:inline;margin-left:85px;">(<t t-esc= "data.zip"/>)<t t-esc= "data.rec_addr"/></h3>
                             <t t-set="print_block" t-value="print_block + 1"/>
                           </div>
+
                         <t t-foreach="data.donate_family1" t-as="familyname">
                             <t t-if="familyname.is_donate">
                                 <div>

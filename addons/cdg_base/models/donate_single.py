@@ -224,6 +224,7 @@ class DonateSingle(models.Model):
         })
 
         user = self.env['res.users'].search([('login', '=', self.env.user.login)])
+
         user.write({
             'payment_method':res_id.payment_method,
             'last_donate_date':res_id.donate_date

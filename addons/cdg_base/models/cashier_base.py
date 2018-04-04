@@ -34,6 +34,10 @@ class CashierBase(models.Model):
         action['limit'] = number
         return action
 
+    def donater_donate_register(self):
+        action = self.env.ref('cdg_base.action_wizard_cashier_block').read()[0]
+        return action
+
     def member_register(self):
         number = 0
         action = self.env.ref('cdg_base.member_base_action').read()[0]

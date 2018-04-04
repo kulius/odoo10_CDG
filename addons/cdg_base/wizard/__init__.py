@@ -20,3 +20,4 @@ from . import consultant_receipt_print
 from . import coffin_inquire
 from . import change_password
 from . import donate_total_inquire
+from . import wizard_cashier_donor

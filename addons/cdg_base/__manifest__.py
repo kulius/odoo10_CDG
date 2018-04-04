@@ -34,6 +34,7 @@
         'wizard/coffin_inquire.xml',
         'wizard/change_password_view.xml',
         'wizard/donate_total_inquire.xml',
+        'wizard/wizard_cashier_donor.xml',
 
         'views/normal_p_view.xml',
         'views/member_base_view.xml',

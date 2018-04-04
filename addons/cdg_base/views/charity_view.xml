@@ -348,6 +348,14 @@
                   sequence=""
                   groups="cdg_member_manager"
         />
+        <menuitem id="cashier_donate_donor"
+                  name="收費員捐款者名冊"
+                  parent="cashier_manage_categ"
+                  action="action_wizard_cashier_block"
+                  sequence=""
+                  groups="cdg_member_manager"
+        />
+
         <!--<menuitem id="old_data_root" name="舊案查詢" sequence="9"/>-->
         <!--<menuitem id="old_data_cate"-->
                   <!--name="舊案查詢"-->
