@@ -224,6 +224,8 @@
                             <button string="郵遞區號資料庫匯入" type="object" name="postal_code_database" class="oe_highlight"/>
                             |
                             <button string="橋梁檔匯入" type="object" name="bridge_transfer" class="oe_highlight"/>
+                            |
+                            <button string="重新編號" type="object" name="reset_newcoding" class="oe_highlight"/>
                         </div>
                     </group>
                     <group string="資料轉移">

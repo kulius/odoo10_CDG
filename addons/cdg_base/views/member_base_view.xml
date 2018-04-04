@@ -100,7 +100,9 @@
                     <field name="w_id"/>
                     <field name="con_phone"/>
                     <field name="cellphone"/>
+                    <field name="zip"/>
                     <field name="rec_addr"/>
+                    <field name="zip_code"/>
                     <field name="con_addr"/>
                     <field name="member_id" string="舊會員編號"/>
                 </search>

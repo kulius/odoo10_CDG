@@ -1109,7 +1109,10 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
     def reset_newcoding(self):
+        sql = "UPDATE normal_p SET temp_new_coding = a.new_coding FROM normal_p a WHERE a.new_coding = normal_p.new_coding"
+        self._cr.execute(sql)
         postal_code_collection = self.env['postal.code'].search([])
+
         for line in postal_code_collection:
             sql = "update normal_p a "\
                   " set new_coding = b.rownubmer "\
@@ -1120,6 +1123,13 @@ class AppThemeConfigSettings(models.TransientModel):
                   " ) b "\
                   "where a.id = b.id and a.zip like '%s' " % (line.zip + '%', line.zip + '%')
             self._cr.execute(sql)
+            sql = "select count(*) from normal_p where zip LIKE '%s' " % (line.zip + '%')
+            self._cr.execute(sql)
+            number = self._cr.dictfetchall()
+
+            for row in number:
+                sql = "UPDATE auto_donateid SET area_number =  '%s' WHERE zip = '%s'" % (int(row['count']), line.zip)
+                self._cr.execute(sql)
 
     def postal_code_database(self):
         sql = " INSERT INTO postal_code (city, area, zip) VALUES " \

@@ -303,6 +303,7 @@
                         { "type": "str", "size": 10, "name": "列印狀態", "required": false },
                         { "type": "str", "size": 10, "name": "年繳", "required": false },
                         { "type": "str", "size": 20, "name": "年繳字串", "required": false },
+                        { "type": "str", "size": 15, "name": "ID", "required": false },
                     ],
                     "Data":[ ]
                 };
@@ -311,6 +312,7 @@
                 var _tableSaleOrderLines = {
                     "Name": "SaleOrderLines",
                     "Cols":[
+                        { "type": "str", "size": 15, "name": "ID", "required": false },
                         { "type": "str", "size": 15, "name": "收據編號", "required": false },
                         { "type": "str", "size": 50, "name": "捐款者姓名", "required": false },
                         { "type": "str", "size": 10, "name": "捐款種類", "required": false },
@@ -325,6 +327,7 @@
                     <t t-if="o.title_donate.is_merge ==True">
                     _tableOrder.Data.push(
                     {
+                        "ID":"<t t-esc="o.id"/>",
                         "收據編號":"<t t-esc="o.title_doante_code"/>",
                         "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
                         <t t-if="o.title_donate.rec_send == True">
@@ -349,6 +352,7 @@
                     <t t-if="o.title_donate.is_merge ==False">
                     _tableOrder.Data.push(
                     {
+                        "ID":"<t t-esc="o.id"/>",
                         "收據編號":"<t t-esc="o.title_doante_code"/>",
                         "捐款者姓名":"<t t-esc="o.title_donate.name"/>",
                         <t t-if="o.title_donate.rec_send == True">
@@ -377,6 +381,7 @@
                                 <t t-if=" lines.donate_price != 0">
                                 _tableSaleOrderLines.Data.push(
                                 {
+                                    "ID":"<t t-esc="lines.parent_id.id"/>",
                                     "收據編號":"<t t-esc="lines.donate_id"/>",
                                     "捐款者姓名":"<t t-esc="lines.name"/>",
                                     "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",
@@ -387,6 +392,7 @@
                                 <t t-if=" lines.donate_price == 0">
                                 _tableSaleOrderLines.Data.push(
                                 {
+                                    "ID":"<t t-esc="lines.parent_id.id"/>",
                                     "收據編號":"<t t-esc="lines.donate_id"/>",
                                     "捐款者姓名":"<t t-esc="lines.name"/>",
                                     "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",
@@ -409,6 +415,7 @@
                             <t t-if="lines.is_merge ==False">
                                 _tableSaleOrderLines.Data.push(
                                 {
+                                    "ID":"<t t-esc="lines.parent_id.id"/>",
                                     "收據編號":"<t t-esc="lines.donate_id"/>",
                                     "捐款者姓名":"<t t-esc="lines.name"/>",
                                     "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",

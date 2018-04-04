@@ -14,6 +14,7 @@ class NormalP(models.Model):
     _description = u'捐款者基本資料管理'
 
     new_coding = fields.Char(string='捐款者編號')
+    temp_new_coding = fields.Char(string='暫存捐款者編號')
     # old_coding = fields.Char(string='舊捐款者編號')
     special_tag = fields.Boolean(string='眷屬檔沒有的團員')
     w_id = fields.Char(string='舊團員編號')

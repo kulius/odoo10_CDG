@@ -100,6 +100,7 @@
                     <field name="w_id"/>
                     <field name="con_phone"/>
                     <field name="cellphone"/>
+                    <field name="zip"/>
                     <field name="rec_addr"/>
                     <field name="consultant_id" string="舊顧問編號"/>
                 </search>

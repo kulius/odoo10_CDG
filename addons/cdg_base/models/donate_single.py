@@ -17,7 +17,7 @@ class DonateSingle(models.Model):
     paid_id = fields.Char(string='收費編號', readonly=True)
     donate_id = fields.Char(string='收據編號', readonly=True)
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者',
-                                    states={2: [('readonly', True)]}, required = True, index = True)  # demo用  轉檔時, 要把required = True 拿掉
+                                    required = True, index = True)  # demo用  轉檔時, 要把required = True 拿掉
     w_id = fields.Char('舊團員編號', related='donate_member.w_id')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛了
     new_coding = fields.Char('新捐款者編號', related='donate_member.new_coding')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛了
 
@@ -25,14 +25,14 @@ class DonateSingle(models.Model):
     donate_member_number = fields.Char('舊團員序號',related='donate_member.number') # 轉檔時, 要把 related 去掉
 
     donate_member_new_coding = fields.Char('新捐款者編號',related='donate_member.new_coding')  # search用
-    name = fields.Char(string='姓名', compute='set_donate_name',store=True)
+    name = fields.Char(string='姓名',store=True)
     self_iden = fields.Char(string='身分證字號', compute='set_donate_name', store=True)
-    cellphone = fields.Char(string='手機', compute='set_donate_name', store=True)
-    con_phone = fields.Char(string='聯絡電話', compute='set_donate_name', store=True)
-    zip_code = fields.Char(string='報表郵遞區號', compute='set_donate_name', store=True)
-    con_addr = fields.Char(string='報表地址', compute='set_donate_name', store=True)
-    zip = fields.Char(string='收據郵遞區號', compute='set_donate_name', store=True)
-    rec_addr = fields.Char(string='收據地址', compute='set_donate_name', store=True)
+    cellphone = fields.Char(string='手機',  store=True)
+    con_phone = fields.Char(string='聯絡電話',  store=True)
+    zip_code = fields.Char(string='報表郵遞區號',  store=True)
+    con_addr = fields.Char(string='報表地址',  store=True)
+    zip = fields.Char(string='收據郵遞區號',  store=True)
+    rec_addr = fields.Char(string='收據地址', store=True)
 
     state = fields.Selection([(1, '已產生'), (2, '已列印'), (3, '已作廢')],
                              string='狀態', default=1, index=True)
@@ -77,7 +77,7 @@ class DonateSingle(models.Model):
 #    history_payment_method = fields.Boolean('是否上次捐款方式')
     report_price_big = fields.Char(string='報表用大寫金額')
     report_donate = fields.Char(string='報表用捐款日期')
-    donate_date = fields.Date('捐款日期', index = True,required = True) # 轉檔時, 要把required = True 拿掉
+    donate_date = fields.Date('捐款日期', index = True, required = True) # 轉檔時, 要把required = True 拿掉
     sreceipt_number = fields.Integer(string='收據筆數', compute='compute_total', store=True)
     print_count = fields.Integer(string='列印筆數',store=True)
     print_date = fields.Date('列印日期')
@@ -432,6 +432,13 @@ class DonateSingle(models.Model):
             line.active = False
         self.state = 3
         self.active = False
+
+    def change_print_state(self):
+        if self.state == 3:
+            raise ValidationError(u'本捐款單已作廢!!')
+
+        self.state = 1
+
 
     def add_to_list_create(self, record):
         if record.family_check:
