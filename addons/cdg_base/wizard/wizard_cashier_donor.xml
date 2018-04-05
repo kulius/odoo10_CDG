@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="wizard_cashier_donor_form" model="ir.ui.view">
+            <field name="name">wizard cashier block form</field>
+            <field name="model">wizard.cashier.donor</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="block_num"/>
+                            <field name="cashier_code"/>
+                            <field name="donate_start_date"/>
+                            <field name="donate_end_date"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="cashier_block_num" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_wizard_cashier_block" name="收費員捐款者名冊" res_model="wizard.cashier.donor"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>
