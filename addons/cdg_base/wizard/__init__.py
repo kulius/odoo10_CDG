@@ -22,3 +22,4 @@ from . import change_password
 from . import donate_total_inquire
 from . import wizard_cashier_donor
 from . import donate_single_trans
+from . import wizard_donate_time

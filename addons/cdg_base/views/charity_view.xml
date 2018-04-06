@@ -106,16 +106,21 @@
                   parent="first_categ"
                   action="change_state_action"
                   sequence="6"/>
+        <menuitem id="change_donate_date_menu"
+                  name="批次變更捐款時間"
+                  parent="first_categ"
+                  action="action_wizard_donate_time"
+                  sequence="7"/>
         <menuitem id="donate_search_single"
                   name="捐款金額查詢"
                   parent="first_categ"
                   action="donate_total_inquire_action"
-                  sequence="7"/>
+                  sequence="8"/>
         <menuitem id="print_receipt"
                   name="已列印收據查詢"
                   parent="first_categ"
                   action="old_donate_single_view_action"
-                  sequence="8"/>
+                  sequence="9"/>
         <!--<menuitem id="donate_batch"-->
                   <!--name="批次捐款"-->
                   <!--parent="first_categ"-->
@@ -132,7 +137,7 @@
                   name="季報表名冊查詢"
                   parent="first_categ"
                   action="donor_search_action"
-                  sequence="6"
+                  sequence="10"
                   groups="cdg_member_manager"
         />
 

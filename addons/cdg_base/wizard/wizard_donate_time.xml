@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="wizard_donate_time" model="ir.ui.view">
+            <field name="name">wizard donate time form</field>
+            <field name="model">wizard.donate.time</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="cashier_code"/>
+                            <field name="donate_start_date"/>
+                            <field name="donate_end_date"/>
+                            <field name="donate_date"/>
+                            <field name="key_in_user_code"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="donate_time" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_wizard_donate_time" name="批次修改捐款時間" res_model="wizard.donate.time"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>

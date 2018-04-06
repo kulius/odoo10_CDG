@@ -9,8 +9,12 @@
                     <sheet>
                         <group>
                             <field name="normal_p_code"/>
+                        </group>
+                        <group col="4">
                             <field name="donate_start_date"/>
                             <field name="donate_end_date"/>
+                        </group>
+                        <group>
                             <field name="name"/>
                             <field name="addr"/>
                         </group>

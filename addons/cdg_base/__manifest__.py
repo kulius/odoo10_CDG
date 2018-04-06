@@ -36,6 +36,7 @@
         'wizard/donate_total_inquire.xml',
         'wizard/wizard_cashier_donor.xml',
         'wizard/donate_single_trans.xml',
+        'wizard/wizard_donate_time.xml',
 
         'views/normal_p_view.xml',
         'views/member_base_view.xml',
