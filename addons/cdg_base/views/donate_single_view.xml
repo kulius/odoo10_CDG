@@ -172,12 +172,16 @@
                     <field string="捐款日期-起" name="donate_date" filter_domain="[('donate_date', '&gt;=',self )]"/>
                     <field string="捐款日期-迄" name="donate_date" filter_domain="[('donate_date', '&lt;=',self)]"/>
 
-                    <!--<filter string="未列印的捐款" name="un_print_donate" domain="[('state','=',1)]"/>-->
+                    <filter string="未列印的捐款" name="un_print_donate" domain="[('state','=',1)]"/>
+                    <separator/>
+                    <filter string="已列印的捐款" name="print_donate" domain="[('state','=',2)]"/>
+                    <separator/>
                     <filter string="最近1年" name="year" domain="[('donate_date', '&gt;=', (datetime.date.today() - relativedelta(years=1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
                     <separator/>
                     <filter string="近3個月" name="three_months" domain="[('donate_date', '&gt;=', (datetime.date.today() - relativedelta(months=3)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
                     <separator/>
-                    <filter string="今日" name="today" domain="[('donate_date', '=', datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
+                    <filter string="今日(捐款日期)" name="today" domain="[('donate_date', '=', datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
+                    <separator/>
                     <filter string="今日(創建日期)" name="create_today" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('create_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>
                     <!--<filter string="捐款日期" name="donate_date_today" domain="[('create_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('create_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:23:59'))]"/>-->
                     <filter string="捐款來源-現金" name="payment_method" domain="[('payment_method','=','1')]"/>
@@ -195,7 +199,7 @@
             <field name="res_model">donate.single</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">['|',('state', '=', 1),('state','=', 2)]</field>
-            <field name="context">{'search_default_create_today': 1}</field>
+            <field name="context">{'search_default_year': 1, 'search_default_create_today': 1}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     <!-- Add Text Here -->
