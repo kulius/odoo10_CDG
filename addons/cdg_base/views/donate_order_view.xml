@@ -80,6 +80,7 @@
             <field name="arch" type="xml">
                 <search>
                     <field name="donate_id"/>
+                    <field name="donate_new_coding"/>
                     <field name="donate_w_id"/>
                     <field name="donate_member"/>
                     <field name="cashier"/>

@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class DonateOrder(models.Model):
     _name = 'donate.order'
-    _order = 'sequence'
+    _order = 'sequence,donate_member,donate_type'
     _description = u'捐款明細管理'
 
     # name = fields.Many2one(comodel_name='normal.p',string='姓名')
@@ -27,7 +27,7 @@ class DonateOrder(models.Model):
     donate_id = fields.Char(string='收據編號')
     donate_new_coding = fields.Char(string='新捐款者編號', related='donate_member.new_coding')
     donate_name = fields.Char(string='姓名', related='donate_member.name')
-    donate_w_id = fields.Char(string='團員編號')
+    donate_w_id = fields.Char(string='舊團員編號')
     donate_w_id_number = fields.Char(string='序號')
     donate_date = fields.Date(string='捐款日期', index = True)
     self_id = fields.Char(string='身分證字號')

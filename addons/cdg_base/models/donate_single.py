@@ -550,6 +550,7 @@ class DonateSingle(models.Model):
             line.report_send = normal_p.report_send
             line.year_receipt_send = normal_p.merge_report
             line.print_all_donor_list = normal_p.print_all_donor_list
+            line.ps = normal_p.ps
 
     def start_donate(self):
         action = self.env.ref('cdg_base.start_donate_action').read()[0]
