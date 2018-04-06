@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="donate_single_trans_form" model="ir.ui.view">
+            <field name="name">donate single trans form</field>
+            <field name="model">donate.single.trans</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="normal_p_code"/>
+                            <field name="donate_start_date"/>
+                            <field name="donate_end_date"/>
+                            <field name="name"/>
+                            <field name="addr"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="donate_date_change" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_donate_single_trans" name="批次更改收件人以及地址" res_model="donate.single.trans"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>

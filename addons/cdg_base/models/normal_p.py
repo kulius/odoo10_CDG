@@ -131,6 +131,16 @@ class NormalP(models.Model):
         action['res_id'] = wizard_data.id
         return action
 
+    # 批次更改捐款檔的收件人和地址
+    def action_donate_single_trans(self):
+        donor_data = self.env['donate.single.trans'].create({
+            'normal_p_code': self.id
+        })
+        action = self.env.ref('cdg_base.action_donate_single_trans').read()[0]
+        action['res_id'] = donor_data.id
+        return action
+
+
 
     def start_donate(self):
         action = self.env.ref('cdg_base.start_donate_action').read()[0]
