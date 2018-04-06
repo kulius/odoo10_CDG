@@ -18,3 +18,4 @@ class DonateSingleTrans(models.Model):
         for line in data:
             line.name = self.name
             line.rec_addr = self.addr
+
