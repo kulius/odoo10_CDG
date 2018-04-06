@@ -89,6 +89,13 @@ class WizardDonate(models.Model):
                         self.noassign_money = 0
                 order.create({
                     'donate_member': line.id,
+                    'name':line.name,
+                    'zip':line.zip,
+                    'rec_addr':line.rec_addr,
+                    'zip_code':line.zip_code,
+                    'con_addr':line.con_addr,
+                    'con_phone':line.con_phone,
+                    'cellphone':line.cellphone,
                     'family_check': res_line,
                     'donate_date':self.donate_date,
                     'work_id':self.work_id.id,
