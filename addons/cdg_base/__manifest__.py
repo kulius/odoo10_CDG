@@ -37,6 +37,7 @@
         'wizard/wizard_cashier_donor.xml',
         'wizard/donate_single_trans.xml',
         'wizard/wizard_donate_time.xml',
+        'wizard/house_year_view.xml',
 
         'views/normal_p_view.xml',
         'views/member_base_view.xml',
@@ -83,6 +84,7 @@
         'report/report_cashier_roll.xml',
         'report/cashier_list_tree.xml',
         'report/donate_totally_view.xml',
+        'report/house_year_report.xml',
 
         'security/group.xml',
         'security/ir.model.access.csv',
