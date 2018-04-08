@@ -100,6 +100,7 @@ class ReportDonateSingleMerge(models.AbstractModel):
             temp = {
                 'donate_id': line.donate_id,
                 'donate_member': line.donate_member.name,
+                'zip':line.zip,
                 'rec_addr': line.rec_addr,
                 'new_coding': line.donate_member.new_coding,
                 'donate_date': line.donate_date,
