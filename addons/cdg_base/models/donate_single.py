@@ -213,6 +213,9 @@ class DonateSingle(models.Model):
             })
 
         self.add_to_list_create(res_id)
+        for line in res_id.donate_member.donate_family1:
+            if line.is_donate is True:
+                line.last_donate_date = res_id.donate_date
 
         donate_user = self.env['normal.p'].search([('id', '=', res_id.donate_member.id)])
         donate_user.write({
@@ -482,6 +485,7 @@ class DonateSingle(models.Model):
 
 
     def save_donate_list(self, donate_type, member_id, money):  # 將明細產生
+
         if donate_type == 3:
             self.write({
                 'donate_list': [(0, 0, {
