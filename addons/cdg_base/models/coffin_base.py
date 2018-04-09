@@ -139,7 +139,7 @@ class CoffinBase(models.Model):
             raise ValidationError(u'已結案，無法再更改')
         elif self.finish == False:
             if self.donate_price == 0  and default_price_flag == True and self.exception_case == False: # 沒有任何的捐助明細,而且確認申請金額是讀取基本設定檔的施棺滿足額, 而不是使用者自行輸入的特殊案例,
-                lines = self.env['donate.order'].search([('donate_type', '=', 3),('available_balance', '=', self.donate_apply_price),('donate_date','<',self.coffin_date)], limit= 1 )
+                lines = self.env['donate.order'].search([('donate_type', '=', 3),('available_balance', '=', self.donate_apply_price),('donate_date','<',self.coffin_date)], limit = 1)
                 if lines: # 有單筆3萬元的捐助資料
                     for line in lines:
                         if Cumulative_amount == 0:  # 達到施棺滿足額
@@ -274,7 +274,7 @@ class CoffinBase(models.Model):
                 'coffin_date_group':line[u'期別'],
             })
 
-    @api.onchange('batch_donate')
+    @api.depends('batch_donate.donate_order_id')
     def get_donate_name(self):
         for i in self:
             donate_number = 0  # 紀錄捐款筆數
@@ -285,24 +285,25 @@ class CoffinBase(models.Model):
             elif i.batch_donate:
                 for line in i.batch_donate:
                     donate_number += 1
-                    if (donate_number <= 6):
-                        if line.donate_order_id.donate_member.name is True:
-                          str_build += line.donate_order_id.donate_member.name + ', '
-                        else:
-                          continue
-                    elif (donate_number > 6):
+                    if donate_number <= 6:
+                        # if line.donate_order_id.donate_member.name is True:
+                        str_build += line.donate_order_id.donate_member.name + ', '
+                        # else:
+                        #   continue
+                    elif donate_number > 6:
                         str_build = u"眾善士"
+                i.donor = str_build
             elif i.old_batch_donate:
                 for line in i.old_batch_donate:
                     donate_number += 1
-                    if (donate_number <= 6):
+                    if donate_number <= 6:
                         if line.donor:
                           str_build += line.donor + ', '
                         else:
                           continue
-                    elif (donate_number > 6):
+                    elif donate_number > 6:
                         str_build = u"眾善士"
-                    i.donor = str_build
+                i.donor = str_build
 
 
 

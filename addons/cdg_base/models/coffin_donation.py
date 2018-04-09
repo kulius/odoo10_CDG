@@ -21,7 +21,7 @@ class CoffinDonation(models.Model):
     donate_id =  fields.Char(string='捐款編號', related='donate_order_id.donate_id')
 
     @api.onchange('donate_order_id')
-    def set_used_money(self): # 改在這裡
+    def set_used_money(self): # 人工配對捐助資料
         basic_setting = self.env['ir.config_parameter'].search([])
         if self.donate_apply_price == 0:  # 如果申請金額沒有填入特定的施棺滿足額, 則自動預設為基本設定檔的施棺滿足額
             for line in basic_setting:  # 讀取基本設定檔的施棺滿足額
@@ -31,6 +31,8 @@ class CoffinDonation(models.Model):
         if self.donate_order_id:
             if self.coffin_donation_id.coffin_date < self.donate_order_id.donate_date:
                 raise ValidationError(u'捐款者捐款日期不得晚於領款日期')
+            if self.coffin_donation_id.donate_apply_price == self.coffin_donation_id.donate_price:
+                raise ValidationError(u'累積金額已達申請金額, 無法再配對捐助資料')
 
             Cumulative_amount = self.donate_apply_price - self.accumulated_amount # 捐款金額減掉累積金額的差額, 也就是還差多少錢可以滿30000
             if self.available_balance - Cumulative_amount > 0 : # 捐款者的款金額大於目前施棺的差額
