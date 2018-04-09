@@ -16,6 +16,7 @@
                         <field name="donate_total"/>
                         <field name="receipt_send"/>
                         <field name="work_id"/>
+                        <field name="payment_method"/>
                         <field name="donate_member" invisible = "1"/>
                 </tree>
             </field>
