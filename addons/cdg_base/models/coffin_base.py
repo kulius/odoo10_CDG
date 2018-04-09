@@ -213,7 +213,7 @@ class CoffinBase(models.Model):
                             Cumulative_amount = Cumulative_amount - line.available_balance  # 施棺滿足額 減掉 捐款額
                             line.available_balance = 0  # 該筆捐款金額歸 0
                 else:
-                    lines = self.env['donate.order'].search([('donate_type', '=', 3),('available_balance', '<', 10000),('use_amount', '=', False),('donate_date','<',self.coffin_date)])
+                    lines = self.env['donate.order'].search([('donate_type', '=', 3),('available_balance', '<', 5000),('use_amount', '=', False),('donate_date','<',self.coffin_date)])
                     if lines and flag == False:
                         for line in lines:
                             if Cumulative_amount == 0:  # 達到施棺滿足額

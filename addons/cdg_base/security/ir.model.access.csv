@@ -41,6 +41,7 @@ access_old_report_line,access_old_report_line,model_old_report_line,cdg_base.cdg
 access_wizard_cashier_donor,access_wizard_cashier_donor,model_wizard_cashier_donor,cdg_base.cdg_manager,1,1,1,1
 access_donate_single_trans,access_donate_single_trans,model_donate_single_trans,cdg_base.cdg_manager,1,1,1,1
 access_wizard_donate_time,access_wizard_donate_time,model_wizard_donate_time,cdg_base.cdg_manager,1,1,1,1
+access_wizard_parent_trans,access_wizard_parent_trans,model_wizard_parent_trans,cdg_base.cdg_manager,1,1,1,1
 
 access_house_year,access_house_year,model_house_year,cdg_base.cdg_manager,1,1,1,1
 access_report_cdg_base_house_year,access_report_cdg_base_house_year,model_report_cdg_base_house_year,cdg_base.cdg_manager,1,1,1,1
