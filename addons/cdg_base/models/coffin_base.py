@@ -281,6 +281,7 @@ class CoffinBase(models.Model):
             str_build = ''
             if i.donater_ps:
                 str_build = i.donater_ps
+                i.donor = str_build
             elif i.batch_donate:
                 for line in i.batch_donate:
                     donate_number += 1
