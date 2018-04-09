@@ -33,14 +33,14 @@ class CoffinDonation(models.Model):
                 raise ValidationError(u'捐款者捐款日期不得晚於領款日期')
 
             Cumulative_amount = self.donate_apply_price - self.accumulated_amount # 捐款金額減掉累積金額的差額, 也就是還差多少錢可以滿30000
-            if self.available_balance - Cumulative_amount > 0 :
+            if self.available_balance - Cumulative_amount > 0 : # 捐款者的款金額大於目前施棺的差額
                 self.available_balance = self.available_balance - Cumulative_amount #  捐款者的捐款金額扣掉差額, 剩下的錢返回捐款者帳戶
-                self.donate_price = Cumulative_amount
-                self.use_amount = False
-            elif self.available_balance - Cumulative_amount <= 0 :
-                self.donate_price = self.available_balance
-                self.available_balance = 0
-                self.use_amount = True
+                self.donate_price = Cumulative_amount # 差額寫入donate_order 的已用金額欄位
+                self.use_amount = False # 此筆捐款尚未使用完畢
+            elif self.available_balance - Cumulative_amount <= 0 : # 代表此筆捐款金額無法滿足目前的施棺差額
+                self.donate_price = self.available_balance # 捐款金額的可用餘額寫入 donate_order 已用金額欄位
+                self.available_balance = 0 # 此筆金額全數支用完畢
+                self.use_amount = True # 此筆金額全數支用完畢
 
     def data_input_from_database(self):
         data = self.env['base.external.dbsource'].search([])
