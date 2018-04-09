@@ -112,6 +112,17 @@
             <field name="model">consultant.fee</field>
             <field name="arch" type="xml">
                 <search>
+                    <field name="consultant_id"/>
+                    <field name="fee_code"/>
+                    <field name="fee_date"/>
+                    <field name="zip"/>
+                    <field name="rec_addr"/>
+                    <field name="con_phone"/>
+                    <field name="cellphone"/>
+                    <field name="key_in_user"/>
+                    <field string="收費日期-起" name="fee_date" filter_domain="[('fee_date', '&gt;=',self )]"/>
+                    <field string="收費日期-迄" name="fee_date" filter_domain="[('fee_date', '&lt;=',self)]"/>
+
                     <filter string="今日" name="today" domain="[('fee_date', '=', datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
                 </search>
             </field>

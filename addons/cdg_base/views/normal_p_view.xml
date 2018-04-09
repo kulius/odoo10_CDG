@@ -67,8 +67,8 @@
                             <button name="action_donate_single_trans" string="批次更改捐款檔"
                                     type="object" class="oe_stat_button" icon="fa-file-o" attrs="{'invisible': [('name', '=', False)]}">
                             </button>
-                            <button name="action_parent_trans" string="批次更改戶長"
-                                    type="object" class="oe_stat_button" icon="fa-male" attrs="{'invisible': [('name', '=', False)]}">
+                            <button name="%(cdg_base.house_year_action)d" string="列印年度收據"
+                                    type="action" class="oe_stat_button" icon="fa-exchange" attrs="{'invisible': [('donate_family1', '=', False)]}">
                             </button>
                         </div>
                         <div class="oe_title">

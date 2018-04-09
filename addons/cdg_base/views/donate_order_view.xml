@@ -110,10 +110,11 @@
             <field name="model">donate.order</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="cashier"/>
+                    <field name="donate_id"/>
                     <field name="donate_new_coding"/>
                     <field name="donate_w_id"/>
                     <field name="donate_name"/>
+                    <field name="cashier"/>
                     <field name="key_in_user"/>
                     <field string="捐款日期-起" name="donate_date" filter_domain="[('donate_date', '&gt;=',self )]"/>
                     <field string="捐款日期-迄" name="donate_date" filter_domain="[('donate_date', '&lt;=',self)]"/>

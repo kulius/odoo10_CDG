@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- string:是报表在菜单上的文字。 -->
+        <!-- name:要写template的xmlid，8版本不能省略模块名。9待实验。 -->
+        <report id="action_house_year_report"
+                model="house.year"
+                string="戶年度收據"
+                report_type="qweb-html"
+                name="cdg_base.house_year"/>
+
+        <!--<template id="cdg_base.house_year">-->
+            <!--<t t-call="report.html_container">-->
+                <!--<t t-call="report.external_layout">-->
+                    <!--<div class="page">-->
+                        <!--<h1><t t-esc="report_year"/>年</h1>-->
+                        <!--<h2>總金額：<t t-esc="docs"/></h2>-->
+                        <!--<h3>戶長：<t t-esc="house_hold.name"/></h3>-->
+                    <!--</div>-->
+                <!--</t>-->
+            <!--</t>-->
+        <!--</template>-->
+
+        <template id="cdg_base.house_year">
+            <t t-call="report.html_container">
+                <h1 class="col-12 text-center">年收據</h1>
+                <h3 class="col-12 text-center">正在列印輸出中，請稍候...</h3>
+                <script type="text/javascript">
+                var cfprint_addr = "127.0.0.1";   //列印伺服器監聽地址
+                var _delay_close = -1;          //列印完成後關閉視窗的延時時長(毫秒), -1則表示不關閉
+
+                /**定義主表結構**/
+                var _tableOrder = {
+                    "Name": "SaleOrder",
+                    "Cols":[
+                        { "type": "str", "size": 50, "name": "捐款者姓名", "required": false },
+                        { "type": "str", "size": 50, "name": "住址", "required": false },
+                        { "type": "str", "size": 20, "name": "團員編號", "required": false },
+                        { "type": "str", "size": 10, "name": "捐款日期", "required": false },
+                        { "type": "str", "size": 10, "name": "經手人", "required": false },
+                        { "type": "str", "size": 50, "name": "捐款總額大寫", "required": false },
+                        { "type": "str", "size": 20, "name": "捐款總額", "required": false },
+                    ],
+                    "Data":[ ]
+                };
+
+                /**定義從表結構**/
+                var _tableSaleOrderLines = {
+                    "Name": "SaleOrderLines",
+                    "Cols":[
+                        { "type": "str", "size": 50, "name": "捐款者姓名", "required": false },
+                    ],
+                    "Data":[ ]
+                };
+                /*增加主表記錄*/
+                _tableOrder.Data.push(
+                {
+                    "捐款者姓名":"<t t-esc="house_hold.name"/>",
+                    "住址":"<t t-esc="house_hold.rec_addr"/>",
+                    "捐款日期":"<t t-esc="report_year"/>",
+                    "團員編號":"<t t-esc="house_hold.new_coding"/>",
+                    "經手人":"<t t-esc="print_user"/>",
+                    "捐款總額大寫":"<t t-esc="big_price"/>",
+                    "捐款總額":"<t t-esc="docs"/>",
+                });
+
+                <t t-foreach="house_hold.donate_family1" t-as="lines">
+                    _tableSaleOrderLines.Data.push(
+                    {
+                        "捐款者姓名":"<t t-esc="lines.name"/>",
+                    });
+                </t>
+                var _data = {"template": "donate_year_merge.fr3", "ver": 4, "Copies": 1, "Duplex": 0, "Preview": 1, "Tables":[]};
+                _data["Tables"].push(_tableOrder);
+                _data["Tables"].push(_tableSaleOrderLines);
+                var _reportData = JSON.stringify(_data);  //轉成json字元串
+
+                console.log(_reportData);
+                //生成資料之後，在cfprint_ext.js中會自動呼叫進行列印
+                </script>
+            </t>
+        </template>
+    </data>
+</odoo>
