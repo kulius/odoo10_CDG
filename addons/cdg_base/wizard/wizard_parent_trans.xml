@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="wizard_parent_form" model="ir.ui.view">
+            <field name="name">wizard parent form</field>
+            <field name="model">wizard.parent.trans</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h3>是否要把戶長下的眷屬改為其他戶長?</h3>
+                    </sheet>
+
+                    <footer>
+                        <button type="object" name="set_parent" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_wizard_parent_trans" name="戶長變更" res_model="wizard.parent.trans"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>

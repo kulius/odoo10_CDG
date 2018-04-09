@@ -142,8 +142,12 @@ class NormalP(models.Model):
 
     #批次更改戶長
     def action_parent_trans(self):
-        for line in self.donate_family1:
-            line.parent = self.parent
+       parent_data = self.env['wizard.parent.trans'].create({
+           'normal_p_code':self.id
+       })
+       action = self.env.ref('cdg_base.action_wizard_parent_trans').read()[0]
+       action['res_id'] = parent_data.id
+       return action
 
 
     def start_donate(self):

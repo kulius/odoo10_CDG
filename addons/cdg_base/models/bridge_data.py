@@ -9,8 +9,9 @@ _logger = logging.getLogger(__name__)
 
 class BridgeData(models.Model):
     _name = 'bridge.data'
+    _order = 'bridge_code desc'
 
-    bridge_code = fields.Char('橋樑編號', readonly=True)
+    bridge_code = fields.Char('橋樑編號')
     name = fields.Char('橋樑名稱')
     length = fields.Float('長度')
     width = fields.Float('寬度')
@@ -22,6 +23,8 @@ class BridgeData(models.Model):
     completed_date = fields.Date('完工日期')
     db_change_date = fields.Date('異動日期')
     numbers = fields.Integer('數字')
+    position_x = fields.Float('座標X')
+    position_y = fields.Float('座標Y')
 
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char('輸入人員')
@@ -33,7 +36,17 @@ class BridgeData(models.Model):
         if res_id.name is False:
             raise ValidationError(u'橋樑名稱不得為空')
 
-        res_id.bridge_code = self.env['ir.sequence'].next_by_code('bridge.data')
-        res_id.key_in_user = self.env.uid
+        # res_id.bridge_code = self.env['ir.sequence'].next_by_code('bridge.data')
+        # res_id.key_in_user = self.env.uid
         return res_id
+
+    @api.onchange('bridge_code')
+    def bridge_code_is_repeart(self):
+        data = self.env['bridge.data'].search([('bridge_code','=',self.bridge_code)])
+
+        for line in data:
+            if line.bridge_code == self.bridge_code:
+                raise ValidationError(u'橋梁編號不得重複')
+
+
 

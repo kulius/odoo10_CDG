@@ -109,7 +109,12 @@ class CoffinBase(models.Model):
         temp_default_price = 0 # 暫存用的, 沒幹嘛
         big_donate_flag = False
         basic_setting = self.env['ir.config_parameter'].search([])
-        if self.donate_apply_price == 0  and self.exception_case == False: # 如果申請金額沒有填入特定的施棺滿足額, 則自動預設為基本設定檔的施棺滿足額
+        if self.donate_apply_price == 0 and self.exception_case == False: # 如果申請金額沒有填入特定的施棺滿足額, 則自動預設為基本設定檔的施棺滿足額
+            for line in basic_setting: # 讀取基本設定檔的施棺滿足額
+                if line.key == 'coffin_amount':
+                    self.donate_apply_price = int(line.value)
+                    default_price_flag = True
+        elif self.donate_apply_price != 0 and self.exception_case == False:
             for line in basic_setting: # 讀取基本設定檔的施棺滿足額
                 if line.key == 'coffin_amount':
                     self.donate_apply_price = int(line.value)

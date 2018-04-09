@@ -38,6 +38,7 @@
         'wizard/donate_single_trans.xml',
         'wizard/wizard_donate_time.xml',
         'wizard/house_year_view.xml',
+        'wizard/wizard_parent_trans.xml',
 
         'views/normal_p_view.xml',
         'views/member_base_view.xml',

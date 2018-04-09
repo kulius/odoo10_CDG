@@ -31,12 +31,13 @@
                             <field name="name"/>
                         </group>
                         <notebook>
-                            <page string="橋梁資料">
+                            <page string="橋樑資料">
                                  <group col="9">
                                     <field name="length"/><h5>公尺</h5>
                                     <field name="width"/><h5>公尺</h5>
                                     <field name="height"/><h5>公尺</h5>
                                 </group>
+
                                 <group col="8">
                                     <field name="donate_date_start"/>
                                     <field name="donate_date_end"/>
@@ -48,6 +49,10 @@
                                 <group>
                                     <field name="bridge_addr"/>
                                 </group>
+                                 <!--<group col="4">-->
+                                    <!--<field name="position_x"/>-->
+                                    <!--<field name="position_y"/>-->
+                                <!--</group>-->
                             </page>
                         </notebook>
                     </sheet>
@@ -60,6 +65,7 @@
             <field name="model">bridge.data</field>
             <field name="arch" type="xml">
                 <search>
+                    <field name="bridge_code"/>
                     <field name="name"/>
                     <field name="bridge_addr"/>
                 </search>
@@ -67,7 +73,7 @@
         </record>
 
         <record id="bridge_data_action" model="ir.actions.act_window">
-            <field name="name">橋梁資料作業</field>
+            <field name="name">橋樑資料作業</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">bridge.data</field>
             <field name="view_mode">tree,form</field>
