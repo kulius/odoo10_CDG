@@ -18,7 +18,7 @@
         <menuitem id="charity_base_root" name="基本管理" sequence="1"/>
         <menuitem id="charity_base_categ" name="基本管理" parent="charity_base_root" sequence="1"/>
         <menuitem id="worker_base1"
-                  name="員工基本資料"
+                  name="員工基本資料(管理)"
                   parent="charity_base_categ"
                   action="c_worker_action"
                   sequence="1"
@@ -29,7 +29,7 @@
                   parent="charity_base_categ"
                   action="c_worker_employee_action"
                   sequence="2"
-                  groups="cdg_employees"
+                  groups="cdg_manager"
         />
         <menuitem id="worker_password"
                   name="修改密碼"

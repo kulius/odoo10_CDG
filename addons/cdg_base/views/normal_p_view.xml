@@ -64,11 +64,11 @@
                             <button name="action_chang_donater_wizard" string="合併捐款者"
                                     type="object" class="oe_stat_button" icon="fa-exchange" attrs="{'invisible': [('name', '=', False)]}">
                             </button>
-                            <button name="action_donate_single_trans" string="批次更改捐款檔"
-                                    type="object" class="oe_stat_button" icon="fa-file-o" attrs="{'invisible': [('name', '=', False)]}">
+                            <button name="action_donate_single_trans" string="批次更改收據"
+                                    type="object" class="oe_stat_button" icon="fa-edit" attrs="{'invisible': [('name', '=', False)]}">
                             </button>
                             <button name="%(cdg_base.house_year_action)d" string="列印年度收據"
-                                    type="action" class="oe_stat_button" icon="fa-exchange" attrs="{'invisible': [('donate_family1', '=', False)]}">
+                                    type="action" class="oe_stat_button" icon="fa-print" attrs="{'invisible': [('donate_family1', '=', False)]}">
                             </button>
                         </div>
                         <div class="oe_title">
