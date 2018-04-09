@@ -86,6 +86,7 @@
                                         <field name="donate_price"/>
                                         <field name="donate" invisible = "1"/>
                                         <field name="use_amount" invisible = "1"/>
+                                        <field name="donate_date"/>
                                         <field name="available_balance" invisible = "1"/>
                                     </tree>
                                 </field>

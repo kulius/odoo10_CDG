@@ -9,7 +9,7 @@ class CoffinDonation(models.Model):
     donate_price = fields.Integer(string='施棺捐款金額(已用)', related='donate_order_id.used_money')
     use_amount = fields.Boolean(string='施棺捐款是否已支用', related='donate_order_id.use_amount')
     available_balance = fields.Integer(string='可用餘額', related='donate_order_id.available_balance')
-
+    donate_date = fields.Date(string='捐款日期',related='donate_order_id.donate_date')
     coffin_donation_id = fields.Many2one(comodel_name='coffin.base')
     old_coffin_donation_id = fields.Many2one(comodel_name='coffin.base')
     # donate_single_id = fields.Many2one(comodel_name='donate.single', string='捐款編號')
