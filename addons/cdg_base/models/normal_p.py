@@ -140,6 +140,10 @@ class NormalP(models.Model):
         action['res_id'] = donor_data.id
         return action
 
+    #批次更改戶長
+    def action_parent_trans(self):
+        for line in self.donate_family1:
+            line.parent = self.parent
 
 
     def start_donate(self):
