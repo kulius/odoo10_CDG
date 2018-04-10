@@ -93,7 +93,7 @@ class CoffinBase(models.Model):
                     raise ValidationError(u'已達施棺滿足額')
                 if line.batch_donate and len(line.old_batch_donate) == 0:
                     for row in line.batch_donate:
-                        line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))
+                        line.donate_price = int(float(line.donate_price)) + int(float(row.history_donate_records))
                 elif line.old_batch_donate and line.finish == True:
                     for row in line.old_batch_donate:
                         line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))

@@ -7,7 +7,7 @@ class CoffinDonation(models.Model):
 
     name = fields.Char(string='捐款者姓名', related='donate_order_id.donate_member.name')
     donate = fields.Integer(string='施棺捐款金額', related='donate_order_id.donate')
-    donate_price = fields.Integer(string='施棺捐款金額(已用)', related='donate_order_id.used_money')
+    donate_price = fields.Integer(string='捐款明細的已用金額', related='donate_order_id.used_money')
     history_donate_records = fields.Integer(string='施棺捐款金額(已用)')
     use_amount = fields.Boolean(string='施棺捐款是否已支用', related='donate_order_id.use_amount')
     available_balance = fields.Integer(string='可用餘額', related='donate_order_id.available_balance')
@@ -42,7 +42,7 @@ class CoffinDonation(models.Model):
                 self.history_donate_records = Cumulative_amount
                 self.use_amount = False # 此筆捐款尚未使用完畢
             elif self.available_balance - Cumulative_amount <= 0 : # 代表此筆捐款金額無法滿足目前的施棺差額
-                self.donate_price = self.available_balance # 捐款金額的可用餘額寫入 donate_order 已用金額欄位
+                self.donate_price = self.donate_price + self.available_balance # 捐款金額的可用餘額寫入 donate_order 已用金額欄位
                 self.history_donate_records = self.available_balance
                 self.available_balance = 0 # 此筆金額全數支用完畢
                 self.use_amount = True # 此筆金額全數支用完畢
