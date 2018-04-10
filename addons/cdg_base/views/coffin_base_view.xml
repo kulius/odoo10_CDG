@@ -57,18 +57,18 @@
                                     <field name="dead_date"/>
                                     <field name="user_iden"/>
                                     <field name="coffin_date"/>
-                                    <field name="geter"/>
+                                    <field name="con_addr" />
                                     <field name="dealer"/>
-                                    <field name="geter_iden"/>
+                                    <field name="geter"/>
                                     <field name="bank_account"/>
-                                    <field name="con_phone"/>
+                                    <field name="geter_iden"/>
+                                    <!--<field name="con_phone"/>-->
                                     <field name="cellphone"/>
+                                    <field name="payee_addr"/>
                                 </group>
                                 <group col="8">
-                                    <field name="zip_code2"/>
-                                    <field name="con_addr"  colspan="6"/>
-                                    <field name="zip_code"/>
-                                    <field name="payee_addr" colspan="6"/>
+                                    <!--<field name="zip_code2"/>-->
+                                    <!--<field name="zip_code"/>-->
                                 </group>
                                 <group col="2">
                                     <field name="donater_ps" string="捐款者備註"/>

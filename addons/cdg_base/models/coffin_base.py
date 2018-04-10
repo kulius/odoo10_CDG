@@ -6,7 +6,7 @@ from datetime import *
 class CoffinBase(models.Model):
     _name = 'coffin.base'
     _rec_name = 'coffin_id'
-    _order = 'donate_apply_price'
+    _order = 'coffin_id desc'
     _description = u'施棺基本資料管理'
 
     name = fields.Char()
@@ -318,17 +318,6 @@ class CoffinBase(models.Model):
 
 
 
-    @api.onchange('coffin_date_group')
-    def compute_coffin_season(self):
-        if(self.coffin_date_group == 1 or self.coffin_date_group == 2 or self.coffin_date_group == 3):
-            self.coffin_season = '01'
-        elif(self.coffin_date_group == 4 or self.coffin_date_group == 5 or self.coffin_date_group == 6):
-            self.coffin_season = '02'
-        elif (self.coffin_date_group == 7 or self.coffin_date_group == 8 or self.coffin_date_group == 9):
-            self.coffin_season = '03'
-        elif (self.coffin_date_group == 10 or self.coffin_date_group == 11 or self.coffin_date_group == 12):
-            self.coffin_season = '04'
-
     @api.onchange('coffin_date', 'dead_date')
     def compare_date(self):
         if self.coffin_date < self.dead_date:
@@ -337,7 +326,16 @@ class CoffinBase(models.Model):
             self.coffin_date_year = '0' + str(datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)
         elif len(str(datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)) == 3 : # 將領款日期的年份帶入施棺期別的年份
             self.coffin_date_year = datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911
-        self.coffin_date_group = datetime.strptime(self.coffin_date, '%Y-%m-%d').month # 領款日期的月份帶入施棺期別的月份
+        # self.coffin_date_group = datetime.strptime(self.coffin_date, '%Y-%m-%d').month # 領款日期的月份帶入施棺期別的月份
+
+        if(datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 1 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 2 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 3):
+            self.coffin_date_group = 1
+        elif (datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 4 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 5 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 6):
+            self.coffin_date_group = 2
+        elif (datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 7 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 8 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 9):
+            self.coffin_date_group = 3
+        elif (datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 10 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 11 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 12):
+            self.coffin_date_group = 4
 
     @api.onchange('exception_case')
     def set_exception(self):
