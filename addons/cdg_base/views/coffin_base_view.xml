@@ -40,7 +40,7 @@
                         </div>
                         <group col="6">
                             <field name="coffin_date_year" string="施棺期別" colspan="2"/>
-                            <field name="coffin_date_group" nolabel="1" colspan="1"/>
+                            <field name="coffin_date_group"  nolabel="1" colspan="1"/>
                             <field name="finish" colspan="3"/>
                         </group>
                         <group col="6">

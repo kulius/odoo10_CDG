@@ -9,8 +9,8 @@
                     <sheet>
                         <group>
                             <field name="cashier_code"/>
-                            <field name="donate_start_date"/>
-                            <field name="donate_end_date"/>
+                            <field name="donate_id_start"/>
+                            <field name="donate_id_end"/>
                             <field name="donate_date"/>
                             <field name="key_in_user_code"/>
                         </group>

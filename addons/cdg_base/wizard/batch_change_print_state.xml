@@ -11,6 +11,7 @@
                             <field name="star_donate_id"/>
                             <field name="end_donate_id"/>
                             <field name="key_in_user"/>
+                            <field name="cashier_code"/>
                         </group>
                     </sheet>
                     <footer>
