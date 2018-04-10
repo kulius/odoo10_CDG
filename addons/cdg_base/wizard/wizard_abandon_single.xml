@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="wizard_abandon_single_form" model="ir.ui.view">
+            <field name="name">wizard abandon single form</field>
+            <field name="model">wizard.abandon.single</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h3>是否作廢捐款單?</h3>
+                    </sheet>
+
+                    <footer>
+                        <button type="object" name="set_abandon" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_wizard_abandon_single" name="戶長變更" res_model="wizard.abandon.single"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>

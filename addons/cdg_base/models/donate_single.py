@@ -424,18 +424,12 @@ class DonateSingle(models.Model):
             line.donate_family_list= str
 
     def button_to_cnacel_donate(self):
-        if self.state == 3:
-            raise ValidationError(u'本捐款單已作廢!!')
-
-        for line in self.donate_list:
-            if line.used_money != 0:
-                raise ValidationError(u'本捐款單的 %s 先生/小姐 施棺捐款 %s 元整，已支出!! 因此無法作廢或退費，感謝您的善心' % (line.donate_member.name, line.donate))
-
-        for line in self.donate_list:
-            line.state = 2
-            line.active = False
-        self.state = 3
-        self.active = False
+        single_data = self.env['wizard.abandon.single'].create({
+            'donate_single_code': self.id
+        })
+        action = self.env.ref('cdg_base.action_wizard_abandon_single').read()[0]
+        action['res_id'] = single_data.id
+        return action
 
     def change_print_state(self):
         if self.state == 3:

@@ -25,3 +25,4 @@ from . import donate_single_trans
 from . import wizard_donate_time
 from . import house_year
 from . import wizard_parent_trans
+from . import wizard_abandon_single
