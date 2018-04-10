@@ -101,9 +101,6 @@ class CoffinBase(models.Model):
             if self.donate_apply_price == self.donate_price:
                 self.finish = True
 
-
-
-
     def compute_old_data(self):
         for i in self.search([]): # 搜尋 coffin_base 的每筆資料
             r =[]
