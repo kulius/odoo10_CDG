@@ -26,3 +26,4 @@ from . import bridge_data
 from . import items_donate
 from . import old_donate_order
 from . import old_donate_single
+from . import item_name

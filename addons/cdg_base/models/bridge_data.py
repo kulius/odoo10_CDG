@@ -23,8 +23,8 @@ class BridgeData(models.Model):
     completed_date = fields.Date('完工日期')
     db_change_date = fields.Date('異動日期')
     numbers = fields.Integer('數字')
-    position_x = fields.Float('座標X')
-    position_y = fields.Float('座標Y')
+    position_x = fields.Float('座標X', digits=(2,6))
+    position_y = fields.Float('座標Y', digits=(2,6))
 
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char('輸入人員')

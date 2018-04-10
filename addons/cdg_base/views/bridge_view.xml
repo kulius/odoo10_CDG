@@ -5,13 +5,15 @@
             <field name="name">bridge data tree</field>
             <field name="model">bridge.data</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree >
                     <field name="bridge_code"/>
                     <field name="name"/>
+                    <field name="bridge_addr"/>
                     <field name="length"/>
                     <field name="width"/>
                     <field name="height"/>
-                    <field name="bridge_addr"/>
+                    <field name="position_x"/>
+                    <field name="position_y"/>
                 </tree>
             </field>
         </record>
@@ -37,7 +39,7 @@
                                     <field name="width"/><h5>公尺</h5>
                                     <field name="height"/><h5>公尺</h5>
                                 </group>
-                                <group col="4">
+                                 <group col="8">
                                     <field name="position_x"/>
                                     <field name="position_y"/>
                                 </group>
