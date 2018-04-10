@@ -33,7 +33,7 @@ class CoffinBase(models.Model):
     con_addr = fields.Char(string='受施者地址') #原通訊地址
     donater_ps = fields.Text(string='捐款者備註')
     ps = fields.Text(string='備註')
-    donate_price = fields.Integer(string='累積金額' , compute='compute_money')
+    donate_price = fields.Integer(string='累積金額')
     donate_apply_price = fields.Integer('申請金額',default=0)
     finish = fields.Boolean(string='是否結案')
     batch_donate = fields.One2many(comodel_name='coffin.donation',inverse_name='coffin_donation_id',string='捐助資料')
@@ -78,17 +78,31 @@ class CoffinBase(models.Model):
             'target': 'new',
         }
 
-    # @api.depends('batch_donate')
+    @api.onchange('batch_donate')
     def compute_money(self):
-        for line in self: # 從捐助資料表中, 計算目前的累積金額
-            if line.batch_donate and len(line.old_batch_donate) == 0:
-                for row in line.batch_donate:
-                    line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))
-            elif line.old_batch_donate and line.finish == True:
-                for row in line.old_batch_donate:
-                    line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))
-                    line.donate_apply_price = int(line.donate_price)
-        return True
+        if self.batch_donate or self.old_batch_donate:
+            basic_setting = self.env['ir.config_parameter'].search([])
+            if self.donate_apply_price == 0:  # 如果申請金額沒有填入特定的施棺滿足額, 則自動預設為基本設定檔的施棺滿足額
+                for line in basic_setting:  # 讀取基本設定檔的施棺滿足額
+                    if line.key == 'coffin_amount':
+                        self.donate_apply_price = int(line.value)
+
+            for line in self: # 從捐助資料表中, 計算目前的累積金額
+                line.donate_price = 0
+                if line.donate_apply_price == line.donate_price:
+                    raise ValidationError(u'已達施棺滿足額')
+                if line.batch_donate and len(line.old_batch_donate) == 0:
+                    for row in line.batch_donate:
+                        line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))
+                elif line.old_batch_donate and line.finish == True:
+                    for row in line.old_batch_donate:
+                        line.donate_price = int(float(line.donate_price)) + int(float(row.donate_price))
+                        line.donate_apply_price = int(line.donate_price)
+            if self.donate_apply_price == self.donate_price:
+                self.finish = True
+
+
+
 
     def compute_old_data(self):
         for i in self.search([]): # 搜尋 coffin_base 的每筆資料

@@ -40,7 +40,7 @@ class CoffinDonation(models.Model):
                 self.donate_price = Cumulative_amount # 差額寫入donate_order 的已用金額欄位
                 self.use_amount = False # 此筆捐款尚未使用完畢
             elif self.available_balance - Cumulative_amount <= 0 : # 代表此筆捐款金額無法滿足目前的施棺差額
-                self.donate_price = self.available_balance # 捐款金額的可用餘額寫入 donate_order 已用金額欄位
+                self.donate_price = self.donate_price + self.available_balance # 捐款金額的可用餘額寫入 donate_order 已用金額欄位
                 self.available_balance = 0 # 此筆金額全數支用完畢
                 self.use_amount = True # 此筆金額全數支用完畢
 
