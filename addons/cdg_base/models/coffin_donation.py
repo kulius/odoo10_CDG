@@ -31,7 +31,7 @@ class CoffinDonation(models.Model):
         if self.donate_order_id:
             if self.coffin_donation_id.coffin_date < self.donate_order_id.donate_date:
                 raise ValidationError(u'捐款者捐款日期不得晚於領款日期')
-            if self.coffin_donation_id.donate_apply_price == self.coffin_donation_id.donate_price:
+            if self.coffin_donation_id.donate_apply_price == self.coffin_donation_id.donate_price and self.coffin_donation_id.donate_apply_price != 0:
                 raise ValidationError(u'累積金額已達申請金額, 無法再配對捐助資料')
 
             Cumulative_amount = self.donate_apply_price - self.accumulated_amount # 捐款金額減掉累積金額的差額, 也就是還差多少錢可以滿30000
