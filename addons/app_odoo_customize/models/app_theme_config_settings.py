@@ -591,12 +591,12 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
     def set_last_donate_data(self):
-        sql = "SELECT MAX(donate_date), donate_member INTO search_last_order FROM donate_order WHERE donate_member IN (SELECT id FROM normal_p) GROUP BY donate_member"
-        self._cr.execute(sql)  # 篩選出所有捐款者的最後一次捐款紀錄 共 737319 筆, 花費22.049秒
+        sql = "SELECT MAX(donate_date), donate_member INTO search_last_order FROM donate_order GROUP BY donate_member"
+        self._cr.execute(sql)  # 篩選出所有捐款者的最後一次捐款紀錄 共 737710 筆, 花費55.424秒
         sql = "SELECT a.donate_id, a.donate_member, a.donate_date, a.donate, a.donate_type INTO get_last_order FROM donate_order a , search_last_order b WHERE a.donate_date = b.max AND a.donate_member = b.donate_member ORDER BY a.donate_member"
-        self._cr.execute(sql)  # 從donate_order 篩選出 資料共 812194 筆, 花費70.616秒
+        self._cr.execute(sql)  # 從donate_order 篩選出 資料共 812687 筆, 花費27.773秒
         sql = "UPDATE normal_p SET last_donate_date = a.donate_date, last_donate_type = a.donate_type, last_donate_money = a.donate FROM get_last_order a WHERE a.donate_member = normal_p.id"
-        self._cr.execute(sql) # 更新normal_p 欄位資料, 共 737315 筆, 花費15.120秒
+        self._cr.execute(sql) # 更新normal_p 欄位資料, 共 737705 筆, 花費20.733秒
         sql = "DROP TABLE search_last_order"
         self._cr.execute(sql)  # 刪除暫存表
         sql = "DROP TABLE get_last_order"
