@@ -83,7 +83,8 @@
                                     <tree editable="bottom">
                                         <field name="donate_id"/>
                                         <field name="donate_order_id"/>
-                                        <field name="donate_price"/>
+                                        <field name="donate_price" invisible = "1"/>
+                                        <field name="history_donate_records"/>
                                         <field name="donate" invisible = "1"/>
                                         <field name="use_amount" invisible = "1"/>
                                         <field name="donate_date"/>
