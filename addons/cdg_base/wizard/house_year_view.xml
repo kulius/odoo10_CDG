@@ -13,7 +13,8 @@
                         </group>
                     </sheet>
                     <footer>
-                        <button type="object" name="call_print_report" string="列印" class="oe_highlight"/>
+                        <button type="object" name="call_print_report" string="列印合併收據" class="oe_highlight"/>
+                        <button type="object" name="print_report_personal" string="列印個人收據" class="oe_highlight"/>
                         <button special="cancel" string="取消"/>
                     </footer>
                 </form>
