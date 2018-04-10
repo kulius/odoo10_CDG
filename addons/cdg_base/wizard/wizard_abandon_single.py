@@ -25,6 +25,7 @@ class WizardCashierDonor(models.Model):
                 line2.state = 2
                 line2.active = False
 
+
             line.state = 3
             line.active = False
 
