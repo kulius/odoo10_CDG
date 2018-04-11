@@ -258,11 +258,15 @@ class NormalP(models.Model):
                     donate_type = ''
 
                 if row.is_donate is False:
-                    str += u'(X %s %s %s),' % (row.name , donate_type , row.last_donate_money )
+                    str += u'(X %s %s %s),' % (row.name , donate_type , row.last_donate_money)
                 elif row.is_merge is False:
-                    sb += u'(★ %s %s %s),' % (row.name , donate_type , row.last_donate_money )
+                    sb += u'(★ %s %s %s),' % (row.name , donate_type , row.last_donate_money)
                 else:
-                    sb += u'(%s %s %s),' % (row.name , donate_type , row.last_donate_money )
+                    sb += u'(%s %s %s),' % (row.name , donate_type , row.last_donate_money)
+            if str != '':
+                str = str.rstrip(',')
+            if str == '':
+                sb = sb.rstrip(',')
             line.donate_family_list = sb+str
 
     def toggle_donate(self):

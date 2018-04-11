@@ -9,6 +9,7 @@ class memberreceiptprint(models.Model):
     pay_year = fields.Integer(string='繳費年度')
     cdg_member = fields.Many2one(comodel_name='normal.p', string='會員')
     print_user = fields.Many2one(comodel_name='res.users', string='列印人員', default=lambda self: self.env.uid)
+    print_again = fields.Boolean(string='補單')
 
     def member_receipt_print(self):
         active_ids = self.env.context.get('active_ids')
@@ -20,6 +21,7 @@ class memberreceiptprint(models.Model):
                 data = {
                     'member_id': datas.id,
                     'print_user': self.print_user.id,
+                    'print_again': self.print_again
                 }
                 return self.env['report'].get_action([], 'cdg_base.member_receipt_print', data)
         else:

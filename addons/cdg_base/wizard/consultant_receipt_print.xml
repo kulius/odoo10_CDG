@@ -9,6 +9,7 @@
                     <sheet>
                         <group>
                             <field name="pay_year"/>
+                            <field name="print_again"/>
                         </group>
                     </sheet>
                     <footer>
