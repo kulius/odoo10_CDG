@@ -7,8 +7,8 @@ class donatetotalinquire(models.Model):
     _name = 'donate.total.inquire'
     _description = u'捐款總額查詢'
 
-    star_year = fields.Char(string='捐款日期(民國年)-起')
-    end_year = fields.Char(string='捐款日期(民國年)-訖')
+    star_year = fields.Char(string='捐款年度(民國)-起')
+    end_year = fields.Char(string='捐款年度(民國)-訖')
     donate_total = fields.Integer(string='查詢金額')
 
     def inquire_donate_total(self):

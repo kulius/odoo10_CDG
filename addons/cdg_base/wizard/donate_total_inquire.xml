@@ -8,9 +8,9 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="star_year" string="捐款日期-起"/>
-                            <field name="end_year" string="捐款日期-訖"/>
-                            <field name="donate_total" string="查詢金額"/>
+                            <field name="star_year"/>
+                            <field name="end_year"/>
+                            <field name="donate_total"/>
                         </group>
                     </sheet>
                     <footer>

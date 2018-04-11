@@ -37,7 +37,7 @@ class consultantfeeinquire(models.Model):
 
     def coffin_month(self):
 
-        data = self.env['coffin.base'].search([('coffin_date','<=',self.year_end), ('coffin_date','>=',self.year_start)]).ids
+        data = self.env['coffin.base'].search([('coffin_date','<=',self.year_end), ('coffin_date','>=',self.year_start)],order="dead_date asc").ids
 
 
         docargs = {
@@ -52,7 +52,7 @@ class consultantfeeinquire(models.Model):
 
 
     def coffin_season(self):
-        data = self.env['coffin.base'].search([('coffin_date','<=',self.year_end), ('coffin_date','>=',self.year_start)]).ids
+        data = self.env['coffin.base'].search([('coffin_date','<=',self.year_end), ('coffin_date','>=',self.year_start)],order="dead_date asc").ids
         docargs = {
             'docs': data,
         }
