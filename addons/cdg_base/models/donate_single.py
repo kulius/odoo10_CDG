@@ -400,7 +400,7 @@ class DonateSingle(models.Model):
                     str += " (%s %s %s )," % (row.donate_member.name,  u'一般捐款',row.donate)
                 if row.donate_type == 99:
                     str += " (%s %s %s )," % (row.donate_member.name,  u'其他工程',row.donate)
-            line.donate_family_list= str
+            line.donate_family_list= str.rstrip(',')
 
     # 新建立捐款在眷屬列表顯示個人姓名+捐款種類+捐款金額
     def compute_family_list_create(self):
@@ -421,7 +421,7 @@ class DonateSingle(models.Model):
                     str += " (%s %s %s )," % (row.donate_member.name,  u'一般捐款',row.donate)
                 if row.donate_type == 99:
                     str += " (%s %s %s )," % (row.donate_member.name,  u'其他工程',row.donate)
-            line.donate_family_list= str
+            line.donate_family_list= str.rstrip(',')
 
     def button_to_cnacel_donate(self):
         single_data = self.env['wizard.abandon.single'].create({

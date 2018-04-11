@@ -390,6 +390,11 @@ class ReportMemberReceiptPrint(models.AbstractModel):
     @api.model
     def render_html(self, docids, data=None):
         target = self.env['associatemember.fee'].browse(data['member_id'])
+        print_again = data.get('print_again')
+        if print_again == True:
+            print_date = u'補單日期: ' + datetime.date.today().strftime('%Y-%m-%d')
+        elif print_again == False:
+            print_date = u'列印日期: ' + datetime.date.today().strftime('%Y-%m-%d')
 
         line_data = []
         for line in target:
@@ -409,7 +414,8 @@ class ReportMemberReceiptPrint(models.AbstractModel):
                 'fee_payable':line.fee_payable,
                 'price_big': money,
                 'cashier':line.cashier.name,
-                'type': u'常年會費'
+                'type': u'常年會費',
+                'print_date':print_date,
             })
 
         docargs = {
@@ -455,6 +461,11 @@ class ReportConsultantReceiptPrint(models.AbstractModel):
     @api.model
     def render_html(self, docids, data=None):
         target = self.env['consultant.fee'].browse(data['consultant_id'])
+        print_again = data.get('print_again')
+        if print_again == True:
+            print_date = u'補單日期: ' + datetime.date.today().strftime('%Y-%m-%d')
+        elif print_again == False:
+            print_date = u'列印日期: ' + datetime.date.today().strftime('%Y-%m-%d')
 
         line_data = []
         for line in target:
@@ -474,7 +485,8 @@ class ReportConsultantReceiptPrint(models.AbstractModel):
                 'fee_payable':line.fee_payable,
                 'price_big': money,
                 'cashier':line.cashier.name,
-                'type': u'顧問費'
+                'type': u'顧問費',
+                'print_date': print_date,
             })
 
         docargs = {

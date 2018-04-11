@@ -462,6 +462,7 @@
                         { "type": "str", "size": 10, "name": "繳費種類", "required": false },
                         { "type": "str", "size": 10, "name": "繳費金額", "required": false },
                         { "type": "str", "size": 10, "name": "年份", "required": false },
+                        { "type": "str", "size": 20, "name": "列印日期", "required": false },
                     ],
                     "Data":[ ]
                 };
@@ -482,6 +483,7 @@
                         "繳費種類":"<t t-esc="o['type']"/>",
                         "繳費金額":"<t t-esc="o['fee_payable']"/>"+"元",
                         "年份":"民國"+"<t t-esc="o['year']"/>"+" 年",
+                        "列印日期":"<t t-esc="o['print_date']"/>"
                     });
 
                 </t>
