@@ -30,6 +30,7 @@
                   <t t-set="print_once" t-value="1"></t>
                   <t t-set="print_block" t-value="0"></t>
                   <t t-foreach="docs.sorted(key=lambda b: b.new_coding)" t-as="data">
+                      <t t-set="donate_family_number" t-value="1"></t>
                       <t t-if=" data.donate_family1">
                           <t t-if="print_once == 1">
                             <strong>
@@ -40,24 +41,36 @@
                                 <t t-set="print_once" t-value="2"></t>
                             </strong>
                           </t>
-
-                          <div style="margin:5px;">
+                        <t t-if="data.is_donate == True">
+                          <div style="margin:12px 0px 12px 0px;">
                             <h4 style="display:inline;"><t t-esc= "data.new_coding"/>(<t t-esc= "data.w_id"/>)</h4>
                             <h3 style="display:inline;margin-left:85px;">(<t t-esc= "data.zip"/>)<t t-esc= "data.rec_addr"/></h3>
                             <t t-set="print_block" t-value="print_block + 1"/>
                           </div>
+                        </t>
+
+
 
                         <t t-foreach="data.donate_family1" t-as="familyname">
-                            <t t-if="familyname.is_donate">
+
+                            <t t-if="familyname.is_donate == True">
                                 <div>
                                     <t t-if="len(familyname.name) &lt; 7">
                                         <t t-if="len(data.donate_family1) == 1">
                                             <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                            <t t-if="donate_family_number == 1">
+                                               <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', familyname.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                               <t t-set="donate_family_number" t-value="2"></t>
+                                            </t>
                                         </t>
                                         <t t-else="">
                                              <t t-if="familyname.is_merge == True">
                                                 <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
-                                              </t>
+                                                 <t t-if="donate_family_number == 1">
+                                                   <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', familyname.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                                   <t t-set="donate_family_number" t-value="2"></t>
+                                                 </t>
+                                             </t>
                                              <t t-else="">
                                                  <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
                                              </t>
@@ -66,10 +79,18 @@
                                     <t t-elif="len(familyname.name) &gt; 10">
                                         <t t-if="len(data.donate_family1.ids) == 1">
                                             <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                            <t t-if="donate_family_number == 1">
+                                               <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', familyname.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                               <t t-set="donate_family_number" t-value="2"></t>
+                                            </t>
                                         </t>
                                         <t t-else="">
                                             <t t-if="familyname.is_merge == True">
                                                 <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                                <t t-if="donate_family_number == 1">
+                                                   <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', familyname.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                                   <t t-set="donate_family_number" t-value="2"></t>
+                                                </t>
                                               </t>
                                              <t t-else="">
                                                  <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
@@ -83,7 +104,7 @@
                                                     <br></br>
                                                     <br></br>
                                                     <t t-set="print_block" t-value="print_block + 1"/>
-                                                    <t t-if="print_block == 22">
+                                                    <t t-if="print_block == 21">
                                                         <div style="page-break-after:always"></div>
                                                         <t t-set="print_block" t-value="1"></t>
                                                     </t>

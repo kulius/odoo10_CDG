@@ -303,8 +303,8 @@
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="name"/>
                     <field name="new_coding"/>
+                    <field name="name"/>
                     <field name="w_id"/>
                     <field name="con_phone"/>
                     <field name="cellphone"/>

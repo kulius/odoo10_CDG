@@ -6,7 +6,7 @@ class CashierBase(models.Model):
     _name = 'cashier.base'
     _description = u'收費員基本資料管理'
 
-    c_id = fields.Char(string='收費員編號')
+    c_id = fields.Char(string='收費員編號',readonly=1)
     name = fields.Char(string='收費員姓名')
     build_date = fields.Date(string='建檔日期')
     self_iden = fields.Char(string='身分證字號')
@@ -23,6 +23,12 @@ class CashierBase(models.Model):
     normal_cash = fields.Many2many(comodel_name='normal.p',string='捐款人繳費名冊')
     member_cash = fields.Many2many(comodel_name='normal.p',string='會員繳費名冊')
     consultant_cash = fields.Many2many(comodel_name='normal.p',string='顧問繳費名冊')
+
+    @api.model
+    def create(self,vals):
+        res_id = super(CashierBase, self).create(vals)
+        res_id.c_id = self.env['ir.sequence'].next_by_code('cashier.base')
+        return res_id
 
     def donater_register(self):
         number = 0
