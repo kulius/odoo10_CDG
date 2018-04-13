@@ -361,6 +361,24 @@
                   groups="cdg_manager"
         />
 
+        <menuitem id="cashier_payment_member"
+                  name="收費員會員名冊"
+                  parent="cashier_manage_categ"
+                  action="action_wizard_member_block"
+                  sequence=""
+                  groups="cdg_manager"
+        />
+
+        <menuitem id="cashier_payment_consultant"
+                  name="收費員顧問名冊"
+                  parent="cashier_manage_categ"
+                  action="action_wizard_consultant_block"
+                  sequence=""
+                  groups="cdg_manager"
+        />
+
+
+
         <!--<menuitem id="old_data_root" name="舊案查詢" sequence="9"/>-->
         <!--<menuitem id="old_data_cate"-->
                   <!--name="舊案查詢"-->
