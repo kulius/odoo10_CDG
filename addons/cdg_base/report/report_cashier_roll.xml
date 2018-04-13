@@ -231,6 +231,7 @@
                                         <div style="margin-left:10px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "data.name"/></div>
                                         <br></br>
                                     </t>
+
                                         <t t-foreach="block_num" t-as="num_block">
                                                 <div style="float:right;display:inline-block;padding:20px;margin:5px;border: solid 2px black;"></div>
                                                 <t t-if="num_block % 6 == 5">
