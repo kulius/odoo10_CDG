@@ -26,7 +26,7 @@
          <template id="receipt_cashier_roll_donor_template">
             <t t-call="report.html_container">
 
-                <div class="page" style="margin:0px;padding:0px;">
+                <div class="page" style="margin-left:80px;padding:0px;">
                   <t t-set="print_once" t-value="1"></t>
                   <t t-set="print_block" t-value="0"></t>
                   <t t-foreach="docs.sorted(key=lambda b: b.new_coding)" t-as="data">
@@ -139,7 +139,7 @@
         <template id="receipt_cashier_roll_member_template">
             <t t-call="report.html_container">
 
-                 <div class="page" style="margin:0px;padding:0px;">
+                 <div class="page" style="margin:40px;padding:0px;">
                   <t t-set="print_once" t-value="1"></t>
                   <t t-set="print_block" t-value="0"></t>
                   <t t-foreach="docs" t-as="data">
@@ -178,7 +178,7 @@
                                                     </t>
                                                     <t t-set="print_block" t-value="print_block + 1"/>
 
-                                                      <t t-if="print_block == 16">
+                                                      <t t-if="print_block == 24">
                                                         <div style="page-break-after:always"></div>
                                                         <t t-set="print_block" t-value="1"></t>
                                                     </t>
@@ -199,7 +199,7 @@
 
         <template id="receipt_cashier_roll_consultant_template">
             <t t-call="report.html_container">
-                  <div class="page" style="margin:0px;padding:0px;">
+                  <div class="page" style="margin:40px;padding:0px;">
                   <t t-set="print_once" t-value="1"></t>
                   <t t-set="print_block" t-value="0"></t>
                   <t t-foreach="docs" t-as="data">
@@ -241,7 +241,7 @@
                                                         <br></br>
                                                     </t>
                                                     <t t-set="print_block" t-value="print_block + 1"/>
-                                                    <t t-if="print_block == 21">
+                                                    <t t-if="print_block == 20">
                                                         <div style="page-break-after:always"></div>
                                                         <t t-set="print_block" t-value="1"></t>
                                                     </t>
