@@ -28,6 +28,12 @@ class MemberFeeOnly(models.Model):
     key_in_user2 = fields.Char(string='輸入人員', related='key_in_user.name', readonly =True)
     temp_key_in_user = fields.Char(string='temp_輸入人員')
 
+    @api.multi
+    def write(self,vals):
+      res_id = super(MemberFeeOnly,self).write(vals)
+      self.normal_p_id.last_member_payment_date = self.fee_date
+      return res_id
+
     @api.onchange('normal_p_id')
     def set_base_fee(self):
         basic_setting = self.env['ir.config_parameter'].search([])
@@ -49,9 +55,13 @@ class MemberFeeOnly(models.Model):
         self.cashier = self.normal_p_id.cashier_name.id
 
 
+
     @api.onchange('fee_date')
     def set_fee_date(self):
         self.key_in_user = self.env.uid
+        self.normal_p_id.last_member_payment_date = self.fee_date
+        print 'YES'
+
         # self.normal_p_id.update({
         #     'member_pay_history':[1,self.id,{
         #         'key_in_user': self.env.uid

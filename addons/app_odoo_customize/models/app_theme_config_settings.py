@@ -759,6 +759,8 @@ class AppThemeConfigSettings(models.TransientModel):
         # 全程花費約 40 分鐘
         return True
 
+
+
     def set_consultant_data(self): # 轉顧問檔資料進normal.p, 顧問檔共131筆資料
         sql = "INSERT INTO normal_p(name , con_addr) SELECT 姓名, 戶籍通訊地址 FROM 新顧問檔 EXCEPT SELECT name, con_addr FROM normal_p"
         self._cr.execute(sql) #  轉入資料共130 筆, 花費5.583秒
@@ -1501,5 +1503,23 @@ class AppThemeConfigSettings(models.TransientModel):
                "('連江縣', '北竿鄉', '210')," \
                 "('連江縣', '莒光鄉', '211')," \
                 "('連江縣', '東引鄉', '212')"
+        self._cr.execute(sql)
+        return True
+
+    def set_member_last_payment_time(self):
+        sql = "SELECT MAX(fee_date) as fee_donate,normal_p_id into last_member_payment from associatemember_fee GROUP BY normal_p_id"
+        self._cr.execute(sql)
+        sql = "Update normal_p set last_member_payment_date = a.fee_donate FROM last_member_payment a where a.normal_p_id  =  normal_p.id"
+        self._cr.execute(sql)
+        sql = "DROP TABLE last_member_payment"
+        self._cr.execute(sql)
+        return True
+
+    def set_consultant_last_payment_time(self):
+        sql = "SELECT MAX(fee_date) as fee_donate,normal_p_id into last_consultant_payment from consultant_fee GROUP BY normal_p_id"
+        self._cr.execute(sql)
+        sql = "Update normal_p set last_consultant_payment_date = a.fee_donate FROM last_consultant_payment a where a.normal_p_id  =  normal_p.id"
+        self._cr.execute(sql)
+        sql = "DROP TABLE last_consultant_payment"
         self._cr.execute(sql)
         return True

@@ -27,6 +27,12 @@ class ConsultantFeeOnly(models.Model):
     key_in_user2 = fields.Char(string='輸入人員', related='key_in_user.name', readonly=True)
     temp_key_in_user = fields.Char(string='temp_輸入人員')
 
+    @api.multi
+    def write(self,vals):
+        res_id = super(ConsultantFeeOnly,self).write(vals)
+        self.normal_p_id.last_consultant_payment_date =  self.fee_date
+        return res_id
+
     @api.onchange('normal_p_id')
     def set_base_fee(self):
         basic_setting = self.env['ir.config_parameter'].search([])

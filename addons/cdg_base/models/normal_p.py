@@ -2,6 +2,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import *
+import time
 import logging
 
 # 一般人基本檔 團員 會員 收費員 顧問
@@ -99,6 +100,8 @@ class NormalP(models.Model):
     is_delete = fields.Boolean(string='未有捐款紀錄', default = False)
 
     last_donate_date = fields.Date('上次捐款日期')
+    last_member_payment_date = fields.Date('上次會員繳費日期')
+    last_consultant_payment_date = fields.Date('上次顧問繳費日期')
     last_donate_type = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (05, '貧困扶助'),(06, '一般捐款')],string='捐款種類')
     last_donate_money = fields.Integer('上次捐款金額')
     donate_batch_setting = fields.Boolean(string='確認捐款', default = False)
@@ -615,6 +618,7 @@ class NormalP(models.Model):
                     'w_id': old_member_code.w_id
                 })
         return res_id
+
 
 # class DonateFamily(models.Model):
 #     _name = 'donate.family'
