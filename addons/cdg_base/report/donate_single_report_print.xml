@@ -162,9 +162,14 @@
                             "住址":"[收據不寄送]"+ "<t t-esc="o.title_donate.rec_addr"/>",
                         </t>
                         "捐款日期":"<t t-esc="o.title_doante_date"/>",
-                        "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
+                        <t t-if="o.title_donate.w_id == False">
+                            "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
+                        </t>
+                        <t t-else="">
+                            "團員編號":"(" + "<t t-esc="o.title_donate.w_id"/>" + ") " + "<t t-esc="o.title_donate.new_coding"/>",
+                        </t>
                         "經手人":"<t t-esc="o.key_in_user.name"/>",
-                        "收費員":"<t t-esc="o.work_id.name"/>",
+                        "收費員":"<t t-esc="o.work_id.c_id"/>" + "<t t-esc="o.work_id.name"/>",
                         "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
                         "捐款總額":"<t t-esc="o.title_total_price"/>",
                         "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
@@ -251,9 +256,14 @@
                                     "住址":"[收據不寄送]"+ "<t t-esc="o.title_donate.rec_addr"/>",
                                 </t>
                                 "捐款日期":"<t t-esc="o.title_doante_date"/>",
-                                "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
+                                <t t-if="o.title_donate.w_id == False">
+                                    "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
+                                </t>
+                                <t t-else="">
+                                    "團員編號":"(" + "<t t-esc="o.title_donate.w_id"/>" + ") " + "<t t-esc="o.title_donate.new_coding"/>",
+                                </t>
                                 "經手人":"<t t-esc="o.key_in_user.name"/>",
-                                "收費員":"<t t-esc="o.work_id.name"/>",
+                                "收費員":"<t t-esc="o.work_id.c_id"/>" + "<t t-esc="o.work_id.name"/>",
                                 "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
                                 "捐款總額":"<t t-esc="o.title_total_price"/>",
                                 "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",
@@ -337,9 +347,14 @@
                             "住址":"[收據不寄送]"+ "<t t-esc="o.title_donate.rec_addr"/>",
                         </t>
                         "捐款日期":"<t t-esc="o.title_doante_date"/>",
-                        "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
+                        <t t-if="o.title_donate.w_id == False">
+                            "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
+                        </t>
+                        <t t-else="">
+                            "團員編號":"(" + "<t t-esc="o.title_donate.w_id"/>" + ") " + "<t t-esc="o.title_donate.new_coding"/>",
+                        </t>
                         "經手人":"<t t-esc="o.key_in_user.name"/>",
-                        "收費員":"<t t-esc="o.work_id.name"/>",
+                        "收費員":"<t t-esc="o.work_id.c_id"/>" + "<t t-esc="o.work_id.name"/>",
                         "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
                         "捐款總額":"<t t-esc="o.title_total_price"/>",
                         "是否合併收據":"<t t-esc="1"/>",
@@ -364,7 +379,7 @@
                         "捐款日期":"<t t-esc="o.title_doante_date"/>",
                         "團員編號":"<t t-esc="o.title_donate.new_coding"/>",
                         "經手人":"<t t-esc="o.key_in_user.name"/>",
-                        "收費員":"<t t-esc="o.work_id.name"/>",
+                        "收費員":"<t t-esc="o.work_id.c_id"/>" + "<t t-esc="o.work_id.name"/>",
                         "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
                         "捐款總額":"<t t-esc="o.title_total_price"/>",
                         "是否合併收據":"<t t-esc="o.title_donate.id"/>",
