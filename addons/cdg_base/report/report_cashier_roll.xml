@@ -55,21 +55,27 @@
 
                             <t t-if="familyname.is_donate == True">
                                 <div>
-                                    <t t-if="len(familyname.name) &lt; 7">
+                                    <t t-if="len(familyname.name) &lt; 11">
                                         <t t-if="len(data.donate_family1) == 1">
-                                            <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
                                             <t t-if="donate_family_number == 1">
-                                               <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', familyname.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                               <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', data.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                                <div style="margin-left:96px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
                                                <t t-set="donate_family_number" t-value="2"></t>
+                                            </t>
+                                            <t t-elif="donate_family_number != 1">
+                                                <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
                                             </t>
                                         </t>
                                         <t t-else="">
                                              <t t-if="familyname.is_merge == True">
-                                                <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
-                                                 <t t-if="donate_family_number == 1">
-                                                   <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', familyname.new_coding, 600, 100)" style="width:150px;height:30px"/>
-                                                   <t t-set="donate_family_number" t-value="2"></t>
-                                                 </t>
+                                                  <t t-if="donate_family_number == 1">
+                                                       <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', data.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                                        <div style="margin-left:96px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                                       <t t-set="donate_family_number" t-value="2"></t>
+                                                    </t>
+                                                    <t t-elif="donate_family_number != 1">
+                                                        <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                                    </t>
                                              </t>
                                              <t t-else="">
                                                  <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
@@ -78,19 +84,25 @@
                                     </t>
                                     <t t-elif="len(familyname.name) &gt; 10">
                                         <t t-if="len(data.donate_family1.ids) == 1">
-                                            <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
-                                            <t t-if="donate_family_number == 1">
-                                               <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', familyname.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                             <t t-if="donate_family_number == 1">
+                                               <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', data.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                               <div style="margin-left:0px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
                                                <t t-set="donate_family_number" t-value="2"></t>
+                                            </t>
+                                            <t t-elif="donate_family_number != 1">
+                                                <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
                                             </t>
                                         </t>
                                         <t t-else="">
                                             <t t-if="familyname.is_merge == True">
-                                                <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
-                                                <t t-if="donate_family_number == 1">
-                                                   <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', familyname.new_coding, 600, 100)" style="width:150px;height:30px"/>
-                                                   <t t-set="donate_family_number" t-value="2"></t>
-                                                </t>
+                                               <t t-if="donate_family_number == 1">
+                                               <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', data.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                               <div style="margin-left:0px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                               <t t-set="donate_family_number" t-value="2"></t>
+                                            </t>
+                                            <t t-elif="donate_family_number != 1">
+                                                <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
+                                            </t>
                                               </t>
                                              <t t-else="">
                                                  <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
@@ -104,7 +116,7 @@
                                                     <br></br>
                                                     <br></br>
                                                     <t t-set="print_block" t-value="print_block + 1"/>
-                                                    <t t-if="print_block == 21">
+                                                    <t t-if="print_block == 20">
                                                         <div style="page-break-after:always"></div>
                                                         <t t-set="print_block" t-value="1"></t>
                                                     </t>
@@ -147,22 +159,32 @@
                           </div>
                                 <div>
                                     <t t-if="len(data.name) &lt; 7">
-                                        <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "data.name"/></div>
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', data.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                        <div style="margin-left:35px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "data.name"/></div>
                                     </t>
                                     <t t-elif="len(data.name) &gt; 10">
-                                        <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "data.name"/></div>
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', data.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                        <div style="margin-left:20px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "data.name"/></div>
                                     </t>
                                         <t t-foreach="block_num" t-as="num_block">
                                                 <div style="float:right;display:inline-block;padding:20px;margin:5px;border: solid 2px black;"></div>
                                                 <t t-if="num_block % 6 == 5">
                                                     <br></br>
                                                     <br></br>
+                                                    <t t-if="len(data.name) &gt; 20">
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+                                                    </t>
                                                     <t t-set="print_block" t-value="print_block + 1"/>
-                                                    <t t-if="print_block == 22">
+
+                                                      <t t-if="print_block == 16">
                                                         <div style="page-break-after:always"></div>
                                                         <t t-set="print_block" t-value="1"></t>
                                                     </t>
-                                                    <t t-elif="num_block - 1 == block_num">
+
+
+                                                    <t t-if="num_block - 1 == block_num">
                                                         <t t-set="print_block" t-value="1"></t>
                                                     </t>
                                                 </t>
@@ -190,25 +212,35 @@
                                 <t t-set="print_once" t-value="2"></t>
                             </strong>
                           </t>
-                          <div style="margin:5px;">
+                          <div style="margin:12px 0px 12px 0px;">
                             <h4 style="display:inline;"><t t-esc= "data.new_coding"/>(<t t-esc= "data.w_id"/>)</h4>
                             <h3 style="display:inline;margin-left:85px;">(<t t-esc= "data.zip"/>)<t t-esc= "data.rec_addr"/></h3>
                             <t t-set="print_block" t-value="print_block + 1"/>
                           </div>
                                 <div>
                                     <t t-if="len(data.name) &lt; 7">
-                                        <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "data.name"/></div>
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', data.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                        <div style="margin-left:40px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "data.name"/></div>
                                     </t>
-                                    <t t-elif="len(data.name) &gt; 10">
-                                        <div style="margin-left:50px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "data.name"/></div>
+                                    <t t-elif="len(data.name) &gt; 10 and len(data.name) &lt; 20">
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', data.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                        <div style="margin-left:40px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "data.name"/></div>
+                                    </t>
+                                    <t t-elif="len(data.name) &gt; 20">
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', data.new_coding, 600, 100)" style="width:150px;height:30px"/>
+                                        <div style="margin-left:10px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "data.name"/></div>
+                                        <br></br>
                                     </t>
                                         <t t-foreach="block_num" t-as="num_block">
                                                 <div style="float:right;display:inline-block;padding:20px;margin:5px;border: solid 2px black;"></div>
                                                 <t t-if="num_block % 6 == 5">
                                                     <br></br>
                                                     <br></br>
+                                                    <t t-if="len(data.name) &gt; 20">
+                                                        <br></br>
+                                                    </t>
                                                     <t t-set="print_block" t-value="print_block + 1"/>
-                                                    <t t-if="print_block == 22">
+                                                    <t t-if="print_block == 21">
                                                         <div style="page-break-after:always"></div>
                                                         <t t-set="print_block" t-value="1"></t>
                                                     </t>
