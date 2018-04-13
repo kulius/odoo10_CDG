@@ -95,14 +95,14 @@
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="name"/>
                     <field name="new_coding"/>
                     <field name="w_id"/>
+                    <field name="consultant_id" string="舊顧問編號"/>
+                    <field name="name"/>
                     <field name="con_phone"/>
                     <field name="cellphone"/>
                     <field name="zip"/>
                     <field name="rec_addr"/>
-                    <field name="consultant_id" string="舊顧問編號"/>
                 </search>
             </field>
         </record>

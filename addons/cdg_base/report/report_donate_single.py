@@ -97,16 +97,21 @@ class ReportDonateSingleMerge(models.AbstractModel):
                 }
                 order_doc.append(order_temp)
             line.report_price_big = self.convert(line.donate_total)
+            donor_code = ''
+            if line.donate_member.w_id == False:
+                donor_code = line.donate_member.new_coding
+            else:
+                donor_code = "%s (%s)" % (line.donate_member.new_coding, line.donate_member.w_id)
             temp = {
                 'donate_id': line.donate_id,
                 'donate_member': line.donate_member.name,
                 'zip':line.zip,
                 'rec_addr': line.rec_addr,
-                'new_coding': line.donate_member.new_coding,
+                'new_coding': donor_code,
                 'donate_date': line.donate_date,
                 'donate_total': line.donate_total,
                 'key_in_user': line.key_in_user.name,
-                'work_id': line.work_id.name,
+                'work_id': line.work_id.c_id + line.work_id.name,
                 'report_price_big': line.report_price_big,
                 'print_date': line.print_date,
                 'state': line.state,
@@ -400,6 +405,11 @@ class ReportMemberReceiptPrint(models.AbstractModel):
         for line in target:
             # 金額大寫寫在這裡
             money = self.convert(line.fee_payable)
+            donor_code = ''
+            if line.normal_p_id.member_id == False:
+                donor_code = line.normal_p_id.new_coding
+            else:
+                donor_code = "%s (%s)" % (line.normal_p_id.new_coding, line.normal_p_id.member_id)
             line_data.append({
                 'member_name': line.member_name,
                 'pay_date': line.fee_date,
@@ -409,11 +419,11 @@ class ReportMemberReceiptPrint(models.AbstractModel):
                 'cashier': line.cashier.name,
                 'zip': line.zip,
                 'rec_addr':line.rec_addr,
-                'new_coding': line.member_code,
+                'new_coding': donor_code,
                 'key_in_user': line.key_in_user.name,
                 'fee_payable':line.fee_payable,
                 'price_big': money,
-                'cashier':line.cashier.name,
+                'cashier':line.cashier.c_id + line.cashier.name,
                 'type': u'常年會費',
                 'print_date':print_date,
             })
@@ -471,6 +481,11 @@ class ReportConsultantReceiptPrint(models.AbstractModel):
         for line in target:
             # 金額大寫寫在這裡
             money = self.convert(line.fee_payable)
+            donor_code = ''
+            if line.normal_p_id.consultant_id == False:
+                donor_code = line.normal_p_id.new_coding
+            else:
+                donor_code = "%s (%s)" % (line.normal_p_id.new_coding, line.normal_p_id.consultant_id)
             line_data.append({
                 'member_name': line.consultant_name,
                 'pay_date': line.fee_date,
@@ -480,11 +495,11 @@ class ReportConsultantReceiptPrint(models.AbstractModel):
                 'cashier': line.cashier.name,
                 'zip':line.zip,
                 'rec_addr':line.rec_addr,
-                'new_coding': line.member_code,
+                'new_coding': donor_code,
                 'key_in_user': line.key_in_user.name,
                 'fee_payable':line.fee_payable,
                 'price_big': money,
-                'cashier':line.cashier.name,
+                'cashier':line.cashier.c_id + line.cashier.name,
                 'type': u'顧問費',
                 'print_date': print_date,
             })
