@@ -252,6 +252,7 @@ class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
             tmp_id = report_line.create({
                 'title_donate': line.donate_member.id,
                 'title_doante_code': line.donate_id,
+                'title_doante_date': line.donate_date,
                 'key_in_user': line.key_in_user.id,
                 'work_id': line.cashier.id,
                 'title_state': line.donate_list_id.state,
@@ -264,8 +265,8 @@ class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
                 'donate_type': line.donate_type,
                 'donate_price': line.donate
             }])
-            for line in target:
-                tmp_id.write({'title_doante_date': line.donate_date,'title_work_id': line.work_id.name,'title_Make_up_date': datetime.date.today()})
+            for lines in target:
+                tmp_id.write({'title_work_id': lines.work_id.name,'title_Make_up_date': datetime.date.today()})
 
             tmp_id.write({
                 'donate_line': line_data
