@@ -43,7 +43,7 @@ class NormalP(models.Model):
     ps = fields.Text(string='備註')
     habbit_donate = fields.Selection(selection=[(01, '造橋'), (02, '補路'), (03, '施棺'), (04, '伙食費'), (05, '貧困扶助'),(06, '一般捐款'), (99, '其他工程')],
                                      string='喜好捐款')
-    cashier_name = fields.Many2one(comodel_name='cashier.base', string='收費員姓名', ondelete='cascade')
+    cashier_name = fields.Many2one(comodel_name='cashier.base', string='收費員姓名', ondelete='cascade', index = True)
     temp_cashier_name = fields.Char(string='收費員姓名_temp')
     donate_cycle = fields.Selection(selection=[('03', '季繳'), ('06', '半年繳'), ('12', '年繳')], string='捐助週期')
     rec_type = fields.Selection(selection=[(1, '正常'), (2, '年收據')], string='收據狀態')

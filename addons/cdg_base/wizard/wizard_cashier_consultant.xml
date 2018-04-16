@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="wizard_member_donor_form" model="ir.ui.view">
+        <record id="wizard_consultant_donor_form" model="ir.ui.view">
             <field name="name">wizard cashier consultant block form</field>
             <field name="model">wizard.cashier.consultant</field>
             <field name="arch" type="xml">

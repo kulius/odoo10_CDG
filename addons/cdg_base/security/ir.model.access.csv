@@ -44,6 +44,8 @@ access_wizard_donate_time,access_wizard_donate_time,model_wizard_donate_time,cdg
 access_wizard_parent_trans,access_wizard_parent_trans,model_wizard_parent_trans,cdg_base.cdg_manager,1,1,1,1
 access_items_name,access_items_name,model_items_name,cdg_base.cdg_manager,1,1,1,1
 access_wizard_abandon_single,access_wizard_abandon_single,model_wizard_abandon_single,cdg_base.cdg_manager,1,1,1,1
+access_wizard_cashier_member,access_wizard_cashier_member,model_wizard_cashier_member,cdg_base.cdg_manager,1,0,0,0
+access_wizard_cashier_consultant,access_wizard_cashier_consultant,model_wizard_cashier_consultant,cdg_base.cdg_manager,1,0,0,0
 
 access_house_year,access_house_year,model_house_year,cdg_base.cdg_manager,1,1,1,1
 access_report_cdg_base_house_year,access_report_cdg_base_house_year,model_report_cdg_base_house_year,cdg_base.cdg_manager,1,1,1,1

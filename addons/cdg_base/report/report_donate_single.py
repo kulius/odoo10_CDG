@@ -18,7 +18,7 @@ class DonateSingleReport(models.Model):
     title_total_price = fields.Integer(string='捐款總金額', compute='compute_price', store=True)
     title_total_price_big = fields.Char(string='金額大寫', compute='compute_price', store=True)
     title_year_fee = fields.Integer(string='年繳')
-    key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]},default=lambda self: self.env.uid)
+    key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]})
     work_id = fields.Many2one(comodel_name='cashier.base', string='收費員', states={2: [('readonly', True)]})
 
     @api.depends('donate_line')
@@ -190,6 +190,7 @@ class ReportDonateSinglePersonal(models.AbstractModel):
                 'title_donate': line.donate_member.id,
                 'title_doante_code': line.donate_id,
                 'title_doante_date':line.donate_date,
+                'key_in_user':line.key_in_user.id,
                 'work_id': line.cashier.id,
                 'title_Make_up_date': datetime.date.today(),
                 'title_state':line.donate_list_id.state,
@@ -251,6 +252,7 @@ class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
             tmp_id = report_line.create({
                 'title_donate': line.donate_member.id,
                 'title_doante_code': line.donate_id,
+                'key_in_user': line.key_in_user.id,
                 'work_id': line.cashier.id,
                 'title_state': line.donate_list_id.state,
                 'title_year_fee': single_state
@@ -324,6 +326,7 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 tmp_id = report_line.create({
                     'title_donate': row.donate_member.id,
                     'title_doante_code': row.donate_id,
+                    'key_in_user': line.key_in_user.id,
                     'work_id': row.work_id.id,
                     'title_doante_date': row.donate_date,
                     'title_work_id': row.work_id.name,
@@ -357,11 +360,12 @@ class ReportDonateSingleDefault(models.AbstractModel):
                 not_merge_tmp_id = report_line.create({
                     'title_donate': line.donate_member.id,
                     'title_doante_code': line.donate_id,
+                    'key_in_user': line.key_in_user.id,
                     'work_id': line.cashier.id,
                     'title_doante_date': line.donate_date,
                     'title_work_id': line.cashier.name,
                     'title_Make_up_date': datetime.date.today(),
-                    'title_state': line.state,
+                    'title_state': row.state,
                     'title_year_fee': single_state
                 })
                 line_data = []

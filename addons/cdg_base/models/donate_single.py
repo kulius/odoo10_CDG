@@ -560,9 +560,9 @@ class DonateSingleLine(models.Model):
     _name = 'donate.family.line'
     _order = 'sequence'
 
-    parent_id = fields.Many2one(comodel_name='donate.single')
+    parent_id = fields.Many2one(comodel_name='donate.single', index = True)
     family_new_coding = fields.Char(string='捐款者編號',related='donate_member.new_coding', readonly=True)
-    donate_member = fields.Many2one(comodel_name='normal.p', string='捐款人')
+    donate_member = fields.Many2one(comodel_name='normal.p', string='捐款人', index = True)
     is_donate = fields.Boolean(string='是否捐助', related='donate_member.is_donate')
     is_merge = fields.Boolean(string='是否合併收據', related='donate_member.is_merge')
 
