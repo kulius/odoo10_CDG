@@ -66,6 +66,8 @@ class WizardDonate(models.Model):
                         elif row.last_donate_type == 6:
                             self.noassign_money = row.last_donate_money
                             self.noassign = True
+                        elif row.last_donate_type == False:
+                            raise ValidationError(u'%s的捐款項目不能為空' % line.name)
                         else:
                             self.bridge_money = 0
                             self.road_money = 0
