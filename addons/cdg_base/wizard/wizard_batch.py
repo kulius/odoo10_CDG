@@ -41,7 +41,7 @@ class WizardDonate(models.Model):
         order = self.env['donate.single']
         res = []
         res_line = []
-        if self.payment_method is not 1 and self.payment_method is not 2 and self.payment_method is not 3 and self.payment_method is not 4:
+        if self.payment_method is not 1 and self.payment_method is not 2 and self.payment_method is not 3 and self.payment_method is not 4 and self.payment_method is not 5:
             raise ValidationError(u'支付方法至少選取一個')
         if self.work_id.name is False:
             raise ValidationError(u'必須選取收費員')
