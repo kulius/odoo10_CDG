@@ -404,7 +404,7 @@ class ReportMemberReceiptPrint(models.AbstractModel):
         if print_again == True:
             print_date = u'補單日期: ' + datetime.date.today().strftime('%Y-%m-%d')
         elif print_again == False:
-            print_date = u'列印日期: ' + datetime.date.today().strftime('%Y-%m-%d')
+            print_date = ''
 
         line_data = []
         for line in target:
@@ -480,7 +480,7 @@ class ReportConsultantReceiptPrint(models.AbstractModel):
         if print_again == True:
             print_date = u'補單日期: ' + datetime.date.today().strftime('%Y-%m-%d')
         elif print_again == False:
-            print_date = u'列印日期: ' + datetime.date.today().strftime('%Y-%m-%d')
+            print_date = ''
 
         line_data = []
         for line in target:
