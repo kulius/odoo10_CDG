@@ -29,5 +29,5 @@ class PoorBase(models.Model):
         else:
             res_id.case_id = res_id.case_date[0:4] + res_id.case_date.split('-')[1]
 
-        return  res_id
+        return res_id
 

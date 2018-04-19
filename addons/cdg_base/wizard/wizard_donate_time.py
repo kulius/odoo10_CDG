@@ -17,7 +17,7 @@ class WizardCashierDonor(models.Model):
 
         for line in data:
             line.donate_date = self.donate_date
-            for line2 in data.donate_list:
+            for line2 in line.donate_list:
                 line2.donate_date = self.donate_date
 
 
