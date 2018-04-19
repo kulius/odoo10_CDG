@@ -211,7 +211,7 @@ class BridgeData(models.Model):
             raise ValidationError(u'橋樑名稱不得為空')
 
         # res_id.bridge_code = self.env['ir.sequence'].next_by_code('bridge.data')
-        # res_id.key_in_user = self.env.uid
+        res_id.key_in_user = self.env.uid
         return res_id
 
     @api.onchange('bridge_code')

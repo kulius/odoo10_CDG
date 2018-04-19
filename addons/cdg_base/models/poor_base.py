@@ -15,9 +15,6 @@ class PoorBase(models.Model):
     rec_addr = fields.Char(string='收據寄送地址')
     zip_code = fields.Char(string='報表郵遞區號')
     con_addr = fields.Char(string='報表寄送地址')
-
-
-
     case_date = fields.Date('案件日期',default=datetime.today())
 
     @api.model
