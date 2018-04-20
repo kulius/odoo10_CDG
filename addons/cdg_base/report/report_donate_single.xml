@@ -25,6 +25,14 @@
                 report_type="qweb-html"
                 name="cdg_base.donate_single_default"
                 file="cdg_base.donate_single_default"/>
+
+        <!--<report id="action_test_receipt"-->
+                <!--model="donate.single"-->
+                <!--string="測試收據"-->
+                <!--report_type="qweb-html"-->
+                <!--name="cdg_base.receipt_test"-->
+                <!--file="cdg_base.receipt_test"/>-->
+
         <report id="action_receipt_member_fee"
                 model="associatemember.fee"
                 string="會費收據"

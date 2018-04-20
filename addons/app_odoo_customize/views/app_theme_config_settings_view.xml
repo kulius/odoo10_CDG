@@ -230,7 +230,18 @@
                              <button string="匯入會員繳費的最後日期" type="object" name="set_member_last_payment_time" class="oe_highlight"/>
                             |
                              <button string="匯入顧問繳費的最後日期" type="object" name="set_consultant_last_payment_time" class="oe_highlight"/>
+                            |
                         </div>
+                        <label string="捐款者轉入res.users"/>
+                             <button string="捐款者匯入到res.users" type="object" name="set_donor_to_res_users" class="oe_highlight"/>
+                             |
+                             <button string="設定捐款檔的login" type="object" name="set_donor_in_donate_single" class="oe_highlight"/>
+                             |
+                             <button string="設定捐款檔的新捐款者編號" type="object" name="set_new_coding_in_donate_single" class="oe_highlight"/>
+                             |
+                             <button string="設定捐款檔的新捐款者編號" type="object" name="set_new_coding_in_donate_single" class="oe_highlight"/>
+                             |
+                             <button string="設定捐款檔的新捐款者編號" type="object" name="set_new_coding_in_donate_single" class="oe_highlight"/>
                     </group>
                     <group string="資料轉移">
                         <div>

@@ -109,6 +109,8 @@ class NormalP(models.Model):
     print_all_donor_list = fields.Boolean(string='列印願意捐助的眷屬')
     head_of_household = fields.Integer('我是戶長')
 
+    donor = fields.Many2one(comodel_name='res.users', string="捐款登入者")
+
     # 設定上一筆捐款 如果捐款種類有選擇 金額帶入100
     @api.onchange('last_donate_type')
     def set_default_last_donate_money(self):

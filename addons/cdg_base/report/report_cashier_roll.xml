@@ -67,7 +67,6 @@
                                             </t>
                                         </t>
                                         <t t-else="">
-                                             <t t-if="familyname.is_merge == True">
                                                   <t t-if="donate_family_number == 1">
                                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', data.new_coding, 600, 100)" style="width:150px;height:30px"/>
                                                         <div style="margin-left:96px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
@@ -76,7 +75,6 @@
                                                     <t t-elif="donate_family_number != 1">
                                                         <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
                                                     </t>
-                                             </t>
                                              <t t-else="">
                                                  <div style="margin-left:250px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
                                              </t>
@@ -127,6 +125,7 @@
                                         </t>
                                 </div>
                             </t>
+
                             <div style="clear:both;"></div>
 
                         </t>

@@ -71,6 +71,7 @@
         'views/items_donate_view.xml',
         'views/old_donate_order_view.xml',
         'views/old_donate_single_view.xml',
+        'views/donor_donate_search.xml',
 
 
         'report/paper.xml',

@@ -19,8 +19,7 @@ class DonateSingle(models.Model):
     donate_member = fields.Many2one(comodel_name='normal.p', string='捐款者',
                                     required = True, index = True)  # demo用  轉檔時, 要把required = True 拿掉
     w_id = fields.Char('舊團員編號', related='donate_member.w_id')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛了
-    new_coding = fields.Char('新捐款者編號', related='donate_member.new_coding')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛了
-
+    new_coding = fields.Char('新捐款者編號', related='donate_member.new_coding')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛
     donate_member_w_id = fields.Char('舊團員編號',related='donate_member.w_id') # search用   (轉檔時, 要把 related 去掉)
     donate_member_number = fields.Char('舊團員序號',related='donate_member.number') # 轉檔時, 要把 related 去掉
 
@@ -66,8 +65,9 @@ class DonateSingle(models.Model):
     work_id = fields.Many2one(comodel_name='cashier.base', string='收費員', states={2: [('readonly', True)]},required = True) # 轉檔時, 要把required = True 拿掉
     temp_work_id = fields.Char(string='收費員')
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', states={2: [('readonly', True)]}, default=lambda self: self.env.uid)
+
     temp_key_in_user = fields.Char(string='輸入人員')
-    
+
     print_user = fields.Many2one(comodel_name='res.users', string='列印人員', states={2: [('readonly', True)]})
     ps = fields.Text('備註')
     year_fee = fields.Boolean(string='年繳')

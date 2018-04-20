@@ -636,6 +636,25 @@ class AppThemeConfigSettings(models.TransientModel):
                 'job_type': line.job_type
             })
 
+    def set_donor_to_res_users(self):
+        sql = "INSERT INTO res_users(name,login,password) " \
+              " SELECT name,new_coding,new_coding FROM normal_p"
+        self._cr.execute(sql)
+
+        # limit = 0
+        # donor_data = self.env['normal.p'].search([])
+        # for line in donor_data:
+        #     limit += 1
+        #     if limit == 10:
+        #         break
+        #     print line.new_coding
+        #     self.env['res.users'].create({
+        #         'login': line.new_coding,
+        #         'password': line.new_coding,
+        #         'name': line.name,
+        #     })
+        return True
+
     def set_worker_associated(self):  # normal_p 關聯 res.users
         sql = " UPDATE normal_p set key_in_user = a.id from res_users a where a.login = normal_p.temp_key_in_user"
         self._cr.execute(sql) # 關聯資料共 720208 筆,  花費 19.919 秒
@@ -1505,7 +1524,9 @@ class AppThemeConfigSettings(models.TransientModel):
                 "('連江縣', '東引鄉', '212')"
         self._cr.execute(sql)
         return True
+# "ALTER TABLE donate_order DISABLE TRIGGER ALL"
 
+# "ALTER TABLE donate_family_line ENABLE TRIGGER ALL"
     def set_member_last_payment_time(self):
         sql = "SELECT MAX(fee_date) as fee_donate,normal_p_id into last_member_payment from associatemember_fee GROUP BY normal_p_id"
         self._cr.execute(sql)
@@ -1521,5 +1542,33 @@ class AppThemeConfigSettings(models.TransientModel):
         sql = "Update normal_p set last_consultant_payment_date = a.fee_donate FROM last_consultant_payment a where a.normal_p_id  =  normal_p.id"
         self._cr.execute(sql)
         sql = "DROP TABLE last_consultant_payment"
+        self._cr.execute(sql)
+        return True
+
+    # 以下的功能是為了讓使用者登入後只能看到自己的捐款明細
+
+    def set_data_into_res(self):
+
+        sql = "insert into res_partner(name,display_name,company_id) select new_coding,name,1 from normal_p"
+        self._cr.execute(sql)
+        sql = "insert into res_users(login,company_id,partner_id) select  new_coding,1,5 from normal_p"
+        self._cr.execute(sql)
+        sql = "update res_users set partner_id = a.id  from res_partner a where res_users.login = a.name"
+        self._cr.execute(sql)
+        sql = "update res_users set password_crypt='$pbkdf2-sha512$25000$6t0bo7Q2JsQ45xwjBEDIGQ$Yhj5Batf2vlJP0v8p4B/z7Tv1HKYkSCyZ4ixeQUWDFUE0AO06jVbXSiVnA8hBOyZd59Ez4duHrihSzgTxiCykQ' where password is null"
+        self._cr.execute(sql)
+        sql = "update res_partner set active = True where active is null"
+        self._cr.execute(sql)
+        return True
+
+    def set_donor_access_order(self):
+        sql = "INSERT INTO res_groups_users_rel( gid,uid) select 15, a.id from res_users a where a.id > 45"
+        self._cr.execute(sql)
+        return True
+
+
+
+    def set_connect_users_partner(self):
+        sql = "update normal_p set donor = a.id from res_users a where a.login = normal_p.new_coding"
         self._cr.execute(sql)
         return True

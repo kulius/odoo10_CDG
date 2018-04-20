@@ -75,6 +75,7 @@
                   name="捐款者基本資料"
                   parent="first_categ"
                   action="normal_p_action"
+                  groups="cdg_manager"
                   sequence="1"/>
         <!--<menuitem id="people_type_view"
                   name="捐款者分類"
@@ -85,40 +86,48 @@
                   name="捐款作業"
                   parent="first_categ"
                   action="donate_single_view_action"
+                  groups="cdg_manager"
                   sequence="2"/>
         <menuitem id="donate_together"
                   name="捐款明細"
                   parent="first_categ"
                   action="donate_order_action"
+                  groups="cdg_manager"
                   sequence="3"/>
         <menuitem id="donate_history"
                   name="捐款歷史清冊"
                   parent="first_categ"
+                  groups="cdg_manager"
                   action="donate_fee_inquire_action"
                   sequence="4"/>
         <menuitem id="colloter_menu"
                   name="收費員批次捐款"
                   parent="first_categ"
+                  groups="cdg_manager"
                   action="collect_action"
                   sequence="5"/>
         <menuitem id="change_state_menu"
                   name="批次變更列印狀態"
                   parent="first_categ"
+                  groups="cdg_manager"
                   action="change_state_action"
                   sequence="6"/>
         <menuitem id="change_donate_date_menu"
                   name="批次變更捐款時間"
                   parent="first_categ"
+                  groups="cdg_manager"
                   action="action_wizard_donate_time"
                   sequence="7"/>
         <menuitem id="donate_search_single"
                   name="捐款金額查詢"
                   parent="first_categ"
+                  groups="cdg_manager"
                   action="donate_total_inquire_action"
                   sequence="8"/>
         <menuitem id="print_receipt"
                   name="已列印收據查詢"
                   parent="first_categ"
+                  groups="cdg_manager"
                   action="old_donate_single_view_action"
                   sequence="9"/>
         <!--<menuitem id="donate_batch"-->
@@ -177,6 +186,7 @@
         <menuitem id="member_base"
                   name="會員基本資料"
                   parent="member_manage_categ"
+                  groups="cdg_manager"
                   action="member_base_action"
                   sequence="1"/>
         <!--<menuitem id="member_fee_menu"-->
@@ -243,6 +253,7 @@
         <menuitem id="consultant_base"
                   name="顧問基本資料"
                   parent="consultant_manage_categ"
+                  groups="cdg_manager"
                   action="consultant_base_action"
                   sequence="1"/>
         <!--<menuitem id="consultant_fee_menu"-->
@@ -376,6 +387,14 @@
                   sequence=""
                   groups="cdg_manager"
         />
+
+        <menuitem id="donor_donate_search_root" name="捐款查詢" sequence="9"/>
+        <menuitem id="donor_donate_search_categ" name="捐款查詢" parent="donor_donate_search_root" sequence="1"/>
+        <menuitem id="donor_donate_search_base"
+                  name="捐款查詢"
+                  parent="donor_donate_search_categ"
+                  action="donor_donate_search_action"
+                  sequence=""/>
 
 
 

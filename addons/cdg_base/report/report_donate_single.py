@@ -154,6 +154,23 @@ class ReportDonateSingleMerge(models.AbstractModel):
                     res.append(tmp)
         return ''.join(res[::-1])
 
+#---------------------以下為測試報表--------------------------------
+
+# class ReceiptTest(models.AbstractModel):
+#     _name = 'report.cdg_base.receipt_test'
+# 
+#     @api.model
+#     def render_html(self, docids, data=None):
+#         target = self.env['donate.single'].browse(docids)
+#         res = self.env['donate.order']
+#         res_line = self.env['donate.order']
+#         report_line = self.env['donate.single.report']
+#         for row in target:
+#             if row.state == 3:
+#                 raise ValidationError(u'本捐款單已經作廢')
+            
+
+
 class ReportDonateSinglePersonal(models.AbstractModel):
     _name = 'report.cdg_base.donate_single_personal'
 
@@ -282,6 +299,8 @@ class ReportDonateSingleOneKindOnePerson(models.AbstractModel):
             if row.state == 1:
                 row.state = 2
         return self.env['report'].render('cdg_base.donate_single_one_kind_one_person', values=docargs)
+
+
 
 class ReportDonateSingleDefault(models.AbstractModel):
     _name = 'report.cdg_base.donate_single_default'
