@@ -28,3 +28,4 @@ from . import wizard_parent_trans
 from . import wizard_abandon_single
 from . import wizard_cashier_member
 from . import wizard_cashier_consultant
+from . import wizard_cashier_transfer

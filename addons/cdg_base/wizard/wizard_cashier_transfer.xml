@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cashier_transfer_form" model="ir.ui.view">
+            <field name="name">cashier transfer form</field>
+            <field name="model">cashier.transfer</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="out_cashier"/>
+                            <field name="current_cashier"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="cashier_transfer_to_other" string="確定合併" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="cashier_transfer_action" name="合併收費員的捐款者" res_model="cashier.transfer"
+                    view_mode="form" target="new" multi="False"/>
+
+    </data>
+</odoo>

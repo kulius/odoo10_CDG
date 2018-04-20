@@ -42,6 +42,7 @@
         'wizard/wizard_abandon_single.xml',
         'wizard/wizard_cashier_member.xml',
         'wizard/wizard_cashier_consultant.xml',
+        'wizard/wizard_cashier_transfer.xml',
 
         'views/normal_p_view.xml',
         'views/member_base_view.xml',

@@ -387,6 +387,13 @@
                   sequence=""
                   groups="cdg_manager"
         />
+        <menuitem id="cashier_transfer"
+                  name="收費員捐款者合併"
+                  parent="cashier_manage_categ"
+                  action="cashier_transfer_action"
+                  sequence=""
+                  groups="cdg_manager"
+        />
 
         <menuitem id="donor_donate_search_root" name="捐款查詢" sequence="9"/>
         <menuitem id="donor_donate_search_categ" name="捐款查詢" parent="donor_donate_search_root" sequence="1"/>
