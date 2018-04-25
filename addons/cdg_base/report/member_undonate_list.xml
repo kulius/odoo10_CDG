@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="member_undonate_list_xlsx"
+                model="normal.p"
+                string="未繳費會員名冊"
+                report_type="xlsx"
+                name="cdg_base.member_undonate_list.xlsx"
+                file="cdg_base.member_undonate_list.xlsx"
+
+                attachment_use="False"/>
+    </data>
+</odoo>

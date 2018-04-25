@@ -208,6 +208,13 @@
                   sequence="3"
                   groups="cdg_member_manager"
         />
+        <menuitem id="member_undonated_menu"
+                  name="通知年度未繳費會員"
+                  parent="member_manage_categ"
+                  action="member_undonate_action"
+                  sequence="4"
+                  groups="cdg_member_manager"
+        />
         <!--<menuitem id="keepsake_menu"-->
                   <!--name="紀念品名冊"-->
                   <!--parent="member_manage_categ"-->

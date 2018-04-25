@@ -44,6 +44,7 @@
         'wizard/wizard_cashier_consultant.xml',
         'wizard/wizard_cashier_transfer.xml',
         'wizard/change_password_for_donor.xml',
+        'wizard/member_undonate.xml',
 
         'views/normal_p_view.xml',
         'views/member_base_view.xml',
@@ -92,6 +93,7 @@
         'report/cashier_list_tree.xml',
         'report/donate_totally_view.xml',
         'report/house_year_report.xml',
+        'report/member_undonate_list.xml',
 
         'security/ir.model.access.csv',
         'security/group.xml',

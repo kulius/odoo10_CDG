@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <report id="member_list_xlsx"
-                model="associatemember.fee"
+                model="normal.p"
                 string="會員名冊"
                 report_type="xlsx"
                 name="cdg_base.member_list.xlsx"
