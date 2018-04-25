@@ -9,6 +9,7 @@ class MemberUndonate(models.Model):
 
     donated_year = fields.Char('已繳費年度')
     undonated_year = fields.Char('未繳費年度')
+    member_type = fields.Selection(selection=[(2, '基本會員'), (3, '贊助會員')], string='會員種類')
 
 
 
@@ -19,15 +20,18 @@ class MemberUndonate(models.Model):
         data = list()
 
 
-        donated_id = self.env['associatemember.fee'].search([('year','=',self.donated_year),('fee_date','!=',False)])
+        donated_id = self.env['associatemember.fee'].search([('year','=',self.donated_year),('fee_date','!=',False),('normal_p_id.type.id', '=', self.member_type)])
         for line in donated_id:
             donated_data.append(line.normal_p_id.id)
+        print len(donated_data)
 
 
 
-        undonate_id = self.env['associatemember.fee'].search([('year','=',self.undonated_year),('fee_date','=',False)])
+        undonate_id = self.env['associatemember.fee'].search([('year','=',self.undonated_year),('fee_date','=',False),('normal_p_id.type.id', '=', self.member_type)])
         for line in undonate_id:
             undonated_data.append(line.normal_p_id.id)
+
+        print len(undonated_data)
 
 
         repeat_data = list(set(donated_data) & set(undonated_data))

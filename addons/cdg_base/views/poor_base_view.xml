@@ -57,15 +57,11 @@
                             </page>
                             <page string="救助情形">
                                 <group>
+                                    <field name="month"/>
                                     <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
+                                    <field name="allow_money"/>
+                                    <field name="once_money"/>
+                                    <field name="receive_money"/>
                                 </group>
                             </page>
                             <page string="申請影像證明">

@@ -12,7 +12,6 @@ class MemberUndonateListXlsx(ReportXlsx):
         array = self.env['normal.p']
         sheet = workbook.add_worksheet()
         count = 1
-        print data
 
         sheet.write(0, 0,u'會員編號')
         sheet.write(0, 1, u'姓名')

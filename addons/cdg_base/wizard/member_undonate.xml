@@ -10,6 +10,7 @@
                         <group>
                             <field name="donated_year"/>
                             <field name="undonated_year"/>
+                            <field name="member_type"/>
                         </group>
                     </sheet>
                     <footer>
