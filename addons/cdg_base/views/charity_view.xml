@@ -326,13 +326,12 @@
                   <!--parent="coffin_manage_root_categ"-->
                   <!--action="coffin_donation_action"-->
                   <!--sequence=""/>-->
-        <!--<menuitem id="poor_root" name="貧困扶助管理" sequence="6"/>-->
-        <!--<menuitem id="poor_manag_categ" name="貧困扶助管理" parent="poor_root"/>-->
-        <!--<menuitem id="poor_base"-->
-                  <!--name="扶助基本資料作業"-->
-                  <!--parent="poor_manag_categ"-->
-                  <!--action="poor_base_action"-->
-                  <!--sequence=""/>-->
+        <menuitem id="poor_root" name="貧困扶助管理" sequence="6"/>
+        <menuitem id="poor_manag_categ" name="貧困扶助管理" parent="poor_root"/>
+        <menuitem id="poor_base"
+                  name="扶助基本資料作業"
+                  parent="poor_manag_categ"
+                  action="poor_base_action"/>
         <!--<menuitem id="disaster_root" name="災害扶助管理"  sequence="7"/>-->
         <!--<menuitem id="disaster_manage_categ" name="災害扶助基本" parent="disaster_root" action="charity_view" sequence="1"/>-->
         <menuitem id="cashier_manage_root" name="收費員管理" sequence="8"/>
@@ -395,13 +394,19 @@
                   groups="cdg_manager"
         />
 
-        <menuitem id="donor_donate_search_root" name="捐款查詢" sequence="9"/>
+        <menuitem id="donor_donate_search_root" name="捐款查詢" sequence="9" groups="cdg_donor_manager"/>
         <menuitem id="donor_donate_search_categ" name="捐款查詢" parent="donor_donate_search_root" sequence="1"/>
         <menuitem id="donor_donate_search_base"
                   name="捐款查詢"
                   parent="donor_donate_search_categ"
                   action="donor_donate_search_action"
-                  sequence=""/>
+                  sequence="1"
+                  />
+         <menuitem id="donor_password_change"
+                  name="密碼變更"
+                  parent="donor_donate_search_categ"
+                  action="action_change_password_for_donor"
+                  sequence="2"/>
 
 
 

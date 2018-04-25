@@ -43,6 +43,7 @@
         'wizard/wizard_cashier_member.xml',
         'wizard/wizard_cashier_consultant.xml',
         'wizard/wizard_cashier_transfer.xml',
+        'wizard/change_password_for_donor.xml',
 
         'views/normal_p_view.xml',
         'views/member_base_view.xml',
@@ -92,8 +93,9 @@
         'report/donate_totally_view.xml',
         'report/house_year_report.xml',
 
-        'security/group.xml',
         'security/ir.model.access.csv',
+        'security/group.xml',
+
 
         'views/charity_view.xml',
 
@@ -102,3 +104,5 @@
     ],
     'demo': [],
 }
+
+

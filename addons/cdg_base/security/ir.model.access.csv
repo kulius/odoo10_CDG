@@ -1,5 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 
+
+
+
 access_normal_p,access_normal_p,model_normal_p,cdg_base.cdg_manager,1,1,1,1
 access_c_worker,access_c_worker,model_c_worker,cdg_base.cdg_manager,1,1,1,0
 access_donate_single,access_donate_single,model_donate_single,cdg_base.cdg_manager,1,1,1,1
@@ -82,11 +85,12 @@ access_coffin_base_cdg_coffin_employees,access_coffin_base,model_coffin_base,cdg
 
 access_change_password,access_change_password,model_change_password,cdg_base.cdg_manager,1,1,1,1
 
-access_donate_single,access_donate_single,model_donate_single,cdg_base.cdg_donor_manager,1,0,0,0
-access_donate_order,access_donate_order,model_donate_order,cdg_base.cdg_donor_manager,1,0,0,0
-access_normal_p,access_normal_p,model_normal_p,cdg_base.cdg_donor_manager,1,0,0,0
-access_associatemember_fee,access_associatemember_fee,model_associatemember_fee,cdg_donor_manager,1,0,0,0
-access_consultant_fee,access_consultant_fee,model_consultant_fee,cdg_donor_manager,1,0,0,0
+
+
+
+
+
+
 
 
 

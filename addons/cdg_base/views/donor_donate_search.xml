@@ -84,7 +84,7 @@
         </record>
 
         <record id="donor_donate_search_action" model="ir.actions.act_window">
-            <field name="name">捐款作業</field>
+            <field name="name">捐款查詢</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">normal.p</field>
             <field name="view_mode">tree,form</field>

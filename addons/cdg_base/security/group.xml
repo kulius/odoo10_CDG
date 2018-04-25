@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
         <!-- 創立群組 -->
         <record model="ir.module.category" id="cdg_management">
             <field name="name">行善團</field>
@@ -76,19 +76,19 @@
         </record>
 
 
-        <record id="cdg_employee_donate_self" model="ir.rule">
-            <field name="name">行善團員工看自己捐款</field>
-            <field name="model_id" ref="cdg_base.model_donate_single"/>
-            <field name="domain_force">[]</field>
-            <!--<field name="domain_force">[('create_uid','=', user.id)]</field>-->
-            <field name="perm_write" eval="1"/>
-            <field name="perm_create" eval="1"/>
-            <field name="perm_read" eval="1"/>
-            <field name="perm_unlink" eval="1"/>
-            <!-- You can attach this rule to a specific group, Or make it Global -->
-            <field name="groups" eval="[(4, ref('cdg_base.cdg_manager'))]"/>
-            <!--<field name="global" eval="1"/> -->
-        </record>
+        <!--<record id="cdg_employee_donate_self" model="ir.rule">-->
+            <!--<field name="name">行善團員工看自己捐款</field>-->
+            <!--<field name="model_id" ref="cdg_base.model_donate_single"/>-->
+            <!--<field name="domain_force">[]</field>-->
+            <!--&lt;!&ndash;<field name="domain_force">[('create_uid','=', user.id)]</field>&ndash;&gt;-->
+            <!--<field name="perm_write" eval="1"/>-->
+            <!--<field name="perm_create" eval="1"/>-->
+            <!--<field name="perm_read" eval="1"/>-->
+            <!--<field name="perm_unlink" eval="1"/>-->
+            <!--&lt;!&ndash; You can attach this rule to a specific group, Or make it Global &ndash;&gt;-->
+            <!--<field name="groups" eval="[(4, ref('cdg_base.cdg_manager'))]"/>-->
+            <!--&lt;!&ndash;<field name="global" eval="1"/> &ndash;&gt;-->
+        <!--</record>-->
 
     </data>
 </odoo>

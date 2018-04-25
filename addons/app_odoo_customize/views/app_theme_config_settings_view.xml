@@ -232,16 +232,14 @@
                              <button string="匯入顧問繳費的最後日期" type="object" name="set_consultant_last_payment_time" class="oe_highlight"/>
                             |
                         </div>
-                        <label string="捐款者轉入res.users"/>
-                             <button string="捐款者匯入到res.users" type="object" name="set_donor_to_res_users" class="oe_highlight"/>
+                        <label string="捐款者可登入查詢自己的捐款資料"/>
+                        <div>
+                             <button string="捐款者資料匯入" type="object" name="set_data_into_res" class="oe_highlight"/>
                              |
-                             <button string="設定捐款檔的login" type="object" name="set_donor_in_donate_single" class="oe_highlight"/>
+                             <button string="將資料建立關聯，以及給予密碼初始值" type="object" name="update_res" class="oe_highlight"/>
                              |
-                             <button string="設定捐款檔的新捐款者編號" type="object" name="set_new_coding_in_donate_single" class="oe_highlight"/>
-                             |
-                             <button string="設定捐款檔的新捐款者編號" type="object" name="set_new_coding_in_donate_single" class="oe_highlight"/>
-                             |
-                             <button string="設定捐款檔的新捐款者編號" type="object" name="set_new_coding_in_donate_single" class="oe_highlight"/>
+                             <button string="給予捐款者，捐款者的權限" type="object" name="set_donor_access_order" class="oe_highlight"/>
+                        </div>
                     </group>
                     <group string="資料轉移">
                         <div>
