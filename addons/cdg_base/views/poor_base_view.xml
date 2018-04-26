@@ -44,14 +44,17 @@
                                 </group>
                                 <group>
                                     <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
-                                    <field name="visit_completed_date"/>
+                                    <field name="apply_method"/>
+                                    <field name="rec_int"/>
+                                    <field name="Process_status"/>
+                                    <field name="visit_member"/>
+                                    <field name="rec_zip"/>
+                                    <field name="rec_addr"/>
+                                     <field name="mail_zip"/>
+                                    <field name="mail_addr"/>
+                                    <field name="IsApproved"/>
+                                    <field name="case_process"/>
+                                    <field name="reward_method"/>
                                 </group>
 
                             </page>

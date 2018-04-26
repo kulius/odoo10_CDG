@@ -13,18 +13,20 @@ class MemberListXlsx(ReportXlsx):
         sheet = workbook.add_worksheet()
         count = 1
 
-        sheet.write(0, 0,u'會員編號')
-        sheet.write(0, 1, u'姓名')
-        sheet.write(0, 2, u'收據地址')
+        # sheet.write(0, 0, u'排序')
+        # sheet.write(0, 1, u'會員編號')
+        # sheet.write(0, 2, u'姓名')
+        # sheet.write(0, 3, u'收據地址')
 
         for line in data['docs']:
             data = array.browse(line)
             if not data:
                 continue
             else:
-                sheet.write(count, 0, data.member_code)
-                sheet.write(count, 1, data.member_name)
-                sheet.write(count, 2, data.rec_addr)
+                sheet.write(count, 0, data.normal_p_id.member_sequence)
+                sheet.write(count, 1, data.normal_p_id.member_id)
+                sheet.write(count, 2, data.member_name)
+                sheet.write(count, 3, data.rec_addr)
                 count += 1
 
         # sheet.set_column(1, 1, 12)
