@@ -74,14 +74,25 @@ access_member_receipt,access_member_receipt,model_member_receipt,cdg_base.cdg_ma
 access_res_users,access_res_users,model_res_users,cdg_base.cdg_manager,1,1,1,1
 access_ir_ui_view,access_ir_ui_view,base.model_ir_ui_view,cdg_base.cdg_manager,1,1,1,0
 
+
+access_poor_base_cdg_manager,access_poor_base,model_poor_base,cdg_base.cdg_manager,1,0,0,0
+access_poor_image_cdg_manager,access_poor_image,model_poor_image,cdg_base.cdg_manager,1,0,0,0
+access_poor_receive_cdg_manager,access_poor_receive,model_poor_receive,cdg_base.cdg_manager,1,0,0,0
+
 access_coffin_batch_member_manager,access_coffin_batch,model_coffin_batch,cdg_base.cdg_member_manager,1,0,0,0
 access_coffin_batch_cdg_employees,access_coffin_batch,model_coffin_batch,cdg_base.cdg_employees,1,0,0,0
 access_coffin_base_member_manager,access_coffin_base,model_coffin_base,cdg_base.cdg_manager,1,0,0,0
 access_coffin_base_cdg_employees,access_coffin_base,model_coffin_base,cdg_base.cdg_manager,1,0,0,0
 
+access_poor_base_poor_management,access_poor_base,model_poor_base,cdg_base.poor_management,1,1,1,1
+access_poor_image_poor_management,access_poor_image,model_poor_image,cdg_base.poor_management,1,1,1,1
+access_poor_receive_poor_management,access_poor_receive,model_poor_receive,cdg_base.poor_management,1,1,1,1
+access_wizard_poor_data_poor_management,access_wizard_poor_data,model_wizard_poor_data,cdg_base.poor_management,1,1,1,1
+
 access_coffin_batch_cdg_coffin_employees,access_coffin_batch,model_coffin_batch,cdg_base.cdg_coffin_employees,1,1,1,1
 access_coffin_batch_cdg_coffin_employees,access_coffin_batch,model_coffin_batch,cdg_base.cdg_coffin_employees,1,1,1,1
 access_coffin_base_cdg_coffin_employees,access_coffin_base,model_coffin_base,cdg_base.cdg_coffin_employees,1,1,1,1
+
 
 access_change_password,access_change_password,model_change_password,cdg_base.cdg_manager,1,1,1,1
 
