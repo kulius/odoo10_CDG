@@ -339,6 +339,10 @@
                   name="扶助基本資料作業"
                   parent="poor_manag_categ"
                   action="poor_base_action"/>
+        <menuitem id="poor_data"
+                  name="扶助資料匯出"
+                  parent="poor_manag_categ"
+                  action="poor_data_action"/>
         <!--<menuitem id="disaster_root" name="災害扶助管理"  sequence="7"/>-->
         <!--<menuitem id="disaster_manage_categ" name="災害扶助基本" parent="disaster_root" action="charity_view" sequence="1"/>-->
         <menuitem id="cashier_manage_root" name="收費員管理" sequence="8"/>

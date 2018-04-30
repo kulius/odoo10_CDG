@@ -70,6 +70,7 @@ class memnberfeeinquire(models.Model):
         if self.member_type == 1:
             if self.payment == 1:
                 data = self.env['associatemember.fee'].search([('year', '>=', star_time),('year', '<=', end_time),('normal_p_id.type.id', '=', 2),('fee_date','!=',False),('normal_p_id.booklist','=',True)],order='normal_p_id asc')
+                data.sorted(key=lambda r: r.normal_p_id)
                 s = collections.Counter()
                 for line in data:
                     s[line.normal_p_id.id] += 1

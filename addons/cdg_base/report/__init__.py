@@ -13,4 +13,6 @@ from . import report_cashier_roll
 from . import cashier_list_tree
 from . import donate_totally
 from . import house_year
-from . import  member_undonate_list
+from . import member_undonate_list
+from . import case_images
+from . import case_data

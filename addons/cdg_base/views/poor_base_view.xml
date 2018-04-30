@@ -21,9 +21,12 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <group col="4">
-                            <field name="case_id"/>
+                        <div class="oe_title">
+                            <h1><field name="case_id"/></h1>
+                        </div>
+                        <group col="6">
                             <field name="name"/>
+                            <field name="apply_date"/>
                         </group>
                         <notebook>
                             <page string="專案資料">
@@ -38,43 +41,80 @@
                                     <field name="relate_phone"/>
                                 </group>
                                 <group col="6">
-                                    <field name="apply_date"/>
                                     <field name="pick_up_date"/>
                                     <field name="check_date"/>
+                                    <field name="IsApproved"/>
                                 </group>
-                                <group>
+                                <group col="6">
                                     <field name="visit_completed_date"/>
+                                    <field name="reward_method"/>
+                                    <field name="case_process"/>
+                                </group>
+                                <group col="8">
+                                    <field name="rec_zip"/> <!-- nolabel 不會出現string  -->
+                                    <field name="rec_addr" colspan="6"/>
+                                     <field name="mail_zip"/>
+                                    <field name="mail_addr" colspan="6" />
+                                </group>
+                                 <group col="4">
                                     <field name="apply_method"/>
                                     <field name="rec_int"/>
+                                </group>
+                                 <group col="4">
                                     <field name="Process_status"/>
                                     <field name="visit_member"/>
-                                    <field name="rec_zip"/>
-                                    <field name="rec_addr"/>
-                                     <field name="mail_zip"/>
-                                    <field name="mail_addr"/>
-                                    <field name="IsApproved"/>
-                                    <field name="case_process"/>
-                                    <field name="reward_method"/>
                                 </group>
-
                             </page>
                             <page string="救助情形">
-                                <group>
+                                <group col="8">
                                     <field name="month"/>
-                                    <field name="visit_completed_date"/>
                                     <field name="allow_money"/>
                                     <field name="once_money"/>
-                                    <field name="receive_money"/>
+                                    <field name="receive_money" />
+                                </group>
+                                <group>
+                                    <field name="poor_receive" context="{'form_view_ref' : 'cdg_base.poor_receive_easy_form'}">
+                                        <tree>
+                                            <field name="receive_date"/>
+                                            <field name="receive_money"/>
+                                        </tree>
+                                    </field>
                                 </group>
                             </page>
                             <page string="申請影像證明">
-
+                                <div class="oe_button_box" name="button_box">
+                                    <button name="print_case_photos" string="列印影像文件"
+                                            type="object" class="oe_stat_button" icon="fa-file-o">
+                                    </button>
+                                </div>
+                                <group>
+                                    <field name="poor_images" context="{'form_view_ref' : 'cdg_base.poor_image_easy_form'}">
+                                        <tree>
+                                            <field name="case_image_name"/>
+                                            <field name="case_image" />
+                                        </tree>
+                                    </field>
+                                </group>
                             </page>
                         </notebook>
                     </sheet>
                 </form>
             </field>
         </record>
+
+        <record id="poor_base_search" model="ir.ui.view">
+            <field name="name">poor base search</field>
+            <field name="model">poor.base</field>
+            <field name="arch" type="xml">
+                <search>
+                   <field name="name"></field>
+                   <field name="self_iden"></field>
+                   <field name="mail_addr"></field>
+                </search>
+            </field>
+        </record>
+
+
 
         <act_window id="poor_base_action" name="扶助基本資料作業" res_model="poor.base" view_mode="tree,form"/>
 

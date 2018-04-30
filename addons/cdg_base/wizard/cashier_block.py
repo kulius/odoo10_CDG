@@ -16,6 +16,9 @@ class CashierBlock(models.Model):
             'block_num': self.block_num,
             'from_target': self.from_target.ids
         }
+
+
+
         return self.env['report'].get_action([], 'cdg_base.receipt_cashier_roll_donor_template', data)
 
 

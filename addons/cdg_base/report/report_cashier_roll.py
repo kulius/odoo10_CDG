@@ -19,7 +19,6 @@ class ReportCashierRollDonor(models.AbstractModel):
             'block_num': num,
         }
 
-
         return Report.render('cdg_base.receipt_cashier_roll_donor_template', docargs)
 
 class ReportCashierRollMember(models.AbstractModel):

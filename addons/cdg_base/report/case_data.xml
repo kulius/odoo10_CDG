@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="case_data_xlsx"
+                model="poor.base"
+                string="扶助資料"
+                report_type="xlsx"
+                name="cdg_base.case_data.xlsx"
+                file="扶助資料.xlsx"
+                attachment_use="False"/>
+    </data>
+</odoo>

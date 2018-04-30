@@ -29,5 +29,6 @@ from . import wizard_abandon_single
 from . import wizard_cashier_member
 from . import wizard_cashier_consultant
 from . import wizard_cashier_transfer
+from . import wizard_poor_data
 from . import change_password_for_donor
 from . import member_undonate

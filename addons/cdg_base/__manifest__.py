@@ -45,6 +45,8 @@
         'wizard/wizard_cashier_transfer.xml',
         'wizard/change_password_for_donor.xml',
         'wizard/member_undonate.xml',
+        'wizard/wizard_poor_data.xml',
+
 
         'views/normal_p_view.xml',
         'views/member_base_view.xml',
@@ -52,6 +54,7 @@
         'views/coffin_donation_view.xml',
         'views/coffin_base_view.xml',
         'views/donate_batch_view.xml',
+        'views/poor_image.xml',
 
         'views/donate_order_view.xml',
         'views/c_worker_view.xml',
@@ -75,6 +78,7 @@
         'views/old_donate_order_view.xml',
         'views/old_donate_single_view.xml',
         'views/donor_donate_search.xml',
+        'views/poor_receive.xml',
 
 
         'report/paper.xml',
@@ -94,6 +98,8 @@
         'report/donate_totally_view.xml',
         'report/house_year_report.xml',
         'report/member_undonate_list.xml',
+        'report/case_images.xml',
+        'report/case_data.xml',
 
         'security/ir.model.access.csv',
         'security/group.xml',

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="poor_receive_form" model="ir.ui.view">
+            <field name="name">poor receive form</field>
+            <field name="model">poor.receive</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="receive_date"/>
+                            <field name="receive_money"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_poor_receive" name="案件領款時間" res_model="poor.receive"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>
