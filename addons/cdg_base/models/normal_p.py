@@ -108,7 +108,7 @@ class NormalP(models.Model):
     donate_batch_setting = fields.Boolean(string='確認捐款', default = False)
     postal_code_id = fields.Many2one(comodel_name='postal.code', string='郵遞區號關聯')
     print_all_donor_list = fields.Boolean(string='列印願意捐助的眷屬')
-    head_of_household = fields.Integer('我是戶長')
+    head_of_household = fields.Integer(string='我是戶長')
 
     donor = fields.Many2one(comodel_name='res.users', string="捐款登入者")
 
@@ -472,9 +472,6 @@ class NormalP(models.Model):
                     if self.zip_code == line.zip:
                         self.postal_code_id = line.id
 
-
-
-
     # def set_parent(self):
     #     member = self.search([('w_id', '!=', None), ('number', '=', '1')])
     #     conn = psycopg2.connect("dbname=old_cdg user=odoo password=odoo")
@@ -622,17 +619,13 @@ class NormalP(models.Model):
                 })
         return res_id
 
-
-# class DonateFamily(models.Model):
-#     _name = 'donate.family'
-#
-#     name = fields.Char(string='眷屬姓名')
-#     birth = fields.Date(string='生日')
-#     cellphone = fields.Char(string='手機')
-#     con_phone = fields.Char(string='聯絡電話(一)')
-#     con_phone2 = fields.Char(string='聯絡電話(二)')
-#     rec_address = fields.Char(string='收據地址')
-#     habbit_donate = fields.Selection(selection=[(1,'造橋'),(2,'補路'),(3,'施棺'),(4,'伙食費'),(5,'窮困扶助'),(6,'其他工程')],string='喜好捐款種類')
-#     self = fields.Char(string='自訂排序')
-#     rec_send = fields.Selection(selection=[(1,'單獨'),(2,'合併')],string='收據寄送')
-#     now_donate = fields.Boolean(string='目前是否捐助' ,default= True)
+    @api.multi
+    def unlink(self):
+        if self.donate_history_ids.ids:
+            raise ValidationError(u'該捐款者有捐款紀錄, 請勿刪除')
+        if self.member_pay_history.ids:
+            raise ValidationError(u'該會員有繳費紀錄, 請勿刪除')
+        if self.consultant_pay_history.ids:
+            raise ValidationError(u'該顧問有繳費紀錄, 請勿刪除')
+        self.env['res.users'].search([('id', '=', self.donor.ids)]).unlink()
+        return super(NormalP, self).unlink()

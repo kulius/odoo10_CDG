@@ -23,7 +23,7 @@ class MemberListXlsx(ReportXlsx):
             if not data:
                 continue
             else:
-                sheet.write(count, 0, data.normal_p_id.member_sequence)
+                sheet.write(count, 0, data.normal_p_id.new_coding)
                 sheet.write(count, 1, data.normal_p_id.member_id)
                 sheet.write(count, 2, data.member_name)
                 sheet.write(count, 3, data.rec_addr)

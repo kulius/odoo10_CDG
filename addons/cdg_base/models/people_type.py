@@ -8,4 +8,9 @@ class PeopleType(models.Model):
     _name = 'people.type'
 
     name = fields.Char(string='人員種類')
-    people_in = fields.One2many(comodel_name='normal.p',inverse_name='type',string='人員有誰')
+    people_in = fields.Many2many(comodel_name='normal.p',string='人員有誰')
+    len_people = fields.Integer(compute='count_people',string='人數',store=True)
+
+    def count_people(self):
+        for line in self:
+            line.len_people = len(line.people_in)

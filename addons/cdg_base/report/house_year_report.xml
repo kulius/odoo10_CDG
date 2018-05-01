@@ -45,6 +45,7 @@
                         { "type": "str", "size": 10, "name": "經手人", "required": false },
                         { "type": "str", "size": 50, "name": "捐款總額大寫", "required": false },
                         { "type": "str", "size": 20, "name": "捐款總額", "required": false },
+                        { "type": "str", "size": 20, "name": "年度收據", "required": false },
                     ],
                     "Data":[ ]
                 };
@@ -67,6 +68,7 @@
                     "經手人":"<t t-esc="print_user"/>",
                     "捐款總額大寫":"<t t-esc="big_price"/>",
                     "捐款總額":"<t t-esc="docs"/>",
+                    "年度收據":"<t t-esc="year"/>"
                 });
 
                 <t t-foreach="house_hold.donate_family1" t-as="lines">
@@ -106,6 +108,7 @@
                         { "type": "str", "size": 10, "name": "經手人", "required": false },
                         { "type": "str", "size": 50, "name": "捐款總額大寫", "required": false },
                         { "type": "str", "size": 20, "name": "捐款總額", "required": false },
+                        { "type": "str", "size": 20, "name": "年度收據", "required": false },
                     ],
                     "Data":[ ]
                 };
@@ -131,6 +134,7 @@
                         "經手人":"<t t-esc="o['print_user']"/>",
                         "捐款總額大寫":"<t t-esc="o['big_price']"/>",
                         "捐款總額":"<t t-esc="o['personal_total']"/>",
+                        "年度收據":"<t t-esc="o['year']"/>"
                     });
 
                     _tableSaleOrderLines.Data.push(

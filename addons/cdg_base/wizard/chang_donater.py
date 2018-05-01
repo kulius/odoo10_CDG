@@ -22,6 +22,8 @@ class ChangDonater(models.Model):
             if self.from_target.donate_history_ids.ids:
                 for line in self.from_target.donate_history_ids:
                     line.donate_member = self.new_target.id
+                for line in self.from_target.donate_single_history_ids:
+                    line.donate_member = self.new_target.id
 
             self.from_target.active = False
 

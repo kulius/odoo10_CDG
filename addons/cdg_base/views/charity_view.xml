@@ -69,6 +69,12 @@
                  parent="charity_check"
                   action="member_fee_statistics_action"
                   sequence="4"/>
+        <menuitem id="people_statistics_menu"
+                  name="系統資料總數統計"
+                 parent="charity_check"
+                  action="people_statistics_action"
+                  sequence="5"
+        />
         <menuitem id="first_root" name="捐款者管理" sequence="2"/>
         <menuitem id="first_categ" name="捐款者管理" parent="first_root" sequence="1"/>
         <menuitem id="member_grouper_consultant_cashier"

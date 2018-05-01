@@ -26,7 +26,8 @@ class HouseYearReport(models.AbstractModel):
         report_year = data.get('report_year')
         key_in_user = data.get('key_in_user')
         house_total = 0
-
+        if house_hold.id != house_hold.parent.id:
+            house_hold = house_hold.parent
         if len(house_hold) != 1:
             raise ValidationError('錯誤!!，找不到該戶長，或傳入的戶長資料有兩筆以上')
         for line in house_hold.donate_family1:
@@ -37,6 +38,7 @@ class HouseYearReport(models.AbstractModel):
         docargs = {
             'house_hold': house_hold,
             'docs': house_total,
+            'year': str(report_year) + u'年度收據',
             'report_year': str(report_year) + '-12-31',
             'print_user':key_in_user,
             'big_price':big_price
@@ -100,23 +102,27 @@ class HouseYearSingleReport(models.AbstractModel):
         key_in_user = data.get('key_in_user')
         house_total = 0
 
+        if house_hold.id != house_hold.parent.id:
+            house_hold = house_hold.parent
         if len(house_hold) != 1:
             raise ValidationError('錯誤!!，找不到該戶長，或傳入的戶長資料有兩筆以上')
         order_doc = []
         for line in house_hold.donate_family1:
             house_total = self.count_year_donate_total(line, report_year)
-            big_price = self.convert(house_total)
-            order_temp = {
-                'ID':line.id,
-                'new_coding': line.new_coding,
-                'name': line.name,
-                'rec_addr': line.rec_addr,
-                'personal_total':house_total,
-                'big_price':big_price,
-                'report_year': str(report_year) + '-12-31',
-                'print_user':key_in_user,
-            }
-            order_doc.append(order_temp)
+            if house_total != 0:
+                big_price = self.convert(house_total)
+                order_temp = {
+                    'ID':line.id,
+                    'new_coding': line.new_coding,
+                    'name': line.name,
+                    'rec_addr': line.rec_addr,
+                    'personal_total':house_total,
+                    'big_price':big_price,
+                    'year':str(report_year) + u'年度收據',
+                    'report_year': str(report_year) + '-12-31',
+                    'print_user':key_in_user,
+                }
+                order_doc.append(order_temp)
 
         docargs = {
             'docs': order_doc

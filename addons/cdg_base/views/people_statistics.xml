@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="people_statistics_form" model="ir.ui.view">
+            <field name="name">系統資料統計表</field>
+            <field name="model">people.statistics</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button type="object" name="count_people" string="查詢" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <span style="color:blue;font-size:20px;font-weight:bold;">捐款人數及季報表寄送份數</span>
+                        <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">捐款者人數： <field name="donor_statistics"/> 人</font>
+                        </group>
+                        <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">季報表寄送份數： <field name="report_send"/> 份</font>
+                        </group>
+                        <span style="color:blue;font-size:20px;font-weight:bold;">會員人數</span>
+                        <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">基本會員： <field name="base_member_statistics"/> 人</font>
+                        </group>
+                        <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">贊助會員： <field name="donate_member_statistics"/> 人</font>
+                        </group>
+                        <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">會員總數： <field name="member_total"/> 人</font>
+                        </group>
+                        <span style="color:blue;font-size:20px;font-weight:bold;">顧問人數</span>
+                        <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">顧問人數： <field name="consultant_statistics"/> 人</font>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="people_statistics_action" model="ir.actions.act_window">
+            <field name="name">系統資料統計表</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">people.statistics</field>
+            <field name="view_mode">form</field>
+            <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'form', 'view_id': ref('cdg_base.people_statistics_form')}),]"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+    </data>
+</odoo>

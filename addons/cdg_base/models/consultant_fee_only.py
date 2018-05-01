@@ -7,6 +7,7 @@ import logging, time
 class ConsultantFeeOnly(models.Model):
     _name = 'consultant.fee'
     _rec_name = 'fee_code'
+    _order = 'year desc'
     _description = u'顧問費管理'
 
     consultant_id = fields.Char(string='舊顧問編號')

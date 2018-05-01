@@ -127,7 +127,7 @@
                                         <button string="全部變更地址" name="all_addr_chnage" type="object" class="oe_stat_button" icon="fa-location-arrow"/>
                                     </div>
                                     <field name="donate_family1" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form', 'default_rec_addr': rec_addr,'default_zip': zip,'default_cashier': cashier_name}">
-                                        <tree default_order='sequence'>
+                                        <tree default_order='sequence' delete="false">
                                             <field name="sequence"/>
                                             <field name="new_coding"/>
                                             <field name="name"/>
@@ -247,7 +247,7 @@
                                         <button string="全部變更地址" name="all_addr_chnage" type="object" class="oe_stat_button" icon="fa-location-arrow"/>
                                     </div>
                                     <field name="donate_family1" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form'}">
-                                        <tree editable="bottom">
+                                        <tree editable="bottom" delete="false">
                                             <field name="sequence"/>
                                             <field name="new_coding"/>
                                             <field name="name"/>
@@ -370,13 +370,11 @@
             </field>
         </record>
 
-
-
         <record id="normal_p_action" model="ir.actions.act_window">
             <field name="name">捐款者基本資料</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">normal.p</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,pivot</field>
             <field name="context">{'search_default_top_of_home': 1}</field>
                 <field name="limit">10</field> <!-- 用來調整tree顯示的筆數 -->
                 <field name="search_view_id" ref="normal_p_search"/>

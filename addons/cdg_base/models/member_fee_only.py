@@ -7,6 +7,7 @@ from datetime import datetime
 class MemberFeeOnly(models.Model):
     _name = 'associatemember.fee'
     _rec_name = 'fee_code'
+    _order = 'year desc'
     _description = u'會員費管理'
     member_id = fields.Char(string='會員編號')
     member_note_code = fields.Char(string='會員名冊編號')

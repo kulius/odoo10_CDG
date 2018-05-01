@@ -15,4 +15,3 @@ class CashierTransfer(models.Model):
             line.cashier_name = self.current_cashier.id
 
         return self.env.ref('cdg_base.cashier_base_action').read()[0]
-

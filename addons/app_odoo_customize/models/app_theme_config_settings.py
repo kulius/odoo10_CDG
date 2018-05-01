@@ -1131,36 +1131,39 @@ class AppThemeConfigSettings(models.TransientModel):
 
     def reset_newcoding(self):
         # sql = "UPDATE normal_p SET temp_new_coding = a.new_coding FROM normal_p a WHERE a.new_coding = normal_p.new_coding"
+        # self._cr.execute(sql)
+        # postal_code_collection = self.env['postal.code'].search([])
+        #
+        # for line in postal_code_collection:
+        #     sql = "update normal_p a "\
+        #           " set new_coding = b.rownubmer "\
+        #           " from (select id,new_coding,name,member_id,member_sequence, "\
+        #           " LPAD(CAST(ROW_NUMBER () OVER (ORDER BY replace( "\
+        #           " translate(member_id, 'AB', '##########'), '#', '')) AS text), 5, '0') as rownubmer "\
+        #           " from normal_p"\
+        #           " where zip like '%s' "\
+        #           " ) b "\
+        #           "where a.id = b.id and a.zip like '%s' " % ('600%', '600%')
         #     self._cr.execute(sql)
-        #     postal_code_collection = self.env['postal.code'].search([])
+        #     sql = "select count(*) from normal_p where zip LIKE '%s' " % ('600%')
+        #     self._cr.execute(sql)
+        #     number = self._cr.dictfetchall()
         #
-        #     for line in postal_code_collection:
-        #         sql = "update normal_p a "\
-        #               " set new_coding = b.rownubmer "\
-        #               " from (select id, "\
-        #               " SUBSTRING(cast(zip as text),1,3) || LPAD(CAST(ROW_NUMBER () OVER (ORDER BY build_date,db_chang_date) AS text), 5, '0') as rownubmer "\
-        #               " from normal_p "\
-        #               " where zip like '%s' "\
-        #               " ) b "\
-        #               "where a.id = b.id and a.zip like '%s' " % (line.zip + '%', line.zip + '%')
+        #     for row in number:
+        #         sql = "UPDATE auto_donateid SET area_number =  '%s' WHERE zip = '%s'" % (int(row['count']), '600%')
         #         self._cr.execute(sql)
-        #         sql = "select count(*) from normal_p where zip LIKE '%s' " % (line.zip + '%')
-        #         self._cr.execute(sql)
-        #         number = self._cr.dictfetchall()
-        #
-        #         for row in number:
-        #             sql = "UPDATE auto_donateid SET area_number =  '%s' WHERE zip = '%s'" % (int(row['count']), line.zip)
-        #             self._cr.execute(sql)
+
+        sql = "UPDATE normal_p SET member_sequence = ''"
+        self._cr.execute(sql)
 
         sql = "update normal_p a " \
-              " set member_sequence = b.rownubmer " \
-              " from (select id, " \
-              " LPAD(CAST(ROW_NUMBER () OVER (ORDER BY replace( " \
+              "set member_sequence = b.rownubmer " \
+              " from (select id,name,member_id,member_type, " \
+              " '601' || LPAD(CAST(ROW_NUMBER () OVER (ORDER BY replace( " \
               " translate(member_id, 'AB', '##########'), '#', '')) AS text), 5, '0') as rownubmer " \
-              " from normal_p" \
-              " where zip like '%s' " \
-              " ) b " \
-              "where a.id = b.id and a.zip like '%s' " % ('600%', '600%')
+              " from normal_p " \
+              " where member_type = 1) b " \
+              " where a.id = b.id and a.member_type = 1"
         self._cr.execute(sql)
 
     def postal_code_database(self):
@@ -1592,7 +1595,6 @@ class AppThemeConfigSettings(models.TransientModel):
         sql = "insert into res_company_users_rel (cid,user_id) select 1,a.id from res_users a where a.id > 45" # 執行時間:28.400s 資料筆數:784253筆
         self._cr.execute(sql) # 讓捐款者可被odoo發現並更改密碼
         return True
-
 
 
 

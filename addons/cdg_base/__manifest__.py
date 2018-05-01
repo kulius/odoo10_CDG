@@ -78,6 +78,7 @@
         'views/old_donate_order_view.xml',
         'views/old_donate_single_view.xml',
         'views/donor_donate_search.xml',
+        'views/people_statistics.xml',
         'views/poor_receive.xml',
 
 
