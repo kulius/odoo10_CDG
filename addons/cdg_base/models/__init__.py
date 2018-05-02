@@ -30,4 +30,5 @@ from . import item_name
 from . import people_statistics
 from . import poor_image
 from . import poor_receive
+from . import poor_document
 from . import poor_statistics

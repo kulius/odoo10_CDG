@@ -3,9 +3,16 @@
     <data>
          <report id="case_images"
                 model="poor.base"
-                string="案件資料"
+                string="案件影像資料"
                 report_type="qweb-pdf"
                 name="cdg_base.receipt_case_images_template"
+                paperformat="paper_form_cdg"
+        />
+         <report id="case_documents"
+                model="poor.base"
+                string="案件文件資料"
+                report_type="qweb-pdf"
+                name="cdg_base.receipt_case_documents_template"
                 paperformat="paper_form_cdg"
         />
         
@@ -14,12 +21,23 @@
                 <t t-call="report.external_layout">
                     <div class="page">
                         <t t-foreach="docs" t-as="data">
-                            <span t-field="data.case_image"  t-field-options='{"widget": "image"}'/>
-                            <br></br>
-                            <div style="page-break-after:always"></div>
+                            <img t-attf-src="data:image/jpg;base64,{{data.case_image}}" style="width:280px;height:350px;padding:10px;margin:0px;float:left;"/>
                         </t>
                     </div>
                 </t>         
+            </t>
+        </template>
+
+        <template id="receipt_case_documents_template">
+            <t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <t t-foreach="docs" t-as="data">
+                            <img t-attf-src="data:image/jpg;base64,{{data.case_doc}}"/>
+                            <div style="page-break-after:always"></div>
+                        </t>
+                    </div>
+                </t>
             </t>
         </template>
 

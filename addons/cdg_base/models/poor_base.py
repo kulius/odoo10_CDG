@@ -22,6 +22,7 @@ class PoorBase(models.Model):
     visit_completed_date = fields.Date('訪視完成日期')
     pick_up_date = fields.Date('領件日期')
     apply_date = fields.Date('申請日期', default=datetime.date.today())
+    visit_area_time = fields.Char('訪視志工人員') # 訪視地區以及隊伍別
     visit_member = fields.Text('訪視志工人員')
 
     rec_zip = fields.Char(string='戶籍郵政區號',required = True)
@@ -29,16 +30,20 @@ class PoorBase(models.Model):
     mail_zip = fields.Char(string='通訊郵遞區號',required = True)
     mail_addr = fields.Char(string='通訊地址',required = True)
     IsApproved = fields.Boolean('是否核准')
+    IsVisited = fields.Boolean('是否訪視完成')
+    IsSent = fields.Boolean('是否報告已送')
 
     poor_images = fields.One2many(comodel_name='poor.image',inverse_name='case_code', string='案件影像資料')
     poor_receive = fields.One2many(comodel_name='poor.receive', inverse_name='case_code', string='案件領款時間')
+    poor_documents = fields.One2many(comodel_name='poor.document', inverse_name='case_code', string='案件文件資料')
 
-    case_process = fields.Selection([(1, '訪視完成'), (2, '報告已送')], '案件進度')
     reward_method = fields.Selection([(1,'現金'),(2,'匯款')],'領款方式')
 
+    last_receive_time = fields.Date('上次領款時間')
+
     #救助情形
-    month = fields.Selection([(1, '1個月'), (2, '2個月'),(3, '3個月'),(4, '4個月'),(5, '5個月'),(6, '6個月')], '提領月數',required = True)
-    allow_money = fields.Integer('申請總額',required = True)
+    month = fields.Selection([(1, '1個月'), (2, '2個月'),(3, '3個月'),(4, '4個月'),(5, '5個月'),(6, '6個月')], '提領月數')
+    allow_money = fields.Integer('申請總額')
     once_money = fields.Integer('單次金額')
     receive_money = fields.Integer('已領金額')
 
@@ -49,10 +54,21 @@ class PoorBase(models.Model):
         self.receive_money = 0
         for data in self.poor_receive:
             self.receive_money += data.receive_money
+            self.last_receive_time = data.receive_date
+
 
         if (self.allow_money < self.receive_money):
             raise ValidationError(u"注意! 已領金額已超過申請總額")
 
+    @api.onchange('IsApproved','IsVisited','IsSent')
+    def show_process_statues(self):
+        self.Process_status = ""
+        if self.IsApproved == True:
+            self.Process_status += u"已核准\n"
+        if self.IsVisited == True:
+            self.Process_status += u"訪視完成\n"
+        if self.IsSent == True:
+            self.Process_status += u"報告已送\n"
 
 
 
@@ -62,8 +78,16 @@ class PoorBase(models.Model):
             'poor_images': self.poor_images.ids,
        }
 
-
        return self.env['report'].get_action([], 'cdg_base.receipt_case_images_template', data)
+
+    def print_case_document(self):
+
+       data = {
+            'poor_documents': self.poor_documents.ids,
+       }
+
+
+       return self.env['report'].get_action([], 'cdg_base.receipt_case_documents_template', data)
 
 
     @api.model

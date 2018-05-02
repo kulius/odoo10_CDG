@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="poor_document_form" model="ir.ui.view">
+            <field name="name">poor document form</field>
+            <field name="model">poor.document</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                          <field name="case_doc_name" string="文件影像名稱"/>
+                          <field name="case_doc" widget="image" string="案件文件資料"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_poor_document" name="案件文件資料" res_model="poor.document"
+                    view_mode="form" target="new" multi="False"/>
+    </data>
+</odoo>

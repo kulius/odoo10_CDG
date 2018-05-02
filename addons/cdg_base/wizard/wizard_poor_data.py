@@ -10,7 +10,7 @@ class WizardPoorData(models.Model):
 
     def print_poor_data(self):
 
-            ids = self.env['poor.base'].search([('check_date', '>=', self.start_date), ('check_date', '<=', self.end_date)],order="check_date asc").ids
+            ids = self.env['poor.base'].search([('last_receive_time', '>=', self.start_date), ('last_receive_time', '<=', self.end_date)],order="last_receive_time asc").ids
 
             docargs = {
                 'docs': ids,

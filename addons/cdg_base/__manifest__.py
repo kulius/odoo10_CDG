@@ -80,6 +80,7 @@
         'views/donor_donate_search.xml',
         'views/people_statistics.xml',
         'views/poor_receive.xml',
+        'views/poor_document.xml',
 
 
         'report/paper.xml',

@@ -17,13 +17,6 @@
 
         <menuitem id="charity_base_root" name="基本管理" sequence="1"/>
         <menuitem id="charity_base_categ" name="基本管理" parent="charity_base_root" sequence="1"/>
-        <menuitem id="worker_base1"
-                  name="員工基本資料(管理)"
-                  parent="charity_base_categ"
-                  action="c_worker_action"
-                  sequence="1"
-                  groups="cdg_member_manager"
-        />
         <menuitem id="worker_base2"
                   name="員工基本資料"
                   parent="charity_base_categ"
@@ -74,6 +67,14 @@
                  parent="charity_check"
                   action="people_statistics_action"
                   sequence="5"
+        />
+        <menuitem id="charity_base_categ_2" name="基本管理(管理)" parent="charity_base_root" sequence="3"/>
+        <menuitem id="worker_base1"
+                  name="員工基本資料(管理)"
+                  parent="charity_base_categ_2"
+                  action="c_worker_action"
+                  sequence="1"
+                  groups="cdg_member_manager"
         />
         <menuitem id="first_root" name="捐款者管理" sequence="2"/>
         <menuitem id="first_categ" name="捐款者管理" parent="first_root" sequence="1"/>
@@ -201,21 +202,21 @@
                   <!--action="member_fee_only_view_action"-->
                   <!--sequence="2"/> &lt;!&ndash; 未來可能也需要移除目前是開發階段參考用 &ndash;&gt;-->
          <menuitem id="member_batch_menu"
-                  name="會員費產生"
+                  name="會員費產生(管理)"
                   parent="member_manage_categ"
                   action="member_fee_generate_action"
                   sequence="2"
                   groups="cdg_member_manager"
          />
         <menuitem id="member_fee_inquire_menu"
-                  name="會員費查詢"
+                  name="會員費查詢(管理)"
                   parent="member_manage_categ"
                   action="member_fee_inquire_action"
                   sequence="3"
                   groups="cdg_member_manager"
         />
         <menuitem id="member_undonated_menu"
-                  name="通知年度未繳費會員"
+                  name="通知年度未繳費會員(管理)"
                   parent="member_manage_categ"
                   action="member_undonate_action"
                   sequence="4"
@@ -275,21 +276,21 @@
                   <!--action="consultant_fee_only_view_action"-->
                   <!--sequence="2"/> &lt;!&ndash; 未來可能也需要移除目前是開發階段參考用 &ndash;&gt;-->
         <menuitem id="consultant_batch_menu"
-                  name="顧問費產生"
+                  name="顧問費產生(管理)"
                   parent="consultant_manage_categ"
                   action="consultant_fee_generate_action"
                   sequence="2"
                   groups="cdg_member_manager"
         />
         <menuitem id="consultant_fee_inquire_menu"
-                  name="顧問費查詢"
+                  name="顧問費查詢(管理)"
                   parent="consultant_manage_categ"
                   action="consultant_fee_inquire_action"
                   sequence="3"
                   groups="cdg_member_manager"
         />
         <menuitem id="consultant_join_year_menu"
-                  name="顧問聘僱年度查詢"
+                  name="顧問聘僱年度查詢(管理)"
                   parent="consultant_manage_categ"
                   action="consultant_join_year_action"
                   sequence="4"
