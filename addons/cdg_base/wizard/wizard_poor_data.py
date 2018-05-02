@@ -5,8 +5,8 @@ from odoo import models, fields, api
 class WizardPoorData(models.Model):
     _name = 'wizard.poor.data'
 
-    start_date = fields.Date('核發時間-起', required=True)
-    end_date = fields.Date('核發時間-訖', required=True)
+    start_date = fields.Date('領款時間-起', required=True)
+    end_date = fields.Date('領款時間-訖', required=True)
 
     def print_poor_data(self):
 
