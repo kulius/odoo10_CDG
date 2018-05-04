@@ -61,7 +61,6 @@ access_donor_search,access_donor_search,model_donor_search,cdg_base.cdg_manager,
 access_memnber_fee_inquire,access_memnber_fee_inquire,model_memnber_fee_inquire,cdg_base.cdg_manager,1,1,1,1
 access_coffin_batch,access_coffin_batch,model_coffin_batch,cdg_base.cdg_manager,1,0,0,0
 access_consultant_fee_generate,access_consultant_fee_generate,model_consultant_fee_generate,cdg_base.cdg_manager,1,1,1,1
-access_poor_base,access_poor_base,model_poor_base,cdg_base.cdg_manager,1,1,1,1
 access_auto_donateid,access_auto_donateid,model_auto_donateid,cdg_base.cdg_manager,1,1,1,1
 access_member_source,access_member_source,model_member_source,cdg_base.cdg_manager,1,1,1,1
 access_worker_data,access_worker_data,model_worker_data,cdg_base.cdg_manager,1,1,1,1
@@ -78,7 +77,7 @@ access_ir_ui_view,access_ir_ui_view,base.model_ir_ui_view,cdg_base.cdg_manager,1
 access_poor_base_cdg_manager,access_poor_base,model_poor_base,cdg_base.cdg_manager,1,0,0,0
 access_poor_image_cdg_manager,access_poor_image,model_poor_image,cdg_base.cdg_manager,1,0,0,0
 access_poor_receive_cdg_manager,access_poor_receive,model_poor_receive,cdg_base.cdg_manager,1,0,0,0
-access_poor_statistics,access_poor_statistics,model_poor_statistics,cdg_base.cdg_manager,1,0,0,0
+access_poor_statistics_cdg_manager,access_poor_statistics,model_poor_statistics,cdg_base.cdg_manager,1,0,0,0
 
 access_coffin_batch_member_manager,access_coffin_batch,model_coffin_batch,cdg_base.cdg_member_manager,1,0,0,0
 access_coffin_batch_cdg_employees,access_coffin_batch,model_coffin_batch,cdg_base.cdg_employees,1,0,0,0
