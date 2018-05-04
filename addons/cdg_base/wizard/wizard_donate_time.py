@@ -8,7 +8,7 @@ class WizardCashierDonor(models.Model):
     cashier_code = fields.Many2one(comodel_name='cashier.base',string='收費員')
     donate_id_start = fields.Char('收據編號-起')
     donate_id_end = fields.Char('收據編號-訖')
-    key_in_user_code = fields.Many2one(comodel_name='res.users',string="建檔人員")
+    key_in_user_code = fields.Many2one(comodel_name='res.users',string="建檔人員",domain=['|',('login', 'like', 'A00') ,('login', 'like', 'A50')])
     donate_date = fields.Date('捐款日期')
 
     def donate_time(self):

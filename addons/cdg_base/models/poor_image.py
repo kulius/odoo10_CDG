@@ -7,7 +7,7 @@ class PoorImage(models.Model):
     _name = 'poor.image'
 
     case_code = fields.Many2one(comodel_name='poor.base',string="案件")
-    case_image = fields.Binary("案件影像資料")
-    case_image_name = fields.Char('影像資料名稱')
+    case_image = fields.Binary("案件照片資料")
+    case_image_name = fields.Char('照片名稱')
 
 

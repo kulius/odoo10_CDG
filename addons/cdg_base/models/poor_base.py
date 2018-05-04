@@ -18,6 +18,7 @@ class PoorBase(models.Model):
     apply_method = fields.Text('申請管道')
     rec_int = fields.Text('資源整合查詢')
     Process_status = fields.Text('處理狀況')
+    ps = fields.Text('備註')
     check_date = fields.Date('核發日期')
     visit_completed_date = fields.Date('訪視完成日期')
     pick_up_date = fields.Date('領件日期')
@@ -33,7 +34,8 @@ class PoorBase(models.Model):
     IsVisited = fields.Boolean('是否訪視完成')
     IsSent = fields.Boolean('是否報告已送')
 
-    poor_images = fields.One2many(comodel_name='poor.image',inverse_name='case_code', string='案件影像資料')
+
+    poor_images = fields.One2many(comodel_name='poor.image',inverse_name='case_code', string='案件照片資料')
     poor_receive = fields.One2many(comodel_name='poor.receive', inverse_name='case_code', string='案件領款時間')
     poor_documents = fields.One2many(comodel_name='poor.document', inverse_name='case_code', string='案件文件資料')
 
@@ -46,6 +48,7 @@ class PoorBase(models.Model):
     allow_money = fields.Integer('申請總額')
     once_money = fields.Integer('單次金額')
     receive_money = fields.Integer('已領金額')
+
 
 
     @api.onchange('poor_receive')

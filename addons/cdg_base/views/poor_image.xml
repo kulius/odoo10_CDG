@@ -8,14 +8,14 @@
                 <form>
                     <sheet>
                         <group>
-                          <field name="case_image_name" string="影像資料名稱"/>
-                          <field name="case_image" widget="image" string="案件影像資料"/>
+                          <field name="case_image_name"/>
+                          <field name="case_image" widget="image"/>
                         </group>
                     </sheet>
                 </form>
             </field>
         </record>
-        <act_window id="action_poor_image" name="案件影像資料" res_model="poor.image"
+        <act_window id="action_poor_image" name="案件照片資料" res_model="poor.image"
                     view_mode="form" target="new" multi="False"/>
     </data>
 </odoo>

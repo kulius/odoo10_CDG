@@ -46,7 +46,7 @@ class CashierBase(models.Model):
     def donater_register(self):
         number = 0
         action = self.env.ref('cdg_base.normal_p_action').read()[0]
-        action['context'] ={} # remove default domain condition in search box
+        action['context'] ={'search_default_top_of_home': 1} # remove default domain condition in search box
         action['domain'] =[] # remove any value in search box
         action['domain'] = [('cashier_name.id','=',self.id)]
         number = len(self.env['normal.p'].search([('cashier_name.id','=',self.id)]))
@@ -60,7 +60,7 @@ class CashierBase(models.Model):
     def member_register(self):
         number = 0
         action = self.env.ref('cdg_base.member_base_action').read()[0]
-        action['context'] ={} # remove default domain condition in search box
+        action['context'] ={'search_default_top_of_home': 1} # remove default domain condition in search box
         action['domain'] =[] # remove any value in search box
         action['domain'] = [('member_id','!=',''),('cashier_name.id','=',self.id)]
         number = len(self.env['normal.p'].search([('cashier_name.id', '=', self.id)]))
@@ -70,7 +70,7 @@ class CashierBase(models.Model):
     def consultant_register(self):
         number = 0
         action = self.env.ref('cdg_base.consultant_base_action').read()[0]
-        action['context'] = {}  # remove default domain condition in search box
+        action['context'] = {'search_default_top_of_home': 1}  # remove default domain condition in search box
         action['domain'] = []  # remove any value in search box
         action['domain'] = [('consultant_id','!=', ''),('cashier_name.id', '=', self.id)]
         number = len(self.env['normal.p'].search([('cashier_name.id', '=', self.id)]))

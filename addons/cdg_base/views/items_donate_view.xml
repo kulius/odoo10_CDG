@@ -33,6 +33,10 @@
                             <field name="donate_date"/>
                             <field name="item_name"/>
                         </group>
+                         <group col="8">
+                            <field name="tax_id_number"/>
+                            <field name="invoice_number"/>
+                        </group>
                         <group col="8">
                             <field name="name"/>
                             <field name="phone"/>

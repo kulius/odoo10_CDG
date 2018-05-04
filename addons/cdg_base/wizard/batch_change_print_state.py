@@ -8,7 +8,7 @@ class changestate(models.Model):
     star_donate_id = fields.Char(string='收據編號-起')
     end_donate_id = fields.Char(string='收據編號-訖')
     change_user = fields.Many2one(comodel_name='res.users', string='變更人員', default=lambda self: self.env.uid)
-    key_in_user = fields.Many2one(comodel_name='res.users', string='建檔人員')
+    key_in_user = fields.Many2one(comodel_name='res.users', string='建檔人員', domain=['|',('login', 'like', 'A00') ,('login', 'like', 'A50')])
     cashier_code = fields.Many2one(comodel_name='cashier.base', string='收費員')
 
     def change_state(self):
