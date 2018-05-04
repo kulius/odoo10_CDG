@@ -19,6 +19,7 @@ class CashierBase(models.Model):
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員')
     temp_key_in_user = fields.Char(string='輸入人員')
     db_chang_date = fields.Date(string='異動日期')
+    cashier = fields.Many2one(comodel_name='res.users', string="收費員登入")
 
     normal_cash = fields.Many2many(comodel_name='normal.p',string='捐款人繳費名冊')
     member_cash = fields.Many2many(comodel_name='normal.p',string='會員繳費名冊')
@@ -28,6 +29,18 @@ class CashierBase(models.Model):
     def create(self,vals):
         res_id = super(CashierBase, self).create(vals)
         res_id.c_id = self.env['ir.sequence'].next_by_code('cashier.base')
+
+        data=self.env['res.users'].create({
+            'login': res_id.c_id,
+            'password': "00000",
+            'name': res_id.name,
+            'sel_groups_16': 16,
+        })
+
+        res_id.write({
+            'cashier': data.id
+        })
+
         return res_id
 
     def donater_register(self):

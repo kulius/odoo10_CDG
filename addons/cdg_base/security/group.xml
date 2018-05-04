@@ -64,7 +64,7 @@
         </record>
 
          <record id="cdg_cashier_manager" model="res.groups">
-            <field name="name">行善團-收費員權限</field>
+            <field name="name">行善團-開啟收費員權限</field>
             <field name="category_id" ref="cdg_base.cdg_cashier_management"/>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
@@ -86,6 +86,7 @@
             <field name="category_id" ref="cdg_base.cdg_poor_management"/>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
+
 
 
 

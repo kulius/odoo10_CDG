@@ -360,6 +360,7 @@ class NormalP(models.Model):
     def setcashier(self):
         self.cashier = self.cashier_name.name
 
+
     @api.onchange('is_same_addr')
     def rec_addr_same_con_addr(self):
         if self.is_same_addr is True:
@@ -617,6 +618,16 @@ class NormalP(models.Model):
                 res_id.write({
                     'w_id': old_member_code.w_id
                 })
+
+        data = self.env['res.users'].create({
+            'login': res_id.new_coding,
+            'password': "00000",
+            'name': res_id.name,
+            'sel_groups_15' : 15,
+        })
+        res_id.write({
+            'donor': data.id
+        })
         return res_id
 
     @api.multi

@@ -240,6 +240,14 @@
                              |
                              <button string="給予捐款者，捐款者的權限" type="object" name="set_donor_access_order" class="oe_highlight"/>
                         </div>
+                        <label string="收費員可登入查詢自己的捐款人資料"/>
+                        <div>
+                             <button string="收費員資料匯入" type="object" name="set_cashier_data_into_res" class="oe_highlight"/>
+                             |
+                             <button string="將資料建立關聯，以及給予密碼初始值" type="object" name="update_cashier_res" class="oe_highlight"/>
+                             |
+                             <button string="給予收費員，收費員的權限" type="object" name="set_donor_access_cashier" class="oe_highlight"/>
+                        </div>
                     </group>
                     <group string="資料轉移">
                         <div>

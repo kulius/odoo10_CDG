@@ -96,6 +96,7 @@ access_coffin_batch_cdg_coffin_employees,access_coffin_batch,model_coffin_batch,
 access_coffin_base_cdg_coffin_employees,access_coffin_base,model_coffin_base,cdg_base.cdg_coffin_employees,1,1,1,1
 
 
+
 access_change_password,access_change_password,model_change_password,cdg_base.cdg_manager,1,1,1,1
 
 

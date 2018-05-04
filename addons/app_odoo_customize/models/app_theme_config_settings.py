@@ -1566,12 +1566,12 @@ class AppThemeConfigSettings(models.TransientModel):
         sql = "insert into res_partner(name,display_name,company_id,partner_share,write_uid) select new_coding,name,1,True,1 from normal_p" # 執行時間: 52.548s 資料筆數:784253筆
 
         self._cr.execute(sql)
-        sql = "insert into res_users(login,company_id,partner_id,share,write_uid) select  new_coding,1,5,False,1 from normal_p" # 執行時間: 38.040s 資料筆數:784253筆
+        sql = "insert into res_users(login,company_id,partner_id,share,write_uid) select  new_coding,1,1,False,1 from normal_p" # 執行時間: 38.040s 資料筆數:784253筆
         self._cr.execute(sql)
         return True
 
     def update_res(self):
-        sql = "update res_users set partner_id = a.id  from res_partner a where res_users.login = a.name" # 執行時間:62.216s 資料筆數:784257筆
+        sql = "update res_users set partner_id = a.id  from res_partner a where res_users.login = a.name and res_users.partner_id = 1" # 執行時間:62.216s 資料筆數:784257筆
         self._cr.execute(sql)
         sql = "update res_users set password_crypt='$pbkdf2-sha512$25000$6t0bo7Q2JsQ45xwjBEDIGQ$Yhj5Batf2vlJP0v8p4B/z7Tv1HKYkSCyZ4ixeQUWDFUE0AO06jVbXSiVnA8hBOyZd59Ez4duHrihSzgTxiCykQ' where password_crypt is null"
         # 執行時間:51.837s 資料筆數:784254筆
@@ -1586,16 +1586,46 @@ class AppThemeConfigSettings(models.TransientModel):
 
 
     def set_donor_access_order(self):
-        sql = "INSERT INTO res_groups_users_rel( gid,uid) select 15, a.id from res_users a where a.id > 45" # 執行時間:33.549s 資料筆數:784253筆
+        sql = "INSERT INTO res_groups_users_rel( gid,uid) select 15, a.id from res_users a where a.id > 1417" # 執行時間:33.549s 資料筆數:784253筆
         self._cr.execute(sql) # 把捐款者的帳號加到捐款者權限下
-        sql = "INSERT INTO res_groups_users_rel( gid,uid) select 7, a.id from res_users a where a.id > 45"  # 執行時間:31.183s 資料筆數:784253筆
+        sql = "INSERT INTO res_groups_users_rel( gid,uid) select 7, a.id from res_users a where a.id > 1417"  # 執行時間:31.183s 資料筆數:784253筆
         self._cr.execute(sql)  # 把捐款者的帳號加到捐款者權限下
-        sql = "INSERT INTO res_groups_users_rel( gid,uid) select 1, a.id from res_users a where a.id > 45"  # 執行時間:31.228s 資料筆數:784253筆
+        sql = "INSERT INTO res_groups_users_rel( gid,uid) select 1, a.id from res_users a where a.id > 1417"  # 執行時間:31.228s 資料筆數:784253筆
         self._cr.execute(sql)  # 把捐款者的帳號加到捐款者權限下
-        sql = "insert into res_company_users_rel (cid,user_id) select 1,a.id from res_users a where a.id > 45" # 執行時間:28.400s 資料筆數:784253筆
+        sql = "insert into res_company_users_rel (cid,user_id) select 1,a.id from res_users a where a.id > 1417" # 執行時間:28.400s 資料筆數:784253筆
         self._cr.execute(sql) # 讓捐款者可被odoo發現並更改密碼
         return True
 
+    # 讓收費員登入查看
 
+    def set_cashier_data_into_res(self):
+
+        sql = "insert into res_partner(name,display_name,company_id,partner_share,write_uid) select c_id,name,1,True,1 from cashier_base where c_id is not NULL and c_id not like 'H%'"
+        self._cr.execute(sql)
+        sql = "insert into res_users(login,company_id,partner_id,share,write_uid) select c_id,1,1,False,1 from cashier_base where c_id is not NULL and c_id not like 'H%'"
+        self._cr.execute(sql)
+        return True
+
+    def update_cashier_res(self):
+        sql = "update res_users set partner_id = a.id  from res_partner a where res_users.login = a.name and res_users.partner_id = 1"
+        self._cr.execute(sql)
+        sql = "update res_users set password_crypt='$pbkdf2-sha512$25000$6t0bo7Q2JsQ45xwjBEDIGQ$Yhj5Batf2vlJP0v8p4B/z7Tv1HKYkSCyZ4ixeQUWDFUE0AO06jVbXSiVnA8hBOyZd59Ez4duHrihSzgTxiCykQ' where password_crypt is null"
+        self._cr.execute(sql)
+        sql = "update res_partner set active = True where active is null"
+        self._cr.execute(sql)
+        sql = "update cashier_base set cashier = a.id from res_users a where a.login = cashier_base.c_id"
+        self._cr.execute(sql)
+        return True
+
+    def set_donor_access_cashier(self):
+        sql = "INSERT INTO res_groups_users_rel( gid,uid) select 16, a.id from res_users a where a.id > 47"
+        self._cr.execute(sql)
+        sql = "INSERT INTO res_groups_users_rel( gid,uid) select 7, a.id from res_users a where a.id > 47"
+        self._cr.execute(sql)
+        sql = "INSERT INTO res_groups_users_rel( gid,uid) select 1, a.id from res_users a where a.id > 47"
+        self._cr.execute(sql)
+        sql = "insert into res_company_users_rel (cid,user_id) select 1,a.id from res_users a where a.id > 47"
+        self._cr.execute(sql)
+        return True
 
 

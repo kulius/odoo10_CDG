@@ -81,6 +81,7 @@
         'views/people_statistics.xml',
         'views/poor_receive.xml',
         'views/poor_document.xml',
+        'views/cashier_search.xml',
 
 
         'report/paper.xml',
