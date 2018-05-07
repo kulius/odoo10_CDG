@@ -5,6 +5,7 @@ from . import cashier_list
 from . import consultant_list
 from . import member_list
 from . import donate_order
+from . import bridge_data_report
 from . import coffin_season
 from . import coffin_month
 from . import report_donate_single

@@ -44,6 +44,12 @@
             <field name="sequence">8</field>
         </record>
 
+        <record model="ir.module.category" id="cdg_bridge_management">
+            <field name="name">行善團-橋梁作業</field>
+            <field name="description">橋梁作業</field>
+            <field name="sequence">9</field>
+        </record>
+
         <!-- 定義群組底下的種類 -->
         <record id="cdg_manager" model="res.groups">
             <field name="name">行善團-成員</field>
@@ -84,6 +90,12 @@
         <record id="poor_management" model="res.groups">
             <field name="name">行善團-開啟貧困扶助權限</field>
             <field name="category_id" ref="cdg_base.cdg_poor_management"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="bridge_management" model="res.groups">
+            <field name="name">行善團-開啟橋梁作業</field>
+            <field name="category_id" ref="cdg_base.cdg_bridge_management"/>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 

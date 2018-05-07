@@ -31,7 +31,7 @@ access_old_coffin_donation,access_old_coffin_donation,model_old_coffin_donation,
 access_cashier_empty,access_cashier_empty,model_cashier_empty,cdg_base.cdg_manager,1,1,1,1
 access_cashier_block,access_cashier_block,model_cashier_block,cdg_base.cdg_manager,1,1,1,1
 access_donate_total_inquire,access_donate_total_inquire,model_donate_total_inquire,cdg_base.cdg_manager,1,1,1,1
-access_bridge_data,access_bridge_data,model_bridge_data,cdg_base.cdg_manager,1,1,1,1
+access_bridge_data,access_bridge_data,model_bridge_data,cdg_base.cdg_manager,1,0,0,0
 access_items_donate,access_items_donate,model_items_donate,cdg_base.cdg_manager,1,1,1,1
 access_old_donate_order,access_old_donate_order,model_old_donate_order,cdg_base.cdg_manager,1,1,1,0
 access_old_donate_single,access_old_donate_single,model_old_donate_single,cdg_base.cdg_manager,1,1,1,0
@@ -96,6 +96,7 @@ access_coffin_batch_cdg_coffin_employees,access_coffin_batch,model_coffin_batch,
 access_coffin_batch_cdg_coffin_employees,access_coffin_batch,model_coffin_batch,cdg_base.cdg_coffin_employees,1,1,1,1
 access_coffin_base_cdg_coffin_employees,access_coffin_base,model_coffin_base,cdg_base.cdg_coffin_employees,1,1,1,1
 
+access_bridge_data_bridge_management,access_bridge_data,model_bridge_data,cdg_base.bridge_management,1,1,1,1
 
 
 access_change_password,access_change_password,model_change_password,cdg_base.cdg_manager,1,1,1,1

@@ -76,7 +76,12 @@
                                 </group>
                             </page>
                             <page string="申請證明影像">
-
+                                <field name="coffin_image">
+                                    <tree name="申請證明影像">
+                                         <field name="case_image_name"/>
+                                        <field name="case_image"/>
+                                    </tree>
+                                </field>
                             </page>
                             <page string="捐助資料">
                                 <field name="batch_donate">

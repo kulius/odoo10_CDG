@@ -41,6 +41,7 @@ class CoffinBase(models.Model):
     create_date = fields.Date(string='建檔日期')
     db_chang_date = fields.Date(string='異動日期')
     exception_case = fields.Boolean(string='特案處理')
+    coffin_image = fields.One2many(comodel_name='coffin.image',inverse_name='case_code',string='施棺文件資料')
 
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')

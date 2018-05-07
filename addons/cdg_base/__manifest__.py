@@ -82,6 +82,7 @@
         'views/poor_receive.xml',
         'views/poor_document.xml',
         'views/cashier_search.xml',
+        'views/coffin_image_view.xml',
 
 
         'report/paper.xml',
@@ -91,6 +92,7 @@
         'report/consultant_list_report.xml',
         'report/member_list_report.xml',
         'report/donate_order_report.xml',
+        'report/bridge_data_report.xml',
         'report/coffin_month_report.xml',
         'report/coffin_season_report.xml',
         'report/report_donate_single.xml',

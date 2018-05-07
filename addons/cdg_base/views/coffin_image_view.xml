@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="coffin_image_form" model="ir.ui.view">
+            <field name="name">施棺文件資料</field>
+            <field name="model">coffin.image</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="case_image_name"/>
+                            <field name="case_image" widget="image"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="coffin_image_action" name="施棺文件資料" res_model="coffin.image" view_mode="form" target="new" multi="False"/>
+
+    </data>
+</odoo>

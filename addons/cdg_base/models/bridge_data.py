@@ -221,3 +221,4 @@ class BridgeData(models.Model):
         for line in data:
             if line.bridge_code == self.bridge_code:
                 raise ValidationError(u'橋樑編號不得重複')
+

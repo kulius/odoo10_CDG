@@ -32,3 +32,4 @@ from . import poor_image
 from . import poor_receive
 from . import poor_document
 from . import poor_statistics
+from . import coffin_image

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="bridge_data_xlsx"
+                model="bridge.data"
+                string="橋梁資料"
+                report_type="xlsx"
+                name="cdg_base.bridge_data.xlsx"
+                file="橋梁資料.xlsx"
+                attachment_use="False"/>
+    </data>
+</odoo>
