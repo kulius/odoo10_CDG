@@ -8,5 +8,6 @@
                 name="cdg_base.donate_order.xlsx"
                 file="捐款明細.xlsx"
                 attachment_use="False"/>
+
     </data>
 </odoo>
