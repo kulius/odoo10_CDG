@@ -28,6 +28,23 @@ class ItemsDonate(models.Model):
         res_id = super(ItemsDonate, self).create(vals)
         res_id.items_id = self.env['ir.sequence'].next_by_code('items.donate')
         res_id.key_in_user = self.env.uid
+        datas = self.env['items.number'].search([('number','>','0')])  # 搜尋計數器中有沒有資料
+
+
+        if datas:  # 如果有找到資料
+            datas.number += 1
+            res_id.write({
+                'items_id': 'I' + str(datas.number).zfill(6)
+            })
+        else:  # 如果沒有找到資料
+            self.env['items.number'].create({
+                'number': 1
+            })
+
+            res_id.write({
+                'items_id': 'I' + str(1).zfill(6)
+            })
+
         return res_id
 
     def print_receipt(self):
