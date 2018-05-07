@@ -17,3 +17,4 @@ from . import member_undonate_list
 from . import case_images
 from . import case_data
 from . import items_donate_report
+from . import bridge_data_report
