@@ -30,16 +30,16 @@ class CashierBase(models.Model):
         res_id = super(CashierBase, self).create(vals)
         res_id.c_id = self.env['ir.sequence'].next_by_code('cashier.base')
 
-        data=self.env['res.users'].create({
-            'login': res_id.c_id,
-            'password': "00000",
-            'name': res_id.name,
-            'sel_groups_16': 16,
-        })
-
-        res_id.write({
-            'cashier': data.id
-        })
+        # data=self.env['res.users'].create({
+        #     'login': res_id.c_id,
+        #     'password': "00000",
+        #     'name': res_id.name,
+        #     'sel_groups_16': 16,
+        # })
+        #
+        # res_id.write({
+        #     'cashier': data.id
+        # })
 
         return res_id
 

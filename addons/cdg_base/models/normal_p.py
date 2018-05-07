@@ -619,15 +619,15 @@ class NormalP(models.Model):
                     'w_id': old_member_code.w_id
                 })
 
-        data = self.env['res.users'].create({
-            'login': res_id.new_coding,
-            'password': "00000",
-            'name': res_id.name,
-            'sel_groups_15' : 15,
-        })
-        res_id.write({
-            'donor': data.id
-        })
+        # data = self.env['res.users'].create({
+        #     'login': res_id.new_coding,
+        #     'password': "00000",
+        #     'name': res_id.name,
+        #     'sel_groups_15' : 15,
+        # })
+        # res_id.write({
+        #     'donor': data.id
+        # })
         return res_id
 
     @api.multi
