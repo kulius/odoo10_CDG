@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="action_receipt_items_donate"
+                model="consultant.fee"
+                string="實物捐贈收據"
+                report_type="qweb-html"
+                name="cdg_base.items_receipt_print"
+                file="cdg_base.items_receipt_print"/>
+
+        <template id="items_donate_receipt">
+            <t t-call="report.html_container">
+                <h1 class="col-12 text-center">實物收據</h1>
+                <h3 class="col-12 text-center">正在列印輸出中，請稍候...</h3>
+                <script type="text/javascript">
+                var cfprint_addr = "127.0.0.1";   //列印伺服器監聽地址
+                var _delay_close = -1;          //列印完成後關閉視窗的延時時長(毫秒), -1則表示不關閉
+
+                var _tableSaleOrderLines = {
+                    "Name": "DonateSingleLines",
+                    "Cols":[
+                        { "type": "str", "size": 50, "name": "捐贈者", "required": false },
+                        { "type": "str", "size": 20, "name": "捐助日期", "required": false },
+                        { "type": "str", "size": 20, "name": "品名", "required": false },
+                        { "type": "str", "size": 50, "name": "住址", "required": false },
+                        { "type": "str", "size": 20, "name": "金額", "required": false },
+                        { "type": "str", "size": 20, "name": "大寫金額", "required": false },
+                        { "type": "str", "size": 30, "name": "數量", "required": false },
+                        { "type": "str", "size": 10, "name": "輸入人員", "required": false },
+                        { "type": "str", "size": 10, "name": "品項編號", "required": false },
+                        { "type": "str", "size": 15, "name": "統一編號", "required": false },
+                        { "type": "str", "size": 15, "name": "發票號碼", "required": false },
+                        { "type": "str", "size": 20, "name": "列印狀態", "required": false },
+                    ],
+                    "Data":[ ]
+                };
+
+                <t t-foreach="docs" t-as="o">
+                    _tableSaleOrderLines.Data.push(
+                    {
+                        "捐贈者":"<t t-esc="o['name']"/>",
+                        "品項編號":"<t t-esc="o['items_id']"/>",
+                        "住址":"<t t-esc="o['addr']"/>",
+                        "品名":"<t t-esc="o['item_name']"/>",
+                        "數量":"<t t-esc="o['number']"/>",
+                        "金額":"<t t-esc="o['money']"/>",
+                        "大寫金額":"<t t-esc="o['big_money']"/>",
+                        "捐助日期":"<t t-esc="o['donate_date']"/>",
+                        "輸入人員":"<t t-esc="o['key_in_user']"/>",
+                        "統一編號":"<t t-esc="o['tax_id_number']"/>",
+                        "發票號碼":"<t t-esc="o['invoice_number']"/>",
+                        "列印狀態":"<t t-esc="o['print_state']"/>",
+                    });
+                </t>
+                var _data = {"template": "items_receipt_print.fr3", "ver": 4, "Copies": 1, "Duplex": 0, "Preview": 1, "Tables":[]};
+
+                _data["Tables"].push(_tableSaleOrderLines);
+                var _reportData = JSON.stringify(_data);  //轉成json字元串
+
+                console.log(_reportData);
+                //生成資料之後，在cfprint_ext.js中會自動呼叫進行列印
+                </script>
+            </t>
+        </template>
+
+    </data>
+</odoo>

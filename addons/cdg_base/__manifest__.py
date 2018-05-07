@@ -105,6 +105,7 @@
         'report/member_undonate_list.xml',
         'report/case_images.xml',
         'report/case_data.xml',
+        'report/items_donate_report.xml',
 
         'security/ir.model.access.csv',
         'security/group.xml',

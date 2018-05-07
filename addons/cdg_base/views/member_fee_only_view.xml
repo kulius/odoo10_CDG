@@ -116,7 +116,7 @@
             <field name="arch" type="xml">
                 <pivot string="會員費收費統計表">
                     <field name="key_in_user" type="row"/>
-                    <field name="fee_date" type="row"/>
+                    <field name="normal_p_id" type="row"/>
                     <field name="fee_payable" type="measure"/>
                 </pivot>
             </field>
