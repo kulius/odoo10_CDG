@@ -41,10 +41,9 @@
                                     <field name="relate_phone"/>
                                 </group>
                                  <group col="8">
-                                    <field name="rec_zip"/> <!-- nolabel 不會出現string  -->
-                                    <field name="rec_addr" colspan="6"/>
-                                     <field name="mail_zip"/>
-                                    <field name="mail_addr" colspan="6" />
+                                    <!-- nolabel 不會出現string  -->
+                                    <field name="rec_addr" colspan="4"/>
+                                    <field name="mail_addr" colspan="4" />
                                 </group>
                                 <group col="6">
                                     <field name="pick_up_date"/>

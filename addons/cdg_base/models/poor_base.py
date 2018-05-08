@@ -27,9 +27,7 @@ class PoorBase(models.Model):
     visit_area_time = fields.Char('訪視志工人員') # 訪視地區以及隊伍別
     visit_member = fields.Text('訪視志工人員')
 
-    rec_zip = fields.Char(string='戶籍郵政區號',required = True)
     rec_addr = fields.Char(string='戶籍地址',required = True)
-    mail_zip = fields.Char(string='通訊郵遞區號',required = True)
     mail_addr = fields.Char(string='通訊地址',required = True)
     IsApproved = fields.Boolean('是否核准')
     IsVisited = fields.Boolean('是否訪視完成')
