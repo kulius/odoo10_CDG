@@ -72,7 +72,8 @@ access_consultant_receipt,access_consultant_receipt,model_consultant_receipt,cdg
 access_member_receipt,access_member_receipt,model_member_receipt,cdg_base.cdg_manager,1,1,1,1
 access_res_users,access_res_users,model_res_users,cdg_base.cdg_manager,1,1,1,1
 access_ir_ui_view,access_ir_ui_view,base.model_ir_ui_view,cdg_base.cdg_manager,1,1,1,0
-
+access_coffin_image,access_coffin_image,model_coffin_image,cdg_base.cdg_manager,1,0,0,0
+access_items_number,access_items_number,model_items_number,cdg_base.cdg_manager,1,1,1,1
 
 access_poor_base_cdg_manager,access_poor_base,model_poor_base,cdg_base.cdg_manager,1,0,0,0
 access_poor_image_cdg_manager,access_poor_image,model_poor_image,cdg_base.cdg_manager,1,0,0,0
@@ -95,6 +96,7 @@ access_poor_statistics_poor_management,access_poor_statistics_poor_management,mo
 access_coffin_batch_cdg_coffin_employees,access_coffin_batch,model_coffin_batch,cdg_base.cdg_coffin_employees,1,1,1,1
 access_coffin_batch_cdg_coffin_employees,access_coffin_batch,model_coffin_batch,cdg_base.cdg_coffin_employees,1,1,1,1
 access_coffin_base_cdg_coffin_employees,access_coffin_base,model_coffin_base,cdg_base.cdg_coffin_employees,1,1,1,1
+access_coffin_image_cdg_coffin_employees,access_coffin_image,model_coffin_image,cdg_base.cdg_coffin_employees,1,1,1,1
 
 access_bridge_data_bridge_management,access_bridge_data,model_bridge_data,cdg_base.bridge_management,1,1,1,1
 
