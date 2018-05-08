@@ -17,6 +17,7 @@ class PoorBase(models.Model):
     relate_phone = fields.Char('聯絡人電話')
     apply_method = fields.Text('申請管道')
     rec_int = fields.Text('資源整合查詢')
+    case_preview = fields.Text('簡述原因',default= u"待援助案主:")
     Process_status = fields.Text('處理狀況')
     ps = fields.Text('備註')
     check_date = fields.Date('核發日期')

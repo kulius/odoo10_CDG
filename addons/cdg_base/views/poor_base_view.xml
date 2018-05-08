@@ -68,6 +68,7 @@
                                     <field name="visit_area_time"></field><field name="visit_member" nolabel = "1" colspan="3"/>
                                 </group>
                                 <group>
+                                    <field name= "case_preview"/>
                                     <field name="ps"/>
                                 </group>
                             </page>
