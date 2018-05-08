@@ -51,9 +51,9 @@
                                     <field name="check_date"/>
                                 </group>
                                 <group col="6">
-                                    <field name="IsApproved"/>
                                     <field name="IsVisited"/>
                                     <field name="IsSent"/>
+                                    <field name="IsApproved"/>
                                 </group>
                                 <group col="6">
                                     <field name="visit_completed_date"/>

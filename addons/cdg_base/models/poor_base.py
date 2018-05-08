@@ -9,7 +9,7 @@ class PoorBase(models.Model):
     #純文字的欄位
     name = fields.Char('案主姓名',required = True)
     self_iden = fields.Char('案主身分證號',required = True)
-    birth = fields.Date('案主出生年月日',required = True)
+    birth = fields.Char('案主出生年月日',required = True)
     case_id = fields.Char('案件編號',readonly=True)
     telephone = fields.Char('案主電話')
     phone = fields.Char('案主手機')
