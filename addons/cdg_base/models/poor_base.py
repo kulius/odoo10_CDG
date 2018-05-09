@@ -23,7 +23,7 @@ class PoorBase(models.Model):
     check_date = fields.Date('核發日期')
     visit_completed_date = fields.Date('訪視完成日期')
     pick_up_date = fields.Date('領件日期')
-    apply_date = fields.Date('申請日期', default=datetime.date.today())
+    apply_date = fields.Date('收件日期', default=datetime.date.today())
     visit_area_time = fields.Char('訪視志工人員') # 訪視地區以及隊伍別
     visit_member = fields.Text('訪視志工人員')
 

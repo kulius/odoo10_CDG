@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="donor_search_form" model="ir.ui.view">
+        <record id="wizard_poor_data_form" model="ir.ui.view">
             <field name="name">wizard poor data form</field>
             <field name="model">wizard.poor.data</field>
             <field name="arch" type="xml">

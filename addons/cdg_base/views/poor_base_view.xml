@@ -133,6 +133,7 @@
                    <field name="name"></field>
                    <field name="self_iden"></field>
                    <field name="mail_addr"></field>
+                   <field name="relationship"></field>
                 </search>
             </field>
         </record>
