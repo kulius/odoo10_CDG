@@ -33,7 +33,7 @@
                 <t t-call="report.external_layout">
                     <div class="page">
                         <t t-foreach="docs" t-as="data">
-                            <img t-attf-src="data:image/jpg;base64,{{data.case_doc}}"/>
+                            <img t-attf-src="data:image/jpg;base64,{{data.case_doc}}" style="width:900px;height:1300px;"/>
                             <div style="page-break-after:always"></div>
                         </t>
                     </div>
