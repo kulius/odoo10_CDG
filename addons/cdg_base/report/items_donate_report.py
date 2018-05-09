@@ -12,6 +12,7 @@ class ItemsReceiptPrint(models.AbstractModel):
         print_date = ''
         tax_id_number = ''
         invoice_number = ''
+        donor_iden = ''
         line_data = []
         for line in target:
             if line.print_state == True:
@@ -27,11 +28,16 @@ class ItemsReceiptPrint(models.AbstractModel):
                 invoice_number = u'發票號碼: %s' % line.invoice_number
             elif not line.invoice_number:
                 invoice_number = ''
+            if line.donor_iden:
+                donor_iden = u'身份證字號: %s' % line.donor_iden
+            elif not line.donor_iden:
+                donor_iden = ''
             money = self.convert(line.money)
             line_data.append({
                 'items_id': line.items_id,
                 'donate_date': line.donate_date,
                 'name': line.name,
+                'donor_iden':donor_iden,
                 'addr': line.addr,
                 'money': line.money,
                 'big_money':money,

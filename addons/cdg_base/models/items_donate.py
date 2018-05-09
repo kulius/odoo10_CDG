@@ -20,7 +20,9 @@ class ItemsDonate(models.Model):
     items_id = fields.Char('品項編號', readonly=True)
     tax_id_number = fields.Char('統一編號')
     invoice_number = fields.Char('發票號碼')
+    donor_iden = fields.Char('身份證字號')
     print_state = fields.Boolean(string='列印狀態', default=False)
+    ps = fields.Text('備註')
 
 
     @api.model

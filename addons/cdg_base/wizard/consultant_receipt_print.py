@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+from datetime import *
 
 class consultantreceiptprint(models.Model):
     _name = 'consultant.receipt'
     _description = u'顧問費收據列印'
 
-    pay_year = fields.Integer(string='繳費年度')
+    pay_year = fields.Integer(string='繳費年度', default=datetime.today().year - 1911)
     cdg_consultant = fields.Many2one(comodel_name='normal.p', string='顧問')
     print_user = fields.Many2one(comodel_name='res.users', string='列印人員', default=lambda self: self.env.uid)
     print_again = fields.Boolean(string='補單')

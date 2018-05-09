@@ -19,7 +19,9 @@
                 var _tableSaleOrderLines = {
                     "Name": "DonateSingleLines",
                     "Cols":[
+                        { "type": "str", "size": 10, "name": "實物捐贈", "required": false },
                         { "type": "str", "size": 50, "name": "捐贈者", "required": false },
+                        { "type": "str", "size": 50, "name": "身份證字號", "required": false },
                         { "type": "str", "size": 20, "name": "捐助日期", "required": false },
                         { "type": "str", "size": 20, "name": "品名", "required": false },
                         { "type": "str", "size": 50, "name": "住址", "required": false },
@@ -38,7 +40,9 @@
                 <t t-foreach="docs" t-as="o">
                     _tableSaleOrderLines.Data.push(
                     {
+                        "實物捐贈":"實物捐贈：",
                         "捐贈者":"<t t-esc="o['name']"/>",
+                        "身份證字號":"<t t-esc="o['donor_iden']"/>",
                         "品項編號":"<t t-esc="o['items_id']"/>",
                         "住址":"<t t-esc="o['addr']"/>",
                         "品名":"<t t-esc="o['item_name']"/>",

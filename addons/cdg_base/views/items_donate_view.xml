@@ -31,24 +31,24 @@
                                 <field name="items_id"/>
                             </h1>
                         </div>
-                         <group col="8">
-                            <field name="donate_date"/>
+                         <group col="4">
                             <field name="item_name"/>
+                            <field name="donate_date"/>
+                            <field name="number"/>
+                            <field name="money"/>
                         </group>
-                         <group col="8">
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="phone"/>
+                            <field name="donor_iden"/>
+                            <field name="addr"/>
+                        </group>
+                        <group col="4">
                             <field name="tax_id_number"/>
                             <field name="invoice_number"/>
                         </group>
-                        <group col="8">
-                            <field name="name"/>
-                            <field name="phone"/>
-                        </group>
-                        <group col="8">
-                            <field name="money"/>
-                            <field name="number"/>
-                        </group>
-                        <group col="4">
-                            <field name="addr"/>
+                        <group>
+                            <field name="ps"/>
                         </group>
                     </sheet>
                 </form>
