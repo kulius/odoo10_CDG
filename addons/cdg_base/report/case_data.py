@@ -36,7 +36,7 @@ class CaseDataXlsx(ReportXlsx):
             sheet.write(data_count, 2, data.name)
             sheet.write(data_count, 3, data.once_money)
             sheet.write(data_count, 8, data.receive_money)
-            data_total_money += data.receive_money
+            data_total_money += data.once_money
             sheet.write(data_count, 9, data.mail_addr)
             sheet.write(data_count, 10, data.self_iden)
             sheet.set_column(1, 7, 10)
@@ -118,7 +118,7 @@ class CaseDataXlsx(ReportXlsx):
                        sheet.write(data_count, 7, data_rec.receive_date)
                        data_count += 1
 
-            sheet.write(data_count, 8, data_total_money)
+            sheet.write(data_count, 3, data_total_money)
 
 
 

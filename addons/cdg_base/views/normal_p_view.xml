@@ -268,8 +268,8 @@
                                 <page string="個人歷史捐款明細">
                                     <field name="donate_history_ids"/>
                                 </page>
-                                <page string="施棺紀錄">
-                                </page>
+                                <!--<page string="施棺紀錄">-->
+                                <!--</page>-->
                                 <page string="約定轉帳">
                                     <span STYLE='FONT-SIZE:25PX'>約定轉帳</span>
                                     <group col="4">

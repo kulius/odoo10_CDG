@@ -75,6 +75,8 @@
                     <field name="bridge_code"/>
                     <field name="name"/>
                     <field name="bridge_addr"/>
+                    <field string="國歷動土日期-起" name="build_date" filter_domain="[('build_date', '&gt;=',self )]"/>
+                    <field string="國歷動土日期-迄" name="build_date" filter_domain="[('build_date', '&lt;=',self)]"/>
                     <field string="國歷謝土日期-起" name="completed_date" filter_domain="[('completed_date', '&gt;=',self )]"/>
                     <field string="國歷謝土日期-迄" name="completed_date" filter_domain="[('completed_date', '&lt;=',self)]"/>
                 </search>

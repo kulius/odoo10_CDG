@@ -10,7 +10,8 @@
                     <field name="name"/>
                     <field name="self_iden"/>
                     <field name="mail_addr"/>
-                    <field name="apply_date"/>
+                    <field name="telephone"/>
+                    <field name="phone"/>
                 </tree>
             </field>
         </record>
@@ -134,6 +135,8 @@
                    <field name="self_iden"></field>
                    <field name="mail_addr"></field>
                    <field name="relationship"></field>
+                   <field name="telephone"></field>
+                   <field name="phone"></field>
                 </search>
             </field>
         </record>

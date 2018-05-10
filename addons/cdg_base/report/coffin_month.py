@@ -12,7 +12,7 @@ class CoffinMonthXlsx(ReportXlsx):
         sheet = workbook.add_worksheet()
 
         sheet.write(0, 0, u'序號')
-        sheet.write(0, 1, u'施出日期')
+        sheet.write(0, 1, u'領款日期')
         sheet.write(0, 2, u'受施亡者')
         sheet.write(0, 3, u'領款者住址')
         sheet.write(0, 4, u'領款者')
