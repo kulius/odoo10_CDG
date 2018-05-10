@@ -167,7 +167,7 @@ class NormalP(models.Model):
         action = self.env.ref('cdg_base.donate_single_view_action').read()[0]
         action['context'] ={} # remove default domain condition in search box
         action['domain'] =[] # remove any value in search box
-        action['domain'] = ['&',('donate_member.new_coding', '=', self.new_coding),('state','!=',3)]  # set new domain condition to search data
+        action['domain'] = ['&',('donate_member', '=', self.id),('state','!=',3)]  # set new domain condition to search data
         return action
 
     def cashier_block(self, ids):
@@ -281,10 +281,17 @@ class NormalP(models.Model):
     def toggle_merge(self):
         self.is_merge = not self.is_merge
 
+    def toggle_recsend(self):
+        self.rec_send = not self.rec_send
+
+    def toggle_reportsend(self):
+        self.report_send = not self.report_send
+
     def all_addr_chnage(self):
         for line in self.donate_family1:
             if line:
-                line.rec_addr  =  self.rec_addr
+                line.rec_addr = self.rec_addr
+                line.con_addr = self.con_addr
             else:
                 break
 
@@ -293,6 +300,7 @@ class NormalP(models.Model):
             if line:
                 if line.is_merge is True:
                   line.rec_addr =  self.rec_addr
+                  line.con_addr = self.con_addr
             else:
                 break
 
