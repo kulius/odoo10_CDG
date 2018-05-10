@@ -212,6 +212,7 @@ class NormalP(models.Model):
             'target': 'new',
         }
 
+
     def cashier_consultant(self, ids):
         res = []
         for line in ids:
