@@ -395,7 +395,7 @@
                     });
                     </t>
                     <t t-foreach="o.donate_line" t-as="lines">
-                        <t t-if="foo &lt; 20">
+                        <t t-if="foo &lt; 21">
                             <t t-if=" lines.is_merge ==True">
                                 <t t-set="foo" t-value="foo+1"/>
                                 <t t-if=" lines.donate_price != 0">
@@ -420,7 +420,7 @@
                                     "是否合併收據":"<t t-esc="1"/>",
                                 });
                                 </t>
-                                <t t-if="foo == 20">
+                                <t t-if="foo == 21">
                                     _tableSaleOrderLines.Data.push(
                                     {
                                         "收據編號":"<t t-esc="o.title_doante_code"/>",
