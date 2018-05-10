@@ -42,10 +42,10 @@
         'wizard/wizard_abandon_single.xml',
         'wizard/wizard_cashier_member.xml',
         'wizard/wizard_cashier_consultant.xml',
-        'wizard/wizard_cashier_transfer.xml',
         'wizard/change_password_for_donor.xml',
         'wizard/member_undonate.xml',
         'wizard/wizard_poor_data.xml',
+        'wizard/wizard_cashier_transfer.xml',
 
 
         'views/normal_p_view.xml',

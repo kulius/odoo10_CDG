@@ -77,6 +77,8 @@ class CashierBase(models.Model):
         action['limit'] = number
         return action
 
+
+
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
         args = args or []

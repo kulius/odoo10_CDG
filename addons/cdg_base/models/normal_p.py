@@ -184,6 +184,20 @@ class NormalP(models.Model):
             'target': 'new',
         }
 
+    def cashier_trans(self, ids):
+        res = []
+        for line in ids:
+            res.append([4, line])
+            wizard_data = self.env['cashier.transfer'].create({'from_target': res})
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'cashier.transfer',
+            'name': '收費員批次更改',
+            'res_id': wizard_data.id,
+            'view_mode': 'form',
+            'target': 'new',
+        }
+
     def cashier_member(self, ids):
         res = []
         for line in ids:

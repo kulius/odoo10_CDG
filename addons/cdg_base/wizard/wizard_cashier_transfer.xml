@@ -8,8 +8,7 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="out_cashier"/>
-                            <field name="current_cashier"/>
+                            <field name="new_cashier"/>
                         </group>
                     </sheet>
                     <footer>
@@ -20,7 +19,7 @@
             </field>
         </record>
 
-        <act_window id="cashier_transfer_action" name="合併收費員的捐款者" res_model="cashier.transfer"
+        <act_window id="action_cashier_transfer" name="合併收費員的捐款者" res_model="cashier.transfer"
                     view_mode="form" target="new" multi="False"/>
 
     </data>
