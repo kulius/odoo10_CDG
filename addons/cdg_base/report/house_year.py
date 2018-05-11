@@ -114,7 +114,9 @@ class HouseYearSingleReport(models.AbstractModel):
                 order_temp = {
                     'ID':line.id,
                     'new_coding': line.new_coding,
+                    'w_id':line.w_id,
                     'name': line.name,
+                    'zip':line.zip,
                     'rec_addr': line.rec_addr,
                     'personal_total':house_total,
                     'big_price':big_price,

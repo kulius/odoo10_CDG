@@ -62,9 +62,9 @@
                 _tableOrder.Data.push(
                 {
                     "捐款者姓名":"<t t-esc="house_hold.name"/>",
-                    "住址":"<t t-esc="house_hold.rec_addr"/>",
+                    "住址":"<t t-esc="house_hold.zip"/>" + "<t t-esc="house_hold.rec_addr"/>",
                     "捐款日期":"<t t-esc="report_year"/>",
-                    "團員編號":"<t t-esc="house_hold.new_coding"/>",
+                    "團員編號":"<t t-esc="house_hold.new_coding"/>" + " (" + "<t t-esc="house_hold.w_id"/>" + ")",
                     "經手人":"<t t-esc="print_user"/>",
                     "捐款總額大寫":"<t t-esc="big_price"/>",
                     "捐款總額":"<t t-esc="docs"/>",
@@ -128,9 +128,9 @@
                     {
                         "ID":"<t t-esc="o['ID']"/>",
                         "捐款者姓名":"<t t-esc="o['name']"/>",
-                        "住址":"<t t-esc="o['rec_addr']"/>",
+                        "住址":"<t t-esc="o['zip']"/>" + "<t t-esc="o['rec_addr']"/>",
                         "捐款日期":"<t t-esc="o['report_year']"/>",
-                        "團員編號":"<t t-esc="o['new_coding']"/>",
+                        "團員編號":"<t t-esc="o['new_coding']"/>" + " (" + "<t t-esc="o['w_id']"/>" + ")",
                         "經手人":"<t t-esc="o['print_user']"/>",
                         "捐款總額大寫":"<t t-esc="o['big_price']"/>",
                         "捐款總額":"<t t-esc="o['personal_total']"/>",
