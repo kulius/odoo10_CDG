@@ -1166,6 +1166,17 @@ class AppThemeConfigSettings(models.TransientModel):
               " where a.id = b.id and a.member_type = 1"
         self._cr.execute(sql)
 
+    def coffin_reset(self):
+        sql = 'UPDATE old_coffin_donation SET donate_single_id = a.id FROM donate_single a WHERE a.donate_id = old_coffin_donation.donate_id'
+        self._cr.execute(sql)
+        sql = 'UPDATE old_coffin_donation SET normal_p_id = a.id FROM normal_p a, donate_single b WHERE b.donate_id = old_coffin_donation.donate_id and a.id = b.donate_member'
+        self._cr.execute(sql)
+        data = self.env['coffin.donation'].search([])
+        for line in data:
+            line.write({
+                'normal_p_id':line.donate_order_id.donate_member.id
+            })
+
     def postal_code_database(self):
         sql = " INSERT INTO postal_code (city, area, zip) VALUES " \
                 "('台北市', '中正區', '100')," \

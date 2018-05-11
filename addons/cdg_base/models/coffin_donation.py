@@ -20,6 +20,10 @@ class CoffinDonation(models.Model):
     # donate_single_id = fields.Many2one(comodel_name='donate.single', string='捐款編號')
     donate_order_id = fields.Many2one(comodel_name='donate.order', string='捐款者 (可用餘額)' , domain=[('donate_type', '=', 3),('available_balance', '>=', 5000)])
     donate_id =  fields.Char(string='捐款編號', related='donate_order_id.donate_id')
+    normal_p_id = fields.Many2one(comodel_name='normal.p')
+    coffin_user = fields.Char(string='受施者', related='coffin_donation_id.user')
+    coffin_date = fields.Date(string='領款日期', related='coffin_donation_id.coffin_date')
+    coffin_id = fields.Char(string='施棺編號', related='coffin_donation_id.coffin_id')
 
     @api.onchange('donate_order_id')
     def set_used_money(self): # 人工配對捐助資料
@@ -41,11 +45,13 @@ class CoffinDonation(models.Model):
                 self.donate_price = Cumulative_amount # 差額寫入donate_order 的已用金額欄位
                 self.history_donate_records = Cumulative_amount
                 self.use_amount = False # 此筆捐款尚未使用完畢
+                self.normal_p_id = self.donate_order_id.donate_member
             elif self.available_balance - Cumulative_amount <= 0 : # 代表此筆捐款金額無法滿足目前的施棺差額
                 self.donate_price = self.donate_price + self.available_balance # 捐款金額的可用餘額寫入 donate_order 已用金額欄位
                 self.history_donate_records = self.available_balance
                 self.available_balance = 0 # 此筆金額全數支用完畢
                 self.use_amount = True # 此筆金額全數支用完畢
+                self.normal_p_id = self.donate_order_id.donate_member
 
     def data_input_from_database(self):
         data = self.env['base.external.dbsource'].search([])

@@ -231,6 +231,7 @@
                             |
                              <button string="匯入顧問繳費的最後日期" type="object" name="set_consultant_last_payment_time" class="oe_highlight"/>
                             |
+                            <button string="施棺紀錄更新" type="object" name="coffin_reset" class="oe_highlight"/>
                         </div>
                         <label string="捐款者可登入查詢自己的捐款資料"/>
                         <div>

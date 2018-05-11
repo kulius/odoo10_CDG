@@ -69,7 +69,6 @@ class DonateOrder(models.Model):
     handbook_code = fields.Many2one(comodel_name='hand.book', string='簿冊編號')
     ps = fields.Char(string='備註')
 
-
     report_big = fields.Char()
     report_price = fields.Integer()
 

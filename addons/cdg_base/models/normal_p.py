@@ -112,6 +112,9 @@ class NormalP(models.Model):
 
     donor = fields.Many2one(comodel_name='res.users', string="捐款登入者")
 
+    old_coffin_donation = fields.One2many(comodel_name='old.coffin.donation', inverse_name='normal_p_id')
+    coffin_donation = fields.One2many(comodel_name='coffin.donation', inverse_name='normal_p_id')
+
     # 設定上一筆捐款 如果捐款種類有選擇 金額帶入100
     @api.onchange('last_donate_type')
     def set_default_last_donate_money(self):
@@ -300,7 +303,7 @@ class NormalP(models.Model):
         self.rec_send = not self.rec_send
 
     def toggle_reportsend(self):
-        self.report_send = not self.report_send
+        self.report_send = not self.is_merge
 
     def all_addr_chnage(self):
         for line in self.donate_family1:

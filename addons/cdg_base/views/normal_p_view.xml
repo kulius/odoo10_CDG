@@ -152,8 +152,31 @@
                                 <page string="個人歷史捐款明細">
                                     <field name="donate_history_ids"/>
                                 </page>
-                                <!--<page string="施棺紀錄">-->
-                                <!--</page>-->
+                                <page string="舊施棺紀錄">
+                                    <field name="old_coffin_donation">
+                                        <tree delete="false">
+                                            <field name="donate_id"/>
+                                            <field name="donate_date"/>
+                                            <field name="donate_price"/>
+                                            <field name="coffin_id"/>
+                                            <field name="coffin_user"/>
+                                            <field name="coffin_date"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="施棺紀錄">
+                                    <field name="coffin_donation">
+                                        <tree delete="false">
+                                            <field name="donate_id"/>
+                                            <field name="donate_date"/>
+                                            <field name="donate"/>
+                                            <field name="history_donate_records"/>
+                                            <field name="coffin_id"/>
+                                            <field name="coffin_user"/>
+                                            <field name="coffin_date"/>
+                                        </tree>
+                                    </field>
+                                </page>
                                 <page string="約定轉帳">
                                     <span STYLE='FONT-SIZE:25PX'>約定轉帳</span>
                                     <group col="4">

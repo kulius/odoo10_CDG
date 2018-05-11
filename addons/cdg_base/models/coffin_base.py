@@ -46,7 +46,6 @@ class CoffinBase(models.Model):
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
 
-
     @api.model
     def create(self, vals):
         res_id = super(CoffinBase, self).create(vals)
@@ -237,7 +236,8 @@ class CoffinBase(models.Model):
                         self.write({
                             'batch_donate': [(0, 0, {
                                 'donate_order_id': line.id,
-                                'history_donate_records':line.available_balance
+                                'history_donate_records':line.available_balance,
+                                'normal_p_id':line.donate_member.id
                             })]
                         })
                         line.use_amount = True  # 確認已支用此筆施棺捐款金額
@@ -246,11 +246,13 @@ class CoffinBase(models.Model):
                         Cumulative_amount = Cumulative_amount - line.available_balance  # 施棺滿足額 減掉 捐款額
                         line.available_balance = 0  # 該筆捐款金額歸 0
 
+
                     elif int(line.available_balance) > Cumulative_amount and flag == False:  # 單筆捐款大於施棺滿足額的差額
                         self.write({
                             'batch_donate': [(0, 0, {
                                 'donate_order_id': line.id,
-                                'history_donate_records': line.available_balance - (line.available_balance - Cumulative_amount)
+                                'history_donate_records': line.available_balance - (line.available_balance - Cumulative_amount),
+                                'normal_p_id': line.donate_member.id
                             })]
                         })
                         line.used_money = line.used_money + line.available_balance - (line.available_balance - Cumulative_amount) # 已用金額
@@ -378,4 +380,9 @@ class OldCoffinDonation(models.Model):
     donate_price = fields.Integer(string='施棺捐款金額')
 
     old_coffin_donation_id = fields.Many2one(comodel_name='coffin.base')
+    donate_single_id = fields.Many2one(comodel_name='donate.single', string='捐款編號')
+    normal_p_id = fields.Many2one(comodel_name='normal.p')
+    donate_date = fields.Date(string='捐款日期', related='donate_single_id.donate_date')
+    coffin_user = fields.Char(string='受施者', related='old_coffin_donation_id.user')
+    coffin_date = fields.Date(string='領款日期', related='old_coffin_donation_id.coffin_date')
     donor = fields.Char(string='捐款者')
