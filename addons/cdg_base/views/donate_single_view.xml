@@ -116,11 +116,11 @@
                                         <field name="donate_member" options="{'no_quick_create': True, 'no_create_edit' : True}" context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form', 'search_view_ref':'cdg_base.normal_p_search'}" readonly="1"/>
                                         <field name="is_donate"/>
                                         <field name="is_merge"/>
-                                        <field name="bridge_money"/>
-                                        <field name="road_money"/>
-                                        <field name="coffin_money"/>
-                                        <field name="poor_help_money"/>
-                                        <field name="noassign_money"/>
+                                        <field name="bridge_money" string="A.造橋"/>
+                                        <field name="road_money" string="B.補路"/>
+                                        <field name="coffin_money" string="C.施棺"/>
+                                        <field name="poor_help_money" string="D.貧困扶助"/>
+                                        <field name="noassign_money" string="E.一般捐款"/>
                                     </tree>
                                 </field>
                                 <group col="4">
