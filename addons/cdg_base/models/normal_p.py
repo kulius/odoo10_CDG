@@ -306,7 +306,7 @@ class NormalP(models.Model):
         self.rec_send = not self.rec_send
 
     def toggle_reportsend(self):
-        self.report_send = not self.is_merge
+        self.report_send = not self.report_send
 
     def all_addr_chnage(self):
         for line in self.donate_family1:
