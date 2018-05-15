@@ -132,6 +132,7 @@
             <field name="model">poor.base</field>
             <field name="arch" type="xml">
                 <search>
+                   <field name="case_id"/>
                    <field name="name"></field>
                    <field name="self_iden"></field>
                    <field name="mail_addr"></field>
