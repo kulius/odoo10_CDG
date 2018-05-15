@@ -45,6 +45,7 @@ class CoffinBase(models.Model):
 
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
+    same_addr = fields.Boolean("領款人地址同受施者地址")
 
     @api.model
     def create(self, vals):
@@ -60,6 +61,13 @@ class CoffinBase(models.Model):
         res_id.coffin_id = array[len(array)-1] + 1
 
         return res_id
+
+    @api.onchange('same_addr')
+    def set_payee_addr(self):
+        if self.same_addr == True:
+            self.payee_addr = self.con_addr
+        else:
+            self.payee_addr = ""
 
     def coffin_batch(self,ids):
         res = []

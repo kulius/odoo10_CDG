@@ -29,6 +29,9 @@ class NormalP(models.Model):
     rec_addr = fields.Char(string='收據寄送地址')
     zip_code = fields.Char(string='報表郵遞區號')
     con_addr = fields.Char(string='報表寄送地址')
+    # credit_rec_addr = fields.Char(string='信用卡收據地址')
+    # debit_method = fields.Selection(selection=[(1,'5日扣款'),(2,'20日扣款'),(3,'季日扣款'),(4,'年繳扣款'),(5,'單次扣款')])
+
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
     db_chang_date = fields.Date(string='異動日期')

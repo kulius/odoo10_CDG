@@ -146,9 +146,9 @@
                                         </tree>
                                     </field>
                                 </page>
-                                <page string="約定轉帳眷屬">
+                                <!--<page string="約定轉帳眷屬">-->
 
-                                </page>
+                                <!--</page>-->
                                 <page string="個人歷史捐款明細">
                                     <field name="donate_history_ids"/>
                                 </page>
@@ -197,6 +197,8 @@
                                 </page>
                                 <page string="顧問繳費明細">
                                     <field name="consultant_pay_history"/>
+                                </page>
+                                <page string="信用卡扣款">
                                 </page>
 
                             </notebook>
