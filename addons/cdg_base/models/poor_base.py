@@ -31,6 +31,7 @@ class PoorBase(models.Model):
     mail_addr = fields.Char(string='通訊地址',required = True)
     IsApproved = fields.Boolean('是否核准')
     IsVisited = fields.Boolean('是否訪視完成')
+    IsPassed = fields.Boolean('是否通過')
     IsSent = fields.Boolean('是否報告已送')
 
 
@@ -47,7 +48,6 @@ class PoorBase(models.Model):
     allow_money = fields.Integer('申請總額')
     once_money = fields.Integer('單次金額')
     receive_money = fields.Integer('已領金額')
-
 
 
     @api.onchange('poor_receive')

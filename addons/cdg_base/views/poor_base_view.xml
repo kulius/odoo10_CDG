@@ -12,6 +12,7 @@
                     <field name="mail_addr"/>
                     <field name="telephone"/>
                     <field name="phone"/>
+                    <field name="IsPassed" />
                 </tree>
             </field>
         </record>
@@ -74,11 +75,12 @@
                                 </group>
                             </page>
                             <page string="救助情形">
-                                <group col="8">
+                                <group col="10">
                                     <field name="month"/>
                                     <field name="allow_money"/>
                                     <field name="once_money"/>
                                     <field name="receive_money" />
+                                    <field name="IsPassed" />
                                     <field name="last_receive_time" invisible="1"/>
                                 </group>
                                 <group>
