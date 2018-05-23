@@ -33,4 +33,3 @@ from . import poor_receive
 from . import poor_document
 from . import poor_statistics
 from . import coffin_image
-from . import coffin_dealer

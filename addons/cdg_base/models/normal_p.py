@@ -314,7 +314,9 @@ class NormalP(models.Model):
     def all_addr_chnage(self):
         for line in self.donate_family1:
             if line:
+                line.zip = self.zip
                 line.rec_addr = self.rec_addr
+                line.zip_code = self.zip_code
                 line.con_addr = self.con_addr
             else:
                 break
@@ -323,8 +325,10 @@ class NormalP(models.Model):
         for line in self.donate_family1:
             if line:
                 if line.is_merge is True:
-                  line.rec_addr =  self.rec_addr
-                  line.con_addr = self.con_addr
+                    line.zip = self.zip
+                    line.rec_addr =  self.rec_addr
+                    line.zip_code = self.zip_code
+                    line.con_addr = self.con_addr
             else:
                 break
 
