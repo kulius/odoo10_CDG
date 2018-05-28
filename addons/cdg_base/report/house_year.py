@@ -26,18 +26,26 @@ class HouseYearReport(models.AbstractModel):
         report_year = data.get('report_year')
         key_in_user = data.get('key_in_user')
         house_total = 0
+        order_doc = []
         if house_hold.id != house_hold.parent.id:
             house_hold = house_hold.parent
         if len(house_hold) != 1:
             raise ValidationError('錯誤!!，找不到該戶長，或傳入的戶長資料有兩筆以上')
         for line in house_hold.donate_family1:
-            house_total += self.count_year_donate_total(line, report_year)
+            donate_price = self.count_year_donate_total(line, report_year)
+            if donate_price != 0:
+                house_total += donate_price
+                order_temp = {
+                    'name': line.name,
+                }
+                order_doc.append(order_temp)
 
         big_price = self.convert(house_total)
 
         docargs = {
             'house_hold': house_hold,
             'docs': house_total,
+            'people':order_doc,
             'year': str(report_year) + u'年度收據',
             'report_year': str(report_year) + '-12-31',
             'print_user':key_in_user,
