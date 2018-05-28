@@ -38,6 +38,7 @@ class NormalP(models.Model):
     # credit_addr = fields.Char('信用卡收據地址')
     # credit_money = fields.Integer('扣款金額')
 
+
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
     db_chang_date = fields.Date(string='異動日期')
