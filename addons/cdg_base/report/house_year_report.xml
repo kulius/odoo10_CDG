@@ -71,10 +71,10 @@
                     "年度收據":"<t t-esc="year"/>"
                 });
 
-                <t t-foreach="house_hold.donate_family1" t-as="lines">
+                <t t-foreach="people" t-as="lines">
                     _tableSaleOrderLines.Data.push(
                     {
-                        "捐款者姓名":"<t t-esc="lines.name"/>",
+                        "捐款者姓名":"<t t-esc="lines['name']"/>",
                     });
                 </t>
                 var _data = {"template": "donate_year_merge.fr3", "ver": 4, "Copies": 1, "Duplex": 0, "Preview": 1, "Tables":[]};
