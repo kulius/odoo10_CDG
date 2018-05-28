@@ -31,7 +31,7 @@ class PoorBase(models.Model):
     mail_addr = fields.Char(string='通訊地址',required = True)
     IsApproved = fields.Boolean('是否核准')
     IsVisited = fields.Boolean('是否訪視完成')
-    IsPassed = fields.Boolean('是否通過')
+    Is_not_Passed = fields.Boolean('不予扶助')
     IsSent = fields.Boolean('是否報告已送')
 
 

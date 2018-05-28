@@ -156,6 +156,13 @@
                   sequence="10"
                   groups="cdg_member_manager"
         />
+        <menuitem id="credit_menu"
+                  name="信用卡批次捐款"
+                  parent="first_categ"
+                  groups="cdg_member_manager"
+                  action="credit_action"
+                  sequence="11"
+                />
 
         <!--<menuitem id="group_manage_root" name="團員管理" sequence=""/>
         <menuitem id="grouper_base"

@@ -29,11 +29,14 @@ class NormalP(models.Model):
     rec_addr = fields.Char(string='收據寄送地址')
     zip_code = fields.Char(string='報表郵遞區號')
     con_addr = fields.Char(string='報表寄送地址')
-    # credit_rec_addr = fields.Char(string='信用卡收據地址')
-    # debit_method = fields.Selection(selection=[(1,'5日扣款'),(2,'20日扣款'),(3,'季日扣款'),(4,'年繳扣款'),(5,'單次扣款')],string='信用卡扣款機制')
-    # debit_money = fields.Char('扣款金額')
+
+    # debit_method = fields.Selection(selection=[(1,'5日扣款'),(2,'20日扣款'),(3,'季日扣款'),(4,'年繳扣款'),(5,'單次扣款')],string='信用卡扣款方式')
     # is_sent = fields.Boolean('每次寄送')
     # year_sent = fields.Boolean('年底一次開立')
+    # no_need = fields.Boolean('不需收據')
+    # cashier_name_credit = fields.Many2one(comodel_name='cashier.base', string='收費員姓名', ondelete='cascade', index=True)
+    # credit_addr = fields.Char('信用卡收據地址')
+    # credit_money = fields.Integer('扣款金額')
 
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
@@ -252,6 +255,7 @@ class NormalP(models.Model):
             'res_id': wizard_data.id,
             'target': 'new',
         }
+
 
 
 

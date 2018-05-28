@@ -12,7 +12,7 @@
                     <field name="mail_addr"/>
                     <field name="telephone"/>
                     <field name="phone"/>
-                    <field name="IsPassed" />
+                    <field name="Is_not_Passed" />
                 </tree>
             </field>
         </record>
@@ -80,7 +80,7 @@
                                     <field name="allow_money"/>
                                     <field name="once_money"/>
                                     <field name="receive_money" />
-                                    <field name="IsPassed" />
+                                    <field name="Is_not_Passed" />
                                     <field name="last_receive_time" invisible="1"/>
                                 </group>
                                 <group>
