@@ -137,7 +137,7 @@
                                         <button string="合併收據地址" name="combine_addr" type="object" class="oe_stat_button" icon="fa-exchange"/>
                                         <button string="全部變更地址" name="all_addr_chnage" type="object" class="oe_stat_button" icon="fa-location-arrow"/>
                                     </div>
-                                    <field name="donate_family1" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form', 'default_rec_addr': rec_addr,'default_zip': zip,'default_cashier': cashier_name}">
+                                    <field name="donate_family1" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form', 'default_rec_addr': rec_addr,'default_zip': zip,'default_cashier': cashier_name,'default_report_send': False}">
                                         <tree default_order='sequence' delete="false">
                                             <field name="sequence"/>
                                             <field name="new_coding"/>
@@ -367,13 +367,17 @@
                                 <field name="new_coding" readonly="1"/>
                             </h1>
                         </div>
+                        <group col="4">
+                            <field name="name"/>
+                            <!--<field name="type" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('name','!=','捐款者')]"/>-->
+                            <field name="cashier" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                        </group>
                         <group col="9">
-                            <field name="name" colspan="3"/>
-                            <field name="type" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}" colspan="3" domain="[('name','!=','捐款者')]"/>
-                            <field name="cashier" options="{'no_quick_create': True, 'no_create_edit' : True}" colspan="3"/>
                             <field name="merge_report" colspan="3"/>
                             <field name="is_donate" colspan="3"/>
                             <field name="is_merge" colspan="3"/>
+                            <field name="report_send" invisible = "1"/>
+                            <field name="rec_send" invisible = "1"/>
                         </group>
                         <group col="8">
                             <field name="zip" colspan="2" string="收據寄送地址"/>
