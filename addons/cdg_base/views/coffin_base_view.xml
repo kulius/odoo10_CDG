@@ -88,7 +88,7 @@
                                 <field name="batch_donate">
                                     <tree editable="bottom">
                                         <field name="donate_id"/>
-                                        <field name="donate_order_id"/>
+                                        <field name="donate_order_id" context="{'search_view_ref' : 'cdg_base.coffin_donate_search','search_default_balance': 1}"/>
                                         <field name="donate_price" invisible = "1"/>
                                         <field name="history_donate_records"/>
                                         <field name="donate" invisible = "1"/>

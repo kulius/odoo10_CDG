@@ -33,6 +33,26 @@
                 </form>
             </field>
         </record>
+
+        <record id="coffin_donate_search" model="ir.ui.view">
+            <field name="name">coffin donate search</field>
+            <field name="model">donate.order</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="donate_id"/>
+                    <field name="donate_new_coding"/>
+                    <field name="donate_w_id"/>
+                    <field name="donate_member"/>
+                    <field name="donate_date"/>
+                    <field name="available_balance"/>
+                    <field name="cashier"/>
+                    <field name="key_in_user"/>
+
+                    <filter string="捐款金額大於等於5000元" name="balance" domain="[('available_balance', '&gt;=', 5000)]"/>
+                </search>
+            </field>
+        </record>
+
         <record id="coffin_donation_action" model="ir.actions.act_window">
             <field name="name">施棺捐款表</field>
             <field name="type">ir.actions.act_window</field>
