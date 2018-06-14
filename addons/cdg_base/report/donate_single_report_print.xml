@@ -267,7 +267,7 @@
                                 "捐款總額大寫":"<t t-esc="o.title_total_price_big"/>",
                                 "捐款總額":"<t t-esc="o.title_total_price"/>",
                                 "捐款種類":"<t t-esc="donate_type[lines.donate_type]"/>",
-                                "捐款金額":"<t t-esc="lines.donate_price"/>",
+                                "捐款金額":"<t t-esc="lines.donate_price"/>" + "元",
                                 "列印日期":"<t t-esc="o.title_Make_up_date"/>" + " 補單",
                                 "列印狀態":"<t t-esc="o.title_state"/>",
                                 "年繳":"<t t-esc="o.title_year_fee"/>",
