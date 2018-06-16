@@ -31,7 +31,7 @@ class MemberData(models.Model):
     clerk_id = fields.Char(string='收費員編號')
     rec_send = fields.Boolean(string='收據寄送')
     thanks_send = fields.Boolean(string='感謝狀寄送(顧問才有)')
-    print_note = fields.Boolean(string='名冊列印')
+    print_note = fields.Boolean(string='名冊列印', default=True)
     report_send = fields.Boolean(string='收據寄送(顧問才有)')
     self_order = fields.Char(string='自訂排序')
     worker_id = fields.Many2one(comodel_name='c.worker', string='輸入人員')

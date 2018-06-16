@@ -45,7 +45,6 @@
                             <field name="description"/>
                             <field name="clerk_id"/>
                             <field name="rec_send"/>
-                            <field name="print_note"/>
                             <field name="thanks_send"/>
                             <field name="report_send"/>
                             <field name="self_order"/>

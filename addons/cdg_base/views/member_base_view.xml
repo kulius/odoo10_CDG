@@ -63,10 +63,8 @@
                                     </group>
                                     <span STYLE='FONT-SIZE:25PX'>其他資料</span>
                                     <group col="4">
- <!-- 會指到員工而不是收費員-->            <field name="cashier_name" context="{'form_view_ref' : 'cdg_base.cashier_base_form'}"/>
+ <!-- 會指到員工而不是收費員-->         <field name="cashier_name" context="{'form_view_ref' : 'cdg_base.cashier_base_form'}"/>
                                         <field name="rec_send"/>
-                                        <field name="self"/>
-                                        <field name="booklist"/>
                                     </group>
                                 </page>
                                 <page string="繳費狀況">
