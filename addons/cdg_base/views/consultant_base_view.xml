@@ -158,7 +158,7 @@
             <field name="view_mode">pivot</field>
             <field name="search_view_id" ref="consultant_fee_search"/>
             <field name="context">{'search_default_today': 1}</field>
-            <field name="domain">[('key_in_user','=',uid)]</field>
+            <field name="domain">[('key_in_user','=',uid),('fee_date','!=', False)]</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 <!-- Add Text Here -->
