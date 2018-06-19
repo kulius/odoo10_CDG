@@ -34,7 +34,7 @@ class WizardDonate(models.Model):
                 for row in line.donate_family1:
                     if row.is_donate is True:
                         self.sum_donor_num += 1
-                        self.sum_donate_total += row.credit_total_money
+                        self.sum_donate_total += row.last_donate_money
 
     def confirm_donate(self):
         order = self.env['donate.single']
