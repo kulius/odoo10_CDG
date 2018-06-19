@@ -65,6 +65,7 @@
                                     <group col="4">
  <!-- 會指到員工而不是收費員-->         <field name="cashier_name" context="{'form_view_ref' : 'cdg_base.cashier_base_form'}"/>
                                         <field name="rec_send"/>
+                                        <field name="booklist" invisible = "1"/>
                                     </group>
                                 </page>
                                 <page string="繳費狀況">
