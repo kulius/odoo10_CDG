@@ -8,6 +8,7 @@
                 <form>
                     <sheet>
                         <group>
+                            <field name="old_cashier"/>
                             <field name="new_cashier"/>
                         </group>
                     </sheet>

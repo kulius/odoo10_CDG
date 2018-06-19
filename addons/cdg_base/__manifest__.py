@@ -46,6 +46,8 @@
         'wizard/member_undonate.xml',
         'wizard/wizard_poor_data.xml',
         'wizard/wizard_cashier_transfer.xml',
+        'wizard/credit_debit_method.xml',
+        'wizard/wizard_credit_batch.xml',
 
 
         'views/normal_p_view.xml',
@@ -55,6 +57,8 @@
         'views/coffin_base_view.xml',
         'views/donate_batch_view.xml',
         'views/poor_image.xml',
+        'views/credit_base.xml',
+        'views/credit_statistics.xml',
 
         'views/donate_order_view.xml',
         'views/c_worker_view.xml',
@@ -85,6 +89,7 @@
         'views/coffin_image_view.xml',
 
 
+
         'report/paper.xml',
         'report/donate_batch_report.xml',
         'report/donate_single_report.xml',
@@ -106,6 +111,7 @@
         'report/case_images.xml',
         'report/case_data.xml',
         'report/items_donate_report.xml',
+        'report/batch_house_year.xml',
 
         'security/ir.model.access.csv',
         'security/group.xml',

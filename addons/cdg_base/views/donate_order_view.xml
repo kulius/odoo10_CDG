@@ -105,7 +105,7 @@
             </field>
         </record>
 
-        <record id="cashier_search" model="ir.ui.view">
+        <record id="cashier_search_" model="ir.ui.view">
             <field name="name">cashier search</field>
             <field name="model">donate.order</field>
             <field name="arch" type="xml">
@@ -116,6 +116,7 @@
                     <field name="donate_name"/>
                     <field name="cashier"/>
                     <field name="key_in_user"/>
+                    <field name="debit_method"/>
                     <field string="捐款日期-起" name="donate_date" filter_domain="[('donate_date', '&gt;=',self )]"/>
                     <field string="捐款日期-迄" name="donate_date" filter_domain="[('donate_date', '&lt;=',self)]"/>
                     <filter string="近3個月" name="three_months" domain="[('donate_date', '&gt;=', (datetime.date.today() - relativedelta(months=3)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
@@ -200,7 +201,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">donate.order</field>
             <field name="view_mode">pivot</field>
-            <field name="search_view_id" ref="cashier_search"/>
+            <field name="search_view_id" ref="cashier_search_"/>
             <field name="domain">[('donate_type','!=','04'),('donate_type','!=','99')]</field>
             <field name="context">{'search_default_three_months': 1}</field>
             <field name="view_ids" eval="[(5, 0, 0),
@@ -214,5 +215,50 @@
               </p>
             </field>
         </record>
+
+         <record id="view_pivot_credit_statistics" model="ir.ui.view">
+             <field name="model">donate.order</field>
+             <field name="arch" type="xml">
+               <pivot string="信用卡捐款統計表">
+                    <field name="key_in_user" type="row"/>
+                    <field name="debit_method" type="col"/>
+                    <field name="donate" type="measure"/>
+               </pivot>
+             </field>
+        </record>
+
+          <record id="credit_search_" model="ir.ui.view">
+            <field name="name">credit search</field>
+            <field name="model">donate.order</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="debit_method"/>
+                    <filter string="近3個月" name="three_months" domain="[('donate_date', '&gt;=', (datetime.date.today() - relativedelta(months=3)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                    <separator/> <!-- 搜尋條件的AND -->
+                    <filter string="今日" name="today" domain="[('donate_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d')),('donate_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d'))]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="credit_statistics_money_action" model="ir.actions.act_window">
+            <field name="name">信用卡捐款統計表</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">donate.order</field>
+            <field name="view_mode">pivot</field>
+            <field name="search_view_id" ref="credit_search_"/>
+            <field name="domain">['|','|','|','|',('debit_method','=',1),('debit_method','=',2),('debit_method','=',3),('debit_method','=',4),('debit_method','=',5)]</field>
+            <field name="context">{'search_default_today': 1, 'search_default_three_months': 1}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                   (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_pivot_credit_statistics')}),
+                    ]"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
     </data>
 </odoo>

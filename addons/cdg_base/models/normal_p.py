@@ -30,14 +30,32 @@ class NormalP(models.Model):
     zip_code = fields.Char(string='報表郵遞區號')
     con_addr = fields.Char(string='報表寄送地址')
 
-    # debit_method = fields.Selection(selection=[(1,'5日扣款'),(2,'20日扣款'),(3,'季日扣款'),(4,'年繳扣款'),(5,'單次扣款')],string='信用卡扣款方式')
-    # is_sent = fields.Boolean('每次寄送')
-    # year_sent = fields.Boolean('年底一次開立')
-    # no_need = fields.Boolean('不需收據')
-    # cashier_name_credit = fields.Many2one(comodel_name='cashier.base', string='收費員姓名', ondelete='cascade', index=True)
-    # credit_addr = fields.Char('信用卡收據地址')
-    # credit_money = fields.Integer('扣款金額')
+    # 信用卡捐款相關欄位
 
+    credit_parent = fields.Many2one(comodel_name='normal.p',string='信用卡持卡人')
+    credit_family = fields.One2many(comodel_name='normal.p',inverse_name='credit_parent',string='信用卡眷屬')
+
+    credit_money = fields.Integer('信用卡總額')
+    credit_zip = fields.Char('信用卡郵遞區號')
+    credit_addr = fields.Char('信用卡收據地址')
+    debit_method = fields.Selection(selection=[(1, '5日扣款'), (2, '20日扣款'), (3, '季日扣款'), (4, '年繳扣款'), (5, '單次扣款')],
+                                    string='信用卡扣款方式')
+    is_donated_credit = fields.Boolean('是否捐款(收件人)')
+    is_sent = fields.Boolean('每次寄送')
+    year_sent = fields.Boolean('年底一次開立')
+    no_need = fields.Boolean('不需收據')
+    credit_bridge_money = fields.Integer('A.造橋')
+    credit_road_money = fields.Integer('B.補路')
+    credit_coffin_money = fields.Integer('C.施棺')
+    credit_poor_money = fields.Integer('D.貧困扶助')
+    credit_normal_money = fields.Integer('E.一般捐款')
+    credit_total_money = fields.Integer('信用卡個人捐款總額')
+    credit_family_list = fields.Char(string='信用卡捐款人列表',compute='compute_family_list')
+    credit_number = fields.Char('信用卡卡號末四碼')
+    credit_bank = fields.Char('發卡銀行')
+
+
+    cashier_name_credit = fields.Many2one(comodel_name='cashier.base', string='收費員姓名', ondelete='cascade', index=True)
 
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
@@ -132,6 +150,24 @@ class NormalP(models.Model):
             self.last_donate_money = 100
 
 
+    @api.onchange('credit_bridge_money', 'credit_road_money', 'credit_coffin_money', 'credit_poor_money','credit_normal_money')
+    def compute_donate_total(self):
+        self.credit_total_money = 0
+        self.credit_total_money = self.credit_bridge_money + self.credit_road_money + self.credit_coffin_money + self.credit_poor_money + self.credit_normal_money
+
+    @api.onchange('credit_parent') #one2many的credit_family也要帶入
+    def set_credit_data(self):
+        if self.credit_parent != False:
+            data = self.env['normal.p'].search([('id','=',self.credit_parent.ids)])
+            self.credit_zip = data.credit_zip
+            self.credit_addr = data.credit_addr
+            self.credit_number = data.credit_number
+            self.debit_method = data.debit_method
+            self.is_sent = data.is_sent
+            self.credit_bank = data.credit_bank
+            self.year_sent = data.year_sent
+            self.no_need = data.no_need
+
     @api.onchange('check_donate_order')
     def check_unlink(self):
         if self.check_donate_order:
@@ -168,6 +204,25 @@ class NormalP(models.Model):
        action['res_id'] = parent_data.id
        return action
 
+    #清空信用卡的資料
+    def clear_credit_data(self):
+        self.credit_parent = ""
+        self.credit_bank = ""
+        self.is_donated_credit = ""
+        self.credit_number = ""
+        self.credit_money = 0
+        self.debit_method = False
+        self.credit_zip = ""
+        self.credit_addr = ""
+        self.credit_normal_money = 0
+        self.credit_poor_money = 0
+        self.credit_coffin_money = 0
+        self.credit_road_money = 0
+        self.credit_bridge_money = 0
+        self.credit_total_money = 0
+        self.is_sent = False
+        self.year_sent = False
+        self.no_need = False
 
     def start_donate(self):
         action = self.env.ref('cdg_base.start_donate_action').read()[0]
@@ -257,6 +312,24 @@ class NormalP(models.Model):
             'target': 'new',
         }
 
+    def credit_batch(self, ids):
+        res = []
+        for line in ids:
+            res.append([4, line])
+        wizard_data = self.env['wizard.credit.batch'].create({
+            'donate_line': res
+        })
+
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'wizard.credit.batch',
+            'name': '信用卡批次捐款',
+            'view_mode': 'form',
+            'res_id': wizard_data.id,
+            'target': 'new',
+        }
+
+
 
 
 
@@ -303,6 +376,35 @@ class NormalP(models.Model):
             if str == '':
                 sb = sb.rstrip(',')
             line.donate_family_list = sb+str
+
+    def compute_family_list(self):
+        for line in self:
+            family_list = list()
+            for row in line.credit_family:
+                if row.is_donate == True:
+                    if row.credit_bridge_money != 0:
+                        family_list.append('('+row.name+ u' 造橋 '+str(row.credit_bridge_money) +')')
+                    if row.credit_road_money != 0:
+                        family_list.append('(' + row.name + u' 補路 ' + str(row.credit_road_money) + ')')
+                    if row.credit_coffin_money != 0:
+                        family_list.append('(' + row.name + u' 施棺 ' + str(row.credit_coffin_money) + ')')
+                    if row.credit_poor_money != 0:
+                        family_list.append('(' + row.name + u' 貧困扶助 ' + str(row.credit_poor_money) + ')')
+                    if row.credit_normal_money != 0:
+                        family_list.append('(' + row.name + u' 一般捐款 ' + str(row.credit_normal_money) + ')')
+                else:
+                    if row.credit_bridge_money != 0:
+                        family_list.append('(X' + row.name + u' 造橋 ' + str(row.credit_bridge_money) + ')')
+                    if row.credit_road_money != 0:
+                        family_list.append('(X' + row.name + u' 補路 ' + str(row.credit_road_money) + ')')
+                    if row.credit_coffin_money != 0:
+                        family_list.append('(X' + row.name + u' 施棺 ' + str(row.credit_coffin_money) + ')')
+                    if row.credit_poor_money != 0:
+                        family_list.append('(X' + row.name + u' 貧困扶助 ' + str(row.credit_poor_money) + ')')
+                    if row.credit_normal_money != 0:
+                        family_list.append('(X' + row.name + u' 一般捐款 ' + str(row.credit_normal_money) + ')')
+
+                line.credit_family_list = ','.join(family_list)
 
     def toggle_donate(self):
         self.is_donate = not self.is_donate

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="credit_statistics_form" model="ir.ui.view">
+            <field name="name">信用卡人數統計表</field>
+            <field name="model">credit.statistics</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button type="object" name="count_people" string="查詢" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <span style="color:blue;font-size:20px;font-weight:bold;">信用卡人數統計</span>
+                        <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">信用卡捐款人數： <field name="credit_statistics"/> 人</font>
+                        </group>
+                        <span style="color:blue;font-size:20px;font-weight:bold;">信用卡扣款方式人數統計</span>
+                        <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">五日扣款人數： <field name="five_debit"/> 人</font>
+                        </group>
+                        <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">二十日扣款人數： <field name="twenty_debit"/> 人</font>
+                        </group>
+                        <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">季扣款人數： <field name="season_debit"/> 人</font>
+                        </group>
+                         <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">年扣款人數： <field name="year_debit"/> 人</font>
+                        </group>
+                         <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">單次扣款人數： <field name="once_debit"/> 人</font>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="credit_statistics_action" model="ir.actions.act_window">
+            <field name="name">系統資料統計表</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.statistics</field>
+            <field name="view_mode">form</field>
+            <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'form', 'view_id': ref('cdg_base.credit_statistics_form')}),]"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

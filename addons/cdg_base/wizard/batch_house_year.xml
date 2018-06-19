@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="batch_house_year_form" model="ir.ui.view">
+            <field name="name">batch_house_year_form</field>
+            <field name="model">batch.house.year</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <h1>請輸入要列印的年份(西元)</h1>
+                        <group>
+                            <field name="report_year"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="call_print_report" string="列印合併收據" class="oe_highlight"/>
+                        <button type="object" name="print_report_personal" string="列印個人收據" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="batch_house_year_action" name="年度收據" res_model="batch.house.year"
+                    view_mode="form" target="new" multi="False"/>
+
+    </data>
+</odoo>

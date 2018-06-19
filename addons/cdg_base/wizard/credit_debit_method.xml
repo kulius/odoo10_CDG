@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="credit_debit_form" model="ir.ui.view">
+            <field name="name">credit_debit_form</field>
+            <field name="model">credit.debit.method</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="debit_method"/>
+                        </group>
+                    </sheet>
+                     <footer>
+                        <button type="object" name="set_debit_method" string="確定" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+     <act_window id="credit_debit_action" name="信用卡扣款方式" res_model="credit.debit.method"
+                    view_mode="form" target="new" multi="False"/>
+
+    </data>
+</odoo>

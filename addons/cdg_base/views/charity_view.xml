@@ -131,6 +131,12 @@
                   groups="cdg_manager"
                   action="donate_total_inquire_action"
                   sequence="8"/>
+        <!--<menuitem id="batch_year_receipt"-->
+                  <!--name="年收據批次列印"-->
+                  <!--parent="first_categ"-->
+                  <!--groups="cdg_manager"-->
+                  <!--action="batch_house_year_action"-->
+                  <!--sequence="9"/>-->
         <!--<menuitem id="print_receipt"-->
                   <!--name="已列印收據查詢"-->
                   <!--parent="first_categ"-->
@@ -156,13 +162,8 @@
                   sequence="10"
                   groups="cdg_member_manager"
         />
-        <!--<menuitem id="credit_menu"-->
-                  <!--name="信用卡批次捐款"-->
-                  <!--parent="first_categ"-->
-                  <!--groups="cdg_member_manager"-->
-                  <!--action="credit_action"-->
-                  <!--sequence="11"-->
-                <!--/>-->
+
+
 
         <!--<menuitem id="group_manage_root" name="團員管理" sequence=""/>
         <menuitem id="grouper_base"
@@ -415,7 +416,7 @@
         <menuitem id="cashier_transfer"
                   name="收費員捐款者合併"
                   parent="cashier_manage_categ"
-                  action="cashier_transfer_action"
+                  action="action_cashier_transfer"
                   sequence=""
                   groups="cdg_manager"
         />
@@ -433,7 +434,35 @@
                   parent="donor_donate_search_categ"
                   action="action_change_password_for_donor"
                   sequence="2"/>
-        <menuitem id="cashier_search_root" name="收費員查詢" sequence="10" groups="cdg_cashier_manager"/>
+
+        <menuitem id="credit_root" name="信用卡管理"  sequence="10" groups="credit_management"/>
+        <menuitem id="credit_menu" name="信用卡管理" parent="credit_root" sequence="2" groups="credit_management"/>
+        <menuitem id="credit_data"
+                  name="信用卡捐款資料"
+                  parent="credit_menu"
+                  action="credit_action"
+                  sequence="11"
+                />
+        <menuitem id="credit_method"
+                  name="信用卡扣款方式"
+                  parent="credit_menu"
+                  action="credit_debit_action"
+                  sequence="12"
+                />
+        <menuitem id="credit_statistics"
+                  name="信用卡捐款人數"
+                  parent="credit_menu"
+                  action="credit_statistics_action"
+                  sequence="13"
+                />
+        <menuitem id="credit_donate"
+                  name="信用卡捐款統計表"
+                  parent="credit_menu"
+                  action="credit_statistics_money_action"
+                  sequence="14"
+                />
+
+        <menuitem id="cashier_search_root" name="收費員查詢" sequence="11" groups="cdg_cashier_manager"/>
         <menuitem id="cashier_search_categ" name="收費員查詢" parent="cashier_search_root" sequence="1"/>
         <menuitem id="cashier_search_base"
                   name="收費員查詢"

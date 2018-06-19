@@ -49,6 +49,7 @@ access_wizard_cashier_consultant,access_wizard_cashier_consultant,model_wizard_c
 access_people_statistics,access_people_statistics,model_people_statistics,cdg_base.cdg_manager,1,1,1,0
 access_cashier_transfer,access_cashier_transfer,model_cashier_transfer,cdg_base.cdg_manager,1,1,1,1
 access_member_undonate,access_member_undonate,model_member_undonate,cdg_base.cdg_manager,1,1,1,1
+access_credit_debit_method,access_credit_debit_method,model_credit_debit_method,cdg_base.credit_management,1,1,1,1
 
 access_house_year,access_house_year,model_house_year,cdg_base.cdg_manager,1,1,1,1
 access_report_cdg_base_house_year,access_report_cdg_base_house_year,model_report_cdg_base_house_year,cdg_base.cdg_manager,1,1,1,1

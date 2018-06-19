@@ -34,8 +34,7 @@ class WizardDonate(models.Model):
                 for row in line.donate_family1:
                     if row.is_donate is True:
                         self.sum_donor_num += 1
-                        self.sum_donate_total += row.last_donate_money
-        return True
+                        self.sum_donate_total += row.credit_total_money
 
     def confirm_donate(self):
         order = self.env['donate.single']
@@ -47,8 +46,8 @@ class WizardDonate(models.Model):
             raise ValidationError(u'必須選取收費員')
         for line in self.donate_line:
             res_line = []
-            if line.donate_batch_setting:
-                for row in line.donate_family1:
+            if line.donate_batch_setting: # 確認捐款
+                for row in line.donate_family1: # 去family.line抓資料
                     if row.is_donate is True:
                         row.last_donate_date = self.donate_date
                         if row.last_donate_type == 1:
@@ -108,5 +107,5 @@ class WizardDonate(models.Model):
                 })
             if self.clean_all_check:
                 line.donate_batch_setting = False
-        action = self.env.ref('cdg_base.donate_single_view_action').read()[0] #
+        action = self.env.ref('cdg_base.donate_single_view_action').read()[0]
         return action

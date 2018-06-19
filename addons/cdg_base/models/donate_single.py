@@ -72,6 +72,8 @@ class DonateSingle(models.Model):
     ps = fields.Text('備註')
     year_fee = fields.Boolean(string='年繳')
 
+    debit_method = fields.Selection(selection=[(1, '5日扣款'), (2, '20日扣款'), (3, '季日扣款'), (4, '年繳扣款'), (5, '單次扣款')],
+                                    string='信用卡扣款方式')
 
     history_donate_flag = fields.Boolean(string='是否上次捐款')
 #    history_payment_method = fields.Boolean('是否上次捐款方式')
@@ -493,6 +495,7 @@ class DonateSingle(models.Model):
                     'available_balance': money,
                     'key_in_user': self.key_in_user.id,
                     'cashier':self.work_id.id,
+                    'debit_method': self.debit_method,
                 })],
                 'print_all_donor_list': self.print_all_donor_list
             })
@@ -508,6 +511,7 @@ class DonateSingle(models.Model):
                     'payment_method': int(self.payment_method),
                     'key_in_user': self.key_in_user.id,
                     'cashier': self.work_id.id,
+                    'debit_method': self.debit_method,
                 })],
                 'print_all_donor_list': self.print_all_donor_list
             })

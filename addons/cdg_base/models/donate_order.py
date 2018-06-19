@@ -12,6 +12,8 @@ class DonateOrder(models.Model):
     _description = u'捐款明細管理'
 
     # name = fields.Many2one(comodel_name='normal.p',string='姓名')
+    debit_method = fields.Selection(selection=[(1, '5日扣款'), (2, '20日扣款'), (3, '季日扣款'), (4, '年繳扣款'), (5, '單次扣款')],
+                                    string='信用卡扣款方式')
     donate_list_id = fields.Many2one(comodel_name='donate.single', ondelete='cascade', index = True)
     con_phone = fields.Char(string='連絡電話')
     p_type = fields.Char(string='人員種類')

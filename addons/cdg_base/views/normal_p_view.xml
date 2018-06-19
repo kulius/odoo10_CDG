@@ -41,6 +41,24 @@
             </field>
         </record>
 
+        <record id="normal_p_credit_tree" model="ir.ui.view">
+            <field name="name">normal p credit tree</field>
+            <field name="model">normal.p</field>
+            <field name="arch" type="xml">
+                <tree default_order="credit_number">
+                    <field name="new_coding"/>
+                    <field name="name"/>
+                    <field name="credit_number"/>
+                    <field name="con_phone"/>
+                    <field name="rec_addr"/>
+                    <field name="credit_family_list"/>
+                    <field name="credit_total_money"/>
+                    <field name="donate_batch_setting"/>
+                    <button name="check_batch_donate" string="確認" type="object"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="normal_p_form" model="ir.ui.view">
             <field name="name">normal p f</field>
             <field name="model">normal.p</field>
@@ -119,17 +137,6 @@
                                         <group col="6">
                                             <field name="ps" colspan="6"/>
                                         </group>
-                                        <!--<span STYLE='font-size:25px'>信用卡扣款資料</span>-->
-                                        <!--<group col="8">-->
-                                            <!--<field name="debit_method" colspan="4"></field>-->
-                                            <!--<field name="debit_method"></field>-->
-                                            <!--<field name="credit_money"></field>-->
-                                        <!--</group>-->
-                                        <!--<group col="6">-->
-                                            <!--<field name="is_sent"></field>-->
-                                            <!--<field name="year_sent"></field>-->
-                                            <!--<field name="no_need"></field>-->
-                                        <!--</group>-->
                                     </div>
                                 </page>
                                 <page string="團員眷屬">
@@ -137,7 +144,7 @@
                                         <button string="合併收據地址" name="combine_addr" type="object" class="oe_stat_button" icon="fa-exchange"/>
                                         <button string="全部變更地址" name="all_addr_chnage" type="object" class="oe_stat_button" icon="fa-location-arrow"/>
                                     </div>
-                                    <field name="donate_family1" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form', 'default_rec_addr': rec_addr,'default_zip': zip,'default_cashier': cashier_name,'default_report_send': False}">
+                                    <field name="donate_family1" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form', 'default_rec_addr': rec_addr,'default_zip': zip,'default_cashier': cashier_name}">
                                         <tree default_order='sequence' delete="false">
                                             <field name="sequence"/>
                                             <field name="new_coding"/>
@@ -154,6 +161,7 @@
                                             <field name="last_donate_type"/>
                                             <field name="last_donate_money"/>
                                             <field name="is_delete"/>
+
                                         </tree>
                                     </field>
                                 </page>
@@ -208,6 +216,53 @@
                                 </page>
                                 <page string="顧問繳費明細">
                                     <field name="consultant_pay_history"/>
+                                </page>
+                                <page string="信用卡資料">
+                                    <span STYLE='font-size:25px'>信用卡扣款資料</span>
+                                         <div class="oe_button_box" name="button_box">
+                                            <button name="clear_credit_data" string="清空信用卡資料"
+                                                    type="object" class="oe_stat_button" icon="fa-dollar" attrs="{'invisible': [('name', '=', False)]}"/>
+                                        </div>
+                                        <group col="6">
+                                            <field name="credit_parent"/>
+                                            <field name="credit_bank"/>
+                                            <field name="is_donated_credit"/>
+                                        </group>
+                                        <group col="6">
+                                            <field name="credit_number"/>
+                                             <field name="credit_money"/>
+                                            <field name="debit_method"></field>
+                                        </group>
+                                        <group col="6">
+                                            <field name="credit_zip"></field>
+                                            <field name="credit_addr" colspan="4"></field>
+                                        </group>
+                                        <group col="6">
+                                            <field name="credit_bridge_money"></field>
+                                            <field name="credit_road_money"></field>
+                                            <field name="credit_coffin_money"></field>
+                                            <field name="credit_poor_money"></field>
+                                            <field name="credit_normal_money"></field>
+                                            <field name="credit_total_money"></field>
+                                        </group>
+                                        <group col="6">
+                                            <field name="is_sent"/>
+                                            <field name="year_sent"/>
+                                            <field name="no_need"/>
+                                        </group>
+
+                                        <field name="credit_family" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form'}">
+                                            <tree>
+                                                <field name="sequence"/>
+                                                <field name="new_coding"/>
+                                                <field name="name"/>
+                                                <field name="is_donate"/>
+                                                <button name="toggle_donate" string="捐助變更" type="object"/>
+                                                <field name="rec_addr"/>
+                                                <field name="credit_total_money"/>
+                                                <field name="is_delete"/>
+                                            </tree>
+                                        </field>
                                 </page>
                             </notebook>
                     </sheet>
@@ -335,6 +390,98 @@
             </field>
         </record>
 
+        <record id="normal_p_form_batch_credit" model="ir.ui.view">
+            <field name="name">normal p f</field>
+            <field name="model">normal.p</field>
+            <field name="arch" type="xml">
+                <form string="" class="o_sale_order">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="new_coding" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="type" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('name','!=','捐款者')]"/>
+                            <field name="parent" options="{'no_quick_create': True, 'no_create_edit' : True}"
+                                   context="{'tree_view_ref' : 'cdg_base.normal_p_tree','form_view_ref' : 'cdg_base.normal_p_form'}"/>
+                            <field name="cashier_name" context="{'form_view_ref' : 'cdg_base.cashier_base_form'}" />
+                        </group>
+                         <notebook>
+                                <page string="基本資料">
+                                    <div class="col-md-12">
+                                        <group col="4">
+                                            <field name="birth"/>
+                                            <field name="self_iden"/>
+                                        </group>
+                                        <group col="4">
+                                            <field name="con_phone"/>
+                                            <field name="cellphone"/>
+                                        </group>
+                                         <group col="8">
+                                            <field name="zip"/>
+                                            <field name="rec_addr" colspan="6"/>
+                                        </group>
+                                        <group col="6">
+                                            <field name="donate_family_list" colspan="6"/>
+                                        </group>
+                                        <group col="6">
+                                            <field name="ps" colspan="6"/>
+                                        </group>
+                                        <span STYLE='font-size:25px'>信用卡扣款資料</span>
+                                             <div class="oe_button_box" name="button_box">
+                                                <button name="clear_credit_data" string="清空信用卡資料"
+                                                        type="object" class="oe_stat_button" icon="fa-dollar" attrs="{'invisible': [('name', '=', False)]}"/>
+                                            </div>
+                                        <group col="6">
+                                            <field name="credit_parent"/>
+                                            <field name="credit_bank"/>
+                                            <field name="is_donated_credit"/>
+                                        </group>
+                                        <group col="6">
+                                            <field name="credit_number"/>
+                                             <field name="credit_money"/>
+                                            <field name="debit_method"></field>
+                                        </group>
+                                        <group col="6">
+                                            <field name="credit_zip"></field>
+                                            <field name="credit_addr" colspan="4"></field>
+                                        </group>
+                                        <group col="6">
+                                            <field name="credit_bridge_money"></field>
+                                            <field name="credit_road_money"></field>
+                                            <field name="credit_coffin_money"></field>
+                                            <field name="credit_poor_money"></field>
+                                            <field name="credit_normal_money"></field>
+                                            <field name="credit_total_money"></field>
+                                        </group>
+                                        <group col="6">
+                                            <field name="is_sent"/>
+                                            <field name="year_sent"/>
+                                            <field name="no_need"/>
+                                        </group>
+
+                                        <field name="credit_family" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form'}">
+                                            <tree>
+                                                <field name="sequence"/>
+                                                <field name="new_coding"/>
+                                                <field name="name"/>
+                                                <field name="is_donate"/>
+                                                <button name="toggle_donate" string="捐助變更" type="object"/>
+                                                <field name="rec_addr"/>
+                                                <field name="credit_total_money"/>
+                                                <field name="is_delete"/>
+                                            </tree>
+                                        </field>
+                                    </div>
+                                </page>
+                            </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
         <record id="normal_p_search" model="ir.ui.view">
             <field name="name">normal p s</field>
             <field name="model">normal.p</field>
@@ -367,17 +514,13 @@
                                 <field name="new_coding" readonly="1"/>
                             </h1>
                         </div>
-                        <group col="4">
-                            <field name="name"/>
-                            <!--<field name="type" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}" domain="[('name','!=','捐款者')]"/>-->
-                            <field name="cashier" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                        </group>
                         <group col="9">
+                            <field name="name" colspan="3"/>
+                            <field name="type" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}" colspan="3" domain="[('name','!=','捐款者')]"/>
+                            <field name="cashier" options="{'no_quick_create': True, 'no_create_edit' : True}" colspan="3"/>
                             <field name="merge_report" colspan="3"/>
                             <field name="is_donate" colspan="3"/>
                             <field name="is_merge" colspan="3"/>
-                            <field name="report_send" invisible = "1"/>
-                            <field name="rec_send" invisible = "1"/>
                         </group>
                         <group col="8">
                             <field name="zip" colspan="2" string="收據寄送地址"/>
@@ -467,6 +610,24 @@
             </field>
         </record>
 
+        <record id="batch_credit_search" model="ir.ui.view">
+            <field name="name">batch credit search</field>
+            <field name="model">normal.p</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="new_coding" string="捐款者編號"/>
+                    <field name="w_id" string="舊團員編號"/>
+                    <field name="name" string="捐款者姓名"/>
+                    <field name="rec_addr"/>
+                    <field name="debit_method"/>
+
+                    <filter string="戶長" name="head" domain="[('donate_family1','!=', False)]" />
+                    <filter string="信用卡捐款人" name="credit" domain="[('debit_method','!=',False)]"/>
+                    <filter string="信用卡持卡人" name="credit_own" domain="[('credit_family','!=',False)]"/>
+                </search>
+            </field>
+        </record>
+
         <record id="action_donate_order_batch" model="ir.actions.server">
             <field name="name">批次捐款</field>
             <field name="model_id" ref="model_normal_p"/>
@@ -484,6 +645,25 @@
             <field name="object" eval="True"/>
             <field name="model">normal.p</field>
         </record>
+
+        <record id="action_credit_order_batch" model="ir.actions.server">
+            <field name="name">信用卡批次捐款</field>
+            <field name="model_id" ref="model_normal_p"/>
+            <field name="code">
+                action =  object.credit_batch(context.get('active_ids', []))
+            </field>
+        </record>
+<!--object = normal_p -->
+
+        <record model="ir.values" id="ir_values_create_credit_button">
+            <field name="name">信用卡批次捐款</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.server,%d'%action_credit_order_batch"/>
+            <field name="key">action</field>
+            <field name="object" eval="True"/>
+            <field name="model">normal.p</field>
+        </record>
+
 
 
         <record id="cashier_block_action" model="ir.actions.server">
@@ -552,6 +732,28 @@
                    eval="[(5, 0, 0),
                    (0, 0, {'view_mode': 'tree', 'view_id': ref('normal_p_batch_tree')}),
                    (0, 0, {'view_mode': 'form', 'view_id': ref('normal_p_form_batch_donate')}),
+                   ]"/>
+             <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            <!-- Add Text Here -->
+          </p><p>
+            <!-- More details about what a user can do with this object will be OK -->
+          </p>
+        </field>
+        </record>
+
+        <record id="credit_action" model="ir.actions.act_window">
+             <field name="name">信用卡批次捐款</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="res_model">normal.p</field>
+             <field name="view_mode">tree,form</field>
+             <field name="domain">[]</field>
+             <field name="search_view_id" ref="batch_credit_search"/>
+             <field name="context">{}</field>
+             <field name="view_ids"
+                   eval="[(5, 0, 0),
+                   (0, 0, {'view_mode': 'tree', 'view_id': ref('normal_p_credit_tree')}),
+                   (0, 0, {'view_mode': 'form', 'view_id': ref('normal_p_form_batch_credit')}),
                    ]"/>
              <field name="help" type="html">
           <p class="oe_view_nocontent_create">

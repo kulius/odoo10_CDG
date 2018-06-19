@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="credit_base_tree" model="ir.ui.view">
+            <field name="name">credit base tree</field>
+            <field name="model">credit.base</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="credit_id"/>
+                    <field name="credit_donate_name"/>
+                    <field name="credit_owner_code"/>
+                    <field name="credit_money"/>
+                    <field name="debit_method"/>
+                    <field name="donate_batch_setting"/>
+                    <button name="check_batch_donate" string="確認" type="object"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="credit_base_form" model="ir.ui.view">
+            <field name="name">credit base form</field>
+            <field name="model">credit.base</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="credit_id" readonly="1"/></h1>
+                        </div>
+                        <group col="6">
+                            <field name="credit_donate_name"/>
+                            <field name="credit_owner_code"/>
+                             <field name="credit_parent"/>
+                        </group>
+                        <group col="4">
+                            <field name="credit_phone"/>
+                            <field name="debit_method"/>
+                        </group>
+                        <group col="8">
+                            <field name="credit_zip"/>
+                            <field name="credit_addr" colspan="4"/>
+                        </group>
+                        <span style="font-size:25px">信用卡各項捐款金額</span>
+                         <group col="6">
+                            <field name="bridge_money"/>
+                            <field name="road_money"/>
+                            <field name="coffin_money"/>
+                            <field name="poor_money"/>
+                            <field name="normal_money"/>
+                            <field name="credit_money"/>
+                        </group>
+                        <span style="font-size:25px">信用卡收據寄送方式</span>
+                         <group col="6">
+                            <field name="is_sent"/>
+                            <field name="year_sent"/>
+                            <field name="no_need"/>
+                        </group>
+                        <group>
+                            <field name="credit_list"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="credit_base_search" model="ir.ui.view">
+            <field name="name">credit base search</field>
+            <field name="model">credit.base</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="credit_id"/>
+                    <field name="name"/>
+                    <field name="credit_owner_code"/>
+                    <field name="credit_phone"/>
+                    <field name="debit_method"/>
+                    <field name="credit_addr"/>
+                    <filter string="信用卡持卡人"  name="credit_group" context="{'group_by':'credit_owner_code'}"/>
+                    <filter string="信用卡持卡人" name="head" domain="[('credit_list','!=', False)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_credit_batch" model="ir.actions.server">
+            <field name="name">信用卡批次捐款</field>
+            <field name="model_id" ref="model_credit_base"/>
+            <field name="code">
+                action =  object.credit_batch(context.get('active_ids', []))
+            </field>
+        </record>
+<!--object = normal_p -->
+
+        <record model="ir.values" id="ir_values_credit_batch_button">
+            <field name="name">信用卡批次捐款</field>
+            <field name="key2">client_action_multi</field> <!-- key,key2是有特殊意義的不能隨意更改, key2 的 action 和 print 會使功能出現在不同的位置 -->
+            <field name="value" eval="'ir.actions.server,%d'%action_credit_batch"/>
+            <field name="key">action</field>
+            <field name="object" eval="True"/>
+            <field name="model">credit.base</field>
+        </record>
+
+        <record id="credit_base_action" model="ir.actions.act_window">
+            <field name="name">信用卡捐款</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">credit.base</field>
+            <field name="view_mode">tree,form</field>
+             <field name="context">{'search_default_head': 1}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>
