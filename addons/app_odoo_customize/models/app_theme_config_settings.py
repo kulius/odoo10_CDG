@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import logging, datetime
+import psycopg2
+import xlrd
 import math
 # import zipcodetw
 # import collections
@@ -1176,6 +1178,21 @@ class AppThemeConfigSettings(models.TransientModel):
             line.write({
                 'normal_p_id':line.donate_order_id.donate_member.id
             })
+
+    def connection_database(self):
+        conn = psycopg2.connect(database="odoo10_CDG", user="postgres", password="postgres", host="35.200.210.19", port="5432") # 取得資料庫連線
+        cur = conn.cursor()
+        ad_wb = xlrd.open_workbook("E:\\fixzipcode.xlsx") # 開啟本機Excel檔案
+        sheet_0 = ad_wb.sheet_by_index(0) # 讀取Excel第一個工作表
+        # print u"表單 %s 共 %d 行 %d 列" % (sheet_0.name, sheet_0.nrows, sheet_0.ncols)
+
+        new_coding = sheet_0.cell_value(1, 1) # 讀取Excel第一行第一列的欄位
+        con_addr = sheet_0.cell_value(1, 5)
+        cur.execute("UPDATE normal_p SET con_addr = '%s' WHERE new_coding = '%s'" % (con_addr,str(int(new_coding)))) # 執行資料庫指令
+
+        conn.commit()
+        cur.close()
+        conn.close() # 關閉資料庫連線
 
     def postal_code_database(self):
         sql = " INSERT INTO postal_code (city, area, zip) VALUES " \
