@@ -27,6 +27,7 @@
                          <group>
                             <font style="display:block;font-weight:bold;" color="#000000">年扣款人數： <field name="year_debit"/> 人</font>
                         </group>
+
                          <group>
                             <font style="display:block;font-weight:bold;" color="#000000">單次扣款人數： <field name="once_debit"/> 人</font>
                         </group>
