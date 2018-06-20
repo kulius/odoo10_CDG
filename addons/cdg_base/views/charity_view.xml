@@ -450,17 +450,17 @@
                   sequence="12"
                 />
         <menuitem id="credit_statistics"
-                  name="信用卡捐款人數"
+                  name="信用卡捐款統計"
                   parent="credit_menu"
                   action="credit_statistics_action"
                   sequence="13"
                 />
-        <menuitem id="credit_donate"
-                  name="信用卡捐款統計表"
-                  parent="credit_menu"
-                  action="credit_statistics_money_action"
-                  sequence="14"
-                />
+        <!--<menuitem id="credit_donate"-->
+                  <!--name="信用卡捐款統計表"-->
+                  <!--parent="credit_menu"-->
+                  <!--action="credit_statistics_money_action"-->
+                  <!--sequence="14"-->
+                <!--/>-->
 
         <menuitem id="cashier_search_root" name="收費員查詢" sequence="11" groups="cdg_cashier_manager"/>
         <menuitem id="cashier_search_categ" name="收費員查詢" parent="cashier_search_root" sequence="1"/>

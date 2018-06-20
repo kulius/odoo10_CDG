@@ -30,6 +30,22 @@
                          <group>
                             <font style="display:block;font-weight:bold;" color="#000000">單次扣款人數： <field name="once_debit"/> 人</font>
                         </group>
+                        <span style="color:blue;font-size:20px;font-weight:bold;">信用卡扣款金額統計</span>
+                        <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">五日扣款金額： <field name="five_debit_money"/> 元</font>
+                        </group>
+                        <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">二十日扣款金額： <field name="twenty_debit_money"/> 元</font>
+                        </group>
+                        <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">季扣款金額： <field name="season_debit_money"/> 元</font>
+                        </group>
+                         <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">年扣款金額： <field name="year_debit_money"/> 元</font>
+                        </group>
+                         <group>
+                            <font style="display:block;font-weight:bold;" color="#000000">單次扣款金額： <field name="once_debit_money"/> 元</font>
+                        </group>
                     </sheet>
                 </form>
             </field>
