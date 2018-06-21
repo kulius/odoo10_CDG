@@ -25,6 +25,14 @@ class creditstatistics(models.TransientModel):
         self.year_debit = len(self.env['normal.p'].search([('debit_method', '=', 4),('is_donate','=',True)]))
         self.once_debit = len(self.env['normal.p'].search([('debit_method', '=', 5),('is_donate','=',True)]))
 
+        self.five_debit_money = 0
+        self.twenty_debit_money = 0
+        self.year_debit_money = 0
+        self.once_debit_money = 0
+        self.season_debit_money = 0
+
+
+
         data1 = self.env['normal.p'].search([('debit_method','=',1),('is_donate','=',True)])
         for data in data1:
             self.five_debit_money += data.credit_total_money
