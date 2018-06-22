@@ -56,5 +56,5 @@ class ConsultantFeeOnly(models.Model):
             raise ValidationError(u'請輸入繳費年度')
         elif not res_id.year is False:
             if res_id.fee_date:
-                res_id.fee_code = 'K' + str(int(datetime.strptime(res_id.fee_date, '%Y-%m-%d').year) - 1911) + res_id.member_code
+                res_id.fee_code = 'K' + res_id.year + res_id.member_code
         return res_id

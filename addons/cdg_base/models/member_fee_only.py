@@ -60,14 +60,12 @@ class MemberFeeOnly(models.Model):
     def set_fee_date(self):
         self.key_in_user = self.env.uid
         self.normal_p_id.last_member_payment_date = self.fee_date
-        print 'YES'
 
         # self.normal_p_id.update({
         #     'member_pay_history':[1,self.id,{
         #         'key_in_user': self.env.uid
         #     }]
         # })
-
 
     @api.model
     def create(self, vals):
@@ -76,5 +74,5 @@ class MemberFeeOnly(models.Model):
             raise ValidationError(u'請輸入繳費年度')
         elif not res_id.year is False:
             if res_id.fee_date:
-                res_id.fee_code = 'F' + str(int(datetime.strptime(res_id.fee_date, '%Y-%m-%d').year) - 1911) + res_id.member_code
+                res_id.fee_code = 'F' + res_id.year + res_id.member_code
         return res_id
