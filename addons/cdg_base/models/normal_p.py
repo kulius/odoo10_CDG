@@ -41,7 +41,7 @@ class NormalP(models.Model):
     debit_method = fields.Selection(selection=[(1, '5日扣款'), (2, '20日扣款'), (3, '季日扣款'), (4, '年繳扣款'), (5, '單次扣款')],
                                     string='信用卡扣款方式')
     is_donated_credit = fields.Boolean('是否捐款(收件人)')
-    is_sent = fields.Boolean('每次寄送')
+    is_sent = fields.Boolean('每次寄送收據')
     year_sent = fields.Boolean('年底一次開立')
     no_need = fields.Boolean('不需收據')
     credit_bridge_money = fields.Integer('A.造橋')
