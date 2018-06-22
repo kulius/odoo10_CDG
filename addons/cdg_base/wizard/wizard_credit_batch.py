@@ -34,7 +34,8 @@ class WizardCreditBatch(models.Model):
         for line in self.donate_line:
             if line.donate_batch_setting:
                 for data in line.credit_parent.credit_family:
-                    self.sum_donor_num += 1
+                    if data.is_donate == True:
+                        self.sum_donor_num += 1
                     self.sum_donate_total += data.credit_total_money
 
 

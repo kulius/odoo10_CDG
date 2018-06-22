@@ -78,7 +78,7 @@ class NormalP(models.Model):
     rec_send = fields.Boolean(string='收據寄送', default=True)
 
     self = fields.Char(string='自訂排序')
-    report_send = fields.Boolean(string='報表寄送', default=True)
+    report_send = fields.Boolean(string='報表寄送', default=False)
     thanks_send = fields.Boolean(string='感謝狀寄送')
     prints = fields.Boolean(string='是否列印')
     prints_id = fields.Char(string='核印批號')
