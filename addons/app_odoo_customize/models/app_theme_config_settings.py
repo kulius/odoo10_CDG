@@ -1180,15 +1180,19 @@ class AppThemeConfigSettings(models.TransientModel):
             })
 
     def connection_database(self):
-        conn = psycopg2.connect(database="odoo10_CDG", user="postgres", password="postgres", host="35.200.210.19", port="5432") # 取得資料庫連線
+        conn = psycopg2.connect(database="odoo10_CDG", user="postgres", password="postgres", host="35.185.128.184", port="5432") # 取得資料庫連線
         cur = conn.cursor()
-        ad_wb = xlrd.open_workbook("E:\\fixzipcode.xlsx") # 開啟本機Excel檔案
+        ad_wb = xlrd.open_workbook("C:\\fixzipcode.xlsx") # 開啟本機Excel檔案
         sheet_0 = ad_wb.sheet_by_index(0) # 讀取Excel第一個工作表
         # print u"表單 %s 共 %d 行 %d 列" % (sheet_0.name, sheet_0.nrows, sheet_0.ncols)
 
-        new_coding = sheet_0.cell_value(1, 1) # 讀取Excel第一行第一列的欄位
-        con_addr = sheet_0.cell_value(1, 5)
-        cur.execute("UPDATE normal_p SET con_addr = '%s' WHERE new_coding = '%s'" % (con_addr,str(int(new_coding)))) # 執行資料庫指令
+        for i in range(1,int(sheet_0.nrows)):
+            new_coding = sheet_0.cell_value(i, 1) # 讀取Excel第一行第一列的欄位
+            con_addr = sheet_0.cell_value(i, 5)
+            # print u"新捐款者編號: %s" % new_coding
+            # print u"原報表寄送地址: %s" % sheet_0.cell_value(i, 4)
+            # print u"新報表寄送地址: %s" % con_addr
+            cur.execute("UPDATE normal_p SET con_addr = '%s' WHERE new_coding = '%s'" % (con_addr,str(int(new_coding)))) # 執行資料庫指令
 
         conn.commit()
         cur.close()
