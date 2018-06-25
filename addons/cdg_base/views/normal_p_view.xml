@@ -245,9 +245,10 @@
                                             <field name="credit_normal_money"></field>
                                             <field name="credit_total_money"></field>
                                         </group>
-                                        <group col="4">
+                                        <group col="6">
                                             <field name="is_sent"/>
                                             <field name="year_sent"/>
+                                            <field name="no_need"/>
                                         </group>
 
                                         <field name="credit_family" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form'}">
@@ -455,9 +456,10 @@
                                             <field name="credit_normal_money"></field>
                                             <field name="credit_total_money"></field>
                                         </group>
-                                        <group col="4">
+                                        <group col="6">
                                             <field name="is_sent"/>
                                             <field name="year_sent"/>
+                                            <field name="no_need"/>
                                         </group>
 
                                         <field name="credit_family" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form'}">
