@@ -14,9 +14,10 @@ class ConsultantListXlsx(ReportXlsx):
         sheet = workbook.add_worksheet()
         count = 1
 
-        sheet.write(0, 0,u'顧問編號')
+        sheet.write(0, 0, u'顧問編號')
         sheet.write(0, 1, u'姓名')
         sheet.write(0, 2, u'收據地址')
+        sheet.write(0, 3, u'顧問加入日期')
 
         for line in data['docs']:
             data = array.browse(line)
@@ -26,6 +27,7 @@ class ConsultantListXlsx(ReportXlsx):
                 sheet.write(count, 0, data.member_code)
                 sheet.write(count, 1, data.consultant_name)
                 sheet.write(count, 2, data.rec_addr)
+                sheet.write(count, 3, data.normal_p_id.hire_date)
                 count += 1
 
 
