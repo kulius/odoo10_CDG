@@ -1180,19 +1180,24 @@ class AppThemeConfigSettings(models.TransientModel):
             })
 
     def connection_database(self):
-        conn = psycopg2.connect(database="odoo10_CDG", user="postgres", password="postgres", host="35.185.128.184", port="5432") # 取得資料庫連線
+        conn = psycopg2.connect(database="odoo10_CDG", user="postgres", password="postgres", host="35.200.210.19", port="5432") # 取得資料庫連線
         cur = conn.cursor()
         ad_wb = xlrd.open_workbook("C:\\fixzipcode.xlsx") # 開啟本機Excel檔案
         sheet_0 = ad_wb.sheet_by_index(0) # 讀取Excel第一個工作表
-        # print u"表單 %s 共 %d 行 %d 列" % (sheet_0.name, sheet_0.nrows, sheet_0.ncols)
 
         for i in range(1,int(sheet_0.nrows)):
-            new_coding = sheet_0.cell_value(i, 1) # 讀取Excel第一行第一列的欄位
-            con_addr = sheet_0.cell_value(i, 5)
-            # print u"新捐款者編號: %s" % new_coding
-            # print u"原報表寄送地址: %s" % sheet_0.cell_value(i, 4)
-            # print u"新報表寄送地址: %s" % con_addr
-            cur.execute("UPDATE normal_p SET con_addr = '%s' WHERE new_coding = '%s'" % (con_addr,str(int(new_coding)))) # 執行資料庫指令
+            new_coding = sheet_0.cell_value(i, 0) # 讀取Excel第一行第一列的欄位
+            con_addr = sheet_0.cell_value(i, 4)
+            rec_addr = ''
+            cur.execute("SELECT con_addr,parent  FROM normal_p WHERE normal_p.new_coding = '%s' " % (str(int(new_coding)))) # 根據Excel的新捐款者編號抓出報表地址異常的資料, 並且收據地址等於報表地址
+            rows = cur.fetchall()
+            if rows:
+                for row in rows:
+                    rec_addr = row[0]
+                    if row[1] is True:
+                        cur.execute("UPDATE normal_p SET rec_addr = '%s' WHERE normal_p.rec_addr = '%s' AND normal_p.parent = %s" % (con_addr, rec_addr, int(row[1]))) # 篩選parent相同的資料(抓出同一戶), 並且團員眷屬的收據地址與戶長的收據地址相同, 再將新的報表寄送地址寫入收據地址
+            cur.execute("UPDATE normal_p SET con_addr = '%s' WHERE new_coding = '%s'" % (con_addr,str(int(new_coding)))) # 更新報表寄送地址有誤的捐款者
+            print u'新捐款者編號: %s' % str(int(new_coding))
 
         conn.commit()
         cur.close()

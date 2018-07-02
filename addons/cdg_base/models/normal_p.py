@@ -29,7 +29,8 @@ class NormalP(models.Model):
     rec_addr = fields.Char(string='收據寄送地址')
     zip_code = fields.Char(string='報表郵遞區號')
     con_addr = fields.Char(string='報表寄送地址')
-    old_con_addr = fields.Char(string='舊報表寄送地址')
+    old_rec_addr = fields.Char(string='原收據寄送地址', readonly=True)
+    old_con_addr = fields.Char(string='原報表寄送地址', readonly=True)
 
     # 信用卡捐款相關欄位
 
@@ -79,7 +80,7 @@ class NormalP(models.Model):
     rec_send = fields.Boolean(string='收據寄送', default=True)
 
     self = fields.Char(string='自訂排序')
-    report_send = fields.Boolean(string='報表寄送', default=False)
+    report_send = fields.Boolean(string='報表寄送', default = True)
     thanks_send = fields.Boolean(string='感謝狀寄送')
     prints = fields.Boolean(string='是否列印')
     prints_id = fields.Char(string='核印批號')

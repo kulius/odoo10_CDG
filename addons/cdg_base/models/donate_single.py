@@ -443,18 +443,30 @@ class DonateSingle(models.Model):
     def add_to_list_create(self, record):
         if record.family_check:
             for line in record.family_check.filtered(lambda  x :x.is_donate==True):
-                if line.bridge_money != 0:
-                    record.save_donate_list(1, line.donate_member, line.bridge_money)
-                if line.road_money != 0:
-                    record.save_donate_list(2, line.donate_member, line.road_money)
-                if line.coffin_money != 0:
-                    record.save_donate_list(3, line.donate_member, line.coffin_money)
-                if line.poor_help_money != 0:
-                    record.save_donate_list(5, line.donate_member, line.poor_help_money)
-                if line.noassign_money != 0:
-                    record.save_donate_list(6, line.donate_member, line.noassign_money)
-                if record.print_all_donor_list and (line.bridge_money == 0 and line.road_money == 0 and line.coffin_money == 0 and line.poor_help_money == 0 and line.noassign_money == 0 ):
-                    record.save_donate_list(6, line.donate_member, line.noassign_money)
+                if record.print_all_donor_list:
+                    if line.bridge_money == 0 and line.road_money == 0 and line.coffin_money == 0 and line.poor_help_money == 0 and line.noassign_money == 0:
+                        record.save_donate_list(6, line.donate_member, line.noassign_money)
+                    if line.bridge_money != 0:
+                        record.save_donate_list(1, line.donate_member, line.bridge_money)
+                    if line.road_money != 0:
+                        record.save_donate_list(2, line.donate_member, line.road_money)
+                    if line.coffin_money != 0:
+                        record.save_donate_list(3, line.donate_member, line.coffin_money)
+                    if line.poor_help_money != 0:
+                        record.save_donate_list(5, line.donate_member, line.poor_help_money)
+                    if line.noassign_money != 0:
+                        record.save_donate_list(6, line.donate_member, line.noassign_money)
+                else:
+                    if line.bridge_money != 0:
+                        record.save_donate_list(1, line.donate_member, line.bridge_money)
+                    if line.road_money != 0:
+                        record.save_donate_list(2, line.donate_member, line.road_money)
+                    if line.coffin_money != 0:
+                        record.save_donate_list(3, line.donate_member, line.coffin_money)
+                    if line.poor_help_money != 0:
+                        record.save_donate_list(5, line.donate_member, line.poor_help_money)
+                    if line.noassign_money != 0:
+                        record.save_donate_list(6, line.donate_member, line.noassign_money)
         else:
             raise ValidationError(u'捐款名冊為空，無法進行捐款作業')
 

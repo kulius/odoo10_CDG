@@ -137,6 +137,10 @@
                                         <group col="6">
                                             <field name="ps" colspan="6"/>
                                         </group>
+                                        <group>
+                                            <field name="old_rec_addr"/>
+                                            <field name="old_con_addr"/>
+                                        </group>
                                     </div>
                                 </page>
                                 <page string="團員眷屬">
