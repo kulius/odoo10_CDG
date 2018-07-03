@@ -1186,7 +1186,7 @@ class AppThemeConfigSettings(models.TransientModel):
         sheet_0 = ad_wb.sheet_by_index(0) # 讀取Excel第一個工作表
 
         for i in range(1,int(sheet_0.nrows)):
-            new_coding = sheet_0.cell_value(i, 0) # 讀取Excel第一行第一列的欄位
+            new_coding = sheet_0.cell_value(i, 0) # 讀取Excel第零行第一列的欄位
             con_addr = sheet_0.cell_value(i, 4)
             rec_addr = ''
             cur.execute("SELECT con_addr,parent  FROM normal_p WHERE normal_p.new_coding = '%s' " % (str(int(new_coding)))) # 根據Excel的新捐款者編號抓出報表地址異常的資料, 並且收據地址等於報表地址
@@ -1198,7 +1198,6 @@ class AppThemeConfigSettings(models.TransientModel):
                         cur.execute("UPDATE normal_p SET rec_addr = '%s' WHERE normal_p.rec_addr = '%s' AND normal_p.parent = %s" % (con_addr, rec_addr, int(row[1]))) # 篩選parent相同的資料(抓出同一戶), 並且團員眷屬的收據地址與戶長的收據地址相同, 再將新的報表寄送地址寫入收據地址
             cur.execute("UPDATE normal_p SET con_addr = '%s' WHERE new_coding = '%s'" % (con_addr,str(int(new_coding)))) # 更新報表寄送地址有誤的捐款者
             print u'新捐款者編號: %s' % str(int(new_coding))
-
         conn.commit()
         cur.close()
         conn.close() # 關閉資料庫連線

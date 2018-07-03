@@ -2,6 +2,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import *
+import datetime
 
 class CoffinBase(models.Model):
     _name = 'coffin.base'
@@ -12,9 +13,9 @@ class CoffinBase(models.Model):
     name = fields.Char()
     coffin_id = fields.Char(string="施棺編號")
     donate_type = fields.Selection(selection=[('Z','零捐'),('A','累積')],string='捐助方式')
-    coffin_date = fields.Date(string='領款日期',default=datetime.today())
-    dead_date = fields.Date('死亡日期',default=datetime.today())
-    coffin_date_year = fields.Char(string='年度',default=datetime.today().year - 1911)
+    coffin_date = fields.Date(string='領款日期',default=datetime.date.today())
+    dead_date = fields.Date('死亡日期',default=fields.Date.today)
+    coffin_date_year = fields.Char(string='年度',default=datetime.date.today().year - 1911)
     coffin_date_group = fields.Selection([(1,'01'),(2,'02'),(3,'03'),(4,'04')],'季別')
     coffin_season = fields.Char('期別')
     bank_account = fields.Char('匯款帳號')
@@ -335,19 +336,19 @@ class CoffinBase(models.Model):
     def compare_date(self):
         if self.coffin_date < self.dead_date:
             raise ValidationError(u'領款日期不得早於死亡日期')
-        if len(str(datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)) < 3 : # 民國100年之前的資料, 將年份補足為三位數, 並將年份帶入施棺期別的年份
-            self.coffin_date_year = '0' + str(datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)
-        elif len(str(datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)) == 3 : # 將領款日期的年份帶入施棺期別的年份
-            self.coffin_date_year = datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911
+        if len(str(datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)) < 3 : # 民國100年之前的資料, 將年份補足為三位數, 並將年份帶入施棺期別的年份
+            self.coffin_date_year = '0' + str(datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)
+        elif len(str(datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911)) == 3 : # 將領款日期的年份帶入施棺期別的年份
+            self.coffin_date_year = datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').year - 1911
         # self.coffin_date_group = datetime.strptime(self.coffin_date, '%Y-%m-%d').month # 領款日期的月份帶入施棺期別的月份
 
-        if(datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 1 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 2 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 3):
+        if(datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 1 or datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 2 or datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 3):
             self.coffin_date_group = 1
-        elif (datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 4 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 5 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 6):
+        elif (datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 4 or datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 5 or datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 6):
             self.coffin_date_group = 2
-        elif (datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 7 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 8 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 9):
+        elif (datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 7 or datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 8 or datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 9):
             self.coffin_date_group = 3
-        elif (datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 10 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 11 or datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 12):
+        elif (datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 10 or datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 11 or datetime.datetime.strptime(self.coffin_date, '%Y-%m-%d').month == 12):
             self.coffin_date_group = 4
 
     @api.onchange('exception_case')
