@@ -100,7 +100,7 @@
                                         <t t-if="len(data.donate_family1.ids) == 1">
                                              <t t-if="donate_family_number == 1">
                                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', data.new_coding, 600, 100)" style="width:100px;height:30px"/>
-                                               <t t-if="data.donate_family1.is_merge == False">
+                                               <t t-if="familyname.is_merge == False">
                                                    <div style="margin-left:0px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div></t>
                                                <t t-else="">
                                                    <div style="margin-left:0px;display:inline-block;padding:5px;font-size:24px;"><t t-esc= "familyname.name"/></div>
@@ -108,7 +108,7 @@
                                                <t t-set="donate_family_number" t-value="2"></t>
                                             </t>
                                             <t t-elif="donate_family_number != 1">
-                                                <t t-if="data.donate_family1.is_merge == False">
+                                                <t t-if="familyname.is_merge == False">
                                                     <div style="margin-left:0px;display:inline-block;padding:5px;font-size:24px;">★<t t-esc= "familyname.name"/></div>
                                                 </t>
                                                 <t t-else="">
