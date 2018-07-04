@@ -13,7 +13,7 @@ class CoffinBase(models.Model):
     name = fields.Char()
     coffin_id = fields.Char(string="施棺編號")
     donate_type = fields.Selection(selection=[('Z','零捐'),('A','累積')],string='捐助方式')
-    coffin_date = fields.Date(string='領款日期',default=datetime.date.today())
+    coffin_date = fields.Date(string='領款日期',default=fields.Date.today)
     dead_date = fields.Date('死亡日期',default=fields.Date.today)
     coffin_date_year = fields.Char(string='年度',default=datetime.date.today().year - 1911)
     coffin_date_group = fields.Selection([(1,'01'),(2,'02'),(3,'03'),(4,'04')],'季別')

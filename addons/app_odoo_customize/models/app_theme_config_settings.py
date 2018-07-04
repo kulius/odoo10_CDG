@@ -1194,8 +1194,10 @@ class AppThemeConfigSettings(models.TransientModel):
             if rows:
                 for row in rows:
                     rec_addr = row[0]
-                    if row[1] is True:
-                        cur.execute("UPDATE normal_p SET rec_addr = '%s' WHERE normal_p.rec_addr = '%s' AND normal_p.parent = %s" % (con_addr, rec_addr, int(row[1]))) # 篩選parent相同的資料(抓出同一戶), 並且團員眷屬的收據地址與戶長的收據地址相同, 再將新的報表寄送地址寫入收據地址
+                    if row[1] is None:
+                        continue
+                    else:
+                        cur.execute("UPDATE normal_p SET rec_addr = '%s' WHERE normal_p.rec_addr = '%s' AND normal_p.parent = %s" % (con_addr, rec_addr, int(row[1])))  # 篩選parent相同的資料(抓出同一戶), 並且團員眷屬的收據地址與戶長的收據地址相同, 再將新的報表寄送地址寫入收據地址
             cur.execute("UPDATE normal_p SET con_addr = '%s' WHERE new_coding = '%s'" % (con_addr,str(int(new_coding)))) # 更新報表寄送地址有誤的捐款者
             print u'新捐款者編號: %s' % str(int(new_coding))
         conn.commit()

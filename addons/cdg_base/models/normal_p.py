@@ -314,6 +314,33 @@ class NormalP(models.Model):
             'target': 'new',
         }
 
+    def cashier_transfer_batch(self,ids):
+        res = []
+        docs = self.env['normal.p'].browse(ids)
+        cashier_name = 0
+        for line in docs:
+            if cashier_name == 0:
+                cashier_name = line.cashier_name.id
+            elif cashier_name != line.cashier_name.id:
+                raise ValidationError(u'新捐款者編號: %s 的收費員是%s, 與原收費員不同, 因此無法合併' % (line.new_coding, line.cashier_name.name))
+
+        for line in ids:
+            res.append([4, line])
+        wizard_data = self.env['cashier.transfer'].create({
+            'new_cashier': cashier_name,
+            'old_cashier': cashier_name,
+            'from_target': res
+        })
+
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'cashier.transfer',
+            'name': '收費員捐款者合併',
+            'view_mode': 'form',
+            'res_id': wizard_data.id,
+            'target': 'new',
+        }
+
     def credit_batch(self, ids):
         res = []
         for line in ids:

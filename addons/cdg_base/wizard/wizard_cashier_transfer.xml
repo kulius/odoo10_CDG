@@ -10,6 +10,7 @@
                         <group>
                             <field name="old_cashier"/>
                             <field name="new_cashier"/>
+                            <field name="from_target"/>
                         </group>
                     </sheet>
                     <footer>

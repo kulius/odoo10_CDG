@@ -670,7 +670,23 @@
             <field name="model">normal.p</field>
         </record>
 
+        <record id="action_cashier_transfer_batch" model="ir.actions.server">
+            <field name="name">收費員捐款者合併</field>
+            <field name="model_id" ref="model_normal_p"/>
+            <field name="code">
+                action =  object.cashier_transfer_batch(context.get('active_ids', []))
+            </field>
+        </record>
+<!--object = normal_p -->
 
+        <record model="ir.values" id="ir_values_cashier_transfer_batch_button">
+            <field name="name">收費員捐款者合併</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.server,%d'%action_cashier_transfer_batch"/>
+            <field name="key">action</field>
+            <field name="object" eval="True"/>
+            <field name="model">normal.p</field>
+        </record>
 
         <record id="cashier_block_action" model="ir.actions.server">
             <field name="name">收費員捐款者名冊-新</field>
