@@ -84,8 +84,6 @@ class WizardCreditBatch(models.Model):
                 if self.clean_all_check:
                     data.donate_batch_setting = False
 
-
-
         action = self.env.ref('cdg_base.donate_single_view_action').read()[0]
         action['domain'] = [('debit_method','!=', False),('state','=',1),('receipt_send','=',True)]
         return action

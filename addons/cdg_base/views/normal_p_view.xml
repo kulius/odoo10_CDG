@@ -221,11 +221,11 @@
                                 <page string="顧問繳費明細">
                                     <field name="consultant_pay_history"/>
                                 </page>
-                                <page string="信用卡資料">
-                                    <span STYLE='font-size:25px'>信用卡扣款資料</span>
+                                <page string="信用卡資料" groups="cdg_base.credit_management">
+                                    <span STYLE='font-size:20px;font-weight:bold;'>信用卡扣款資料</span>
                                          <div class="oe_button_box" name="button_box">
-                                            <button name="clear_credit_data" string="清空信用卡資料"
-                                                    type="object" class="oe_stat_button" icon="fa-dollar" attrs="{'invisible': [('name', '=', False)]}"/>
+                                            <button name="clear_credit_data" string="清空扣款資料"
+                                                    type="object" class="oe_stat_button" icon="fa-dollar" attrs="{'invisible': [('name', '=', False)]}" groups="cdg_base.credit_management"/>
                                         </div>
                                         <group col="6">
                                             <field name="credit_parent"/>
@@ -241,6 +241,9 @@
                                             <field name="credit_zip"></field>
                                             <field name="credit_addr" colspan="4"></field>
                                         </group>
+                                        <br/>
+                                        <br/>
+                                        <span style="font-size:20px;font-weight:bold;">捐款項目及金額</span>
                                         <group col="6">
                                             <field name="credit_bridge_money"></field>
                                             <field name="credit_road_money"></field>
@@ -249,13 +252,14 @@
                                             <field name="credit_normal_money"></field>
                                             <field name="credit_total_money"></field>
                                         </group>
+                                        <br/>
+                                        <br/>
+                                        <span style="font-size:20px;font-weight:bold;">信用卡收據寄送方式</span>
                                         <group col="6">
                                             <field name="is_sent"/>
                                             <field name="year_sent"/>
-                                            <field name="no_need"/>
                                         </group>
-
-                                        <field name="credit_family" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form'}">
+                                        <field name="credit_family" context="{'form_view_ref' : 'cdg_base.normal_p_credit_view_form'}">
                                             <tree>
                                                 <field name="sequence"/>
                                                 <field name="new_coding"/>
@@ -433,10 +437,12 @@
                                         <group col="6">
                                             <field name="ps" colspan="6"/>
                                         </group>
-                                        <span STYLE='font-size:25px'>信用卡扣款資料</span>
+                                        <br/>
+                                        <br/>
+                                        <span STYLE='font-size:20px;font-weight:bold;'>信用卡扣款資料</span>
                                              <div class="oe_button_box" name="button_box">
-                                                <button name="clear_credit_data" string="清空信用卡資料"
-                                                        type="object" class="oe_stat_button" icon="fa-dollar" attrs="{'invisible': [('name', '=', False)]}"/>
+                                                <button name="clear_credit_data" string="清空扣款資料"
+                                                        type="object" class="oe_stat_button" icon="fa-eraser" attrs="{'invisible': [('name', '=', False)]}"/>
                                             </div>
                                         <group col="6">
                                             <field name="credit_parent"/>
@@ -452,6 +458,9 @@
                                             <field name="credit_zip"></field>
                                             <field name="credit_addr" colspan="4"></field>
                                         </group>
+                                        <br/>
+                                        <br/>
+                                        <span style="font-size:20px;font-weight:bold;">捐款項目及金額</span>
                                         <group col="6">
                                             <field name="credit_bridge_money"></field>
                                             <field name="credit_road_money"></field>
@@ -460,13 +469,14 @@
                                             <field name="credit_normal_money"></field>
                                             <field name="credit_total_money"></field>
                                         </group>
-                                        <group col="6">
+                                        <br/>
+                                        <br/>
+                                        <span style="font-size:20px;font-weight:bold;">信用卡收據寄送方式</span>
+                                        <group col="4">
                                             <field name="is_sent"/>
                                             <field name="year_sent"/>
-                                            <field name="no_need"/>
                                         </group>
-
-                                        <field name="credit_family" context="{'form_view_ref' : 'cdg_base.normal_p_easy_view_form'}">
+                                        <field name="credit_family" context="{'form_view_ref' : 'cdg_base.normal_p_credit_view_form'}">
                                             <tree>
                                                 <field name="sequence"/>
                                                 <field name="new_coding"/>
@@ -482,6 +492,37 @@
                                 </page>
                             </notebook>
                     </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="normal_p_credit_view_form" model="ir.ui.view">
+            <field name="name">normal_p_credit_view</field>
+            <field name="model">normal.p</field>
+            <field name="arch" type="xml">
+                <form class="o_sale_order">
+                    <div class="col-md-12">
+                        <div class="oe_title">
+                            <h1>
+                                <field name="new_coding" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="name"/>
+                            <field name="report_send" invisible = "1"/>
+                            <field name="rec_send" invisible = "1"/>
+                        </group>
+                        <group col="8">
+                            <field name="zip" colspan="2" string="收據寄送地址"/>
+                            <field name="rec_addr" colspan="6" nolabel="1" />
+                        </group>
+                        <group>
+                            <field name="donate_family_list"/>
+                        </group>
+                        <group>
+                            <field name="ps" />
+                        </group>
+                    </div>
                 </form>
             </field>
         </record>

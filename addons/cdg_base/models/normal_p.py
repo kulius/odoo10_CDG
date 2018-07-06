@@ -146,12 +146,21 @@ class NormalP(models.Model):
     old_coffin_donation = fields.One2many(comodel_name='old.coffin.donation', inverse_name='normal_p_id')
     coffin_donation = fields.One2many(comodel_name='coffin.donation', inverse_name='normal_p_id')
 
+    @api.multi
+    def write(self,vals):
+      res_id = super(NormalP,self).write(vals)
+      if self.credit_parent:
+          if self.debit_method is False:
+              raise ValidationError(u'請選擇扣款方式')
+          if self.is_sent is False and self.year_sent is False:
+              raise ValidationError(u'信用卡收據寄送方式請至少選擇一種')
+      return res_id
+
     # 設定上一筆捐款 如果捐款種類有選擇 金額帶入100
     @api.onchange('last_donate_type')
     def set_default_last_donate_money(self):
         if self.last_donate_type != False and self.last_donate_money == 0:
             self.last_donate_money = 100
-
 
     @api.onchange('credit_bridge_money', 'credit_road_money', 'credit_coffin_money', 'credit_poor_money','credit_normal_money')
     def compute_donate_total(self):
@@ -269,7 +278,6 @@ class NormalP(models.Model):
             'target': 'new',
         }
 
-
     def cashier_consultant(self, ids):
         res = []
         for line in ids:
@@ -345,17 +353,12 @@ class NormalP(models.Model):
             'target': 'new',
         }
 
-
-
-
-
     def check_batch_donate(self):
         if self.donate_batch_setting == True:
             self.donate_batch_setting = False
         elif self.donate_batch_setting == False:
             self.donate_batch_setting = True
         return True
-
 
     @api.depends('donate_family1.is_donate','donate_family1.is_merge')
     def compute_faamily_list(self):
