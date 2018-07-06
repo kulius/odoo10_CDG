@@ -2,6 +2,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import *
+import datetime
 import time
 import logging
 
@@ -62,7 +63,7 @@ class NormalP(models.Model):
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
     db_chang_date = fields.Date(string='異動日期')
-    build_date = fields.Date(string='建檔日期', default=datetime.today())
+    build_date = fields.Date(string='建檔日期', default=fields.Date.today)
 
     email = fields.Char(string='Email')
     type = fields.Many2many(comodel_name='people.type', string='人員種類')
@@ -123,7 +124,7 @@ class NormalP(models.Model):
     is_donate = fields.Boolean(string='是否捐助', default=True)
     is_merge = fields.Boolean(string='是否合併收據', default=True)
 
-    donate_family_list = fields.Char(string='眷屬列表', compute='compute_faamily_list' )
+    donate_family_list = fields.Char(string='眷屬列表', compute='compute_faamily_list')
     active = fields.Boolean(default=True)
     is_same_addr = fields.Boolean(string='報表地址同收據地址')
     auto_num = fields.Char('自動地區編號')
@@ -251,20 +252,6 @@ class NormalP(models.Model):
             'name': '收費員捐款者名冊-新',
             'view_mode': 'form',
             'res_id': wizard_data.id,
-            'target': 'new',
-        }
-
-    def cashier_trans(self, ids):
-        res = []
-        for line in ids:
-            res.append([4, line])
-            wizard_data = self.env['cashier.transfer'].create({'from_target': res})
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'cashier.transfer',
-            'name': '收費員批次更改',
-            'res_id': wizard_data.id,
-            'view_mode': 'form',
             'target': 'new',
         }
 

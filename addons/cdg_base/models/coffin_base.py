@@ -254,8 +254,6 @@ class CoffinBase(models.Model):
                         self.donate_price = int(float(self.donate_price)) + line.available_balance  # 將捐款金額加入累積金額
                         Cumulative_amount = Cumulative_amount - line.available_balance  # 施棺滿足額 減掉 捐款額
                         line.available_balance = 0  # 該筆捐款金額歸 0
-
-
                     elif int(line.available_balance) > Cumulative_amount and flag == False:  # 單筆捐款大於施棺滿足額的差額
                         self.write({
                             'batch_donate': [(0, 0, {
@@ -269,10 +267,8 @@ class CoffinBase(models.Model):
                         self.donate_price = int(float(self.donate_price)) + Cumulative_amount
                         Cumulative_amount = 0 # 達到施棺滿足額, 所以差額歸0
                         line.use_amount = False
-
         if Cumulative_amount != 0:
             raise ValidationError(u'無法湊足施棺滿足額')
-
         return True;
 
     def data_input_coffin(self):
@@ -329,8 +325,6 @@ class CoffinBase(models.Model):
                     elif donate_number > 6:
                         str_build = u"眾善士"
                 i.donor = str_build.rstrip(', ')
-
-
 
     @api.onchange('coffin_date', 'dead_date')
     def compare_date(self):
