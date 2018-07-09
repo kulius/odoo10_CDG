@@ -155,6 +155,8 @@ class NormalP(models.Model):
               raise ValidationError(u'捐款者編號:%s， 請選擇扣款方式' % self.new_coding)
           if self.is_sent is False and self.year_sent is False:
               raise ValidationError(u'捐款者編號:%s，信用卡收據寄送方式請至少選擇一種' % self.new_coding)
+          if self.is_sent is True and self.year_sent is True:
+              raise ValidationError(u'捐款者編號:%s，信用卡收據寄送方式只能選擇一種' % self.new_coding)
       return res_id
 
     # 設定上一筆捐款 如果捐款種類有選擇 金額帶入100
