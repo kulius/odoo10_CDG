@@ -49,21 +49,22 @@ class WizardCreditBatch(models.Model):
 
         for data in self.donate_line:
             res_line = []
+            i = 0
             if data.donate_batch_setting:
-                i = 0
                 for row in data.credit_family:
-                    res_line.append([0, 0, {
-                        'donate_member': row.id,
-                        'bridge_money': row.credit_bridge_money,
-                        'road_money': row.credit_road_money,
-                        'coffin_money': row.credit_coffin_money,
-                        'poor_help_money': row.credit_poor_money,
-                        'noassign_money': row.credit_normal_money,
-                        'donate_total': row.credit_bridge_money + row.credit_road_money + row.credit_coffin_money + row.credit_poor_money + row.credit_normal_money,
-                    }])
+                    if row.credit_is_donate == True:
+                        res_line.append([0, 0, {
+                            'donate_member': row.id,
+                            'bridge_money': row.credit_bridge_money,
+                            'road_money': row.credit_road_money,
+                            'coffin_money': row.credit_coffin_money,
+                            'poor_help_money': row.credit_poor_money,
+                            'noassign_money': row.credit_normal_money,
+                            'donate_total': row.credit_bridge_money + row.credit_road_money + row.credit_coffin_money + row.credit_poor_money + row.credit_normal_money,
+                        }])
 
                 for line in data.credit_family:
-                    if line.is_donated_credit == True and line.is_donate == True and i == 0:
+                    if line.is_donated_credit == True and line.credit_is_donate == True and i == 0:
                         i = i + 1
                         order.create({
                             'donate_member': line.id,

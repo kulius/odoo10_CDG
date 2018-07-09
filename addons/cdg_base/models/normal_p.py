@@ -38,6 +38,7 @@ class NormalP(models.Model):
     credit_parent = fields.Many2one(comodel_name='normal.p',string='信用卡持卡人')
     credit_family = fields.One2many(comodel_name='normal.p',inverse_name='credit_parent',string='信用卡眷屬')
 
+    credit_is_donate = fields.Boolean('是否捐助', default = True)
     credit_money = fields.Integer('信用卡總額')
     credit_zip = fields.Char('信用卡郵遞區號')
     credit_addr = fields.Char('信用卡收據地址')
@@ -424,6 +425,9 @@ class NormalP(models.Model):
                         family_list.append('(X' + row.name + u' 一般捐款 ' + str(row.credit_normal_money) + ')')
 
                 line.credit_family_list = ','.join(family_list)
+
+    def toggle_credit_donate(self):
+        self.credit_is_donate = not self.credit_is_donate
 
     def toggle_donate(self):
         self.is_donate = not self.is_donate
