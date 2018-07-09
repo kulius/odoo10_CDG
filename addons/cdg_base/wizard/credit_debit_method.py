@@ -8,10 +8,10 @@ class CreditDebitMethod(models.Model):
                                     string='信用卡扣款方式')
 
     def set_debit_method(self):
-        data = self.env['normal.p'].search([('debit_method','=',self.debit_method),('is_donated_credit','=',True)])
-        for data in data:
-            data.donate_batch_setting = True
+        data = self.env['normal.p'].search([('debit_method','=',self.debit_method),('credit_family','!=',False)])
+        for line in data:
+            line.donate_batch_setting = True
         action = self.env.ref('cdg_base.credit_action').read()[0]
         action['context'] = {}  # remove default domain condition in search box
-        action['domain'] = [('debit_method', '=', self.debit_method),('is_donated_credit','=',True)]  # set new domain condition to search data
+        action['domain'] = [('debit_method', '=', self.debit_method),('credit_family','!=',False)]  # set new domain condition to search data
         return action

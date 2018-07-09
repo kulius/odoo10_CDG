@@ -50,7 +50,8 @@ class WizardCreditBatch(models.Model):
         for data in self.donate_line:
             res_line = []
             if data.donate_batch_setting:
-                for row in data.credit_parent.credit_family:
+                i = 0
+                for row in data.credit_family:
                     res_line.append([0, 0, {
                         'donate_member': row.id,
                         'bridge_money': row.credit_bridge_money,
@@ -61,11 +62,13 @@ class WizardCreditBatch(models.Model):
                         'donate_total': row.credit_bridge_money + row.credit_road_money + row.credit_coffin_money + row.credit_poor_money + row.credit_normal_money,
                     }])
 
-                for line in data.credit_parent:
+                for line in data.credit_family:
+                    if line.is_donated_credit == True and line.is_donate == True and i == 0:
+                        i = i + 1
                         order.create({
-                            'donate_member': line.credit_family[0].id,
-                            'name': line.credit_family[0].name,
-                            'debit_method':line.credit_family[0].debit_method,
+                            'donate_member': line.id,
+                            'name': line.name,
+                            'debit_method':line.debit_method,
                             'zip': data.credit_zip,
                             'rec_addr': data.credit_addr,
                             'zip_code': data.credit_zip,
