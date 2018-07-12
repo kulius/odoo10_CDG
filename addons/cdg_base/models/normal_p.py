@@ -753,9 +753,9 @@ class NormalP(models.Model):
     @api.model
     def create(self, vals): # 建立捐款者基本資料時, 檢查郵遞區號填寫是否正確並產生捐款者編號, 這裡是覆寫odoo原本的create()
         res_id = super(NormalP, self).create(vals)
-        if res_id.name is False:
+        if res_id.name is False: # 捐款者姓名欄位不得為空
             raise ValidationError(u'請輸入姓名')
-        if res_id.con_phone:
+        if res_id.con_phone: # 如果連絡電話有填寫, 則要檢查字串是否有非數字的字元存在, 否則不能存檔
             for ch in res_id.con_phone:
                 if u'\u0030' <= ch <= u'\u0039':
                     continue
@@ -767,7 +767,6 @@ class NormalP(models.Model):
                     continue
                 else:
                     raise ValidationError(u'手機格式不能有非數字的字元')
-
         if res_id.zip is False: # 使用者如果沒有填收據寄送地址郵遞區號, 則無法建立此筆紀錄
             raise ValidationError(u'收據郵遞區號不能為空白')
         elif res_id.zip == True or res_id.zip_code == True: # 如果收據地址的郵遞區號或者報表地址的郵遞區號有填入

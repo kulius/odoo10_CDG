@@ -13,8 +13,6 @@
                     <field name="cellphone"/>
                     <field name="con_addr"/>
                     <field name="cashier_name"/> <!-- 原本為cashier_name-->
-                    <field name="self"/>
-
                 </tree>
             </field>
         </record>

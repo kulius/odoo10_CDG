@@ -11,7 +11,6 @@
                     <field name="con_phone"/>
                     <field name="cellphone"/>
                     <field name="rec_addr"/>
-                    <field name="self"/>
                 </tree>
             </field>
         </record>

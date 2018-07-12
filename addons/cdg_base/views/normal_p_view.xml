@@ -534,13 +534,9 @@
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="new_coding"/>
-                    <field name="name"/>
-                    <field name="w_id"/>
-                    <field name="con_phone"/>
-                    <field name="cellphone"/>
-                    <field name="rec_addr"/>
-                    <field name="con_addr"/>
+                    <field name="name" string="新舊編號及姓名" filter_domain="['|','|',('new_coding','ilike',self),('name','ilike',self),('w_id','ilike',self)]"/>
+                    <field name="con_phone" string="連絡電話或手機" filter_domain="['|',('con_phone','ilike',self),('cellphone','ilike',self)]"/>
+                    <field name="rec_addr" string="地址" filter_domain="['|',('rec_addr','ilike',self),('con_addr','ilike',self)]"/>
                     <field name="cashier_name"/>
                     <!--<field name="debit_method"/>-->
                     <field string="上次捐款日期-起" name="last_donate_date" filter_domain="[('last_donate_date', '&gt;=',self )]"/>
