@@ -20,16 +20,20 @@
                         <span style="color:blue;font-size:20px;font-weight:bold;">會員人數</span>
                         <group>
                             <font style="display:block;font-weight:bold;" color="#000000">基本會員： <field name="base_member_statistics"/> 人</font>
+                            <font style="display:block;font-weight:bold;" color="#000000">本年度有繳費基本會員： <field name="valid_base_members"/> 人</font>
                         </group>
                         <group>
                             <font style="display:block;font-weight:bold;" color="#000000">贊助會員： <field name="donate_member_statistics"/> 人</font>
+                            <font style="display:block;font-weight:bold;" color="#000000">本年度有繳費贊助會員： <field name="valid_donate_members"/> 人</font>
                         </group>
                         <group>
                             <font style="display:block;font-weight:bold;" color="#000000">會員總數： <field name="member_total"/> 人</font>
+                            <font style="display:block;font-weight:bold;" color="#000000">本年度有繳費會員總數： <field name="valid_member_total"/> 人</font>
                         </group>
                         <span style="color:blue;font-size:20px;font-weight:bold;">顧問人數</span>
                         <group>
                             <font style="display:block;font-weight:bold;" color="#000000">顧問人數： <field name="consultant_statistics"/> 人</font>
+                            <font style="display:block;font-weight:bold;" color="#000000">本年度有繳費顧問： <field name="valid_consultant"/> 人</font>
                         </group>
                     </sheet>
                 </form>

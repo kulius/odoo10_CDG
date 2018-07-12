@@ -225,7 +225,7 @@
                                     <span STYLE='font-size:20px;font-weight:bold;'>信用卡扣款資料</span>
                                          <div class="oe_button_box" name="button_box">
                                             <button name="clear_credit_data" string="清空扣款資料"
-                                                    type="object" class="oe_stat_button" icon="fa-dollar" attrs="{'invisible': [('name', '=', False)]}" groups="cdg_base.credit_management"/>
+                                                    type="object" class="oe_stat_button" icon="fa-eraser" attrs="{'invisible': [('name', '=', False)]}" groups="cdg_base.credit_management"/>
                                         </div>
                                         <group col="6">
                                             <field name="credit_parent"/>
