@@ -75,7 +75,7 @@ class WizardCreditBatch(models.Model):
                             'zip_code': data.credit_zip,
                             'con_addr': data.credit_addr,
                             'con_phone': data.con_phone,
-                            'cellphone': data.con_phone,
+                            'cellphone': data.cellphone,
                             'family_check': res_line,
                             'donate_date': self.donate_date,
                             'work_id': self.work_id.id,
@@ -84,6 +84,31 @@ class WizardCreditBatch(models.Model):
                             'receipt_send': data.is_sent,
                             'report_send': data.year_sent,
                         })
+                if i == 0:
+                    j = 0
+                    for line in data.credit_family:
+                        if line.credit_is_donate == True and j == 0:
+                            j = j + 1
+                            order.create({
+                                'donate_member': line.id,
+                                'name': line.name,
+                                'debit_method': line.debit_method,
+                                'zip': data.credit_zip,
+                                'rec_addr': data.credit_addr,
+                                'zip_code': data.credit_zip,
+                                'con_addr': data.credit_addr,
+                                'con_phone': data.con_phone,
+                                'cellphone': data.cellphone,
+                                'family_check': res_line,
+                                'donate_date': self.donate_date,
+                                'work_id': self.work_id.id,
+                                'key_in_user': self.key_in_user.id,
+                                'payment_method': self.payment_method,
+                                'receipt_send': data.is_sent,
+                                'report_send': data.year_sent,
+                            })
+                        elif j > 0:
+                            continue
 
                 if self.clean_all_check:
                     data.donate_batch_setting = False

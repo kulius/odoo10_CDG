@@ -30,8 +30,8 @@ class NormalP(models.Model):
     rec_addr = fields.Char(string='收據寄送地址')
     zip_code = fields.Char(string='報表郵遞區號')
     con_addr = fields.Char(string='報表寄送地址')
-    old_rec_addr = fields.Char(string='原收據寄送地址', readonly=True)
-    old_con_addr = fields.Char(string='原報表寄送地址', readonly=True)
+    old_rec_addr = fields.Char(string='原收據寄送地址', readonly=True) # 因縣市合併的關係, 備份收據寄送地址修正前的地址
+    old_con_addr = fields.Char(string='原報表寄送地址', readonly=True) # 因縣市合併的關係, 備份報表寄送地址修正前的地址
 
     # 信用卡捐款相關欄位
 
@@ -144,11 +144,11 @@ class NormalP(models.Model):
 
     donor = fields.Many2one(comodel_name='res.users', string="捐款登入者")
 
-    old_coffin_donation = fields.One2many(comodel_name='old.coffin.donation', inverse_name='normal_p_id')
-    coffin_donation = fields.One2many(comodel_name='coffin.donation', inverse_name='normal_p_id')
+    old_coffin_donation = fields.One2many(comodel_name='old.coffin.donation', inverse_name='normal_p_id') # 系統上線前, 紀錄舊系統施棺捐助情況
+    coffin_donation = fields.One2many(comodel_name='coffin.donation', inverse_name='normal_p_id') # 系統上線後, 紀錄系統的施棺捐助情況
 
     @api.multi
-    def write(self,vals):
+    def write(self,vals): # 信用卡扣款功能的防呆機制, 覆寫odoo原本的write()
       res_id = super(NormalP,self).write(vals)
       if self.credit_parent:
           if self.debit_method is False:
@@ -159,7 +159,17 @@ class NormalP(models.Model):
               raise ValidationError(u'捐款者編號:%s，信用卡收據寄送方式只能選擇一種' % self.new_coding)
       return res_id
 
-    # 設定上一筆捐款 如果捐款種類有選擇 金額帶入100
+    @api.onchange('is_donated_credit')
+    def check_credit_recipient(self):
+        i = 0
+        if self.credit_parent:
+            for line in self.credit_parent.credit_family:
+                if line.is_donated_credit == True:
+                    i = i + 1
+            if i > 1:
+                raise ValidationError(u'捐款者編號:%s  %s的信用卡捐款收據收件人只能有一位' % (self.credit_parent.new_coding, self.credit_parent.name))
+
+    # 設定上一筆捐款 如果捐款種類有選擇, 則自動帶入捐款金額100元
     @api.onchange('last_donate_type')
     def set_default_last_donate_money(self):
         if self.last_donate_type != False and self.last_donate_money == 0:
@@ -427,6 +437,9 @@ class NormalP(models.Model):
                         family_list.append('(X' + row.name + u' 一般捐款 ' + str(row.credit_normal_money) + ')')
 
                 line.credit_family_list = ','.join(family_list)
+
+    def toggle_credit_donate_receipt(self):
+        self.is_donated_credit = not self.is_donated_credit
 
     def toggle_credit_donate(self):
         self.credit_is_donate = not self.credit_is_donate
@@ -738,25 +751,37 @@ class NormalP(models.Model):
     #                 })
 
     @api.model
-    def create(self, vals):
+    def create(self, vals): # 建立捐款者基本資料時, 檢查郵遞區號填寫是否正確並產生捐款者編號, 這裡是覆寫odoo原本的create()
         res_id = super(NormalP, self).create(vals)
         if res_id.name is False:
             raise ValidationError(u'請輸入姓名')
+        if res_id.con_phone:
+            for ch in res_id.con_phone:
+                if u'\u0030' <= ch <= u'\u0039':
+                    continue
+                else:
+                    raise ValidationError(u'電話格式不能有非數字的字元')
+        if res_id.cellphone:
+            for ch in res_id.cellphone:
+                if u'\u0030' <= ch <= u'\u0039':
+                    continue
+                else:
+                    raise ValidationError(u'手機格式不能有非數字的字元')
 
-        if res_id.zip is False: #使用者如果沒有填收據寄送地址郵遞區號, 則編碼前3碼為 '999'
+        if res_id.zip is False: # 使用者如果沒有填收據寄送地址郵遞區號, 則無法建立此筆紀錄
             raise ValidationError(u'收據郵遞區號不能為空白')
-        elif res_id.zip == True or res_id.zip_code == True:
+        elif res_id.zip == True or res_id.zip_code == True: # 如果收據地址的郵遞區號或者報表地址的郵遞區號有填入
 
             for ch in res_id.zip:
-                if not u'\u0030' <= ch <= u'\u0039':
+                if not u'\u0030' <= ch <= u'\u0039': # 檢查使用者輸入的郵遞區號是否都為數字
                     raise ValidationError(u'收據郵遞區號輸入格式錯誤，請重新輸入')
-                if int(res_id.zip[0]) == 0:
-                    raise ValidationError(u'收據郵遞區號輸入格式錯誤，請重新輸入')
+                if int(res_id.zip[0]) == 0: # 郵遞區號的第一碼不得為 0
+                    raise ValidationError(u'收據郵遞區號第一碼，請重新輸入')
 
             for ch in res_id.zip_code:
-                if not u'\u0030' <= ch <= u'\u0039':
+                if not u'\u0030' <= ch <= u'\u0039': # 檢查使用者輸入的郵遞區號是否都為數字
                     raise ValidationError(u'報表郵遞區號輸入格式錯誤，請重新輸入')
-                if int(res_id.zip_code[0]) == 0:
+                if int(res_id.zip_code[0]) == 0: # 郵遞區號的第一碼不得為 0
                     raise ValidationError(u'報表郵遞區號輸入格式錯誤，請重新輸入')
 
         elif (res_id.zip and len(res_id.zip) < 3) or (res_id.zip_code and len(res_id.zip_code) < 3): # 使用者有輸入收據寄送地址的郵遞區號但不足3碼
@@ -764,7 +789,7 @@ class NormalP(models.Model):
         elif res_id.zip and len(res_id.zip) >= 3: # 使用者可以填3+2郵遞區號, 但是少要填3碼的郵遞區號
             compute_code = self.env['auto.donateid'].search([('zip', '=', res_id.zip[0:3])]) # 搜尋計數器裡符合使用者填入郵遞區號的資料
             if compute_code.zip: # 在計數器裡有找到該郵遞區號
-                res_id.new_coding = res_id.zip[0:3] + str(compute_code.area_number + 1).zfill(5)
+                res_id.new_coding = res_id.zip[0:3] + str(compute_code.area_number + 1).zfill(5) # 將使用者填入的郵遞區號 + (計數器資料表該郵遞區號的統計數量+1)並補齊五位數的 0
                 compute_code.write({
                     'area_number': compute_code.area_number + 1 #  寫入 zip 目前的累積人數
                 })
@@ -799,12 +824,12 @@ class NormalP(models.Model):
         return res_id
 
     @api.multi
-    def unlink(self):
+    def unlink(self): # 刪除記錄前, 先檢查此筆紀錄是否有任何的捐款或者繳費紀錄, 這裡是覆寫odoo原本的unlink()
         if self.donate_history_ids.ids:
             raise ValidationError(u'該捐款者有捐款紀錄, 請勿刪除')
         if self.member_pay_history.ids:
             raise ValidationError(u'該會員有繳費紀錄, 請勿刪除')
         if self.consultant_pay_history.ids:
             raise ValidationError(u'該顧問有繳費紀錄, 請勿刪除')
-        self.env['res.users'].search([('id', '=', self.donor.ids)]).unlink()
+        # self.env['res.users'].search([('id', '=', self.donor.ids)]).unlink()
         return super(NormalP, self).unlink()

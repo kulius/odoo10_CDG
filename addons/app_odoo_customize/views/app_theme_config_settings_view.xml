@@ -249,7 +249,9 @@
                              |
                              <button string="給予收費員，收費員的權限" type="object" name="set_donor_access_cashier" class="oe_highlight"/>
                              |
-                             <button string="資料庫連線測試" type="object" name="connection_database" class="oe_highlight"/>
+                             <button string="資料庫連線修正報表地址" type="object" name="connection_database" class="oe_highlight"/>
+                             |
+                             <button string="檢查信用卡捐款資料" type="object" name="check_credit_donate_data" class="oe_highlight"/>
                         </div>
                     </group>
                     <group string="資料轉移">

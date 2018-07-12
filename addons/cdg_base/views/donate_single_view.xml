@@ -10,6 +10,7 @@
                         <field name="donate_id"/>
                         <field name="donate_member_w_id"/>
                         <field name="donate_member_new_coding"/>
+                        <!--<field name="credit_parent"/>-->
                         <field name="name"/>
                         <field name="donate_date" string="捐款日期"/>
                         <field name="donate_family_list"/>

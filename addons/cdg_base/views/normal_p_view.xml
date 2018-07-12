@@ -268,7 +268,8 @@
                                                 <button name="toggle_credit_donate" string="捐助變更" type="object"/>
                                                 <field name="rec_addr"/>
                                                 <field name="credit_total_money"/>
-                                                <field name="is_delete"/>
+                                                <field name="is_donated_credit"/>
+                                                <button name="toggle_credit_donate_receipt" string="設為收件人" type="object"/>
                                             </tree>
                                         </field>
                                 </page>
@@ -485,7 +486,8 @@
                                                 <button name="toggle_donate" string="捐助變更" type="object"/>
                                                 <field name="rec_addr"/>
                                                 <field name="credit_total_money"/>
-                                                <field name="is_delete"/>
+                                                <field name="is_donated_credit"/>
+                                                <button name="toggle_credit_donate_receipt" string="設為收件人" type="object"/>
                                             </tree>
                                         </field>
                                     </div>

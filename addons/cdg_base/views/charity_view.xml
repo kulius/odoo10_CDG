@@ -156,7 +156,7 @@
                   <!--action="charity_view"-->
                   <!--sequence="7"/>-->
         <menuitem id="donor_search"
-                  name="季報表名冊查詢"
+                  name="季報表名冊下載(管理)"
                   parent="first_categ"
                   action="donor_search_action"
                   sequence="10"

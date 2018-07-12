@@ -15,6 +15,6 @@ class CreditDebitMethod(models.Model):
             number = number + 1
         action = self.env.ref('cdg_base.credit_action').read()[0]
         action['context'] = {}  # remove default domain condition in search box
-        action['limit'] = number
+        action['limit'] = number # set the number of records displayed
         action['domain'] = [('debit_method', '=', self.debit_method),('credit_family','!=',False)]  # set new domain condition to search data
         return action
