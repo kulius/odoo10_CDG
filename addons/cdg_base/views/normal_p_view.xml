@@ -225,7 +225,7 @@
                                     <span STYLE='font-size:20px;font-weight:bold;'>信用卡扣款資料</span>
                                          <div class="oe_button_box" name="button_box">
                                             <button name="clear_credit_data" string="清空扣款資料"
-                                                    type="object" class="oe_stat_button" icon="fa-eraser" attrs="{'invisible': [('name', '=', False)]}" groups="cdg_base.credit_management"/>
+                                                    type="object" class="oe_stat_button" icon="fa-eraser" attrs="{'invisible': [('credit_family','=',False)]}" groups="cdg_base.credit_management"/>
                                         </div>
                                         <group col="6">
                                             <field name="credit_parent"/>
@@ -267,6 +267,7 @@
                                                 <field name="credit_is_donate"/>
                                                 <button name="toggle_credit_donate" string="捐助變更" type="object"/>
                                                 <field name="rec_addr"/>
+                                                <field name="debit_method"/>
                                                 <field name="credit_total_money"/>
                                                 <field name="is_donated_credit"/>
                                                 <button name="toggle_credit_donate_receipt" string="設為收件人" type="object"/>
@@ -311,8 +312,6 @@
                             <field name="rec_send"/>
                             <field name="merge_report"/>
                             <field name="check_donate_order"/>
-                            <!--<field name="old_coding" invisible = "1"/>-->
-                            <!--<field name="new_coding" invisible = "1"/>-->
                         </group>
                          <notebook>
                                 <page string="基本資料">
@@ -392,7 +391,6 @@
                                 <page string="顧問繳費明細">
                                     <field name="consultant_pay_history"/>
                                 </page>
-
                             </notebook>
                     </sheet>
                 </form>
@@ -442,8 +440,7 @@
                                         <br/>
                                         <span STYLE='font-size:20px;font-weight:bold;'>信用卡扣款資料</span>
                                              <div class="oe_button_box" name="button_box">
-                                                <button name="clear_credit_data" string="清空扣款資料"
-                                                        type="object" class="oe_stat_button" icon="fa-eraser" attrs="{'invisible': [('name', '=', False)]}"/>
+                                                <button name="clear_credit_data" string="清空扣款資料" type="object" class="oe_stat_button" icon="fa-eraser" attrs="{'invisible': [('credit_family','=',False)]}"/>
                                             </div>
                                         <group col="6">
                                             <field name="credit_parent"/>
@@ -485,6 +482,7 @@
                                                 <field name="is_donate"/>
                                                 <button name="toggle_donate" string="捐助變更" type="object"/>
                                                 <field name="rec_addr"/>
+                                                <field name="debit_method"/>
                                                 <field name="credit_total_money"/>
                                                 <field name="is_donated_credit"/>
                                                 <button name="toggle_credit_donate_receipt" string="設為收件人" type="object"/>
@@ -538,7 +536,7 @@
                     <field name="con_phone" string="連絡電話或手機" filter_domain="['|',('con_phone','ilike',self),('cellphone','ilike',self)]"/>
                     <field name="rec_addr" string="地址" filter_domain="['|',('rec_addr','ilike',self),('con_addr','ilike',self)]"/>
                     <field name="cashier_name"/>
-                    <!--<field name="debit_method"/>-->
+
                     <field string="上次捐款日期-起" name="last_donate_date" filter_domain="[('last_donate_date', '&gt;=',self )]"/>
                     <field string="上次捐款日期-迄" name="last_donate_date" filter_domain="[('last_donate_date', '&lt;=',self)]"/>
                     <filter string="戶長" name="top_of_home" domain="[('donate_family1','!=', False)]"/>
@@ -606,49 +604,34 @@
             <field name="res_model">normal.p</field>
             <field name="view_mode">tree,form,pivot</field>
             <field name="context">{'search_default_top_of_home': 1}</field>
-                <field name="limit">10</field> <!-- 用來調整tree顯示的筆數 -->
-                <field name="search_view_id" ref="normal_p_search"/>
-                <field name="view_ids"
+            <field name="limit">10</field> <!-- 用來調整tree顯示的筆數 -->
+            <field name="search_view_id" ref="normal_p_search"/>
+            <field name="view_ids"
                        eval="[(5, 0, 0),
                        (0, 0, {'view_mode': 'tree', 'view_id': ref('cdg_base.normal_p_tree')}),
                        (0, 0, {'view_mode': 'form', 'view_id': ref('cdg_base.normal_p_form')}),
                        ]"/>
-                <field name="help" type="html">
+            <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 <!-- Add Text Here -->
               </p><p>
                 <!-- More details about what a user can do with this object will be OK -->
               </p>
-                </field>
+            </field>
         </record>
-
-        <!--<record id="collect_search" model="ir.ui.view">-->
-            <!--<field name="name">collect_search</field>-->
-            <!--<field name="model">normal.p</field>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<search>-->
-                    <!--<field name="name"/>-->
-                    <!--<field name="cashier_name"/>-->
-
-                    <!--<filter string="基本會員" name="member_type" domain="[('member_type','=',1 )]"/>-->
-                    <!--<filter string="贊助會員" name="member_type" domain="[('member_type','=',2 )]"/>-->
-                <!--</search>-->
-            <!--</field>-->
-        <!--</record>-->
 
         <record id="batch_donate_search" model="ir.ui.view">
             <field name="name">batch_donate_search</field>
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="new_coding" string="捐款者編號"/>
-                    <field name="w_id" string="舊團員編號"/>
-                    <field name="name" string="捐款者姓名"/>
-                    <field string="收費員" name="cashier_name" filter_domain="[('cashier_name', '=', self )]"/>
+                    <field name="new_coding"/>
+                    <field name="w_id"/>
+                    <field name="name"/>
                     <field name="rec_addr"/>
                     <field name="con_addr"/>
-                    <field name="type"/>
-                    <!--<field name="debit_method"/>-->
+                    <field string="收費員" name="cashier_name" filter_domain="[('cashier_name', '=', self )]"/>
+
                     <filter string="戶長" name="head" domain="[('donate_family1','!=', False)]" />
                     <filter string="信用卡捐款者" name="credit" domain="[('debit_method','!=',False)]"/>
                 </search>
@@ -660,9 +643,7 @@
             <field name="model">normal.p</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="new_coding" string="捐款者編號"/>
-                    <field name="w_id" string="舊團員編號"/>
-                    <field name="name" string="捐款者姓名"/>
+                    <field name="name" string="新舊編號及姓名" filter_domain="['|','|',('new_coding','ilike',self),('name','ilike',self),('w_id','ilike',self)]"/>
                     <field name="rec_addr"/>
                     <field name="debit_method"/>
 
@@ -813,18 +794,15 @@
              <field name="context">{}</field>
              <field name="view_ids"
                    eval="[(5, 0, 0),
-                   (0, 0, {'view_mode': 'tree', 'view_id': ref('normal_p_credit_tree')}),
-                   (0, 0, {'view_mode': 'form', 'view_id': ref('normal_p_form_batch_credit')}),
-                   ]"/>
+                                (0, 0, {'view_mode': 'tree', 'view_id': ref('normal_p_credit_tree')}),
+                                (0, 0, {'view_mode': 'form', 'view_id': ref('normal_p_form_batch_credit')}) ]"/>
              <field name="help" type="html">
-          <p class="oe_view_nocontent_create">
-            <!-- Add Text Here -->
-          </p><p>
-            <!-- More details about what a user can do with this object will be OK -->
-          </p>
-        </field>
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
         </record>
-
-
     </data>
 </odoo>

@@ -6,19 +6,40 @@
             <field name="model">donate.single</field>
             <field name="arch" type="xml">
                 <tree>
-                        <field name="state"/>
-                        <field name="donate_id"/>
-                        <field name="donate_member_w_id"/>
-                        <field name="donate_member_new_coding"/>
-                        <!--<field name="credit_parent"/>-->
-                        <field name="name"/>
-                        <field name="donate_date" string="捐款日期"/>
-                        <field name="donate_family_list"/>
-                        <field name="donate_total"/>
-                        <field name="receipt_send"/>
-                        <field name="work_id"/>
-                        <field name="payment_method"/>
-                        <field name="donate_member" invisible = "1"/>
+                    <field name="state"/>
+                    <field name="donate_id"/>
+                    <field name="donate_member_w_id"/>
+                    <field name="donate_member_new_coding"/>
+                    <field name="name"/>
+                    <field name="donate_date" string="捐款日期"/>
+                    <field name="donate_family_list"/>
+                    <field name="donate_total"/>
+                    <field name="receipt_send"/>
+                    <field name="work_id"/>
+                    <field name="payment_method"/>
+                    <field name="donate_member" invisible = "1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="credit_donate_single_view_tree" model="ir.ui.view">
+            <field name="name">credit donate single tree</field>
+            <field name="model">donate.single</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="state"/>
+                    <field name="donate_id"/>
+                    <field name="donate_member_w_id"/>
+                    <field name="donate_member_new_coding"/>
+                    <field name="credit_parent"/>
+                    <field name="name"/>
+                    <field name="donate_date" string="捐款日期"/>
+                    <field name="donate_family_list"/>
+                    <field name="donate_total"/>
+                    <field name="receipt_send"/>
+                    <field name="work_id"/>
+                    <field name="payment_method"/>
+                    <field name="donate_member" invisible = "1"/>
                 </tree>
             </field>
         </record>
@@ -45,7 +66,6 @@
                             </button>
                             <button name="parent_list_creat" string="載入眷屬" type="object" class="oe_stat_button"
                                     icon="fa-users">
-                                <!--將該成員眷屬列出-->
                             </button>
                             <button name="add_to_list" string="產生捐款明細" type="object" class="oe_stat_button"
                                     icon="fa-list" attrs="{'invisible': [('state', '=', 2)]}">
@@ -53,7 +73,7 @@
                         </div>
                         <div class="oe_title">
                             <h1>
-                                    <field name="donate_id" readonly="1"/>
+                                <field name="donate_id" readonly="1"/>
                             </h1>
                         </div>
                         <group col="9">
@@ -64,7 +84,6 @@
                             <field name="set_today"/>
                         </group>
                         <group col="4">
-                            <!--<field name="state"/>-->
                             <field name="work_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                             <field name="payment_method"/>
                             <field name="history_donate_flag"/>
@@ -202,6 +221,35 @@
             <field name="view_mode">tree,form</field>
             <field name="domain">['|',('state', '=', 1),('state','=', 2)]</field>
             <field name="context">{'search_default_year': 1, 'search_default_create_today': 1}</field>
+            <field name="search_view_id" ref="donate_single_view_search"/>
+            <field name="view_ids"
+                       eval="[(5, 0, 0),
+                       (0, 0, {'view_mode': 'tree', 'view_id': ref('cdg_base.donate_single_view_tree')}),
+                       (0, 0, {'view_mode': 'form', 'view_id': ref('cdg_base.donate_single_view_form')}),
+                       ]"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+        <record id="credit_donate_single_view_action" model="ir.actions.act_window">
+            <field name="name">信用卡捐款作業</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">donate.single</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">['|',('state', '=', 1),('state','=', 2)]</field>
+            <field name="context">{'search_default_year': 1, 'search_default_create_today': 1}</field>
+            <field name="search_view_id" ref="donate_single_view_search"/>
+            <field name="view_ids"
+                       eval="[(5, 0, 0),
+                       (0, 0, {'view_mode': 'tree', 'view_id': ref('cdg_base.credit_donate_single_view_tree')}),
+                       (0, 0, {'view_mode': 'form', 'view_id': ref('cdg_base.donate_single_view_form')}),
+                       ]"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     <!-- Add Text Here -->

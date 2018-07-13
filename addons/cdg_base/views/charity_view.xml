@@ -159,7 +159,7 @@
                   name="季報表名冊下載(管理)"
                   parent="first_categ"
                   action="donor_search_action"
-                  sequence="10"
+                  sequence="9"
                   groups="cdg_member_manager"
         />
 
@@ -441,19 +441,19 @@
                   name="信用卡捐款資料"
                   parent="credit_menu"
                   action="credit_action"
-                  sequence="11"
+                  sequence="1"
                 />
         <menuitem id="credit_method"
                   name="信用卡扣款方式"
                   parent="credit_menu"
                   action="credit_debit_action"
-                  sequence="12"
+                  sequence="2"
                 />
         <menuitem id="credit_statistics"
                   name="信用卡捐款統計"
                   parent="credit_menu"
                   action="credit_statistics_action"
-                  sequence="13"
+                  sequence="3"
                 />
         <!--<menuitem id="credit_donate"-->
                   <!--name="信用卡捐款統計表"-->

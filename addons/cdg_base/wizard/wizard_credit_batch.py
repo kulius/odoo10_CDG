@@ -60,7 +60,6 @@ class WizardCreditBatch(models.Model):
                             'coffin_money': row.credit_coffin_money,
                             'poor_help_money': row.credit_poor_money,
                             'noassign_money': row.credit_normal_money,
-                            'donate_total': row.credit_bridge_money + row.credit_road_money + row.credit_coffin_money + row.credit_poor_money + row.credit_normal_money,
                         }])
 
                 for line in data.credit_family:
@@ -113,6 +112,6 @@ class WizardCreditBatch(models.Model):
                 if self.clean_all_check:
                     data.donate_batch_setting = False
 
-        action = self.env.ref('cdg_base.donate_single_view_action').read()[0]
+        action = self.env.ref('cdg_base.credit_donate_single_view_action').read()[0]
         action['domain'] = [('debit_method','!=', False),('state','=',1),('receipt_send','=',True)]
         return action

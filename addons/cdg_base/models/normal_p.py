@@ -58,9 +58,7 @@ class NormalP(models.Model):
     credit_number = fields.Char('信用卡卡號末四碼')
     credit_bank = fields.Char('發卡銀行')
 
-
     cashier_name_credit = fields.Many2one(comodel_name='cashier.base', string='收費員姓名', ondelete='cascade', index=True)
-
     key_in_user = fields.Many2one(comodel_name='res.users', string='輸入人員', ondelete='cascade')
     temp_key_in_user = fields.Char(string='輸入人員_temp')
     db_chang_date = fields.Date(string='異動日期')
@@ -147,6 +145,12 @@ class NormalP(models.Model):
     old_coffin_donation = fields.One2many(comodel_name='old.coffin.donation', inverse_name='normal_p_id') # 系統上線前, 紀錄舊系統施棺捐助情況
     coffin_donation = fields.One2many(comodel_name='coffin.donation', inverse_name='normal_p_id') # 系統上線後, 紀錄系統的施棺捐助情況
 
+    @api.onchange('debit_method')
+    def check_credit_debit_method(self):
+        if self.credit_family:
+            for line in self.credit_family:
+                line.debit_method = self.debit_method
+
     @api.multi
     def write(self,vals): # 信用卡扣款功能的防呆機制, 覆寫odoo原本的write()
       res_id = super(NormalP,self).write(vals)
@@ -231,23 +235,25 @@ class NormalP(models.Model):
 
     #清空信用卡的資料
     def clear_credit_data(self):
-        self.credit_parent = ""
-        self.credit_bank = ""
-        self.is_donated_credit = ""
-        self.credit_number = ""
-        self.credit_money = 0
-        self.debit_method = False
-        self.credit_zip = ""
-        self.credit_addr = ""
-        self.credit_normal_money = 0
-        self.credit_poor_money = 0
-        self.credit_coffin_money = 0
-        self.credit_road_money = 0
-        self.credit_bridge_money = 0
-        self.credit_total_money = 0
-        self.is_sent = False
-        self.year_sent = False
-        self.no_need = False
+        if self.credit_parent and self.credit_family:
+            for line in self.credit_family:
+                line.credit_parent = None
+                line.credit_bank = ""
+                line.is_donated_credit = False
+                line.credit_number = ""
+                line.credit_money = 0
+                line.debit_method = False
+                line.credit_zip = ""
+                line.credit_addr = ""
+                line.credit_normal_money = 0
+                line.credit_poor_money = 0
+                line.credit_coffin_money = 0
+                line.credit_road_money = 0
+                line.credit_bridge_money = 0
+                line.credit_total_money = 0
+                line.is_sent = False
+                line.year_sent = False
+                line.no_need = False
 
     def start_donate(self):
         action = self.env.ref('cdg_base.start_donate_action').read()[0]

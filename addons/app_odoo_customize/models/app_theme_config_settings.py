@@ -1205,7 +1205,7 @@ class AppThemeConfigSettings(models.TransientModel):
         conn.close() # 關閉資料庫連線
 
     def check_credit_donate_data(self):
-        data = self.env['normal.p'].search([('debit_method', '=', 1), ('credit_family', '!=', False)])
+        data = self.env['normal.p'].search([('debit_method', '=', 2), ('credit_family', '!=', False)])
         # data = self.env['donate.single'].search([('payment_method', '=', 3), ('donate_date', '=', '2018-06-21'), ('key_in_user', '=', 12),('work_id','=',371)])
         for line in data:
             i = 0
@@ -1213,11 +1213,9 @@ class AppThemeConfigSettings(models.TransientModel):
                 if row.is_donated_credit:
                     i = i + 1
             if i > 1:
-                print u'超過收件人數量的捐款者編號:%s ' % line.new_coding
+                _logger.info('Over:%s ' % line.new_coding)
             elif i ==0:
-                print u'沒有收件人的捐款者編號:%s ' % line.new_coding
-            else:
-                print u'檢查完成 '
+                _logger.info('None:%s ' % line.new_coding)
 
     def postal_code_database(self):
         sql = " INSERT INTO postal_code (city, area, zip) VALUES " \

@@ -81,7 +81,6 @@ class WizardDonate(models.Model):
                             'coffin_money': self.coffin_money,
                             'poor_help_money': self.poor_help_money,
                             'noassign_money': self.noassign_money,
-                            'donate_total': self.bridge_money + self.road_money + self.coffin_money + self.poor_help_money + self.noassign_money,
                         }])
                         self.bridge_money = 0
                         self.road_money = 0

@@ -22,7 +22,7 @@ class DonateSingle(models.Model):
     new_coding = fields.Char('新捐款者編號', related='donate_member.new_coding')  # 歷史捐款明細智慧按鈕需要用的, 拿掉就掛
     donate_member_w_id = fields.Char('舊團員編號',related='donate_member.w_id') # search用   (轉檔時, 要把 related 去掉)
     donate_member_number = fields.Char('舊團員序號',related='donate_member.number') # 轉檔時, 要把 related 去掉
-    # credit_parent = fields.Char('信用卡持卡人',related='donate_member.credit_parent.name')
+    credit_parent = fields.Char('信用卡持卡人',related='donate_member.credit_parent.name')
 
     donate_member_new_coding = fields.Char('新捐款者編號',related='donate_member.new_coding')  # search用
     name = fields.Char(string='姓名',store=True)
