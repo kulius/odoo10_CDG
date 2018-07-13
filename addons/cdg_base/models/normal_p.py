@@ -146,12 +146,18 @@ class NormalP(models.Model):
     old_coffin_donation = fields.One2many(comodel_name='old.coffin.donation', inverse_name='normal_p_id') # 系統上線前, 紀錄舊系統施棺捐助情況
     coffin_donation = fields.One2many(comodel_name='coffin.donation', inverse_name='normal_p_id') # 系統上線後, 紀錄系統的施棺捐助情況
 
+    @api.depends('credit_family.credit_is_donate')
     def compute_credit_donate_total(self):
         for line in self:
-            if line.credit_parent and line.credit_family:
-                line.credit_donate_total = 0
+            line.credit_donate_total = 0
+            if line.credit_family:
+                total = 0
                 for row in line.credit_family:
-                    line.credit_donate_total = line.credit_donate_total + row.credit_total_money
+                    if row.credit_is_donate == True:
+                        total = total + row.credit_total_money
+                line.credit_donate_total = line.credit_donate_total + total
+            else:
+                line.credit_donate_total = 0
 
     @api.onchange('debit_method')
     def check_credit_debit_method(self):
@@ -427,8 +433,9 @@ class NormalP(models.Model):
     def compute_family_list(self):
         for line in self:
             family_list = list()
+            temp_list = []
             for row in line.credit_family:
-                if row.is_donate == True:
+                if row.credit_is_donate == True:
                     if row.credit_bridge_money != 0:
                         family_list.append('('+row.name+ u' 造橋 '+str(row.credit_bridge_money) +')')
                     if row.credit_road_money != 0:
@@ -439,6 +446,8 @@ class NormalP(models.Model):
                         family_list.append('(' + row.name + u' 貧困扶助 ' + str(row.credit_poor_money) + ')')
                     if row.credit_normal_money != 0:
                         family_list.append('(' + row.name + u' 一般捐款 ' + str(row.credit_normal_money) + ')')
+                    if row.credit_bridge_money == 0 and row.credit_road_money == 0 and row.credit_coffin_money == 0 and row.credit_poor_money == 0 and row.credit_normal_money == 0:
+                        family_list.append('(X' + row.name + ')')
                 else:
                     if row.credit_bridge_money != 0:
                         family_list.append('(X' + row.name + u' 造橋 ' + str(row.credit_bridge_money) + ')')
@@ -450,8 +459,22 @@ class NormalP(models.Model):
                         family_list.append('(X' + row.name + u' 貧困扶助 ' + str(row.credit_poor_money) + ')')
                     if row.credit_normal_money != 0:
                         family_list.append('(X' + row.name + u' 一般捐款 ' + str(row.credit_normal_money) + ')')
-
+                    if row.credit_bridge_money == 0 and row.credit_road_money == 0 and row.credit_coffin_money == 0 and row.credit_poor_money == 0 and row.credit_normal_money == 0:
+                        family_list.append('(X' + row.name + ')')
                 line.credit_family_list = ','.join(family_list)
+            if line.credit_family_list:
+                temp_list = line.credit_family_list.split(',')
+                is_donate =''
+                not_donate =''
+                for row in temp_list:
+                    if '(X' in row:
+                        not_donate = not_donate + row + ','
+                    else:
+                        is_donate = is_donate + row + ','
+                if not_donate == '':
+                    line.credit_family_list = is_donate.rstrip(',')
+                elif not_donate != '':
+                    line.credit_family_list = is_donate + not_donate.rstrip(',')
 
     def toggle_credit_donate_receipt(self):
         self.is_donated_credit = not self.is_donated_credit

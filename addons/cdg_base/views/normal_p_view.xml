@@ -479,8 +479,8 @@
                                                 <field name="sequence"/>
                                                 <field name="new_coding"/>
                                                 <field name="name"/>
-                                                <field name="is_donate"/>
-                                                <button name="toggle_donate" string="捐助變更" type="object"/>
+                                                <field name="credit_is_donate"/>
+                                                <button name="toggle_credit_donate" string="捐助變更" type="object"/>
                                                 <field name="rec_addr"/>
                                                 <field name="debit_method"/>
                                                 <field name="credit_total_money"/>
