@@ -254,13 +254,14 @@ class NormalP(models.Model):
                 line.is_sent = False
                 line.year_sent = False
                 line.no_need = False
+        elif (self.credit_parent and len(self.credit_family) == 0) or self.name != self.credit_parent.name:
+            raise ValidationError(u'捐款者編號:%s  %s 並非信用卡持卡人，無法清空信用卡扣款資料' % (self.new_coding, self.name))
 
     def start_donate(self):
         action = self.env.ref('cdg_base.start_donate_action').read()[0]
         user = self.env['res.users'].search([('login', '=', self.env.user.login)])
         action['context'] = {'default_donate_member':self.id, 'default_payment_method':user.payment_method}
         return action
-
 
     def historypersonal(self):
         action = self.env.ref('cdg_base.donate_single_view_action').read()[0]
