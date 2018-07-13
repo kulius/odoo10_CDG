@@ -38,6 +38,7 @@ class NormalP(models.Model):
     credit_parent = fields.Many2one(comodel_name='normal.p',string='信用卡持卡人')
     credit_family = fields.One2many(comodel_name='normal.p',inverse_name='credit_parent',string='信用卡眷屬')
 
+    credit_family_number = fields.Integer(string = '信用卡扣款人數', compute='compute_credit_donate_total')
     credit_is_donate = fields.Boolean('是否捐助', default = True)
     credit_money = fields.Integer('信用卡總額')
     credit_zip = fields.Char('信用卡郵遞區號')
@@ -54,8 +55,8 @@ class NormalP(models.Model):
     credit_poor_money = fields.Integer('D.貧困扶助')
     credit_normal_money = fields.Integer('E.一般捐款')
     credit_total_money = fields.Integer('信用卡個人捐款總額')
-    credit_donate_total = fields.Integer('信用卡捐款總額' ,compute='compute_credit_donate_total')
-    credit_family_list = fields.Char(string='信用卡捐款人列表',compute='compute_family_list')
+    credit_donate_total = fields.Integer('信用卡捐款總額', compute='compute_credit_donate_total')
+    credit_family_list = fields.Char(string='信用卡捐款人列表', compute='compute_family_list')
     credit_number = fields.Char('信用卡卡號末四碼')
     credit_bank = fields.Char('發卡銀行')
 
@@ -152,9 +153,12 @@ class NormalP(models.Model):
             line.credit_donate_total = 0
             if line.credit_family:
                 total = 0
+                number = 0
                 for row in line.credit_family:
+                    number = number + 1
                     if row.credit_is_donate == True:
                         total = total + row.credit_total_money
+                line.credit_family_number = number
                 line.credit_donate_total = line.credit_donate_total + total
             else:
                 line.credit_donate_total = 0
