@@ -54,6 +54,7 @@ class NormalP(models.Model):
     credit_poor_money = fields.Integer('D.貧困扶助')
     credit_normal_money = fields.Integer('E.一般捐款')
     credit_total_money = fields.Integer('信用卡個人捐款總額')
+    credit_donate_total = fields.Integer('信用卡捐款總額' ,compute='compute_credit_donate_total')
     credit_family_list = fields.Char(string='信用卡捐款人列表',compute='compute_family_list')
     credit_number = fields.Char('信用卡卡號末四碼')
     credit_bank = fields.Char('發卡銀行')
@@ -144,6 +145,13 @@ class NormalP(models.Model):
 
     old_coffin_donation = fields.One2many(comodel_name='old.coffin.donation', inverse_name='normal_p_id') # 系統上線前, 紀錄舊系統施棺捐助情況
     coffin_donation = fields.One2many(comodel_name='coffin.donation', inverse_name='normal_p_id') # 系統上線後, 紀錄系統的施棺捐助情況
+
+    def compute_credit_donate_total(self):
+        for line in self:
+            if line.credit_parent and line.credit_family:
+                line.credit_donate_total = 0
+                for row in line.credit_family:
+                    line.credit_donate_total = line.credit_donate_total + row.credit_total_money
 
     @api.onchange('debit_method')
     def check_credit_debit_method(self):
