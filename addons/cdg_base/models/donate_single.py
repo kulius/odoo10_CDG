@@ -308,7 +308,6 @@ class DonateSingle(models.Model):
                 line.poor_help_money = 0
                 line.noassign_money = 0
 
-
     @api.onchange('bridge_money','road_money','coffin_money','poor_help_money','noassign_money')
     def compute_donate_total(self):
         self.current_donate_total = 0
@@ -340,7 +339,6 @@ class DonateSingle(models.Model):
                     if line.noassign_money != 0:
                         line.noassign_money = self.noassign_money
 
-
         for line in self.family_check:
             if line.is_donate is True:
                 if line.bridge_money !=0:
@@ -361,7 +359,7 @@ class DonateSingle(models.Model):
 
         self.donate_total = self.current_donate_total
 
-    @api.onchange('donate_member','donor_show')
+    @api.onchange('donate_member')
     def show_family(self):
         r = []
         family=None
@@ -381,7 +379,22 @@ class DonateSingle(models.Model):
         self.payment_method = user.payment_method
         self.donate_date = user.last_donate_date
 
-
+    @api.onchange('donor_show')
+    def show_donate_family(self):
+        r = []
+        family = None
+        if self.donor_show:
+            family = self.donate_member.parent.donate_family1.filtered(lambda r: r.is_donate)
+        else:
+            family = self.donate_member.parent.donate_family1
+        for line in family:
+            r.append([0, 0, {
+                'donate_member': line.id
+            }])
+        self.update({
+            'family_check': r,
+            'work_id': self.donate_member.cashier_name.id
+        })
 
     @api.depends('donate_list')
     def compute_family_list(self):
@@ -404,26 +417,26 @@ class DonateSingle(models.Model):
                     str += " (%s %s %s )," % (row.donate_member.name,  u'其他工程',row.donate)
             line.donate_family_list= str.rstrip(',')
 
-    # 新建立捐款在眷屬列表顯示個人姓名+捐款種類+捐款金額
-    def compute_family_list_create(self):
-        for line in self:
-            str = ''
-            for row in line.donate_list:
-                if row.donate_type == 1:
-                    str +=  " (%s %s %s )," % (row.donate_member.name, u'造橋',row.donate)
-                if row.donate_type == 2:
-                    str += " (%s %s %s )," % (row.donate_member.name,  u'補路',row.donate)
-                if row.donate_type == 3:
-                    str += " (%s %s %s )," % (row.donate_member.name,  u'施棺',row.donate)
-                if row.donate_type == 4:
-                    str += " (%s %s %s )," % (row.donate_member.name,  u'伙食費',row.donate)
-                if row.donate_type == 5:
-                    str += " (%s %s %s )," % (row.donate_member.name,  u'貧困扶助',row.donate)
-                if row.donate_type == 6:
-                    str += " (%s %s %s )," % (row.donate_member.name,  u'一般捐款',row.donate)
-                if row.donate_type == 99:
-                    str += " (%s %s %s )," % (row.donate_member.name,  u'其他工程',row.donate)
-            line.donate_family_list= str.rstrip(',')
+    # # 新建立捐款在眷屬列表顯示個人姓名+捐款種類+捐款金額
+    # def compute_family_list_create(self):
+    #     for line in self:
+    #         str = ''
+    #         for row in line.donate_list:
+    #             if row.donate_type == 1:
+    #                 str +=  " (%s %s %s )," % (row.donate_member.name, u'造橋',row.donate)
+    #             if row.donate_type == 2:
+    #                 str += " (%s %s %s )," % (row.donate_member.name,  u'補路',row.donate)
+    #             if row.donate_type == 3:
+    #                 str += " (%s %s %s )," % (row.donate_member.name,  u'施棺',row.donate)
+    #             if row.donate_type == 4:
+    #                 str += " (%s %s %s )," % (row.donate_member.name,  u'伙食費',row.donate)
+    #             if row.donate_type == 5:
+    #                 str += " (%s %s %s )," % (row.donate_member.name,  u'貧困扶助',row.donate)
+    #             if row.donate_type == 6:
+    #                 str += " (%s %s %s )," % (row.donate_member.name,  u'一般捐款',row.donate)
+    #             if row.donate_type == 99:
+    #                 str += " (%s %s %s )," % (row.donate_member.name,  u'其他工程',row.donate)
+    #         line.donate_family_list= str.rstrip(',')
 
     def button_to_cnacel_donate(self):
         single_data = self.env['wizard.abandon.single'].create({
@@ -436,9 +449,7 @@ class DonateSingle(models.Model):
     def change_print_state(self):
         if self.state == 3:
             raise ValidationError(u'本捐款單已作廢!!')
-
         self.state = 1
-
 
     def add_to_list_create(self, record):
         if record.family_check:
@@ -470,7 +481,6 @@ class DonateSingle(models.Model):
         else:
             raise ValidationError(u'捐款名冊為空，無法進行捐款作業')
 
-
     def add_to_list(self):
         # 將明細產生按鈕執行
         self.donate_list.unlink()
@@ -491,9 +501,7 @@ class DonateSingle(models.Model):
         else:
             raise ValidationError(u'捐款名冊為空，無法進行捐款作業')
 
-
     def save_donate_list(self, donate_type, member_id, money):  # 將明細產生
-
         if donate_type == 3:
             self.write({
                 'donate_list': [(0, 0, {

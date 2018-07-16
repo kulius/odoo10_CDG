@@ -148,24 +148,16 @@
                                     <field name="clear_all_is_merge"/>
                                 </group>
                             </page>
-                            <!--<page string="眷屬明細">-->
-                                <!--<field name="person_check">-->
-                                    <!--<field name="new_coding"/>-->
-                                    <!--<field name="name"/>-->
-                                    <!--<field name="birth"/>-->
-                                <!--</field>-->
-                            <!--</page>-->
                             <page string="捐款記錄明細">
                                 <field name="donate_list">
                                     <tree editable="bottom">
-
-                                        <field name="state"/>
                                         <field name="donate_id"/>
-                                        <!--<field name="paid_id"/>-->
+                                        <field name="donate_date"/>
                                         <field name="donate_member"/>
                                         <field name="donate_type"/>
                                         <field name="donate"/>
                                         <field name="used_money"/>
+                                        <field name="cashier"/>
                                     </tree>
                                 </field>
                             </page>
