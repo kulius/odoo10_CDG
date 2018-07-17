@@ -1180,7 +1180,7 @@ class AppThemeConfigSettings(models.TransientModel):
             })
 
     def connection_database(self):
-        conn = psycopg2.connect(database="odoo10_CDG", user="postgres", password="postgres", host="35.200.210.19", port="5432") # 取得資料庫連線
+        conn = psycopg2.connect(database="odoo10_CDG", user="postgres", password="postgres", host="35.185.128.184", port="5432") # 取得資料庫連線
         cur = conn.cursor()
         ad_wb = xlrd.open_workbook("C:\\fixzipcode.xlsx") # 開啟本機Excel檔案
         sheet_0 = ad_wb.sheet_by_index(0) # 讀取Excel第一個工作表

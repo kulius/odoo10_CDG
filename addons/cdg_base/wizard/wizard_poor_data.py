@@ -2,7 +2,7 @@
 from odoo import models, fields, api
 
 
-class WizardPoorData(models.Model):
+class WizardPoorData(models.TransientModel):
     _name = 'wizard.poor.data'
 
     start_date = fields.Date('領款時間-起', required=True)

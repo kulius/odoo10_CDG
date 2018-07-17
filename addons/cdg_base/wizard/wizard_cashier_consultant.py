@@ -2,7 +2,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
-class WizardCashierDonor(models.Model):
+class WizardCashierDonor(models.TransientModel):
     _name = 'wizard.cashier.consultant'
     block_num = fields.Integer('格子數量')
     cashier_code = fields.Many2one(comodel_name='cashier.base',string='收費員')

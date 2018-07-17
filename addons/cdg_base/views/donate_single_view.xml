@@ -189,6 +189,8 @@
                     <separator/>
                     <filter string="已列印的捐款" name="print_donate" domain="[('state','=',2)]"/>
                     <separator/>
+                    <filter string="收據要寄送" name="print_receipt_send " domain="[('receipt_send', '=',True)]"/>
+                    <separator/>
                     <filter string="最近1年" name="year" domain="[('donate_date', '&gt;=', (datetime.date.today() - relativedelta(years=1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
                     <separator/>
                     <filter string="近3個月" name="three_months" domain="[('donate_date', '&gt;=', (datetime.date.today() - relativedelta(months=3)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>

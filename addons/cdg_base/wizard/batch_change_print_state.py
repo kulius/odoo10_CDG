@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 
-class changestate(models.Model):
+class changestate(models.TransientModel):
     _name = 'change.state'
     _description = u'批次變更列印狀態'
 

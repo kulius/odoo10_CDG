@@ -3,7 +3,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 
-class WizardCashierDonor(models.Model):
+class WizardCashierDonor(models.TransientModel):
     _name = 'wizard.abandon.single'
 
     donate_single_code = fields.Many2one(comodel_name='donate.single', string='捐款檔')

@@ -2,7 +2,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
-class CashierTransfer(models.Model):
+class CashierTransfer(models.TransientModel):
     _name = 'cashier.transfer'
 
     old_cashier = fields.Many2one(comodel_name='cashier.base', string="原收費員")

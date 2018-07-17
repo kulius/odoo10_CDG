@@ -3,7 +3,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 
-class WizardCashierDonor(models.Model):
+class WizardCashierDonor(models.TransientModel):
     _name = 'wizard.donate.time'
     cashier_code = fields.Many2one(comodel_name='cashier.base',string='收費員')
     donate_id_start = fields.Char('收據編號-起')

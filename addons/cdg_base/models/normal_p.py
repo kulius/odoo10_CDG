@@ -535,7 +535,6 @@ class NormalP(models.Model):
     def my_self(self):
         return [('parent', '=', self.id)]
 
-
     @api.multi
     def name_get(self):
         result = []
@@ -543,35 +542,6 @@ class NormalP(models.Model):
             name = "{%s} %s {%s}" % (record.new_coding, record.name,record.w_id)
             result.append((record.id, name))
         return result
-
-    def input_member(self):
-        max_id = 753395
-        member_data = self.env['member.data'].search([])
-        new_id = ""
-        i = 1
-        type_id = 0
-        for line in member_data:
-            _logger.error(' %s / %s', i, len(member_data))
-            if line.conn_zip_code != "":
-                new_id = line.conn_zip_code[:3] + str(max_id)
-            else:
-                new_id = '000' + str(max_id)
-
-            self.create({
-                'new_coding': new_id,
-                'name': line.name,
-                'self_iden': line.user_id,
-                'birth': line.birthday,
-                'cellphone': line.cellphone,
-                'con_phone': line.phone1,
-                'con_phone2': line.phone2,
-                'zip_code': line.conn_zip_code,
-                'con_addr': line.conn_address,
-                'member_data_ids': line.id,
-                'type': self.check_type(line)
-            })
-            i = i + 1
-            max_id = max_id + 1
 
     def check_type(self, line):
         if line.member_type.id > 0:

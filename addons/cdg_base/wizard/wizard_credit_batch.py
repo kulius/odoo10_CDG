@@ -3,7 +3,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 
-class WizardCreditBatch(models.Model):
+class WizardCreditBatch(models.TransientModel):
     _name = 'wizard.credit.batch'
 
     name = fields.Char()

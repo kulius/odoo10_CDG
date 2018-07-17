@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 
-class printcheck(models.Model):
+class printcheck(models.TransientModel):
     _name = 'print.check'
 
     flag = fields.Boolean(default=False)

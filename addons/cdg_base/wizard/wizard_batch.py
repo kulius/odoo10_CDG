@@ -3,7 +3,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 
-class WizardDonate(models.Model):
+class WizardDonate(models.TransientModel):
     _name = 'wizard.batch'
 
     name = fields.Char()
