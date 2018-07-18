@@ -1179,7 +1179,7 @@ class AppThemeConfigSettings(models.TransientModel):
                 'normal_p_id':line.donate_order_id.donate_member.id
             })
 
-    def connection_database(self):
+    def connection_database_fix_con_addr(self):
         conn = psycopg2.connect(database="odoo10_CDG", user="postgres", password="postgres", host="35.185.128.184", port="5432") # 取得資料庫連線
         cur = conn.cursor()
         ad_wb = xlrd.open_workbook("C:\\fixzipcode.xlsx") # 開啟本機Excel檔案
@@ -1203,6 +1203,29 @@ class AppThemeConfigSettings(models.TransientModel):
         conn.commit()
         cur.close()
         conn.close() # 關閉資料庫連線
+
+    def connection_database_fix_rec_addr(self):
+        ip = '35.200.210.19'
+        conn = psycopg2.connect(database="odoo10_CDG", user="postgres", password="postgres", host=ip, port="5432")  # 取得資料庫連線
+        cur = conn.cursor()
+        ad_wb = xlrd.open_workbook("C:\\fixzipcode.xlsx")  # 開啟本機Excel檔案
+        sheet_0 = ad_wb.sheet_by_index(0)  # 讀取Excel第一個工作表
+        print u'連線IP為: %s' % ip
+        for i in range(1, int(sheet_0.nrows)):
+            new_coding = sheet_0.cell_value(i, 0)  # 讀取Excel第零行第一列的欄位
+            rec_addr = sheet_0.cell_value(i, 3)
+            cur.execute("SELECT rec_addr FROM normal_p WHERE normal_p.new_coding = '%s' " % (str(int(new_coding))))  # 根據Excel的新捐款者編號抓出報表地址異常的資料, 並且收據地址等於報表地址
+            rows = cur.fetchall()
+            if rows:
+                for row in rows:
+                    if row[0] is None:
+                        continue
+                    else:
+                        cur.execute("UPDATE normal_p SET rec_addr = '%s' WHERE normal_p.new_coding = '%s' " % (rec_addr, str(int(new_coding))))
+                        print u'新捐款者編號: %s, 地址:%s' % (str(int(new_coding)), rec_addr)
+        conn.commit()
+        cur.close()
+        conn.close()  # 關閉資料庫連線
 
     def check_credit_donate_data(self):
         data = self.env['normal.p'].search([('debit_method', '=', 2), ('credit_family', '!=', False)])

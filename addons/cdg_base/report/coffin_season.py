@@ -12,7 +12,7 @@ class CoffinSeasonXlsx(ReportXlsx):
     def generate_xlsx_report(self, workbook, datas, env):
         sheet = workbook.add_worksheet()
         sheet.write(1, 0, u'序號')
-        sheet.write(1, 1, u'死亡日期')
+        sheet.write(1, 1, u'領款日期')
         sheet.write(1, 2, u'受施亡者')
         sheet.write(1, 3, u'亡者住址')
         sheet.write(1, 4, u'領款者')
@@ -26,7 +26,7 @@ class CoffinSeasonXlsx(ReportXlsx):
             else:
                 sheet.write(self.count, 2, line.user + u"*")
             sheet.write(self.count, 0, self.coffin_count)
-            sheet.write(self.count, 1, line.dead_date)
+            sheet.write(self.count, 1, line.coffin_date)
             sheet.write(self.count, 3, line.con_addr)
             sheet.write(self.count, 4, line.geter)
             sheet.write(self.count, 5, line.dealer)
