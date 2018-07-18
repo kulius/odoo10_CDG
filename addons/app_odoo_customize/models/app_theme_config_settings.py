@@ -1180,11 +1180,12 @@ class AppThemeConfigSettings(models.TransientModel):
             })
 
     def connection_database_fix_con_addr(self):
-        conn = psycopg2.connect(database="odoo10_CDG", user="postgres", password="postgres", host="35.185.128.184", port="5432") # 取得資料庫連線
+        ip = "35.185.128.184"
+        conn = psycopg2.connect(database="odoo10_CDG", user="postgres", password="postgres", host=ip, port="5432") # 取得資料庫連線
         cur = conn.cursor()
         ad_wb = xlrd.open_workbook("C:\\fixzipcode.xlsx") # 開啟本機Excel檔案
         sheet_0 = ad_wb.sheet_by_index(0) # 讀取Excel第一個工作表
-
+        print u'連線IP為: %s' % ip
         for i in range(1,int(sheet_0.nrows)):
             new_coding = sheet_0.cell_value(i, 0) # 讀取Excel第零行第一列的欄位
             con_addr = sheet_0.cell_value(i, 3)
