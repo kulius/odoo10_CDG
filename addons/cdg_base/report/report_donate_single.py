@@ -86,7 +86,7 @@ class ReportDonateSingleMerge(models.AbstractModel):
                 line.print_date = datetime.date.today()
 
         res_doc= []
-        for line in docs:
+        for line in docs.sorted(key=lambda r: r.donate_id):
             order_doc = []
             for order_line in line.donate_list:
                 order_temp = {
@@ -105,8 +105,8 @@ class ReportDonateSingleMerge(models.AbstractModel):
             temp = {
                 'donate_id': line.donate_id,
                 'donate_member': line.donate_member.name,
-                'zip':line.zip,
-                'rec_addr': line.rec_addr,
+                'zip':line.donate_member.zip,
+                'rec_addr': line.donate_member.rec_addr,
                 'new_coding': donor_code,
                 'donate_date': line.donate_date,
                 'donate_total': line.donate_total,
@@ -180,7 +180,7 @@ class ReportDonateSinglePersonal(models.AbstractModel):
         res = self.env['donate.order']
         res_line = self.env['donate.order']
         report_line = self.env['donate.single.report']
-        for row in target:
+        for row in target.sorted(key=lambda r: r.donate_id):
             if row.state == 3:
                 raise ValidationError(u'本捐款單已經作廢')
             elif row.state == 1:
@@ -197,7 +197,7 @@ class ReportDonateSinglePersonal(models.AbstractModel):
                         exist = True
                 if exist is False:
                     res += line
-        for line in res:
+        for line in res.sorted(key=lambda r: r.donate_id):
             single_state = 0
             if line.donate_list_id.year_fee:
                 single_state = 1
@@ -311,7 +311,7 @@ class ReportDonateSingleDefault(models.AbstractModel):
         target = self.env['donate.single'].browse(docids)
         report_line = self.env['donate.single.report']
 
-        for row in target:
+        for row in target.sorted(key=lambda r: r.donate_id):
             res = self.env['donate.order']
             merge_res_line = self.env['donate.order']
             res_line = self.env['donate.order']

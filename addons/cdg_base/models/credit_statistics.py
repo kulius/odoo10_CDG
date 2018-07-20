@@ -33,22 +33,32 @@ class creditstatistics(models.TransientModel):
 
 
 
-        data1 = self.env['normal.p'].search([('debit_method','=',1),('credit_is_donate','=',True)])
+        data1 = self.env['normal.p'].search([('debit_method','=',1),('credit_family','!=',False)])
         for data in data1:
-            self.five_debit_money += data.credit_total_money
+            for line in data.credit_family:
+                if line.credit_is_donate == True:
+                    self.five_debit_money += line.credit_total_money
 
-        data2 = self.env['normal.p'].search([('debit_method', '=', 2),('credit_is_donate','=',True)])
+        data2 = self.env['normal.p'].search([('debit_method', '=', 2),('credit_family','!=',False)])
         for data in data2:
-            self.twenty_debit_money += data.credit_total_money
+            for line in data.credit_family:
+                if line.credit_is_donate == True:
+                    self.twenty_debit_money += line.credit_total_money
 
-        data3 = self.env['normal.p'].search([('debit_method', '=', 3),('credit_is_donate','=',True)])
+        data3 = self.env['normal.p'].search([('debit_method', '=', 3),('credit_family','!=',False)])
         for data in data3:
-            self.season_debit_money += data.credit_total_money
+            for line in data.credit_family:
+                if line.credit_is_donate == True:
+                    self.season_debit_money += line.credit_total_money
 
-        data4 = self.env['normal.p'].search([('debit_method', '=', 4),('credit_is_donate','=',True)])
-        for data in data4:
-            self.year_debit_money += data.credit_total_money
+        data4 = self.env['normal.p'].search([('debit_method', '=', 4),('credit_family','!=',False)])
+        for data in data4.credit_family:
+            for line in data:
+                if line.credit_is_donate == True:
+                    self.year_debit_money += line.credit_total_money
 
-        data5 = self.env['normal.p'].search([('debit_method', '=', 5), ('credit_is_donate', '=', True)])
+        data5 = self.env['normal.p'].search([('debit_method', '=', 5),('credit_family','!=',False)])
         for data in data5:
-            self.once_debit_money += data.credit_total_money
+            for line in data.credit_family:
+                if line.credit_is_donate == True:
+                    self.once_debit_money += line.credit_total_money

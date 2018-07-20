@@ -1109,7 +1109,7 @@ class AppThemeConfigSettings(models.TransientModel):
         sql = "ALTER TABLE donate_single ENABLE TRIGGER ALL"
         self._cr.execute(sql)  # 啟動 donate_single 所有的觸發器, 很重要!
         sql = "INSERT INTO old_donate_order (id, bridge, use_amount, sequence, create_date, write_date, payment_method,others,p_type,db_key_in_user, key_in_user, donate_id, ps, report_price, report_big,donate_date, used_money, state, donate_member, mail, donate, paid_id, create_uid, donate_list_id, city, others_money, clerk, cashier, year_receipt_send, credit_card, available_balance, donate_w_id, donate_w_id_number, address, donate_type, donate_total, bank, temp_key_in_user, self_id, report_year, donate_book_code, cash, receipt_send, con_phone, road_money, poor_help_money, poor_help, bridge_money, report_send, db_chang_date, coffin, road, active)"\
-              "SELECT id, bridge, use_amount, sequence, create_date, write_date, payment_method,others,p_type,db_key_in_user, key_in_user, donate_id, ps, report_price, report_big,donate_date, used_money, state, donate_member, mail, donate, paid_id, create_uid, donate_list_id, city, others_money, clerk, cashier, year_receipt_send, credit_card, available_balance, donate_w_id, donate_w_id_number, address, donate_type, donate_total, bank, temp_key_in_user, self_id, report_year, donate_book_code, cash, receipt_send, con_phone, road_money, poor_help_money, poor_help, bridge_money, report_send, db_chang_date, coffin, road, active FROM donate_order WHERE NOT EXISTS (SELECT id FROM donate_single WHERE donate_single.id = donate_order.donate_list_id)"
+              " SELECT id, bridge, use_amount, sequence, create_date, write_date, payment_method,others,p_type,db_key_in_user, key_in_user, donate_id, ps, report_price, report_big,donate_date, used_money, state, donate_member, mail, donate, paid_id, create_uid, donate_list_id, city, others_money, clerk, cashier, year_receipt_send, credit_card, available_balance, donate_w_id, donate_w_id_number, address, donate_type, donate_total, bank, temp_key_in_user, self_id, report_year, donate_book_code, cash, receipt_send, con_phone, road_money, poor_help_money, poor_help, bridge_money, report_send, db_chang_date, coffin, road, active FROM donate_order WHERE NOT EXISTS (SELECT id FROM donate_single WHERE donate_single.id = donate_order.donate_list_id)"
         self._cr.execute(sql) # 搬移 donate_order 1年份的資料至old_donate_order ex: 2014年 共749661筆, 花費115.025秒
         sql = "ALTER TABLE donate_order DISABLE TRIGGER ALL"
         self._cr.execute(sql)  # 解除 donate_order 所有的觸發器, 不然會很慢
@@ -1206,7 +1206,7 @@ class AppThemeConfigSettings(models.TransientModel):
         conn.close() # 關閉資料庫連線
 
     def connection_database_fix_rec_addr(self):
-        ip = '35.200.210.19'
+        ip = '35.185.128.184'
         conn = psycopg2.connect(database="odoo10_CDG", user="postgres", password="postgres", host=ip, port="5432")  # 取得資料庫連線
         cur = conn.cursor()
         ad_wb = xlrd.open_workbook("C:\\fixzipcode.xlsx")  # 開啟本機Excel檔案
@@ -1230,7 +1230,6 @@ class AppThemeConfigSettings(models.TransientModel):
 
     def check_credit_donate_data(self):
         data = self.env['normal.p'].search([('debit_method', '=', 2), ('credit_family', '!=', False)])
-        # data = self.env['donate.single'].search([('payment_method', '=', 3), ('donate_date', '=', '2018-06-21'), ('key_in_user', '=', 12),('work_id','=',371)])
         for line in data:
             i = 0
             for row in line.credit_family:
