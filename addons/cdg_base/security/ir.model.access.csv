@@ -100,10 +100,10 @@ access_coffin_image_cdg_coffin_employees,access_coffin_image,model_coffin_image,
 
 access_bridge_data_bridge_management,access_bridge_data,model_bridge_data,cdg_base.bridge_management,1,1,1,1
 
-
 access_change_password,access_change_password,model_change_password,cdg_base.cdg_manager,1,1,1,1
 
-
-
-
-
+donor_access_normal_p,donor_access_normal_p,model_normal_p,cdg_base.cdg_donor_manager,1,0,0,0
+donor_access_associatemember_fee,donor_access_associatemember_fee,model_associatemember_fee,cdg_base.cdg_donor_manager,1,0,0,0
+donor_access_consultant_fee,donor_access_consultant_fee,model_consultant_fee,cdg_base.cdg_donor_manager,1,0,0,0
+donor_access_donate_order,donor_access_donate_order,model_donate_order,cdg_base.cdg_donor_manager,1,0,0,0
+donor_access_change_password_for_donor,donor_access_change_password_for_donor,model_change_password_donor,cdg_base.cdg_donor_manager,1,1,1,0

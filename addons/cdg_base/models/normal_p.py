@@ -5,6 +5,7 @@ from datetime import *
 import datetime
 import time
 import logging
+import random
 
 # 一般人基本檔 團員 會員 收費員 顧問
 _logger = logging.getLogger(__name__)
@@ -21,7 +22,7 @@ class NormalP(models.Model):
     special_tag = fields.Boolean(string='眷屬檔沒有的團員')
     w_id = fields.Char(string='舊團員編號')
     number = fields.Char(string='序號')
-    name = fields.Char(string='姓名')
+    name = fields.Char(string='姓名',required = True)
     birth = fields.Date(string='生日')
     cellphone = fields.Char(string='手機')
     con_phone = fields.Char(string='連絡電話')
@@ -146,6 +147,8 @@ class NormalP(models.Model):
 
     old_coffin_donation = fields.One2many(comodel_name='old.coffin.donation', inverse_name='normal_p_id') # 系統上線前, 紀錄舊系統施棺捐助情況
     coffin_donation = fields.One2many(comodel_name='coffin.donation', inverse_name='normal_p_id') # 系統上線後, 紀錄系統的施棺捐助情況
+    donor_sign_in = fields.Boolean(string='核准捐款者登入', default = False)
+    initial_password = fields.Char('初始密碼', readonly=True)
 
     @api.depends('credit_family.credit_is_donate')
     def compute_credit_donate_total(self):
@@ -274,6 +277,27 @@ class NormalP(models.Model):
                 line.no_need = False
         elif (self.credit_parent and len(self.credit_family) == 0) or self.name != self.credit_parent.name:
             raise ValidationError(u'捐款者編號:%s  %s 並非信用卡持卡人，無法清空信用卡扣款資料' % (self.new_coding, self.name))
+
+    # 核准捐款者登入系統查詢自己的捐款紀錄, 並亂數產生登入密碼
+    def create_donor_account(self):
+        auth = ''
+        for i in range(0, 2):
+            current_code = random.randint(65, 90)
+            auth += chr(current_code) # 大寫英文的 ASCII 轉換成英文字母, 所以這部份需要用 char 的轉型方法
+        for i in range(0, 6):
+            current_code = random.randint(0, 9)
+            auth += str(current_code)
+        self.initial_password = auth
+        res_id = self.env['res.users'].create({
+            'login': self.new_coding,
+            'password': self.initial_password,
+            'name': self.name,
+            'sel_groups_15':15,
+            'sel_groups_32_33': False,
+        })
+        self.donor = res_id.id
+        self.donor_sign_in = True
+        return True
 
     def start_donate(self):
         action = self.env.ref('cdg_base.start_donate_action').read()[0]
@@ -842,5 +866,5 @@ class NormalP(models.Model):
             raise ValidationError(u'該會員有繳費紀錄, 請勿刪除')
         if self.consultant_pay_history.ids:
             raise ValidationError(u'該顧問有繳費紀錄, 請勿刪除')
-        # self.env['res.users'].search([('id', '=', self.donor.ids)]).unlink()
+        self.env['res.users'].search([('id', '=', self.donor.ids)]).unlink()
         return super(NormalP, self).unlink()

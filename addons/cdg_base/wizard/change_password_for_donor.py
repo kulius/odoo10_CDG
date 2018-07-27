@@ -5,7 +5,7 @@ from passlib.context import CryptContext
 
 import datetime
 
-class CashierBlock(models.Model):
+class changepassworddonor(models.Model):
     _name = 'change.password.donor'
     new_password = fields.Char('新密碼')
 

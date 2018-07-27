@@ -348,16 +348,20 @@
                   <!--parent="coffin_manage_root_categ"-->
                   <!--action="coffin_donation_action"-->
                   <!--sequence=""/>-->
-        <menuitem id="poor_root" name="貧困扶助管理" sequence="6"/>
+        <menuitem id="poor_root" name="貧困扶助管理" sequence="6" />
         <menuitem id="poor_manag_categ" name="貧困扶助管理" parent="poor_root"/>
         <menuitem id="poor_base"
                   name="扶助基本資料作業"
                   parent="poor_manag_categ"
-                  action="poor_base_action"/>
+                  action="poor_base_action"
+                  groups="cdg_manager"
+        />
         <menuitem id="poor_data"
                   name="扶助資料匯出"
                   parent="poor_manag_categ"
-                  action="poor_data_action"/>
+                  action="poor_data_action"
+                  groups="poor_management"
+        />
         <!--<menuitem id="disaster_root" name="災害扶助管理"  sequence="7"/>-->
         <!--<menuitem id="disaster_manage_categ" name="災害扶助基本" parent="disaster_root" action="charity_view" sequence="1"/>-->
         <menuitem id="cashier_manage_root" name="收費員管理" sequence="8"/>
